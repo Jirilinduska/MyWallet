@@ -6,3 +6,8 @@ import { ReactNode } from "react"
 export interface IPrivateRoute {
     children: ReactNode
 }
+
+// ProgressBar
+export interface IProgressBar {
+    stage: number
+}

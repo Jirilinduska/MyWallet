@@ -22,6 +22,37 @@ const UserChema = new mongoose.Schema({
         type: String,
         required: true,
         // minLength: 8,
+    },
+
+    utils: {
+
+        currency: {
+            type: String,
+            default: "$"
+        },
+
+        language: {
+            type: String,
+            default: "EN"
+        },
+
+        avatarID: {
+            type: Number,
+            default: 6
+        }
+    },
+
+    settings: {
+
+        profileCompleted: {
+            type: Boolean,
+            default: false
+        },
+
+        emailConfirmed: {
+            type: Boolean,
+            default: false
+        },
     }
 })
 

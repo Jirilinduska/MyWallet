@@ -1,4 +1,5 @@
 import { IoMdEye, IoIosEyeOff } from "react-icons/io"
+import { IoMail } from "react-icons/io5"
 
 
 
@@ -6,4 +7,5 @@ import { IoMdEye, IoIosEyeOff } from "react-icons/io"
 export {
     IoMdEye as IconEyeShow,
     IoIosEyeOff as IconEyeHide,
+    IoMail as IconMail,
 }
