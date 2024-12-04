@@ -8,4 +8,4 @@ export const URL_LOGIN_USER = `${API_BASE_URL}/api/auth/login`
 export const URL_COMPLETE_PROFILE = `${API_BASE_URL}/api/user/complete-profile`
 
 // Emails
-export const URL_SEND_CONFIRM_EMAIL = `${API_BASE_URL}/api/`
+export const URL_SEND_CONFIRM_EMAIL = `${API_BASE_URL}/api/email/confirm-email`

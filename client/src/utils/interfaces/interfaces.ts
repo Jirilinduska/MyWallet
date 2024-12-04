@@ -11,3 +11,12 @@ export interface IPrivateRoute {
 export interface IProgressBar {
     stage: number
 }
+
+
+
+// =========== APIs ===========
+export interface ICompleteProfileData {
+    lang: string,
+    curr: string,
+    avatarID: number
+}

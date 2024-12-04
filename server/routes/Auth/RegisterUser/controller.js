@@ -1,8 +1,10 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require("../../../models/User")
+const { sendEmailAfterRegistration } = require('../../../modules/Emails/Emails')
+const { generateToken } = require('../../../libs/jwtUtils')
 
-const JWT_SECRET = process.env.JWT_SECRET
+// const JWT_SECRET = process.env.JWT_SECRET
 
 
 const registerUser = async(req,res) => {
@@ -23,11 +25,15 @@ const registerUser = async(req,res) => {
 
         await newUser.save()
 
-        const token = jwt.sign(
-            { userID: newUser._id, email: newUser.email },
-            JWT_SECRET,
-            { expiresIn: '1h' }
-        )
+        // const token = jwt.sign(
+        //     { userID: newUser._id, email: newUser.email },
+        //     JWT_SECRET,
+        //     { expiresIn: '1h' }
+        // )
+
+        const token = generateToken(newUser._id, newUser.email)
+
+        await sendEmailAfterRegistration(email, token)
 
         return res.status(201).json({ token })
 

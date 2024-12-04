@@ -2,11 +2,7 @@ const { default: mongoose } = require("mongoose")
 
 const UserChema = new mongoose.Schema({
 
-    userName: {
-        type: String,
-        required: true,
-        unique: true
-    },
+    userName: { type: String, required: true, unique: true },
 
     email: {
         type: String,
@@ -26,33 +22,18 @@ const UserChema = new mongoose.Schema({
 
     utils: {
 
-        currency: {
-            type: String,
-            default: "$"
-        },
+        currency: { type: String, default: "$" },
 
-        language: {
-            type: String,
-            default: "EN"
-        },
+        language: { type: String, default: "EN" },
 
-        avatarID: {
-            type: Number,
-            default: 6
-        }
+        avatarID: { type: Number, default: 6 }
     },
 
     settings: {
 
-        profileCompleted: {
-            type: Boolean,
-            default: false
-        },
+        profileCompleted: { type: Boolean, default: false },
 
-        emailConfirmed: {
-            type: Boolean,
-            default: false
-        },
+        emailConfirmed: { type: Boolean, default: false },
     }
 })
 

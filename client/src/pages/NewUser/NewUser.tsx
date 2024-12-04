@@ -5,6 +5,8 @@ import ProgressBar from "../../components/CompleteProfile/ProgressBar/ProgressBa
 import { CurrencyIconCzech, CurrencyIconDollar, CurrencyIconEuro } from "../../utils/icons/currency"
 import { userAvatars } from "../../utils/icons/avatars"
 import ProgressBarFixed from "../../components/CompleteProfile/ProgressBarFixed/ProgressBarFixed"
+import { ICompleteProfileData } from "../../utils/interfaces/interfaces"
+import { handleCompleteProfile } from "../../API/User"
 
 
 // TODO - Upravit celkový UI komponenty, + přidat mobile settings
@@ -13,7 +15,7 @@ import ProgressBarFixed from "../../components/CompleteProfile/ProgressBarFixed/
 const NewUser = () => {
 
     const [stage, setStage] = useState(0)
-    const [data, setData] = useState({ lang: "", curr: "", avatarID: 0 })
+    const [data, setData] = useState<ICompleteProfileData>({ lang: "", curr: "", avatarID: 0 })
 
     const handleChangeLang = (value: string) => setData( (prev) => ({ ...prev, lang: value }) )
     const handleChangeCurrency = (value: string) => setData( (prev) => ({ ...prev, curr: value }) )
@@ -106,14 +108,30 @@ const NewUser = () => {
             // TODO - STAGE 3 - Confirm email?
             // TODO - Upravit UI - Tlačítko send email předělat :)
             { stage === 3 && (
-                 <div className="flex items-center justify-center gap-10 text-white h-[40%] w-[90%] mx-auto"></div>
+                 <div className="flex items-center justify-center gap-10 text-white h-[40%] w-[90%] mx-auto">
+                    <p className="">Please check your email adress.</p>
+                 </div>
             )}
 
             {/* Buttons */}
             <div className="my-10 flex items-center justify-center gap-10">
-                <button className={`${ stage === 0 && "hidden" } button-blue`} onClick={handleDecStage}>Back</button>
-                <button className={`${ stage >= 3 && "hidden" } button-green`} onClick={handleIncStage}>Next</button>
-                <button className={`${ stage !== 3 && "hidden" } button-green`}>Send me an email</button>
+                
+                <button className={`${ (stage === 0 || stage === 3)&& "hidden" } button-blue`} onClick={handleDecStage}>Back</button>
+
+                <button 
+                    className={`${ stage >= 3 && "hidden" } button-green`} 
+                    onClick={ () => {
+                        if(stage !== 2) handleIncStage()
+                        if(stage === 2) {
+                            handleCompleteProfile(data)
+                            handleIncStage()
+                        }
+                    }}
+                >
+                    { stage === 2 && "Save" }
+                    { stage !== 2 && "Next" }
+                </button>
+                
             </div>
 
             {/* Progress Bar */}

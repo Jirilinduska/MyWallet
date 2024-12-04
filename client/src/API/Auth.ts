@@ -27,7 +27,7 @@ export const handleRegisterUser = async(userName: string, email: string, passwor
     try {
         const response = await apiClient.post(URL_REGISTER_USER, { userName, email, password })
         console.log("response: ", response)
-        result =  response.data // Bude obsahovat token atd.
+        localStorage.setItem("token", response.data.token)
         window.location.href = "/new-user"
     } catch (error) {
         console.log("handleRegisterUser() => : ", error)

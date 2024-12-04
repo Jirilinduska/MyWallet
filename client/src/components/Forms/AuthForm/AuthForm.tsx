@@ -8,6 +8,7 @@ const AuthForm = () => {
     const [showPass, setShowPass] = useState(false)
     const [isLogin, setIsLogin] = useState(true)
     const [errMsg, setErrMsg] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -19,24 +20,30 @@ const AuthForm = () => {
         setErrMsg("")
     }
 
-    // TODO HandleSubmit
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         setErrMsg("")
+        setLoading(true)
 
-        // Login user
-        if(isLogin) {
-            if(!formData.password) setErrMsg("Please fill your password")
-            const data = handleLoginUser(formData.email, formData.password)
-            console.log("Login successful:", data)
-            setFormData({ userName: "", email: "", password: "" })
-        } else {
-            // Register user
-            if(!formData.userName) setErrMsg("Please fill your username")
-            if(!formData.password) setErrMsg("Please fill your password")
-            const data = handleRegisterUser(formData.userName, formData.email, formData.password)
-            console.log("Register successful:", data)
-            setFormData({ userName: "", email: "", password: "" })
+        try {
+            if(isLogin) {
+                // Login user
+                if(!formData.password) setErrMsg("Please fill your password")
+                const data = handleLoginUser(formData.email, formData.password)
+                console.log("Login successful:", data)
+                setFormData({ userName: "", email: "", password: "" })
+            } else {
+                // Register user
+                if(!formData.userName) setErrMsg("Please fill your username")
+                if(!formData.password) setErrMsg("Please fill your password")
+                const data = handleRegisterUser(formData.userName, formData.email, formData.password)
+                console.log("Register successful:", data)
+                setFormData({ userName: "", email: "", password: "" })
+            }
+        } catch (error) {
+            setErrMsg("Something went wrong. Please try again.")
+        } finally {
+            setLoading(false)
         }
     }
 

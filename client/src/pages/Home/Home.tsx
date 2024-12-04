@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import HeroLogged from "../../components/Hero/HeroLogged/HeroLogged"
 import HeroNotLogged from "../../components/Hero/HeroNotLogged/HeroNotLogged"
+import { handleLogOut } from "../../utils/functions/handleLogOut"
 
 const Home = () => {
 
@@ -15,6 +16,8 @@ const Home = () => {
     <section className="h-screen mx-auto flex flex-col">
 
       {isLoggedIn ? <HeroLogged /> : <HeroNotLogged />}
+
+      <button className="" onClick={handleLogOut}>LoGOUT TEST</button>
 
     </section>
   )

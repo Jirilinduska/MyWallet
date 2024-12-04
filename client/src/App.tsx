@@ -3,6 +3,8 @@ import Home from './pages/Home/Home'
 import PrivateRoute from './pages/PrivateRoute/PrivateRoute'
 import WelcomeBack from './pages/WelcomeBack/WelcomeBack'
 import NewUser from './pages/NewUser/NewUser'
+import EmailConfirmed from './pages/EmailConfirmed/EmailConfirmed'
+import Dashboard from './pages/Dashboard/Dashboard'
 
 const App = () => {
   return (
@@ -26,6 +28,24 @@ const App = () => {
               element={
                 <PrivateRoute>
                     <NewUser/>
+                </PrivateRoute>
+              }
+            />
+
+            <Route 
+              path='/email-confirmed'
+              element={
+                <PrivateRoute>
+                    <EmailConfirmed/>
+                </PrivateRoute>
+              }
+            />
+
+            <Route 
+              path='/dashboard'
+              element={
+                <PrivateRoute>
+                    <Dashboard/>
                 </PrivateRoute>
               }
             />
