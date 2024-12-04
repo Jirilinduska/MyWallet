@@ -4,9 +4,6 @@ const User = require("../../../models/User")
 const { sendEmailAfterRegistration } = require('../../../modules/Emails/Emails')
 const { generateToken } = require('../../../libs/jwtUtils')
 
-// const JWT_SECRET = process.env.JWT_SECRET
-
-
 const registerUser = async(req,res) => {
 
     const { userName, email, password } = req.body
@@ -24,12 +21,6 @@ const registerUser = async(req,res) => {
         const newUser = await User.create({ userName, email, password: hashPassword })
 
         await newUser.save()
-
-        // const token = jwt.sign(
-        //     { userID: newUser._id, email: newUser.email },
-        //     JWT_SECRET,
-        //     { expiresIn: '1h' }
-        // )
 
         const token = generateToken(newUser._id, newUser.email)
 

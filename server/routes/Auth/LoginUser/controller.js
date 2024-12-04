@@ -3,9 +3,6 @@ const jwt = require('jsonwebtoken')
 const User = require("../../../models/User")
 const { generateToken } = require('../../../libs/jwtUtils')
 
-// const JWT_SECRET = process.env.JWT_SECRET
-
-
 const loginUser = async(req,res) => {
 
     const { email, password } = req.body
@@ -16,18 +13,11 @@ const loginUser = async(req,res) => {
         
         const findUser = await User.findOne({ email })
 
-        if(!findUser) return res.status(400).json({ message: "Invalid credentials" })
+        if(!findUser) return res.status(400).json({ message: "Invalid email adress." })
 
         const isMatch = await bcrypt.compare(password, findUser.password)
 
-        if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
-        
-
-        // const token = jwt.sign(
-        //     { userID: findUser._id, email: findUser.email },
-        //     JWT_SECRET,
-        //     { expiresIn: '1h' }
-        // )
+        if (!isMatch) return res.status(400).json({ message: "Invalid password" })
 
         const token = generateToken(findUser._id, findUser.email)
 

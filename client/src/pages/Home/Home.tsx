@@ -14,11 +14,7 @@ const Home = () => {
 
   return (
     <section className="h-screen mx-auto flex flex-col">
-
       {isLoggedIn ? <HeroLogged /> : <HeroNotLogged />}
-
-      <button className="" onClick={handleLogOut}>LoGOUT TEST</button>
-
     </section>
   )
 }

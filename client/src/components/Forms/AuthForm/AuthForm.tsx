@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { IconEyeHide, IconEyeShow } from "../../../utils/icons/icons"
 import { handleLoginUser, handleRegisterUser } from "../../../API/Auth"
+import ButtonLoading from "../../UI/Loaders/ButtonLoading/ButtonLoading"
+import { handleErrMsg } from "../../../utils/functions/handleErrMsg"
 
 const AuthForm = () => {
 
@@ -9,6 +11,8 @@ const AuthForm = () => {
     const [isLogin, setIsLogin] = useState(true)
     const [errMsg, setErrMsg] = useState("")
     const [loading, setLoading] = useState(false)
+
+    const handleSetErrMsg = (msg: string) => setErrMsg(msg)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -20,7 +24,7 @@ const AuthForm = () => {
         setErrMsg("")
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault()
         setErrMsg("")
         setLoading(true)
@@ -28,20 +32,28 @@ const AuthForm = () => {
         try {
             if(isLogin) {
                 // Login user
-                if(!formData.password) setErrMsg("Please fill your password")
-                const data = handleLoginUser(formData.email, formData.password)
-                console.log("Login successful:", data)
-                setFormData({ userName: "", email: "", password: "" })
+                if(!formData.password) {
+                    setErrMsg("Please fill your password")
+                    setLoading(false)
+                    return
+                }
+                await handleLoginUser(formData.email, formData.password)
             } else {
                 // Register user
-                if(!formData.userName) setErrMsg("Please fill your username")
-                if(!formData.password) setErrMsg("Please fill your password")
-                const data = handleRegisterUser(formData.userName, formData.email, formData.password)
-                console.log("Register successful:", data)
-                setFormData({ userName: "", email: "", password: "" })
+                if(!formData.userName) {
+                    setErrMsg("Please fill your username")
+                    setLoading(false)
+                    return
+                }
+                if(!formData.password) {
+                    setErrMsg("Please fill your password")
+                    setLoading(false)
+                    return
+                }
+                await handleRegisterUser(formData.userName, formData.email, formData.password)
             }
-        } catch (error) {
-            setErrMsg("Something went wrong. Please try again.")
+        } catch (err) {
+            handleErrMsg(err, handleSetErrMsg)
         } finally {
             setLoading(false)
         }
@@ -99,11 +111,16 @@ const AuthForm = () => {
 
         </div>
 
-        <button type="submit" className="button-green w-full mb-10">
-            { isLogin ? "Login" : "Register" }
-        </button>
+        { loading 
+            ? <ButtonLoading/>
+            : (
+                <button type="submit" className="button-green w-full flex items-center justify-center">
+                    { isLogin ? "Login" : "Register" }
+                </button>
+            )
+        }
 
-        <div className="text-white text-sm lg:text-base flex items-center gap-4">
+        <div className="text-white text-sm lg:text-base flex items-center gap-4 mt-10">
 
             <p className="">{ isLogin ? "Not a member yet?" : "Already a member?" }</p>
 
