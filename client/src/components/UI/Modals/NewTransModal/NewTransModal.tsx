@@ -1,6 +1,5 @@
 import { IconClose } from "../../../../utils/icons/icons"
 import NewTransForm from "../../../Forms/NewTransForm/NewTransForm"
-import Input from "../../Input/Input"
 
 
 export interface INewTransModal {
@@ -28,7 +27,7 @@ const NewTransModal: React.FC<INewTransModal> = ({ handleHide }) => {
           </div>
 
         </div>
-        
+
       </div>
     )
 }

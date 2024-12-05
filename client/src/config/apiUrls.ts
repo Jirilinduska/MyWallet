@@ -12,3 +12,4 @@ export const URL_SEND_CONFIRM_EMAIL = `${API_BASE_URL}/api/email/confirm-email`
 
 // Transaction
 export const URL_NEW_TRANSACTION = `${API_BASE_URL}/api/transaction/new-transaction`
+export const URL_GET_TRANSACTION = `${API_BASE_URL}/api/transaction/get-transaction`

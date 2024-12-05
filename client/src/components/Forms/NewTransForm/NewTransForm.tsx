@@ -147,6 +147,7 @@ const NewTransForm = () => {
         <p className="text-red-500 font-bold text-sm">{errMsg}</p>
 
         <input type="submit" className="button-green w-full mt-6" value="Submit" />
+        {/* // TODO - Přidal loader */}
 
     </form>
   )

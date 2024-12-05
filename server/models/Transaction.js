@@ -8,10 +8,11 @@ const TransactionSchema = new mongoose.Schema({
 
     category: { type: String, required: true },
 
-    // TODO - Month, year.
-    // year: { type: String, required: true },
-    // month: { type: String, required: true },
-    // day: { type: String, required: true },
+    year: { type: Number, required: true },
+
+    month: { type: Number, required: true },
+    
+    day: { type: Number, required: true },
 
 })
 

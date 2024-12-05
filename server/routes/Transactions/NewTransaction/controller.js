@@ -13,7 +13,9 @@ const newTransaction = async(req,res) => {
 
         if(!user) return res.status(400).json({ message: "User not found." })
 
+        // TODO - Dokončit tento EP
 
+        // TODO - Uložit barvy inputů a NewTransModal do talwind.config!
 
         // return res.status(200).json({ message: "User data saved." })
 
