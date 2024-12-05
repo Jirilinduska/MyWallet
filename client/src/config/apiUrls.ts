@@ -9,3 +9,6 @@ export const URL_COMPLETE_PROFILE = `${API_BASE_URL}/api/user/complete-profile`
 
 // Emails
 export const URL_SEND_CONFIRM_EMAIL = `${API_BASE_URL}/api/email/confirm-email`
+
+// Transaction
+export const URL_NEW_TRANSACTION = `${API_BASE_URL}/api/transaction/new-transaction`

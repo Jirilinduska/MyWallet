@@ -14,7 +14,7 @@ const HeroLogged = () => {
         title="Stav Rozpočtu"
       />
 
-      <Link to="/dashboard" className="button-blue">Dashboard</Link>
+      <Link to="/dashboard/overview" className="button-blue">Dashboard</Link>
 
     </div>
   )

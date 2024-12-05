@@ -42,7 +42,7 @@ const App = () => {
             />
 
             <Route 
-              path='/dashboard'
+              path='/dashboard/:pageID'
               element={
                 <PrivateRoute>
                     <Dashboard/>

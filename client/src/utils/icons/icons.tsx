@@ -1,4 +1,4 @@
-import { IoMdEye, IoIosEyeOff } from "react-icons/io"
+import { IoMdEye, IoIosEyeOff, IoMdAddCircle } from "react-icons/io"
 import { IoMail, IoCard, IoHome, IoClose } from "react-icons/io5"
 import { MdDashboard } from "react-icons/md";
 import { GiMoneyStack, GiTakeMyMoney } from "react-icons/gi";
@@ -21,4 +21,5 @@ export {
     FaUserTie as IconUser,
     FaPowerOff as IconLogout,
     IoClose as IconClose,
+    IoMdAddCircle as IconAdd,
 }

@@ -3,6 +3,7 @@ import { IconEyeHide, IconEyeShow } from "../../../utils/icons/icons"
 import { handleLoginUser, handleRegisterUser } from "../../../API/Auth"
 import ButtonLoading from "../../UI/Loaders/ButtonLoading/ButtonLoading"
 import { handleErrMsg } from "../../../utils/functions/handleErrMsg"
+import Input from "../../UI/Input/Input"
 
 const AuthForm = () => {
 
@@ -72,40 +73,54 @@ const AuthForm = () => {
 
         { errMsg && <p className="text-red-500 text-sm font-bold mb-6">{errMsg}</p> }
 
+
         { !isLogin && (
-            <input 
-                type="text" 
-                className="input" 
-                name="userName"
-                placeholder="Username"
-                value={formData.userName}
-                onChange={handleChange}
-            /> 
+            <div className="mb-4">
+                <Input
+                    inputName="userName"
+                    inputType="text"
+                    labelFor="userName"
+                    labelValue="Username"
+                    onChange={handleChange}
+                    placeholder="Your username"
+                    value={formData.userName}
+                />
+            </div>
         )}
 
-        <input 
-            type="email" 
-            required={true}
-            className="input" 
-            name="email"
-            placeholder="Email adress"
-            value={formData.email}
-            onChange={handleChange}
-        />
+        <div className="mb-4">
+            <Input 
+                inputName="email"
+                inputType="email"
+                labelFor="email"
+                labelValue="Email adress"
+                onChange={handleChange}
+                placeholder="Your email adress"
+                value={formData.email}
+            />
+        </div>
 
 
-        <div className="relative">
+        <div className="relative mb-10">
+
+            <label 
+                htmlFor="password"
+                className="block mb-2 text-sm font-medium dark:text-white"
+            >
+                Password
+            </label>
 
             <input 
                 type={ showPass ? "text" : "password"} 
-                className="input" 
+                id="password"
+                className="bg-gray-600 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 placeholder-gray-400 text-white focus:border-blue-500" 
                 name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
             />
 
-            <span className="absolute top-1/2 -translate-y-1/2 right-2 icon" onClick={() => setShowPass(!showPass)}>
+            <span className="absolute top-1/2 -translate-y-1/2 right-2 icon text-white" onClick={() => setShowPass(!showPass)}>
                 { showPass ? <IconEyeHide/> : <IconEyeShow/> }
             </span>
 

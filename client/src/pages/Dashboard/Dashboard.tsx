@@ -1,11 +1,14 @@
 import { useState } from "react"
 import Sidebar from "../../components/Layout/Sidebar/Sidebar"
 import { IconClose, IconMenu } from "../../utils/icons/icons"
+import { useParams } from "react-router-dom"
+import Transactions from "../../components/Dashboard/Transactions/Transactions"
 
 
 const Dashboard = () => {
 
     const [showNav, setShowNav] = useState(false)
+    const { pageID } = useParams()
 
   return (
     <section className="min-h-screen w-full">
@@ -18,6 +21,8 @@ const Dashboard = () => {
         </span>
 
         <Sidebar/>
+
+        { pageID === "transactions" && <Transactions/> }
 
 
     </section>
