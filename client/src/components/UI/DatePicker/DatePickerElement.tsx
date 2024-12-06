@@ -26,7 +26,6 @@ const DatePickerElement: React.FC<IDatePicker> = ({ dateValues, handleSetDate })
             Date
         </label>
 
-        {/* // TODO - Upravit styl kalendáře */}
         <DatePicker
             selected={dateValues.year && dateValues.month && dateValues.day 
                 ? new Date(parseInt(dateValues.year), parseInt(dateValues.month) - 1, parseInt(dateValues.day)) 
@@ -34,6 +33,8 @@ const DatePickerElement: React.FC<IDatePicker> = ({ dateValues, handleSetDate })
             onChange={handleSetDate}
             dateFormat="dd-MM-yyyy"
             maxDate={today}
+            className="w-full p-2 border rounded-lg shadow-md focus:outline-none focus:ring focus:ring-blue-500"
+            calendarClassName="rounded-lg shadow-lg bg-white border border-gray-200"
         />
 
         { dateValues.day && (

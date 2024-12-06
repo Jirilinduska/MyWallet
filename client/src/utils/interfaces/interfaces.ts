@@ -75,3 +75,22 @@ export interface ICategory {
     createdBy: string,
     __v: number
 }
+
+export interface IUser {
+    _id: string
+    userName: string
+    email: string
+    utils: IUserUtils
+    settings: IUserSettings
+}
+
+interface IUserUtils {
+    currency: string
+    language: string
+    avatarID: number
+}
+
+interface IUserSettings {
+    profileCompleted: boolean
+    emailConfirmed: boolean
+}

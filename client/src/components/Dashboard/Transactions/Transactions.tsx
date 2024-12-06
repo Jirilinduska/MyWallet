@@ -5,8 +5,12 @@ import TransactionsTable from "../../UI/Tables/TransactionsTable/TransactionsTab
 import { handleGetTransactions } from "../../../API/Transactions"
 import { ITransaction } from "../../../utils/interfaces/interfaces"
 import EditTransModal from "../../UI/Modals/EditTransModal/EditTransModal"
+import { useUserContext } from "../../../context/UserContext"
+import { LANG_CZECH } from "../../../config/globals"
 
 const Transactions = () => {
+
+    const { refreshUserData, userLangID } = useUserContext()
 
     const [showNewTrans, setShowNewTrans] = useState(false)
     const [transactions, setTransactions] = useState<ITransaction[]>([])
@@ -21,6 +25,14 @@ const Transactions = () => {
         const today = new Date()
         return { month: today.getMonth() + 1, year: today.getFullYear() }
     })
+
+    useEffect( () => {
+        fetchTransData()
+    }, [date] )
+
+    useEffect( () => {
+        if(!userLangID) refreshUserData()
+    }, [] )
 
     const handlePrevMonth = () => {
         setDate( (prev) => {
@@ -51,9 +63,9 @@ const Transactions = () => {
         }
     }
 
-    useEffect( () => {
-        fetchTransData()
-    }, [date] )
+    // useEffect( () => {
+    //     fetchTransData()
+    // }, [date] )
 
     // TODO - Nastavit jazyk
     const getMonthName = new Date(date.year, date.month - 1).toLocaleString("default", { month: "long" })
@@ -79,30 +91,33 @@ const Transactions = () => {
 
         <IconAdd className="icon fixed top-10 right-10 text-6xl z-50" onClick={ () => setShowNewTrans(true) }/>
 
-        <h3 className="font-bold text-lg mb-6">Transactions</h3>
+        <h3 className="font-bold text-lg mb-6">{ userLangID === LANG_CZECH ? "Výdaje" : "Transactions" }</h3>
 
         {/* // TODO - Div s šipkami, při kliknutí fetch transactions podle datumu. */}
         {/* // TODO - Přidat loader tabulku  */}
         <div className="flex items-center gap-4">
 
-            <IconPrev onClick={handlePrevMonth} className="icon" />
+            <IconPrev 
+                onClick={ () => {
+                    handlePrevMonth()
+                    fetchTransData()
+                }} 
+                className="icon" 
+            />
 
             <p className="font-semibold">{monthName} {date.year}</p>
 
-            <IconNext onClick={handleNextMonth} className="icon" />
+            <IconNext 
+                onClick={ () => {
+                    handleNextMonth()
+                    fetchTransData()
+                }} 
+                className="icon" 
+            />
 
         </div>
 
         {/* // TODO - Pokud je datum vetší než tento měsíc, tak přidat jiný obsah. */}
-
-        {/* { transactions && (
-            <TransactionsTable
-                data={transactions}
-                onEdit={ () => {
-                    setSelectedTransaction()
-                }}
-            />
-        )} */}
 
         {transactions && (
             <TransactionsTable

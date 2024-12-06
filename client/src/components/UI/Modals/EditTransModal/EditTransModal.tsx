@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { IconClose } from "../../../../utils/icons/icons"
 import { IEditTransModal } from "../../../../utils/interfaces/interfaces"
 import Input from "../../Input/Input"
@@ -7,14 +7,19 @@ import SelectCategory from "../../Input/SelectCategory/SelectCategory"
 import { handleDeleteTransaction, handleUpdateTransaction } from "../../../../API/Transactions"
 import { handleErrMsg } from "../../../../utils/functions/handleErrMsg"
 import { handleSuccMsg } from "../../../../utils/functions/handleSuccMsg"
+import { useUserContext } from "../../../../context/UserContext"
+import { LANG_CZECH } from "../../../../config/globals"
 
 const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transaction, fetchTransData }) => {
+
+    const { refreshUserData, userLangID } = useUserContext()
 
     const [errMsg, setErrMsg] = useState("")
     const [succMsg, setSuccMsg] = useState("")
     const [isEdited, setIsEdited] = useState(false)
 
     const [transData, setTransData] = useState({ 
+      id: transaction._id,
       title: transaction.title,
       amount: transaction.amount,
       category: transaction.category,
@@ -22,6 +27,10 @@ const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transactio
       month: transaction.month,
       year: transaction.year
     })
+
+    useEffect(() => {
+      refreshUserData()
+    }, [] )
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, value } = e.target
@@ -58,8 +67,8 @@ const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transactio
     const handleUpdateTrans = async() => {
       try {
         await handleUpdateTransaction(transData)
-        // TODO - Doplni jazyk uživatele ("")
-        handleSuccMsg("Updated successfully", "Úspěšně aktualizováno", setSuccMsg, "")
+        fetchTransData()
+        handleSuccMsg("Updated successfully", "Úspěšně aktualizováno", setSuccMsg, userLangID)
       } catch (error) {
         console.log(error)
         handleErrMsg(error, setErrMsg)
@@ -76,7 +85,7 @@ const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transactio
 
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
 
-            <h3 className="text-lg font-semibold text-white">Edit Transaction</h3>
+            <h3 className="text-lg font-semibold text-white">{ userLangID === LANG_CZECH ? "Upravit transakci" : "Edit transaction" }</h3>
 
             <IconClose onClick={toggleEditModal} className="icon"/>
 
@@ -134,7 +143,7 @@ const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transactio
               className="button-red w-1/3 mx-auto block"
               onClick={handleDeleteTrans}
             >
-              Delete
+              { userLangID === LANG_CZECH ? "Odstranit" : "Delete" }
             </button>
 
             {/* Save edited transaction */}
@@ -143,7 +152,7 @@ const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transactio
               disabled={!isEdited}
               onClick={handleUpdateTrans}
             >
-              Save
+              { userLangID === LANG_CZECH ? "Uložit" : "Save" }
             </button>
 
           </div>

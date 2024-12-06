@@ -1,5 +1,5 @@
 import { apiClient } from "../config/apiClient"
-import { URL_COMPLETE_PROFILE } from "../config/apiUrls"
+import { URL_COMPLETE_PROFILE, URL_GET_USER_DATA } from "../config/apiUrls"
 import { ICompleteProfileData } from "../utils/interfaces/interfaces"
 
 
@@ -7,5 +7,13 @@ import { ICompleteProfileData } from "../utils/interfaces/interfaces"
 export const handleCompleteProfile = async(dataObject: ICompleteProfileData) => {
 
     const response = await apiClient.post(URL_COMPLETE_PROFILE, dataObject)
+    return response
+}
+
+
+// Get user data
+export const handleGetUserData = async() => {
+
+    const response = await apiClient.get(URL_GET_USER_DATA)
     return response
 }
