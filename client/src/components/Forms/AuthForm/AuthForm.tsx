@@ -80,7 +80,7 @@ const AuthForm = () => {
                     inputName="userName"
                     inputType="text"
                     labelFor="userName"
-                    labelValue="Username"
+                    labelValue="Username*"
                     onChange={handleChange}
                     placeholder="Your username"
                     value={formData.userName}
@@ -93,7 +93,7 @@ const AuthForm = () => {
                 inputName="email"
                 inputType="email"
                 labelFor="email"
-                labelValue="Email adress"
+                labelValue="Email adress*"
                 onChange={handleChange}
                 placeholder="Your email adress"
                 value={formData.email}
@@ -107,7 +107,7 @@ const AuthForm = () => {
                 htmlFor="password"
                 className="block mb-2 text-sm font-medium dark:text-white"
             >
-                Password
+                Password*
             </label>
 
             <input 

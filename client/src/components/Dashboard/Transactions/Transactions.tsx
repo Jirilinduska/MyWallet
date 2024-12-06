@@ -1,11 +1,15 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { IconAdd, IconNext, IconPrev } from "../../../utils/icons/icons"
 import NewTransModal from "../../UI/Modals/NewTransModal/NewTransModal"
-import TransactionsTable from "../TransactionsTable/TransactionsTable"
+import TransactionsTable from "../../UI/Tables/TransactionsTable/TransactionsTable"
+import { handleGetTransactions } from "../../../API/Transactions"
+import { ITransaction } from "../../../utils/interfaces/interfaces"
 
 const Transactions = () => {
 
     const [showNewTrans, setShowNewTrans] = useState(false)
+    const [transactions, setTransactions] = useState<ITransaction[]>([])
+
     const [date, setDate] = useState( () => {
         const today = new Date()
         return { month: today.getMonth() + 1, year: today.getFullYear() }
@@ -30,6 +34,21 @@ const Transactions = () => {
             : { month: newMonth, year: prev.year }
         })
     }
+
+    const fetchTransData = async() => {
+        try {
+            const response = await handleGetTransactions(date.month, date.year)
+            console.log(response)
+            setTransactions(response.data)
+        } catch (error) {
+            console.log("fetchTransData() => : ", error)
+        }
+    }
+
+    // TODO - Dokončit fetchovani dat.
+    useEffect( () => {
+        fetchTransData()
+    }, [date] )
 
     // TODO - Nastavit jazyk
     const getMonthName = new Date(date.year, date.month - 1).toLocaleString("default", { month: "long" })
@@ -60,7 +79,11 @@ const Transactions = () => {
 
         </div>
 
+        {/* // TODO - Pokud je datum vetší než tento měsíc, tak přidat jiný obsah. */}
+
         <TransactionsTable/>
+
+        {/* // TODO - Přidat graf útrat v tento měsíc */}
 
     </div>
   )

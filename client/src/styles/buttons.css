@@ -45,3 +45,28 @@
     outline: none; 
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5); 
 }
+
+/* ====== RED BUTTON ====== */
+
+.button-red {
+    color: white;
+    background-color: #df2320; 
+    border: none;
+    border-radius: 9999px; 
+    font-size: 0.875rem; 
+    padding: 0.625rem 1.25rem; 
+    text-align: center;
+    margin-right: 0.5rem; 
+    margin-bottom: 0.5rem; 
+    transition: background-color 0.3s, box-shadow 0.3s; 
+    cursor: pointer;
+}
+
+.button-red:hover {
+    background-color: #b70808; 
+}
+
+.button-red:focus {
+    outline: none; 
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5); 
+}

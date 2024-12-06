@@ -1,10 +1,6 @@
 import { IconClose } from "../../../../utils/icons/icons"
+import { INewTransModal } from "../../../../utils/interfaces/interfaces"
 import NewTransForm from "../../../Forms/NewTransForm/NewTransForm"
-
-
-export interface INewTransModal {
-    handleHide: () => void,
-}
 
 const NewTransModal: React.FC<INewTransModal> = ({ handleHide }) => {
     return (
@@ -22,7 +18,7 @@ const NewTransModal: React.FC<INewTransModal> = ({ handleHide }) => {
 
             </div>
 
-            <NewTransForm/>
+            <NewTransForm handleHide={handleHide}/>
 
           </div>
 

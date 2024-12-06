@@ -10,7 +10,8 @@ export const handleNewTransaction = async(newTransObject: any) => {
 }
 
 // Get transaction
-export const handleFetchTransaction = async(month: string, year: string) => {
+export const handleGetTransactions = async(month: number, year: number) => {
+
     const reponse = await apiClient.get(`${URL_GET_TRANSACTION}/${month}/${year}`)
     return reponse
 }

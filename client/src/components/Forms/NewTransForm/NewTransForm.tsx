@@ -1,18 +1,23 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useContext, useEffect, useState } from "react"
 import Input from "../../UI/Input/Input"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import { handleNewTransaction } from "../../../API/Transactions"
 import { handleErrMsg } from "../../../utils/functions/handleErrMsg"
+import { useCategoriesContext } from "../../../context/CategoriesContext"
+import { ICategory, INewTransForm } from "../../../utils/interfaces/interfaces"
+import ButtonLoading from "../../UI/Loaders/ButtonLoading/ButtonLoading"
+import { categoryIcons } from "../../../utils/data/category-icons"
 
-const NewTransForm = () => {
+const NewTransForm: React.FC<INewTransForm> = ({ handleHide }) => {
 
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
+    const { categories, refreshCategories } = useCategoriesContext()
+
     const [loading, setLoading] = useState(false)
     const [errMsg, setErrMsg] = useState("")
-
     const [transData, setTransData] = useState({ 
         title: "", 
         amount: "", 
@@ -22,13 +27,16 @@ const NewTransForm = () => {
         day: "" 
     })
 
-    // TODO - U všech formulářů zjednodušit funkci - refactoring, vícekrát používana.
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    useEffect(() => {
+        refreshCategories()
+    }, [] )
+
+    const handleSetErrMsg = (msg: string) => setErrMsg(msg)
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target
         setTransData( (prev) => ({...prev, [name]: value}) )
     }
-
-    const handleSetErrMsg = (msg: string) => setErrMsg(msg)
 
     const handleSetDate = (newDate: Date | null) => {
         if (newDate) {
@@ -58,6 +66,7 @@ const NewTransForm = () => {
                 return
             }
             await handleNewTransaction(transData)
+            handleHide()
         } catch (error) {
             handleErrMsg(error, handleSetErrMsg)
         } finally {
@@ -87,7 +96,7 @@ const NewTransForm = () => {
                 <Input
                     inputType="number"
                     labelFor="price"
-                    labelValue="Price"
+                    labelValue="Price*"
                     placeholder="$2999"
                     inputName="amount"
                     value={transData.amount}
@@ -97,20 +106,29 @@ const NewTransForm = () => {
 
             <div className="w-1/2">
                 
-                <label htmlFor="category" className="block text-sm mb-2 font-medium text-gray-900 dark:text-white">Category</label>
+                <label htmlFor="category" className="block text-sm mb-2 font-medium text-gray-900 dark:text-white">Category*</label>
 
                 <select
                     id="category"
+                    name="category"
+                    value={transData.category}
+                    onChange={handleChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   >
-                    <option value="" disabled selected>Select category</option>
+                    <option value="" disabled>Select category</option>
 
-                    <option value="TV">TV/Monitors</option>
-                    <option value="PC">PC</option>
-                    <option value="GA">Gaming/Console</option>
-                    <option value="PH">Phones</option>
+                    { categories && categories.map( (cat: ICategory) => {
 
-                  </select>
+                        return (
+                            <>
+                                <option key={cat._id} value={cat.name}>
+                                    {cat.name}
+                                </option>
+                            </>
+                        )
+                    })}
+
+                </select>
 
             </div>
 
@@ -125,6 +143,7 @@ const NewTransForm = () => {
                 Date
             </label>
 
+            {/* // TODO - Upravit styl kalendáře */}
             <DatePicker
                 selected={transData.year && transData.month && transData.day 
                     ? new Date(parseInt(transData.year), parseInt(transData.month) - 1, parseInt(transData.day)) 
@@ -146,8 +165,12 @@ const NewTransForm = () => {
 
         <p className="text-red-500 font-bold text-sm">{errMsg}</p>
 
-        <input type="submit" className="button-green w-full mt-6" value="Submit" />
-        {/* // TODO - Přidal loader */}
+        { loading 
+            ? <ButtonLoading/> 
+            : <input type="submit" className="button-green w-full mt-6" value="Submit" />
+
+        }
+
 
     </form>
   )

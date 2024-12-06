@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const User = require("../../../models/User")
 const { sendEmailAfterRegistration } = require('../../../modules/Emails/Emails')
 const { generateToken } = require('../../../libs/jwtUtils')
+const { createDefaultCategories } = require('../../../modules/Categories/Categories')
 
 const registerUser = async(req,res) => {
 
@@ -25,6 +26,7 @@ const registerUser = async(req,res) => {
         const token = generateToken(newUser._id, newUser.email)
 
         await sendEmailAfterRegistration(email, token)
+        await createDefaultCategories(newUser._id)
 
         return res.status(201).json({ token })
 
