@@ -3,20 +3,17 @@ import TableHeader from "../TableHeader/TableHeader"
 import TableHeaderSortable from "../TableHeaderSortable/TableHeaderSortable"
 import TableRow from "../TableRow/TableRow"
 import EditTransModal from "../../Modals/EditTransModal/EditTransModal"
+import { ITransactionsTable } from "../../../../utils/interfaces/interfaces"
 
 
 // TODO - Upravit classy - smazat nepotřebne
 
-const TransactionsTable = () => {
+const TransactionsTable: React.FC<ITransactionsTable> = ({ data }) => {
 
-    const [showEditModal, setShowEditModal] = useState(false)
-
-    const toggleEditModal = () => setShowEditModal(!showEditModal)
 
     return (
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-10">
 
-        { showEditModal && <EditTransModal toggleEditModal={toggleEditModal}/> }
 
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 
@@ -41,27 +38,18 @@ const TransactionsTable = () => {
 
             {/* Table body */}
             <tbody>
-
-                {/* // TODO x.map() na všechny získane transakce. */}
+              
+                { data.map( (x) => (
+                    <TableRow
+                      key={x._id}
+                      categoryValue={x.category}
+                      dateValue={`${x.day}.${x.month}.${x.year}`}
+                      priceValue={x.amount}
+                      titleValue={x.title}
+                      toggleEditModal={x.onEdit}
+                    />
+                ))}
                 
-                {/* První řádek */}
-                <TableRow
-                    categoryValue="Laptop"
-                    dateValue="01.12.2024"
-                    priceValue={1000}
-                    titleValue="Apple MacBook Pro 17"
-                    toggleEditModal={toggleEditModal}
-                />
-
-                {/* Druhý řádek */}
-                <TableRow
-                    categoryValue="Food"
-                    dateValue="02.12.2024"
-                    priceValue={2000}
-                    titleValue=""
-                    toggleEditModal={toggleEditModal}
-                />
-
           </tbody>
         </table>
       </div>

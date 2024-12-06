@@ -2,7 +2,7 @@ import { IconClose } from "../../../../utils/icons/icons"
 import { INewTransModal } from "../../../../utils/interfaces/interfaces"
 import NewTransForm from "../../../Forms/NewTransForm/NewTransForm"
 
-const NewTransModal: React.FC<INewTransModal> = ({ handleHide }) => {
+const NewTransModal: React.FC<INewTransModal> = ({ handleHide, refetchData }) => {
     return (
       <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-black bg-opacity-60">
 
@@ -18,7 +18,10 @@ const NewTransModal: React.FC<INewTransModal> = ({ handleHide }) => {
 
             </div>
 
-            <NewTransForm handleHide={handleHide}/>
+            <NewTransForm 
+              handleHide={handleHide}
+              refetchData={refetchData}
+            />
 
           </div>
 

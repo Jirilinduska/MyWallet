@@ -17,7 +17,6 @@ const TableRow: React.FC<ITableRow> = ({ dateValue, titleValue, categoryValue, p
         <td className="px-6 py-4">{priceValue} Kč</td>
     
         <td className="px-6 py-4 text-right">
-    
             <span onClick={toggleEditModal} className="font-medium text-blue-500 cursor-pointer hover:underline">
                 Edit
             </span>

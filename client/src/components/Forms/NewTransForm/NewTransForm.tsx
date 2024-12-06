@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext, useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import Input from "../../UI/Input/Input"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
@@ -7,12 +7,13 @@ import { handleErrMsg } from "../../../utils/functions/handleErrMsg"
 import { useCategoriesContext } from "../../../context/CategoriesContext"
 import { ICategory, INewTransForm } from "../../../utils/interfaces/interfaces"
 import ButtonLoading from "../../UI/Loaders/ButtonLoading/ButtonLoading"
-import { categoryIcons } from "../../../utils/data/category-icons"
+import DatePickerElement from "../../UI/DatePicker/DatePickerElement"
+import SelectCategory from "../../UI/Input/SelectCategory/SelectCategory"
 
-const NewTransForm: React.FC<INewTransForm> = ({ handleHide }) => {
+const NewTransForm: React.FC<INewTransForm> = ({ handleHide, refetchData }) => {
 
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
+    // const today = new Date()
+    // today.setHours(0, 0, 0, 0)
 
     const { categories, refreshCategories } = useCategoriesContext()
 
@@ -22,9 +23,9 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide }) => {
         title: "", 
         amount: "", 
         category: "", 
-        year: "", 
-        month: "", 
-        day: "" 
+        year: new Date().getFullYear().toString(),
+        month: (new Date().getMonth() + 1).toString().padStart(2, "0"),
+        day: new Date().getDate().toString().padStart(2, "0")
     })
 
     useEffect(() => {
@@ -49,6 +50,7 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide }) => {
         }
     }
 
+    // Add new transaction
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault()
         setErrMsg("")
@@ -65,9 +67,11 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide }) => {
                 setLoading(false)
                 return
             }
-            await handleNewTransaction(transData)
+            const response = await handleNewTransaction(transData)
+            refetchData()
             handleHide()
         } catch (error) {
+            console.log(error)
             handleErrMsg(error, handleSetErrMsg)
         } finally {
             setLoading(false)
@@ -104,7 +108,12 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide }) => {
                 />
             </div>
 
-            <div className="w-1/2">
+            <SelectCategory
+                handleChange={handleChange}
+                category={transData.category}
+            />
+
+            {/* <div className="w-1/2">
                 
                 <label htmlFor="category" className="block text-sm mb-2 font-medium text-gray-900 dark:text-white">Category*</label>
 
@@ -117,51 +126,24 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide }) => {
                   >
                     <option value="" disabled>Select category</option>
 
-                    { categories && categories.map( (cat: ICategory) => {
-
-                        return (
-                            <>
-                                <option key={cat._id} value={cat.name}>
-                                    {cat.name}
-                                </option>
-                            </>
-                        )
-                    })}
+                    { categories && categories.map( (cat: ICategory) => (
+                        <>
+                            <option key={cat._id} value={cat.name}>
+                                {cat.name}
+                            </option>
+                        </>
+                    ))}
 
                 </select>
 
-            </div>
+            </div> */}
 
         </div>
 
-        <div className="my-4">
-
-            <label
-                htmlFor="calendar"
-                className="block text-sm mb-2 font-medium text-gray-900 dark:text-white"
-            >
-                Date
-            </label>
-
-            {/* // TODO - Upravit styl kalendáře */}
-            <DatePicker
-                selected={transData.year && transData.month && transData.day 
-                    ? new Date(parseInt(transData.year), parseInt(transData.month) - 1, parseInt(transData.day)) 
-                    : new Date() }
-                onChange={handleSetDate}
-                dateFormat="dd-MM-yyyy"
-                maxDate={today}
-            />
-
-            { transData.day && (
-                <p className="text-sm mt-2">Selected Date:{" "}
-                    <span className="font-semibold">
-                        {transData.day}.{transData.month}.{transData.year}
-                    </span>
-                </p>
-            )}
-
-        </div>
+        <DatePickerElement
+          dateValues={{ day: transData.day, month: transData.month, year: transData.year }}
+          handleSetDate={handleSetDate}  
+        />
 
         <p className="text-red-500 font-bold text-sm">{errMsg}</p>
 

@@ -9,7 +9,6 @@ const getTransaction = async(req,res) => {
 
     try {
         
-        // TODO usporadat strukturu na BE, ne na FE!
         const transactions = await Transaction.find({
             month: month,
             year: year

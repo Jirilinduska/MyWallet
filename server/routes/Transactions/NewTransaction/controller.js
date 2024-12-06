@@ -13,11 +13,12 @@ const newTransaction = async(req,res) => {
 
         if(!user) return res.status(400).json({ message: "User not found." })
 
-        // TODO - Dokončit tento EP
+        await Transaction.create({
+            title, amount, category, year, month, day,
+            createdBy: user._id
+        })
 
-        // TODO - Uložit barvy inputů a NewTransModal do talwind.config!
-
-        // return res.status(200).json({ message: "User data saved." })
+        return res.status(200).json({ message: "Transaction created." })
 
     } catch (error) {
         console.log("newTransaction() => : ", error)

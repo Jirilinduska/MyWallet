@@ -4,18 +4,23 @@ import NewTransModal from "../../UI/Modals/NewTransModal/NewTransModal"
 import TransactionsTable from "../../UI/Tables/TransactionsTable/TransactionsTable"
 import { handleGetTransactions } from "../../../API/Transactions"
 import { ITransaction } from "../../../utils/interfaces/interfaces"
+import EditTransModal from "../../UI/Modals/EditTransModal/EditTransModal"
 
 const Transactions = () => {
 
     const [showNewTrans, setShowNewTrans] = useState(false)
     const [transactions, setTransactions] = useState<ITransaction[]>([])
+    const [showEditModal, setShowEditModal] = useState(false)
+    const [selectedTransaction, setSelectedTransaction] = useState<ITransaction | null>(null)
+
+    const toggleEditModal = () => setShowEditModal(!showEditModal)
+
+    const handleHideNewTransModal = () => setShowNewTrans(false)
 
     const [date, setDate] = useState( () => {
         const today = new Date()
         return { month: today.getMonth() + 1, year: today.getFullYear() }
     })
-
-    const handleHideNewTransModal = () => setShowNewTrans(false)
 
     const handlePrevMonth = () => {
         setDate( (prev) => {
@@ -41,11 +46,11 @@ const Transactions = () => {
             console.log(response)
             setTransactions(response.data)
         } catch (error) {
+            // TODO - Dododělat handleError :) 
             console.log("fetchTransData() => : ", error)
         }
     }
 
-    // TODO - Dokončit fetchovani dat.
     useEffect( () => {
         fetchTransData()
     }, [date] )
@@ -57,13 +62,22 @@ const Transactions = () => {
   return (
     <div className="md:ml-[250px] p-6">
 
+        { showEditModal && selectedTransaction && (
+            <EditTransModal 
+                toggleEditModal={toggleEditModal}
+                transaction={selectedTransaction}
+                fetchTransData={fetchTransData}   
+            /> 
+        )}
+
         { showNewTrans && (
             <NewTransModal
-                handleHide={handleHideNewTransModal}    
+                handleHide={handleHideNewTransModal} 
+                refetchData={fetchTransData}
             />
         )}
 
-        <IconAdd className="icon fixed bottom-10 right-10 text-6xl" onClick={ () => setShowNewTrans(true) }/>
+        <IconAdd className="icon fixed top-10 right-10 text-6xl z-50" onClick={ () => setShowNewTrans(true) }/>
 
         <h3 className="font-bold text-lg mb-6">Transactions</h3>
 
@@ -81,7 +95,25 @@ const Transactions = () => {
 
         {/* // TODO - Pokud je datum vetší než tento měsíc, tak přidat jiný obsah. */}
 
-        <TransactionsTable/>
+        {/* { transactions && (
+            <TransactionsTable
+                data={transactions}
+                onEdit={ () => {
+                    setSelectedTransaction()
+                }}
+            />
+        )} */}
+
+        {transactions && (
+            <TransactionsTable
+                data={transactions.map(transaction => ({
+                    ...transaction,
+                onEdit: () => {
+                    setSelectedTransaction(transaction); // Nastavení vybrané transakce
+                    toggleEditModal() // Otevření modálu
+                }}))}
+            />
+        )}
 
         {/* // TODO - Přidat graf útrat v tento měsíc */}
 

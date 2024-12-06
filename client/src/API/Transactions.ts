@@ -1,5 +1,5 @@
 import { apiClient } from "../config/apiClient"
-import { URL_GET_TRANSACTION, URL_NEW_TRANSACTION } from "../config/apiUrls"
+import { URL_DELETE_TRANSACTION, URL_GET_TRANSACTION, URL_NEW_TRANSACTION, URL_UPDATE_TRANSACTION } from "../config/apiUrls"
 
 
 // Add new transaction
@@ -16,6 +16,15 @@ export const handleGetTransactions = async(month: number, year: number) => {
     return reponse
 }
 
-export const handleDeleteTransaction = async() => {}
+// Delete transaction
+export const handleDeleteTransaction = async(id: string) => {
 
-export const handleEditTransaction = async() => {}
+    const response = await apiClient.delete(`${URL_DELETE_TRANSACTION}/${id}`)
+    return response
+}
+
+export const handleUpdateTransaction = async(transObject: any) => {
+
+    const response = await apiClient.patch(URL_UPDATE_TRANSACTION, transObject)
+    return response
+}
