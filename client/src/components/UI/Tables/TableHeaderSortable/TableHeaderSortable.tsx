@@ -1,7 +1,7 @@
 import { IconSort } from "../../../../utils/icons/icons"
-import { IString } from "../../../../utils/interfaces/interfaces"
+import { IString, ITableHeaderSortable } from "../../../../utils/interfaces/interfaces"
 
-const TableHeaderSortable: React.FC<IString> = ({ value }) => {
+const TableHeaderSortable: React.FC<ITableHeaderSortable> = ({ value, handleSort }) => {
   return (
     <th scope="col" className="px-6 py-3">
         
@@ -10,9 +10,7 @@ const TableHeaderSortable: React.FC<IString> = ({ value }) => {
             {value}
         
             {/* // TODO - Přidat sortovací funkce */}
-            <a href="#" className="ms-1.5">
-                <IconSort className="w-3 h-3" />
-            </a>
+            <IconSort onClick={handleSort} className="w-3 h-3 transition cursor-pointer hover:text-white" />
         </div>
     </th>
   )

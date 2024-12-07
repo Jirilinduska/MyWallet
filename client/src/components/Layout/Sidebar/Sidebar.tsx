@@ -6,6 +6,8 @@ import { useUserContext } from "../../../context/UserContext"
 import { useEffect } from "react"
 import { LANG_CZECH } from "../../../config/globals"
 
+// TODO Dokončit reponsivitu!
+
 const Sidebar = () => {
 
     const { pageID } = useParams()
@@ -16,7 +18,7 @@ const Sidebar = () => {
     }, [] )
 
   return (
-    <div className="bg-black fixed top-0 left-0 w-[80%] sm:w-[50%] md:w-[250px] h-full p-4">
+    <div className="bg-black hidden fixed top-0 left-0 w-[80%] sm:block sm:w-[50%] md:w-[250px] h-full p-4">
 
         <h3 className="font-bold text-white mb-10">Navigator</h3>
 

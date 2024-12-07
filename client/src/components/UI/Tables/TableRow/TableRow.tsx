@@ -1,6 +1,7 @@
+import { LANG_CZECH } from "../../../../config/globals"
 import { ITableRow } from "../../../../utils/interfaces/interfaces"
 
-const TableRow: React.FC<ITableRow> = ({ dateValue, titleValue, categoryValue, priceValue, toggleEditModal }) => {
+const TableRow: React.FC<ITableRow> = ({ dateValue, titleValue, categoryValue, priceValue, toggleEditModal, userLangID }) => {
 
 
   return (
@@ -18,7 +19,7 @@ const TableRow: React.FC<ITableRow> = ({ dateValue, titleValue, categoryValue, p
     
         <td className="px-6 py-4 text-right">
             <span onClick={toggleEditModal} className="font-medium text-blue-500 cursor-pointer hover:underline">
-                Edit
+                { userLangID === LANG_CZECH ? "Upravit" : "Edit" }
             </span>
         </td>
 

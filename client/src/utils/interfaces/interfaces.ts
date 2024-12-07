@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { ChangeEvent, ReactNode } from "react"
 
 
 // =========== Základní typy ===========
@@ -7,6 +7,11 @@ export interface IString {
 }
 
 // =========== Komponenty ===========
+
+export interface IInputSelect{
+    value: string
+    handleChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+}
 
 // PrivateRoute
 export interface IPrivateRoute {
@@ -18,6 +23,11 @@ export interface IProgressBar {
     stage: number
 }
 
+export interface ITableHeaderSortable {
+    value: string
+    handleSort: () => void
+}
+
 // TableRow
 export interface ITableRow {
     dateValue: string
@@ -25,6 +35,7 @@ export interface ITableRow {
     categoryValue: string
     priceValue: number
     toggleEditModal: () => void
+    userLangID: string
 }
 
 // NewTransModal
@@ -51,6 +62,10 @@ export interface ITransactionsTable {
     data: (ITransaction & { onEdit: () => void })[]
 }
 
+export interface IPieGraph {
+    graphData: IGraphBreakdownData[]
+}
+
 // =========== APIs ===========
 export interface ICompleteProfileData {
     lang: string
@@ -66,6 +81,11 @@ export interface ITransaction {
     year: number
     month: number
     day: number
+}
+
+export interface IGraphBreakdownData {
+    category: string,
+    totalAmount: number
 }
 
 export interface ICategory {

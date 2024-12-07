@@ -110,7 +110,7 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide, refetchData }) => {
 
             <SelectCategory
                 handleChange={handleChange}
-                category={transData.category}
+                value={transData.category}
             />
 
             {/* <div className="w-1/2">

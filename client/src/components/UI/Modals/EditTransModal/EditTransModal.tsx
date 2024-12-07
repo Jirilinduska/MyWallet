@@ -98,7 +98,7 @@ const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transactio
                 inputName="title"
                 inputType="text"
                 labelFor="title"
-                labelValue="Title"
+                labelValue={`${ userLangID === LANG_CZECH ? "Název" : "Title" }`}
                 onChange={handleChange}
                 placeholder="Food"
                 value={transData.title}
@@ -110,7 +110,7 @@ const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transactio
                 inputName="amount"
                 inputType="number"
                 labelFor="amount"
-                labelValue="Amount*"
+                labelValue={`${ userLangID === LANG_CZECH ? "Částka*" : "Amount*" }`}
                 onChange={handleChange}
                 placeholder="200"
                 value={transData.amount.toString()}
@@ -118,8 +118,8 @@ const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transactio
             </div>
 
             <SelectCategory
-              category={transData.category}
               handleChange={handleChange}
+              value={transData.category}
             />
 
           </div>

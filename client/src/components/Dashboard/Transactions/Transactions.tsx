@@ -3,10 +3,12 @@ import { IconAdd, IconNext, IconPrev } from "../../../utils/icons/icons"
 import NewTransModal from "../../UI/Modals/NewTransModal/NewTransModal"
 import TransactionsTable from "../../UI/Tables/TransactionsTable/TransactionsTable"
 import { handleGetTransactions } from "../../../API/Transactions"
-import { ITransaction } from "../../../utils/interfaces/interfaces"
+import { IGraphBreakdownData, ITransaction } from "../../../utils/interfaces/interfaces"
 import EditTransModal from "../../UI/Modals/EditTransModal/EditTransModal"
 import { useUserContext } from "../../../context/UserContext"
 import { LANG_CZECH } from "../../../config/globals"
+import MyChart from "../../Graphs/MyChart/MyChart"
+import PieGraph from "../../Graphs/PieGraph/PieGraph"
 
 const Transactions = () => {
 
@@ -14,12 +16,33 @@ const Transactions = () => {
 
     const [showNewTrans, setShowNewTrans] = useState(false)
     const [transactions, setTransactions] = useState<ITransaction[]>([])
+    const [graphData, setGraphData] = useState<IGraphBreakdownData[]>([])
     const [showEditModal, setShowEditModal] = useState(false)
     const [selectedTransaction, setSelectedTransaction] = useState<ITransaction | null>(null)
+    const [loading, setLoading] = useState(false)
 
     const toggleEditModal = () => setShowEditModal(!showEditModal)
 
     const handleHideNewTransModal = () => setShowNewTrans(false)
+
+    // TODO Dokončit sorttovani
+    // const [sortedData, setSortedData] = useState<ITransaction[]>(transactions)
+    const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc")
+
+    const handleSortByAmount = () => {
+      const newSortOrder = sortOrder === "asc" ? "desc" : "asc"
+
+      const sorted = [...transactions].sort((a, b) => {
+        if (newSortOrder === "asc") {
+          return a.day - b.day
+        } else {
+          return b.day - a.day
+        }
+      })
+      setTransactions(sorted)
+      setSortOrder(newSortOrder)
+
+    }
 
     const [date, setDate] = useState( () => {
         const today = new Date()
@@ -53,26 +76,29 @@ const Transactions = () => {
     }
 
     const fetchTransData = async() => {
+
+        setLoading(true)
+
         try {
             const response = await handleGetTransactions(date.month, date.year)
             console.log(response)
-            setTransactions(response.data)
+            setTransactions(response.data.transactions)
+            setGraphData(response.data.graphData)
         } catch (error) {
             // TODO - Dododělat handleError :) 
             console.log("fetchTransData() => : ", error)
+        } finally {
+            setLoading(false)
         }
     }
 
-    // useEffect( () => {
-    //     fetchTransData()
-    // }, [date] )
-
-    // TODO - Nastavit jazyk
-    const getMonthName = new Date(date.year, date.month - 1).toLocaleString("default", { month: "long" })
+    const getMonthName = new Date(date.year, date.month - 1).toLocaleString(userLangID === LANG_CZECH ? "cs-CZ" : "en-US", { month: "long" })
     const monthName = getMonthName.charAt(0).toUpperCase() + getMonthName.slice(1)
 
   return (
-    <div className="md:ml-[250px] p-6">
+    <div className="md:ml-[250px] p-6 min-h-screen">
+
+        {/* <TransactionsHeader> */}
 
         { showEditModal && selectedTransaction && (
             <EditTransModal 
@@ -93,8 +119,6 @@ const Transactions = () => {
 
         <h3 className="font-bold text-lg mb-6">{ userLangID === LANG_CZECH ? "Výdaje" : "Transactions" }</h3>
 
-        {/* // TODO - Div s šipkami, při kliknutí fetch transactions podle datumu. */}
-        {/* // TODO - Přidat loader tabulku  */}
         <div className="flex items-center gap-4">
 
             <IconPrev 
@@ -112,25 +136,37 @@ const Transactions = () => {
                     handleNextMonth()
                     fetchTransData()
                 }} 
-                className="icon" 
+                className={`${ date.month > new Date().getMonth() && "hidden" } icon`} 
             />
 
         </div>
 
-        {/* // TODO - Pokud je datum vetší než tento měsíc, tak přidat jiný obsah. */}
+        { transactions.length > 0 && (
+            <div className="my-10 flex items-center justify-between">
+                <PieGraph graphData={graphData}/> 
+                {/* // TODO -  Přidat možnost export Data! */}
+                <div className="">
+                    <button className="button-blue">Export data</button>
+                </div>
+            </div>
+        )}
 
-        {transactions && (
+        { transactions.length === 0 && (
+            <div className="flex items-center justify-center mt-20">
+                <p className="h-full">{`No transactions found for ${monthName}.`}</p>
+            </div>
+        )}
+
+        {transactions.length > 0 && (
             <TransactionsTable
                 data={transactions.map(transaction => ({
                     ...transaction,
                 onEdit: () => {
-                    setSelectedTransaction(transaction); // Nastavení vybrané transakce
-                    toggleEditModal() // Otevření modálu
+                    setSelectedTransaction(transaction)
+                    toggleEditModal()
                 }}))}
             />
         )}
-
-        {/* // TODO - Přidat graf útrat v tento měsíc */}
 
     </div>
   )

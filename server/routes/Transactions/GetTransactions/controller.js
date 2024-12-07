@@ -9,18 +9,38 @@ const getTransaction = async(req,res) => {
 
     try {
         
-        const transactions = await Transaction.find({
-            month: month,
-            year: year
-        })
+        const user = await User.findOne(userID)
 
-        if (!transactions.length) {
-            return res.status(404).json({ message: "No transactions found for the specified date." });
-        }
+        // Veškeré transakce podle datumu
+        const transactions = await Transaction.find({ month: month, year: year, createdBy: user._id })
+
+        // Seskupit data pro graf
+        const graphData = await Transaction.aggregate([
+            { 
+                $match: {
+                    createdBy: user._id, 
+                    month: parseInt(month), 
+                    year: parseInt(year),
+                }
+            }, 
+            { 
+                $group: { 
+                    _id: "$category", 
+                    totalAmount: { $sum: "$amount" } 
+                }
+            },
+            { 
+                $project: { 
+                    category: "$_id", 
+                    totalAmount: 1, 
+                    _id: 0 
+                }
+            }
+        ])
 
         // TODO - Propočítat tady total spendings a vrátít je zvlášt poli :) 
 
-        return res.status(200).json(transactions)
+        return res.status(200).json({ transactions, graphData })
 
     } catch (error) {
         console.log("newTransaction() => : ", error)

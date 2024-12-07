@@ -5,6 +5,7 @@ import WelcomeBack from './pages/WelcomeBack/WelcomeBack'
 import NewUser from './pages/NewUser/NewUser'
 import EmailConfirmed from './pages/EmailConfirmed/EmailConfirmed'
 import Dashboard from './pages/Dashboard/Dashboard'
+import Profile from './pages/Profile/Profile'
 
 const App = () => {
   return (
@@ -46,6 +47,15 @@ const App = () => {
               element={
                 <PrivateRoute>
                     <Dashboard/>
+                </PrivateRoute>
+              }
+            />
+
+            <Route 
+              path='/profile'
+              element={
+                <PrivateRoute>
+                    <Profile/>
                 </PrivateRoute>
               }
             />
