@@ -62,8 +62,17 @@ export interface ITransactionsTable {
     data: (ITransaction & { onEdit: () => void })[]
 }
 
+// PieGraph
 export interface IPieGraph {
     graphData: IGraphBreakdownData[]
+}
+
+// Avatars
+export interface IAvatars {
+    showAvatars: boolean
+    setUserInfo: React.Dispatch<React.SetStateAction<IUserDataUpdate>>
+    setIsEdited: (state: boolean) => void
+    setShowAvatars: (state: boolean) => void
 }
 
 // =========== APIs ===========
@@ -113,4 +122,12 @@ interface IUserUtils {
 interface IUserSettings {
     profileCompleted: boolean
     emailConfirmed: boolean
+}
+
+export interface IUserDataUpdate {
+    userName: string
+    email: string
+    currency: string
+    language: string
+    avatarID: number
 }

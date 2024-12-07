@@ -1,5 +1,5 @@
 import { CURR_CZECH, CURR_DOLLAR, CURR_EURO, LANG_CZECH, LANG_ENGLISH } from "../../config/globals"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { CzechFlag, USFlag } from "../../utils/icons/flags"
 import ProgressBar from "../../components/CompleteProfile/ProgressBar/ProgressBar"
 import { CurrencyIconCzech, CurrencyIconDollar, CurrencyIconEuro } from "../../utils/icons/currency"
@@ -7,12 +7,16 @@ import { userAvatars } from "../../utils/icons/avatars"
 import ProgressBarFixed from "../../components/CompleteProfile/ProgressBarFixed/ProgressBarFixed"
 import { ICompleteProfileData } from "../../utils/interfaces/interfaces"
 import { handleCompleteProfile } from "../../API/User"
+import { useUserContext } from "../../context/UserContext"
+import { Navigate } from "react-router-dom"
 
 
 // TODO - Upravit celkový UI komponenty, + přidat mobile settings
 // TODO - Rozdělit "stages" do samostatných komponent
 
 const NewUser = () => {
+
+    const { refreshUserData, userData } = useUserContext()
 
     const [stage, setStage] = useState(0)
     const [data, setData] = useState<ICompleteProfileData>({ lang: "", curr: "", avatarID: 0 })
@@ -22,6 +26,16 @@ const NewUser = () => {
     const handleChangeAvatar = (value: number) => setData( (prev) => ({...prev, avatarID: value}) )
     const handleIncStage = () => setStage( (prev) => prev + 1)
     const handleDecStage = () => setStage( (prev) => prev - 1)
+
+    useEffect(() => {
+        if(!userData) refreshUserData()
+    }, [])
+
+    if(userData) {
+        if(userData.settings.profileCompleted) {
+            return <Navigate to="/"/>
+        }
+    }
 
   return (
     <section className="h-screen flex items-center justify-center">

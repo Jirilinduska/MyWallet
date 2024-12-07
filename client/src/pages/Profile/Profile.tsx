@@ -1,28 +1,45 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import { useUserContext } from "../../context/UserContext"
 import { LANG_CZECH } from "../../config/globals"
-import { IconEdit } from "../../utils/icons/icons"
 import { Link } from "react-router-dom"
 import { userAvatars } from "../../utils/icons/avatars"
 import Input from "../../components/UI/Input/Input"
 import SelectLanguage from "../../components/UI/Input/SelectLanguage/SelectLanguage"
+import SelectCurrency from "../../components/UI/Input/SelectCurrency/SelectCurrency"
+import { handleUpdateUserData } from "../../API/User"
+import Avatars from "../../components/OffCanvas/Avatars/Avatars"
+import { IUserDataUpdate } from "../../utils/interfaces/interfaces"
+import NotifSuccess from "../../components/Notifications/NotifSuccess/NotifSuccess"
 
 const Profile = () => {
 
     const { refreshUserData, userData, userLangID } = useUserContext()
 
-
-    const [userInfo, setUserInfo] = useState({
-        userName: userData.userName,
-        email: userData.email,
-        currency: userData.utils.currency,
-        language: userData.utils.language
+    const [isEdited, setIsEdited] = useState(false)
+    const [showAvatars, setShowAvatars] = useState(false)
+    const [userInfo, setUserInfo] = useState<IUserDataUpdate>({
+        userName: userData?.userName || "",
+        email: userData?.email || "",
+        currency: userData?.utils.currency || "",
+        language: userData?.utils.language || "",
+        avatarID: userData?.utils.avatarID || 0
     })
 
-    const [edit, setEdit] = useState({
-        userName: false,
-        email: false
-    })
+    useEffect(() => {
+        refreshUserData()
+    }, [] )
+
+    useEffect(() => {
+        if (userData) {
+            setUserInfo({
+                userName: userData.userName,
+                email: userData.email,
+                currency: userData.utils.currency,
+                language: userData.utils.language,
+                avatarID: userData.utils.avatarID
+            });
+        }
+    }, [userData])
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { value, name } = e.target
@@ -30,13 +47,24 @@ const Profile = () => {
             ...prev,
             [name]: value
         }))
+        setIsEdited(true)
     }
 
-    console.log(userData)
+    const handleSubmit = async() => {
+        
+        try {
+            const response = await handleUpdateUserData(userInfo)
+            refreshUserData()
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
-    useEffect(() => {
-        if(!userData) refreshUserData()
-    }, [])
+    // TODO - Přidal loader
+    if(!userData) {
+        return <p className="">Loading</p>
+    }
 
   return (
     <section className="h-screen flex items-center justify-center">
@@ -49,19 +77,28 @@ const Profile = () => {
 
 
         {/* UserCard */}
-        <div className="w-1/2 mx-auto shadow-xl rounded-lg bg-black">
+        <div className="w-1/2 mx-auto shadow-xl rounded-lg bg-black relative">
+            
+            <Avatars
+                setIsEdited={setIsEdited}
+                showAvatars={showAvatars}
+                setUserInfo={setUserInfo}
+                setShowAvatars={setShowAvatars}
+            />
 
             <div className="bg-white h-[100px] relative rounded-t-lg">
 
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[100px] mb-10">
                 
                     <img 
-                        src={ userAvatars.find( (x) => x.id === userData.utils.avatarID )?.imageSrc }
+                        src={ userAvatars.find( (x) => x.id === userInfo.avatarID )?.imageSrc }
                         alt="user_avatar" 
-                        className="" 
+                        className="cursor-pointer" 
+                        onClick={ () => setShowAvatars( (prev) => !prev )}
                     />
 
                 </div>
+
 
             </div>
 
@@ -78,8 +115,6 @@ const Profile = () => {
             </div>
 
             <div className={`${ userData.settings.emailConfirmed ? "text-green-500" : "text-red-500" } mb-2 px-6 text-xs`}>
-
-
                 <p className="">{ userData.settings.emailConfirmed ? "Email confirmed" : "Please confirm your email" }</p>
             </div>
 
@@ -96,17 +131,32 @@ const Profile = () => {
             </div>
 
             {/* Select elemets */}
-            <div className="flex items-center justify-between px-6 mb-4">
+            <div className="flex items-center justify-between gap-10 px-6 mb-4">
 
                 <SelectLanguage
                     value={userInfo.language}
                     handleChange={handleInputChange}  
                 />
 
+                <SelectCurrency
+                    value={userInfo.currency}
+                    handleChange={handleInputChange}
+                />
+
             </div>
 
+            <button 
+                className={`${ isEdited ? "button-green" : "button-green bg-colorGrayHover hover:bg-colorGrayHover"} w-1/3 mx-auto block`}
+                disabled={!isEdited}
+                onClick={handleSubmit}
+              >
+                {userLangID === LANG_CZECH ? "Uložit" : "Save"}
+            </button>
 
         </div>
+
+        {/* // TODO - Dokončit notifikace */}
+        {/* <NotifSuccess/> */}
 
     </section>
   )

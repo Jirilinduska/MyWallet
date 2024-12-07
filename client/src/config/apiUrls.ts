@@ -7,6 +7,7 @@ export const URL_LOGIN_USER = `${API_BASE_URL}/api/auth/login`
 // User
 export const URL_COMPLETE_PROFILE = `${API_BASE_URL}/api/user/complete-profile`
 export const URL_GET_USER_DATA = `${API_BASE_URL}/api/user/get-user-data`
+export const URL_UPDATE_USER_DATA = `${API_BASE_URL}/api/user/update-user-data`
 
 // Emails
 export const URL_SEND_CONFIRM_EMAIL = `${API_BASE_URL}/api/email/confirm-email`
