@@ -5,7 +5,6 @@ const createDefaultCategories = async(userID) => {
 
     try {
 
-        // TODO Dodelat iconID na FE
         const defaultCategories = [
             { name: "Food", iconID: 1, createdBy: userID, categoryType: "transaction" },
             { name: "Transport", iconID: 2, createdBy: userID, categoryType: "transaction"  },

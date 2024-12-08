@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactNode } from "react"
+import { ChangeEvent, ReactElement, ReactNode } from "react"
 
 
 // =========== Základní typy ===========
@@ -64,6 +64,12 @@ export interface INewTransForm {
 export interface INotif {
     message: string
     onClose: () => void
+}
+
+// Icon
+export interface ICategoryIcon {
+    id: number
+    iconJSX: ReactElement
 }
 
 // EditTransModal
@@ -135,6 +141,12 @@ export interface ICategory {
     categoryType: string,
     createdBy: string,
     __v: number
+}
+
+export interface INewCategory {
+    name: string
+    iconID: number
+    categoryType: string
 }
 
 export interface IUser {

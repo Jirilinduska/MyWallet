@@ -1,10 +1,10 @@
-import { IoMdEye, IoIosEyeOff, IoMdAddCircle } from "react-icons/io"
+import { IoMdEye, IoIosEyeOff, IoMdAddCircle, IoIosLaptop } from "react-icons/io"
 import { IoMail, IoCard, IoHome, IoClose } from "react-icons/io5"
 import { MdDashboard, MdCategory } from "react-icons/md";
 import { GiMoneyStack, GiTakeMyMoney } from "react-icons/gi";
 import { RiMenu3Line } from "react-icons/ri";
-import { FaUserTie, FaSort, FaCar } from "react-icons/fa";
-import { FaPowerOff } from "react-icons/fa6";
+import { FaUserTie, FaSort, FaCar , FaMoneyBillWave} from "react-icons/fa";
+import { FaPowerOff, FaRegLightbulb } from "react-icons/fa6";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { CiPizza, CiEdit } from "react-icons/ci";
 import { BiSolidDrink } from "react-icons/bi";
@@ -31,4 +31,7 @@ export {
     BiSolidDrink as IconDrink,
     CiEdit as IconEdit,
     MdCategory as IconCategory,
+    FaMoneyBillWave as IconSalary,
+    IoIosLaptop as IconLaptop,
+    FaRegLightbulb as IconLightbulb,
 }
