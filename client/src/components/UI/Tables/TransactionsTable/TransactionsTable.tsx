@@ -11,7 +11,7 @@ import { LANG_CZECH } from "../../../../config/globals"
 
 const TransactionsTable: React.FC<ITransactionsTable> = ({ data }) => {
 
-    const { refreshUserData, userLangID } = useUserContext()
+    const { refreshUserData, userLangID, userCurrency } = useUserContext()
 
     // TODO Dokončit sorttovani
     const handleSort = () => {}
@@ -66,6 +66,7 @@ const TransactionsTable: React.FC<ITransactionsTable> = ({ data }) => {
                       titleValue={x.title}
                       toggleEditModal={x.onEdit}
                       userLangID={userLangID}
+                      userCurrency={userCurrency}
                     />
                 ))}
                 

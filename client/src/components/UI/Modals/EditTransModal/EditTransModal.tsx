@@ -3,14 +3,14 @@ import { IconClose } from "../../../../utils/icons/icons"
 import { IEditTransModal } from "../../../../utils/interfaces/interfaces"
 import Input from "../../Input/Input"
 import DatePickerElement from "../../DatePicker/DatePickerElement"
-import SelectCategory from "../../Input/SelectCategory/SelectCategory"
+import SelectCategory from "../../SelectCategory/SelectCategory"
 import { handleDeleteTransaction, handleUpdateTransaction } from "../../../../API/Transactions"
 import { handleErrMsg } from "../../../../utils/functions/handleErrMsg"
 import { handleSuccMsg } from "../../../../utils/functions/handleSuccMsg"
 import { useUserContext } from "../../../../context/UserContext"
-import { LANG_CZECH } from "../../../../config/globals"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, LANG_CZECH, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../../config/globals"
 
-const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transaction, fetchTransData }) => {
+const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transaction, fetchTransData, pageID }) => {
 
     const { refreshUserData, userLangID } = useUserContext()
 
@@ -85,7 +85,8 @@ const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transactio
 
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
 
-            <h3 className="text-lg font-semibold text-white">{ userLangID === LANG_CZECH ? "Upravit transakci" : "Edit transaction" }</h3>
+            { pageID === PAGE_ID_TRANSACTIONS && <h3 className="text-lg font-semibold text-white">{ userLangID === LANG_CZECH ? "Upravit výdaj" : "Edit transaction" }</h3> }
+            { pageID === PAGE_ID_INCOME && <h3 className="text-lg font-semibold text-white">{ userLangID === LANG_CZECH ? "Upravit příjem" : "Edit income" }</h3> }
 
             <IconClose onClick={toggleEditModal} className="icon"/>
 
@@ -120,6 +121,7 @@ const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transactio
             <SelectCategory
               handleChange={handleChange}
               value={transData.category}
+              categoryType={`${pageID === PAGE_ID_TRANSACTIONS ? CATEGORY_ID_TRANSACTION : CATEGORY_ID_INCOME}`}
             />
 
           </div>

@@ -5,10 +5,14 @@ const createDefaultCategories = async(userID) => {
 
     try {
 
+        // TODO Dodelat iconID na FE
         const defaultCategories = [
-            { name: "Food", iconID: 1, createdBy: userID},
-            { name: "Transport", iconID: 2, createdBy: userID },
-            { name: "Entertainment", iconID: 3, createdBy: userID },
+            { name: "Food", iconID: 1, createdBy: userID, categoryType: "transaction" },
+            { name: "Transport", iconID: 2, createdBy: userID, categoryType: "transaction"  },
+            { name: "Entertainment", iconID: 3, createdBy: userID, categoryType: "transaction"  },
+            { name: "Salary", iconID: 4, createdBy: userID, categoryType: "income" },
+            { name: "Freelance", iconID: 5, createdBy: userID, categoryType: "income" },
+            { name: "Other", iconID: 6, createdBy: userID, categoryType: "income" },
         ]
 
         await Category.insertMany(defaultCategories)

@@ -1,10 +1,11 @@
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title, } from 'chart.js'
-import { IGraphBreakdownData, IPieGraph } from '../../../utils/interfaces/interfaces'
+import { IPieGraph } from '../../../utils/interfaces/interfaces'
+import { LANG_CZECH, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from '../../../config/globals'
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title)
 
-const PieGraph: React.FC<IPieGraph> = ({ graphData }) => {
+const PieGraph: React.FC<IPieGraph> = ({ graphData, pageID, langID }) => {
 
     const data = {
         labels: graphData.map( (x) => x.category),
@@ -25,7 +26,11 @@ const PieGraph: React.FC<IPieGraph> = ({ graphData }) => {
           },
           title: {
             display: true,
-            text: 'Expense Breakdown',
+            text: pageID === PAGE_ID_TRANSACTIONS 
+                            ? (langID === LANG_CZECH ? "Souhrn útrat" : "Expense breakdown") 
+                            : pageID === PAGE_ID_INCOME 
+                                ? (langID === LANG_CZECH ? "Souhrn příjmů" : "Income breakdown") 
+                                : ""
           },
         },
     }

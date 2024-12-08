@@ -1,6 +1,6 @@
 import { IoMdEye, IoIosEyeOff, IoMdAddCircle } from "react-icons/io"
 import { IoMail, IoCard, IoHome, IoClose } from "react-icons/io5"
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdCategory } from "react-icons/md";
 import { GiMoneyStack, GiTakeMyMoney } from "react-icons/gi";
 import { RiMenu3Line } from "react-icons/ri";
 import { FaUserTie, FaSort, FaCar } from "react-icons/fa";
@@ -30,4 +30,5 @@ export {
     FaCar as IconCar,
     BiSolidDrink as IconDrink,
     CiEdit as IconEdit,
+    MdCategory as IconCategory,
 }

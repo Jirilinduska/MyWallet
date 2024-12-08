@@ -4,7 +4,7 @@ const { authenticateToken } = require("../../../middleware/authenticateToken")
 
 const router = express.Router()
 
-const baseIrl = "/api/category/get-category"
+const baseIrl = "/api/category/get-category/:categoryType"
 
 router.get(baseIrl, authenticateToken, getCategories)
 

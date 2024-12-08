@@ -18,6 +18,10 @@ export const URL_GET_TRANSACTION = `${API_BASE_URL}/api/transaction/get-transact
 export const URL_DELETE_TRANSACTION = `${API_BASE_URL}/api/transaction/delete`
 export const URL_UPDATE_TRANSACTION = `${API_BASE_URL}/api/transaction/update`
 
+// Income
+export const URL_GET_INCOME = `${API_BASE_URL}/api/income/get-income`
+export const URL_NEW_INCOME = `${API_BASE_URL}/api/income/new-income`
+
 // Category
 export const URL_GET_CATEGORIES = `${API_BASE_URL}/api/category/get-category`
 // export const URL_DELETE_CATEGORIES = `${API_BASE_URL}/api/category/delete`

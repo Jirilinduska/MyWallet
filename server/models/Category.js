@@ -6,6 +6,8 @@ const CategorySchema = new mongoose.Schema({
 
     iconID: { type: Number, required: true },
 
+    categoryType: { type: String, required: true },
+
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 })
 

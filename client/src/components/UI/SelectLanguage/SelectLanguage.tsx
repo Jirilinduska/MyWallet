@@ -1,7 +1,7 @@
 import { useEffect } from "react"
-import { useUserContext } from "../../../../context/UserContext"
-import { IInputSelect } from "../../../../utils/interfaces/interfaces"
-import { LANG_CZECH, LANG_ENGLISH } from "../../../../config/globals"
+import { useUserContext } from "../../../context/UserContext"
+import { IInputSelect } from "../../../utils/interfaces/interfaces"
+import { LANG_CZECH, LANG_ENGLISH } from "../../../config/globals"
 
 const SelectLanguage: React.FC<IInputSelect> = ({ value, handleChange }) => {
 
@@ -12,7 +12,7 @@ const SelectLanguage: React.FC<IInputSelect> = ({ value, handleChange }) => {
     }, [])
 
   return (
-    <div className="w-1/2">
+    <div className="w-full sm:w-1/2">
         
         <label htmlFor="language" className="block text-sm mb-2 font-medium text-gray-900 dark:text-white">
             { userLangID === LANG_CZECH ? "Jazyk*" : "Language*" }

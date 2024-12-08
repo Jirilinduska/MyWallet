@@ -6,6 +6,7 @@ import { IUser } from "../utils/interfaces/interfaces"
 interface UserContextProps {
     userData: IUser
     userLangID: string
+    userCurrency: string
     refreshUserData: () => void
 }
 
@@ -16,6 +17,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const [userData, setUserData] = useState<IUser | null>(null)
     const [userLangID, setUserLangID] = useState("")
+    const [userCurrency, setUserCurrency] = useState("")
 
     const fetchData = async() => {
 
@@ -24,6 +26,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             console.log(response)
             setUserData(response.data)
             setUserLangID(response.data?.utils?.language)
+            setUserCurrency(response.data?.utils?.currency)
         } catch (error) {
             console.log(error)
         }
@@ -34,7 +37,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, [] )
 
     return (
-        <UserContext.Provider value={{ userData: userData as IUser, userLangID, refreshUserData: fetchData }}>
+        <UserContext.Provider value={{ userData: userData as IUser, userLangID, userCurrency, refreshUserData: fetchData }}>
             {children}
         </UserContext.Provider>
     )

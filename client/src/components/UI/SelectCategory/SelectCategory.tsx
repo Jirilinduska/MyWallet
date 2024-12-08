@@ -1,12 +1,12 @@
 import { useEffect } from "react"
-import { useCategoriesContext } from "../../../../context/CategoriesContext"
-import { ICategory, IInputSelect } from "../../../../utils/interfaces/interfaces"
-import { useUserContext } from "../../../../context/UserContext"
-import { LANG_CZECH } from "../../../../config/globals"
+import { useCategoriesContext } from "../../../context/CategoriesContext"
+import { ICategory, IInputSelectCategory } from "../../../utils/interfaces/interfaces"
+import { useUserContext } from "../../../context/UserContext"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, LANG_CZECH } from "../../../config/globals"
 
-const SelectCategory: React.FC<IInputSelect> = ({ value, handleChange }) => {
+const SelectCategory: React.FC<IInputSelectCategory> = ({ value, handleChange, categoryType }) => {
 
-    const { categories, refreshCategories } = useCategoriesContext()
+    const { categoriesIncome, categoriesTransactions, refreshCategories } = useCategoriesContext()
     const { refreshUserData, userLangID } = useUserContext()
 
     useEffect( () => {
@@ -34,7 +34,15 @@ const SelectCategory: React.FC<IInputSelect> = ({ value, handleChange }) => {
         
         <option value="" disabled>Select category</option>
 
-            { categories && categories.map( (cat: ICategory) => (
+            { categoryType === CATEGORY_ID_TRANSACTION && categoriesTransactions.map( (cat: ICategory) => (
+                <>
+                    <option key={cat._id} value={cat.name}>
+                        {cat.name}
+                    </option>
+                </>
+            ))}
+
+            { categoryType === CATEGORY_ID_INCOME && categoriesIncome.map( (cat: ICategory) => (
                 <>
                     <option key={cat._id} value={cat.name}>
                         {cat.name}

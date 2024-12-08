@@ -1,5 +1,6 @@
 import { apiClient } from "../config/apiClient"
 import { URL_DELETE_TRANSACTION, URL_GET_TRANSACTION, URL_NEW_TRANSACTION, URL_UPDATE_TRANSACTION } from "../config/apiUrls"
+import { CATEGORY_ID_TRANSACTION } from "../config/globals"
 
 
 // Add new transaction
@@ -12,7 +13,7 @@ export const handleNewTransaction = async(newTransObject: any) => {
 // Get transaction
 export const handleGetTransactions = async(month: number, year: number) => {
 
-    const reponse = await apiClient.get(`${URL_GET_TRANSACTION}/${month}/${year}`)
+    const reponse = await apiClient.get(`${URL_GET_TRANSACTION}/${month}/${year}/${CATEGORY_ID_TRANSACTION}`)
     return reponse
 }
 

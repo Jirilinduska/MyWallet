@@ -4,7 +4,7 @@ const { authenticateToken } = require("../../../middleware/authenticateToken")
 
 const router = express.Router()
 
-const baseIrl = "/api/transaction/get-transaction/:month/:year"
+const baseIrl = "/api/transaction/get-transaction/:month/:year/:transCategory"
 
 router.get(baseIrl, authenticateToken, getTransaction)
 

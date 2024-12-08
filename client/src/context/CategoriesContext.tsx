@@ -1,9 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { ICategory } from "../utils/interfaces/interfaces"
 import { handleGetCategories } from "../API/Categories"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION } from "../config/globals"
 
 interface CategoriesContextProps {
-    categories: ICategory[]
+    categoriesIncome: ICategory[]
+    categoriesTransactions: ICategory[]
     refreshCategories: () => void
 }
 
@@ -11,14 +13,16 @@ export const CategoriesContext = createContext<CategoriesContextProps | undefine
 
 export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
-    const [categories, setCategories] = useState<ICategory[]>([])
+    const [categoriesIncome, setCategoriesIncome] = useState<ICategory[]>([])
+    const [categoriesTransactions, setCategoriesTransactions] = useState<ICategory[]>([])
 
     const fetchData = async() => {
 
         try {
-            const response = await handleGetCategories()
-            console.log(response)
-            setCategories(response.data)
+            const income = await handleGetCategories(CATEGORY_ID_INCOME)
+            const transactions = await handleGetCategories(CATEGORY_ID_TRANSACTION)
+            setCategoriesIncome(income.data)
+            setCategoriesTransactions(transactions.data)
         } catch (error) {
             console.log(error)
         }
@@ -29,7 +33,7 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }, [] )
 
     return (
-        <CategoriesContext.Provider value={{ categories, refreshCategories: fetchData }}>
+        <CategoriesContext.Provider value={{ categoriesIncome, categoriesTransactions, refreshCategories: fetchData }}>
           {children}
         </CategoriesContext.Provider>
     )

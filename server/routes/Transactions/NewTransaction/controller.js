@@ -4,7 +4,7 @@ const Transaction = require("../../../models/Transaction")
 
 const newTransaction = async(req,res) => {
 
-    const { title, amount, category, year, month, day } = req.body
+    const { title, amount, category, year, month, day, transCategory } = req.body
     const userID = req.userID
 
     try {
@@ -14,7 +14,7 @@ const newTransaction = async(req,res) => {
         if(!user) return res.status(400).json({ message: "User not found." })
 
         await Transaction.create({
-            title, amount, category, year, month, day,
+            title, amount, category, year, month, day, transCategory,
             createdBy: user._id
         })
 

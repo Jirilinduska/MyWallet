@@ -1,7 +1,7 @@
 import { LANG_CZECH } from "../../../../config/globals"
 import { ITableRow } from "../../../../utils/interfaces/interfaces"
 
-const TableRow: React.FC<ITableRow> = ({ dateValue, titleValue, categoryValue, priceValue, toggleEditModal, userLangID }) => {
+const TableRow: React.FC<ITableRow> = ({ dateValue, titleValue, categoryValue, priceValue, toggleEditModal, userLangID, userCurrency }) => {
 
 
   return (
@@ -15,7 +15,7 @@ const TableRow: React.FC<ITableRow> = ({ dateValue, titleValue, categoryValue, p
 
         <td className="px-6 py-4">{categoryValue}</td>
         
-        <td className="px-6 py-4">{priceValue} Kč</td>
+        <td className="px-6 py-4">{priceValue} {userCurrency}</td>
     
         <td className="px-6 py-4 text-right">
             <span onClick={toggleEditModal} className="font-medium text-blue-500 cursor-pointer hover:underline">

@@ -23,6 +23,7 @@ const Dashboard = () => {
         <Sidebar/>
 
         { pageID === "transactions" && <Transactions/> }
+        { pageID === "income" && <Transactions/> }
 
 
     </section>

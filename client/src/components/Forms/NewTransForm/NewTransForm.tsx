@@ -8,14 +8,14 @@ import { useCategoriesContext } from "../../../context/CategoriesContext"
 import { ICategory, INewTransForm } from "../../../utils/interfaces/interfaces"
 import ButtonLoading from "../../UI/Loaders/ButtonLoading/ButtonLoading"
 import DatePickerElement from "../../UI/DatePicker/DatePickerElement"
-import SelectCategory from "../../UI/Input/SelectCategory/SelectCategory"
+import SelectCategory from "../../UI/SelectCategory/SelectCategory"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
+import { useUserContext } from "../../../context/UserContext"
 
-const NewTransForm: React.FC<INewTransForm> = ({ handleHide, refetchData }) => {
+const NewTransForm: React.FC<INewTransForm> = ({ handleHide, pageID, fetchIncomeData, fetchTransData }) => {
 
-    // const today = new Date()
-    // today.setHours(0, 0, 0, 0)
-
-    const { categories, refreshCategories } = useCategoriesContext()
+    // const { categoriesIncome, categoriesTransactions, refreshCategories } = useCategoriesContext()
+    const { refreshUserData, userCurrency } = useUserContext()
 
     const [loading, setLoading] = useState(false)
     const [errMsg, setErrMsg] = useState("")
@@ -25,11 +25,17 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide, refetchData }) => {
         category: "", 
         year: new Date().getFullYear().toString(),
         month: (new Date().getMonth() + 1).toString().padStart(2, "0"),
-        day: new Date().getDate().toString().padStart(2, "0")
+        day: new Date().getDate().toString().padStart(2, "0"),
+        transCategory: pageID === PAGE_ID_TRANSACTIONS ? CATEGORY_ID_TRANSACTION : 
+                       pageID === PAGE_ID_INCOME ? CATEGORY_ID_INCOME : null
     })
 
+    // useEffect(() => {
+    //     refreshCategories()
+    // }, [] )
+
     useEffect(() => {
-        refreshCategories()
+        if(!userCurrency) refreshUserData()
     }, [] )
 
     const handleSetErrMsg = (msg: string) => setErrMsg(msg)
@@ -68,7 +74,13 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide, refetchData }) => {
                 return
             }
             const response = await handleNewTransaction(transData)
-            refetchData()
+
+            if (pageID === PAGE_ID_TRANSACTIONS) {
+                fetchTransData()
+            } else if (pageID === PAGE_ID_INCOME) {
+                fetchIncomeData()
+            }
+            
             handleHide()
         } catch (error) {
             console.log(error)
@@ -101,7 +113,7 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide, refetchData }) => {
                     inputType="number"
                     labelFor="price"
                     labelValue="Price*"
-                    placeholder="$2999"
+                    placeholder={`2000 ${userCurrency}`}
                     inputName="amount"
                     value={transData.amount}
                     onChange={handleChange}
@@ -111,32 +123,8 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide, refetchData }) => {
             <SelectCategory
                 handleChange={handleChange}
                 value={transData.category}
+                categoryType={`${pageID === PAGE_ID_TRANSACTIONS ? CATEGORY_ID_TRANSACTION : CATEGORY_ID_INCOME}`}
             />
-
-            {/* <div className="w-1/2">
-                
-                <label htmlFor="category" className="block text-sm mb-2 font-medium text-gray-900 dark:text-white">Category*</label>
-
-                <select
-                    id="category"
-                    name="category"
-                    value={transData.category}
-                    onChange={handleChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  >
-                    <option value="" disabled>Select category</option>
-
-                    { categories && categories.map( (cat: ICategory) => (
-                        <>
-                            <option key={cat._id} value={cat.name}>
-                                {cat.name}
-                            </option>
-                        </>
-                    ))}
-
-                </select>
-
-            </div> */}
 
         </div>
 
