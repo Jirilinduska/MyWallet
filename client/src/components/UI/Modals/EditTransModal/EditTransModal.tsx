@@ -60,7 +60,7 @@ const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transactio
         toggleEditModal()
       } catch (error) {
         console.log(error)
-        handleErrMsg(error, setErrMsg)
+        handleErrMsg("Something went wrong", "Něco se pokazilo", setErrMsg, userLangID)
       }
     }
 
@@ -71,7 +71,7 @@ const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transactio
         handleSuccMsg("Updated successfully", "Úspěšně aktualizováno", setSuccMsg, userLangID)
       } catch (error) {
         console.log(error)
-        handleErrMsg(error, setErrMsg)
+        handleErrMsg("Something went wrong", "Něco se pokazilo", setErrMsg, userLangID)
       }
     }
 

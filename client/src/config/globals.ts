@@ -18,3 +18,8 @@ export const PAGE_ID_INCOME = "income"
 // Categories
 export const CATEGORY_ID_INCOME = "income"
 export const CATEGORY_ID_TRANSACTION = "transaction"
+
+
+// UseCase
+export const USE_CASE_EDIT = "EDIT"
+export const USE_CASE_CREATE = "CREATE"

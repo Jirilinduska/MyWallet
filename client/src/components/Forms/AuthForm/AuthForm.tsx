@@ -4,6 +4,7 @@ import { handleLoginUser, handleRegisterUser } from "../../../API/Auth"
 import ButtonLoading from "../../UI/Loaders/ButtonLoading/ButtonLoading"
 import { handleErrMsg } from "../../../utils/functions/handleErrMsg"
 import Input from "../../UI/Input/Input"
+import { LANG_ENGLISH } from "../../../config/globals"
 
 const AuthForm = () => {
 
@@ -12,8 +13,6 @@ const AuthForm = () => {
     const [isLogin, setIsLogin] = useState(true)
     const [errMsg, setErrMsg] = useState("")
     const [loading, setLoading] = useState(false)
-
-    const handleSetErrMsg = (msg: string) => setErrMsg(msg)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -54,7 +53,7 @@ const AuthForm = () => {
                 await handleRegisterUser(formData.userName, formData.email, formData.password)
             }
         } catch (err) {
-            handleErrMsg(err, handleSetErrMsg)
+            handleErrMsg("Something went wrong", "Něco se pokazilo", setErrMsg, LANG_ENGLISH)
         } finally {
             setLoading(false)
         }

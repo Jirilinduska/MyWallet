@@ -76,7 +76,7 @@ const Profile = () => {
             console.log(response)
         } catch (error) {
             console.log(error)
-            handleErrMsg(error, setErrMsg)
+            handleErrMsg("Something went wrong", "Něco se pokazilo", setErrMsg, userLangID)
             handleShowNotif(errMsg, errMsg, setErrMsg, userLangID)
         }
     }

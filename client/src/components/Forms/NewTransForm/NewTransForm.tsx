@@ -11,11 +11,12 @@ import DatePickerElement from "../../UI/DatePicker/DatePickerElement"
 import SelectCategory from "../../UI/SelectCategory/SelectCategory"
 import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
 import { useUserContext } from "../../../context/UserContext"
+import ErrMsg from "../../Notifications/ErrMsg/ErrMsg"
 
 const NewTransForm: React.FC<INewTransForm> = ({ handleHide, pageID, fetchIncomeData, fetchTransData }) => {
 
     // const { categoriesIncome, categoriesTransactions, refreshCategories } = useCategoriesContext()
-    const { refreshUserData, userCurrency } = useUserContext()
+    const { refreshUserData, userCurrency, userLangID } = useUserContext()
 
     const [loading, setLoading] = useState(false)
     const [errMsg, setErrMsg] = useState("")
@@ -38,7 +39,7 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide, pageID, fetchIncome
         if(!userCurrency) refreshUserData()
     }, [] )
 
-    const handleSetErrMsg = (msg: string) => setErrMsg(msg)
+    // const handleSetErrMsg = (msg: string) => setErrMsg(msg)
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target
@@ -84,7 +85,7 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide, pageID, fetchIncome
             handleHide()
         } catch (error) {
             console.log(error)
-            handleErrMsg(error, handleSetErrMsg)
+            handleErrMsg("Something went wrong", "Něco se pokazilo", setErrMsg, userLangID)
         } finally {
             setLoading(false)
         }
@@ -133,7 +134,8 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide, pageID, fetchIncome
           handleSetDate={handleSetDate}  
         />
 
-        <p className="text-red-500 font-bold text-sm">{errMsg}</p>
+        {/* <p className="text-red-500 font-bold text-sm">{errMsg}</p> */}
+        <ErrMsg value={errMsg}/>
 
         { loading 
             ? <ButtonLoading/> 

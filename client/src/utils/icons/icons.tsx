@@ -8,6 +8,8 @@ import { FaPowerOff, FaRegLightbulb } from "react-icons/fa6";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { CiPizza, CiEdit } from "react-icons/ci";
 import { BiSolidDrink } from "react-icons/bi";
+import { AiFillDashboard, AiFillFormatPainter, AiFillGift } from "react-icons/ai";
+import { BsArrowThroughHeart, BsCupHot, BsCurrencyBitcoin, BsExclamationTriangle, BsFillBasket2Fill } from "react-icons/bs";
 
 export {
     IoMdEye as IconEyeShow,
@@ -34,4 +36,12 @@ export {
     FaMoneyBillWave as IconSalary,
     IoIosLaptop as IconLaptop,
     FaRegLightbulb as IconLightbulb,
+    AiFillDashboard as IconCarDashboard,
+    AiFillFormatPainter as IconPainter,
+    AiFillGift as IconGift,
+    BsArrowThroughHeart as IconLove,
+    BsCupHot as IconCoffee,
+    BsCurrencyBitcoin as IconBitcoin,
+    BsExclamationTriangle as IconDanger,
+    BsFillBasket2Fill as IconBasket,
 }

@@ -144,6 +144,7 @@ export interface ICategory {
 }
 
 export interface INewCategory {
+    id: string
     name: string
     iconID: number
     categoryType: string
