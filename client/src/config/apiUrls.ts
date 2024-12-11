@@ -22,6 +22,9 @@ export const URL_UPDATE_TRANSACTION = `${API_BASE_URL}/api/transaction/update`
 export const URL_GET_INCOME = `${API_BASE_URL}/api/income/get-income`
 export const URL_NEW_INCOME = `${API_BASE_URL}/api/income/new-income`
 
+// Overview
+export const URL_GET_OVERVIEW = `${API_BASE_URL}/api/overview/get-overview`
+
 // Category
 export const URL_GET_CATEGORIES = `${API_BASE_URL}/api/category/get-category`
 export const URL_NEW_CATEGORY = `${API_BASE_URL}/api/category/new-category`

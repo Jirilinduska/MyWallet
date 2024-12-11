@@ -1,5 +1,6 @@
 const User = require("../../../models/User")
 const Transaction = require("../../../models/Transaction")
+const { countTotalPrice } = require("../../../libs/countTotalPrice")
 
 
 const getTransaction = async(req,res) => {
@@ -39,7 +40,8 @@ const getTransaction = async(req,res) => {
             }
         ])
 
-        const totalPrice = transactions.reduce((total, transaction) => total + transaction.amount, 0)
+        // const totalPrice = transactions.reduce((total, transaction) => total + transaction.amount, 0)
+        const totalPrice = countTotalPrice(transactions)
 
         // TODO - Propočítat tady total spendings a vrátít je zvlášt poli :) 
 

@@ -11,6 +11,8 @@ import PieGraph from "../../Graphs/PieGraph/PieGraph"
 import { useParams } from "react-router-dom"
 import MonthNavigator from "../../UI/MonthNavigator/MonthNavigator"
 import { handleGetIncomes } from "../../../API/Income"
+import { handleGetMonthName, handleMonthName } from "../../../utils/functions/dateUtils"
+import { formatCurrency } from "../../../utils/functions/formatNumber"
 
 
 const Transactions = () => {
@@ -114,8 +116,8 @@ const Transactions = () => {
         }
     }
 
-    const getMonthName = new Date(date.year, date.month - 1).toLocaleString(userLangID === LANG_CZECH ? "cs-CZ" : "en-US", { month: "long" })
-    const monthName = getMonthName.charAt(0).toUpperCase() + getMonthName.slice(1)
+    const getMonthName = handleGetMonthName(date.year, date.month, userLangID)
+    const monthName = handleMonthName(getMonthName)
 
   return (
     <div className="md:ml-[250px] p-6 min-h-screen">
@@ -163,7 +165,7 @@ const Transactions = () => {
                 {/* // TODO -  Přidat možnost export Data! */}
                 <div className="">
                     <button className="button-blue">Export data</button>
-                    <p className="">{totalPrice} {userCurrency}</p>
+                    <p className="">{formatCurrency(totalPrice, userCurrency)}</p>
                 </div>
             </div>
         )}

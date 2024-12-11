@@ -45,17 +45,17 @@ const Sidebar = () => {
 
                 <Link to="/" className="flex items-center gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out text-white hover:bg-colorGrayHover hover:text-black">
                     <IconHome/>
-                    <span className="">Home</span>
+                    <span className="">{ userLangID === LANG_CZECH ? "Domů" : "Home" }</span>
                 </Link>
 
                 <Link to="/profile" className="flex items-center gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out text-white hover:bg-colorGrayHover hover:text-black">
                     <IconUser/>
-                    <span className="">Profile</span>
+                    <span className="">{ userLangID === LANG_CZECH ? "Profil" : "Profile" }</span>
                 </Link>
 
                 <button onClick={handleLogOut} className="flex items-center w-full gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out text-white hover:bg-colorGrayHover hover:text-black">
                     <IconLogout/>
-                    <span className="">Logout</span>
+                    <span className="">{ userLangID === LANG_CZECH ? "Odhlásit" : "Logout" }</span>
                 </button>
 
             </div>

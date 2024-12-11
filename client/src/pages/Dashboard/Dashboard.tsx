@@ -4,6 +4,7 @@ import { IconClose, IconMenu } from "../../utils/icons/icons"
 import { useParams } from "react-router-dom"
 import Transactions from "../../components/Dashboard/Transactions/Transactions"
 import Categories from "../../components/Dashboard/Categories/Categories"
+import Overview from "../../components/Dashboard/Overview/Overview"
 
 
 const Dashboard = () => {
@@ -26,6 +27,7 @@ const Dashboard = () => {
         { pageID === "transactions" && <Transactions/> }
         { pageID === "income" && <Transactions/> }
         { pageID === "categories" && <Categories/> }
+        { pageID === "overview" && <Overview/> }
 
 
     </section>
