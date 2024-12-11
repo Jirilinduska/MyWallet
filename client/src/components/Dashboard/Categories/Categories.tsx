@@ -5,6 +5,8 @@ import { useCategoriesContext } from "../../../context/CategoriesContext"
 import GridCategories from "../../UI/GridCategories/GridCategories"
 import NotifError from "../../Notifications/NofitError/NotifError"
 import NotifSuccess from "../../Notifications/NotifSuccess/NotifSuccess"
+import SectionTitle from "../../UI/SectionTitle/SectionTitle"
+import { formatLang } from "../../../utils/functions/formatLang"
 
 const Categories = () => {
 
@@ -20,18 +22,19 @@ const Categories = () => {
         setNotifs({...notifs, [key]: msg})
     }
 
-    useEffect(() => {
-        if(!userLangID) refreshUserData()
-    }, [])
+    // useEffect(() => {
+    //     if(!userLangID) refreshUserData()
+    // }, [])
 
     useEffect(() => {
         if(!categoriesIncome || !categoriesTransactions) refreshCategories()
+        if(!userLangID) refreshUserData()
     }, [] )
 
   return (
     <div className="md:ml-[250px] p-6 min-h-screen">
 
-        <h3 className="font-bold text-lg mb-10">{ userLangID === LANG_CZECH ? "Kategorie" : "Categories" }</h3>
+        <SectionTitle value={formatLang(userLangID, "Kategorie", "Categories")}/>
 
         <GridCategories
             categories={categoriesIncome}

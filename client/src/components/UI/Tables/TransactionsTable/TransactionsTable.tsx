@@ -5,6 +5,7 @@ import { ITransaction, ITransactionsTable } from "../../../../utils/interfaces/i
 import { useUserContext } from "../../../../context/UserContext"
 import { useEffect, useState } from "react"
 import { LANG_CZECH } from "../../../../config/globals"
+import "animate.css"
 
 
 // TODO - Upravit classy - smazat nepotřebne
@@ -21,7 +22,7 @@ const TransactionsTable: React.FC<ITransactionsTable> = ({ data }) => {
     }, [])
 
     return (
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-10">
+      <div className="animate-fadeIn relative overflow-x-auto shadow-md sm:rounded-lg my-10">
 
 
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">

@@ -1,6 +1,6 @@
-import { PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
-import { IconNext, IconPrev } from "../../../utils/icons/icons"
-import { IMonthNavigator } from "../../../utils/interfaces/interfaces"
+import { PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../../config/globals"
+import { IconNext, IconPrev } from "../../../../utils/icons/icons"
+import { IMonthNavigator } from "../../../../utils/interfaces/interfaces"
 
 const MonthNavigator: React.FC<IMonthNavigator> = ({ pageID, handlePrevMonth, handleNextMonth, monthName, year, month, fetchTransData, fetchIncomeData  }) => {
   return (

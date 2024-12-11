@@ -1,12 +1,52 @@
 import { ChangeEvent, ReactElement, ReactNode } from "react"
 
 
-// =========== Základní typy ===========
+// * =========== Základní typy ===========
 export interface IString {
     value: string
 }
 
-// =========== Komponenty ===========
+// * =========== Komponenty (Props) ===========
+
+export interface CrateBudgetProps {
+    newBudget: INewBudget
+    setNewBudget: React.Dispatch<React.SetStateAction<INewBudget>>
+}
+
+export interface MonthYearPickerProps {
+    userLangID: string;
+    setNewBudget: React.Dispatch<React.SetStateAction<INewBudget>>
+}
+
+// * =========== Datové struktury ===========
+
+export interface IBudget {
+    _id: string
+    year: number
+    month: number
+    budgetCategories: IBudgetCategories[]
+    totalPricePlanned: number
+}
+
+export interface IBudgetCategories {
+    iconID: number
+    name: string
+    _id: string
+}
+
+export interface INewBudget {
+    month: number,
+    year: number,
+    budgetCategories: INewBudgetCategories[]
+}
+
+export interface INewBudgetCategories {
+    categoryID: string,
+    price: string
+}
+
+
+// ! ===================
 
 export interface IInputSelect{
     value: string

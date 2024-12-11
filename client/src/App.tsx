@@ -6,6 +6,7 @@ import NewUser from './pages/NewUser/NewUser'
 import EmailConfirmed from './pages/EmailConfirmed/EmailConfirmed'
 import Dashboard from './pages/Dashboard/Dashboard'
 import Profile from './pages/Profile/Profile'
+import Planner from './components/Dashboard/Planner/Planner'
 
 const App = () => {
   return (
@@ -49,6 +50,15 @@ const App = () => {
                     <Dashboard/>
                 </PrivateRoute>
               }
+            />
+
+            <Route 
+              path='/dashboard/:pageID/preview-budget/:budgetID' 
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              } 
             />
 
             <Route 

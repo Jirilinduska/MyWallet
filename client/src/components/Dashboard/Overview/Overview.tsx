@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import { useUserContext } from "../../../context/UserContext"
 import { LANG_CZECH } from "../../../config/globals"
-import { IconNext, IconPrev } from "../../../utils/icons/icons"
 import { handleGetOverview } from "../../../API/Overview"
 import { formatCurrency } from "../../../utils/functions/formatNumber"
 import DateNavigator from "../../UI/DateNavigator/DateNavigator"
 import InfoRow from "../../UI/InfoRow/InfoRow"
+import SectionTitle from "../../UI/SectionTitle/SectionTitle"
+import { formatLang } from "../../../utils/functions/formatLang"
 
 const Overview = () => {
 
@@ -55,8 +56,7 @@ const Overview = () => {
   return (
     <div className="md:ml-[250px] p-6 min-h-screen bg-gray-50 text-gray-800">
 
-        {/* // TODO - Vytvořit komponentu na sectionTitle  */}
-        <h3 className="font-semibold mb-10">{ userLangID === LANG_CZECH ? "Přehled" : "Overview" }</h3>
+        <SectionTitle value={formatLang(userLangID, "Přehled", "Overview")}/>
 
         <DateNavigator
             dateValue={year}
@@ -68,7 +68,9 @@ const Overview = () => {
 
         { month === (new Date().getMonth() + 1) && year === new Date().getFullYear() && (
             <div className="mb-10 p-4 bg-white shadow-md rounded-lg">
-                <h3 className="font-bold mb-6 border-b pb-2">{ userLangID === LANG_CZECH ? "Tento měsíc" : "This month" }</h3>
+                <h3 className="font-bold mb-6 border-b pb-2">
+                    { userLangID === LANG_CZECH ? "Tento měsíc" : "This month" }
+                </h3>
         
                 <InfoRow title={userLangID === LANG_CZECH ? "Příjmy" : "Income"} value={formatCurrency(overViewData.monthTotalIncome, userCurrency)} color="text-green-500" />
                 <InfoRow title={userLangID === LANG_CZECH ? "Výdaje" : "Expense"} value={formatCurrency(overViewData.monthTotalExpense, userCurrency)} color="text-red-500" />
@@ -77,7 +79,9 @@ const Overview = () => {
         )}
 
         <div className="mb-10 p-4 bg-white shadow-md rounded-lg">
-            <h3 className="font-bold text-lg mb-10">{ userLangID === LANG_CZECH ? "Tento rok" : "This year" }</h3>
+            <h3 className="font-bold text-lg mb-10">
+                { year === new Date().getFullYear() ? `${userLangID === LANG_CZECH ? `Tento rok (${year})` : `This year (${year})`}` : `(${year})`}
+            </h3>
 
             <InfoRow title={userLangID === LANG_CZECH ? "Příjmy" : "Income"} value={formatCurrency(overViewData.yearTotalIncome, userCurrency)} color="text-green-500" />
             <InfoRow title={userLangID === LANG_CZECH ? "Výdaje" : "Expense"} value={formatCurrency(overViewData.yearTotalExpense, userCurrency)} color="text-red-500" />

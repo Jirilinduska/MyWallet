@@ -2,7 +2,7 @@
 // TODO - Umístit do souboru Interfaces
 export interface IInput {
     labelFor: string
-    labelValue: string
+    labelValue: string | ""
     inputType: string
     placeholder: string
     inputName: string
@@ -14,12 +14,21 @@ const Input: React.FC<IInput> = ({ labelFor, labelValue, inputType, placeholder,
   return (
     <div>
 
-        <label 
+        { labelValue &&  (
+            <label 
+                htmlFor={labelFor} 
+                className="block mb-2 text-sm font-medium dark:text-white"
+            >
+                { labelValue }
+            </label>
+        )}
+
+        {/* <label 
             htmlFor={labelFor} 
             className="block mb-2 text-sm font-medium dark:text-white"
         >
             { labelValue }
-        </label>
+        </label> */}
 
         <input 
             type={inputType} 

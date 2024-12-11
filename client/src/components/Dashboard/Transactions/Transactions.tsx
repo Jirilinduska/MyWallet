@@ -9,10 +9,13 @@ import { useUserContext } from "../../../context/UserContext"
 import { LANG_CZECH, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
 import PieGraph from "../../Graphs/PieGraph/PieGraph"
 import { useParams } from "react-router-dom"
-import MonthNavigator from "../../UI/MonthNavigator/MonthNavigator"
+import MonthNavigator from "../../UI/DateStuff/MonthNavigator/MonthNavigator"
 import { handleGetIncomes } from "../../../API/Income"
-import { handleGetMonthName, handleMonthName } from "../../../utils/functions/dateUtils"
+import { getMonthName } from "../../../utils/functions/dateUtils"
 import { formatCurrency } from "../../../utils/functions/formatNumber"
+import "animate.css"
+import SectionTitle from "../../UI/SectionTitle/SectionTitle"
+import { formatLang } from "../../../utils/functions/formatLang"
 
 
 const Transactions = () => {
@@ -58,6 +61,7 @@ const Transactions = () => {
 
 
     useEffect( () => {
+        console.log(date)
         if(pageID === PAGE_ID_TRANSACTIONS) fetchTransData()
         if(pageID === PAGE_ID_INCOME) fetchIncomeData()
     }, [date, pageID] )
@@ -89,7 +93,7 @@ const Transactions = () => {
         setLoading(true)
         try {
             const response = await handleGetTransactions(date.month, date.year)
-            console.log(response)
+            // console.log(response)
             setTransactions(response.data.transactions)
             setGraphData(response.data.graphData)
             setTotalPrice(response.data.totalPrice)
@@ -116,8 +120,7 @@ const Transactions = () => {
         }
     }
 
-    const getMonthName = handleGetMonthName(date.year, date.month, userLangID)
-    const monthName = handleMonthName(getMonthName)
+    const monthName = getMonthName(date.year, date.month, userLangID)
 
   return (
     <div className="md:ml-[250px] p-6 min-h-screen">
@@ -142,8 +145,8 @@ const Transactions = () => {
         )}
 
         <div className="w-full flex items-center justify-between">
-            { pageID === PAGE_ID_TRANSACTIONS && <h3 className="font-bold text-lg mb-6">{ userLangID === LANG_CZECH ? "Výdaje" : "Transactions" }</h3> }
-            { pageID === PAGE_ID_INCOME && <h3 className="font-bold text-lg mb-6">{ userLangID === LANG_CZECH ? "Příjmy" : "Income" }</h3> }
+            { pageID === PAGE_ID_TRANSACTIONS && <SectionTitle value={formatLang(userLangID, "Výdaje", "Expense")} /> }
+            { pageID === PAGE_ID_INCOME &&       <SectionTitle value={formatLang(userLangID, "Příjmy", "Income")} /> }
             <IconAdd className="icon text-6xl" onClick={ () => setShowNewTrans(true) }/>
         </div>
 

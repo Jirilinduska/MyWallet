@@ -3,6 +3,9 @@ import { ICategory } from "../utils/interfaces/interfaces"
 import { handleGetCategories } from "../API/Categories"
 import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION } from "../config/globals"
 
+
+// TODO - Přida do všech contextů i ostatní funkce :)
+
 interface CategoriesContextProps {
     categoriesIncome: ICategory[]
     categoriesTransactions: ICategory[]

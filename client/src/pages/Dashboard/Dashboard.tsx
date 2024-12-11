@@ -5,12 +5,14 @@ import { useParams } from "react-router-dom"
 import Transactions from "../../components/Dashboard/Transactions/Transactions"
 import Categories from "../../components/Dashboard/Categories/Categories"
 import Overview from "../../components/Dashboard/Overview/Overview"
+import Planner from "../../components/Dashboard/Planner/Planner"
+import OneBudgetPreview from "../../components/OneBudgetPreview/OneBudgetPreview"
 
 
 const Dashboard = () => {
 
     const [showNav, setShowNav] = useState(false)
-    const { pageID } = useParams()
+    const { pageID, budgetID } = useParams()
 
   return (
     <section className="min-h-screen w-full">
@@ -28,6 +30,8 @@ const Dashboard = () => {
         { pageID === "income" && <Transactions/> }
         { pageID === "categories" && <Categories/> }
         { pageID === "overview" && <Overview/> }
+        { pageID === "planner" && !budgetID && <Planner /> }
+        { pageID === "planner" && budgetID && <OneBudgetPreview /> }
 
 
     </section>

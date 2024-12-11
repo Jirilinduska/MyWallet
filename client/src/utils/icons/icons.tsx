@@ -1,8 +1,8 @@
 import { IoMdEye, IoIosEyeOff, IoMdAddCircle, IoIosLaptop } from "react-icons/io"
 import { IoMail, IoCard, IoHome, IoClose } from "react-icons/io5"
-import { MdDashboard, MdCategory } from "react-icons/md";
+import { MdDashboard, MdCategory, MdDeleteForever } from "react-icons/md";
 import { GiMoneyStack, GiTakeMyMoney } from "react-icons/gi";
-import { RiMenu3Line } from "react-icons/ri";
+import { RiMenu3Line, RiArrowGoBackLine } from "react-icons/ri";
 import { FaUserTie, FaSort, FaCar , FaMoneyBillWave, FaPiggyBank } from "react-icons/fa";
 import { FaPowerOff, FaRegLightbulb } from "react-icons/fa6";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
@@ -45,4 +45,6 @@ export {
     BsExclamationTriangle as IconDanger,
     BsFillBasket2Fill as IconBasket,
     FaPiggyBank as IconPiggyBank,
+    RiArrowGoBackLine as IconGoBack,
+    MdDeleteForever as IconDelete,
 }
