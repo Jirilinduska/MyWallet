@@ -1,5 +1,5 @@
 import { IoMdEye, IoIosEyeOff, IoMdAddCircle, IoIosLaptop } from "react-icons/io"
-import { IoMail, IoCard, IoHome, IoClose } from "react-icons/io5"
+import { IoMail, IoCard, IoHome, IoClose, IoCheckmarkSharp } from "react-icons/io5"
 import { MdDashboard, MdCategory, MdDeleteForever } from "react-icons/md";
 import { GiMoneyStack, GiTakeMyMoney } from "react-icons/gi";
 import { RiMenu3Line, RiArrowGoBackLine } from "react-icons/ri";
@@ -47,4 +47,5 @@ export {
     FaPiggyBank as IconPiggyBank,
     RiArrowGoBackLine as IconGoBack,
     MdDeleteForever as IconDelete,
+    IoCheckmarkSharp as IconSave,
 }

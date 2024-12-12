@@ -1,5 +1,6 @@
 const User = require("../../../models/User")
 const Transaction = require("../../../models/Transaction")
+const Budget = require("../../../models/Budget")
 const { countTotalPrice } = require("../../../libs/countTotalPrice")
 
 
@@ -21,7 +22,11 @@ const getOverview = async(req,res) => {
         const incomeThisMonth  = await Transaction.find({ year: year, month: month, createdBy: user._id, transCategory: "income" })
 
         // TODO - Budget
-        // const budgetThisMonth = 
+        const budgetThisMonth = await Budget.find({ year: year, month: month, createdBy: user._id })
+
+        const monthBudget = budgetThisMonth.length > 0
+            ? budgetThisMonth[0]?.budgetCategories.reduce((total, oneCat) => { return total + oneCat.price }, 0)
+            : 0
 
         // const yearTotalExpense = countTotalPrice(expense)
         const yearTotalExpense = expense.reduce((total, transaction) => total + transaction.amount, 0)
@@ -32,6 +37,7 @@ const getOverview = async(req,res) => {
         const monthTotalIncome = countTotalPrice(incomeThisMonth)
         const savedThisMonth = monthTotalIncome - monthTotalExpense
 
+
         // TODO - tento mesic data pro graf
 
         const result = {
@@ -40,7 +46,8 @@ const getOverview = async(req,res) => {
             savedThisYear,
             monthTotalExpense,
             monthTotalIncome,
-            savedThisMonth
+            savedThisMonth,
+            monthBudget
         }
 
         return res.status(200).json(result)

@@ -35,3 +35,4 @@ export const URL_DELETE_CATEGORY = `${API_BASE_URL}/api/category/delete-category
 export const URL_NEW_BUDGET = `${API_BASE_URL}/api/budget/new-budget`
 export const URL_GET_BUDGET = `${API_BASE_URL}/api/budget/get-budget`
 export const URL_DELETE_BUDGET = `${API_BASE_URL}/api/budget/delete-budget`
+export const URL_UPDATE_BUDGET = `${API_BASE_URL}/api/budget/update-budget`

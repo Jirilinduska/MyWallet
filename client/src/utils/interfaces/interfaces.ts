@@ -20,6 +20,25 @@ export interface MonthYearPickerProps {
 
 // * =========== Datové struktury ===========
 
+
+export interface IGetBudgetCategories {
+    category: {
+        _id: string
+        name: string
+        iconID: number
+    }
+    price: number
+}
+
+export interface IGetBudget {
+    budgetCategories: IGetBudgetCategories[]
+    month: number
+    year: number
+    totalPricePlanned: number
+    _id: string
+}
+
+
 export interface IBudget {
     _id: string
     year: number

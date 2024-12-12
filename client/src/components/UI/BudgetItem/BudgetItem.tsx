@@ -3,12 +3,13 @@ import { useUserContext } from "../../../context/UserContext"
 import { getMonthName } from "../../../utils/functions/dateUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { formatCurrency } from "../../../utils/functions/formatNumber"
-import { IBudget } from "../../../utils/interfaces/interfaces"
+import { IGetBudget } from "../../../utils/interfaces/interfaces"
 import { useEffect } from "react"
 
+// TODO - Změnit UI!
 
 export interface BudgetItemProps {
-    budgetData: IBudget
+    budgetData: IGetBudget
 }
 
 const BudgetItem = ({ budgetData } : BudgetItemProps ) => {
@@ -22,18 +23,18 @@ const BudgetItem = ({ budgetData } : BudgetItemProps ) => {
     }, [])
 
   return (
-    <div className="ring-2 ring-black p-4" key={budgetData._id}>
+    <Link to={`/dashboard/planner/preview-budget/${budgetData._id}`}  className="w-[250px] p-4 rounded-md cursor-pointer bg-white shadow hover:shadow-lg hover:bg-gray-100" key={budgetData._id}>
         
-        <h3 className="mb-4">{`${monthName} (${budgetData.year})`}</h3>
+        <h3 className="mb-4 font-semibold">{`${monthName} (${budgetData.year})`}</h3>
 
-        <div className="flex items-center justify-center gap-2 mb-4">
+        <div className="flex items-center justify-start gap-2 mb-4">
             <p className="">{formatLang(userLangID, "Naplánováno", "Planned")}</p>
             <span className="">{formatCurrency(budgetData.totalPricePlanned, userCurrency)}</span>
         </div>
 
-        <Link to={`/dashboard/planner/preview-budget/${budgetData._id}`} className="text-colorBlue underline underline-offset-2">{formatLang(userLangID, "Detail", "Detail")}</Link>
+        <p className="text-colorBlue underline underline-offset-2">{formatLang(userLangID, "Detail", "Detail")}</p>
 
-    </div>
+    </Link>
   )
 }
 

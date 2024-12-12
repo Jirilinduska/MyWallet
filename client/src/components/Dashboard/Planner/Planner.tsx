@@ -96,7 +96,8 @@ const Planner = () => {
 
         <SectionTitle value={formatLang(userLangID, "Plánovač výdajů", "Budget planner")} />
 
-        { budgets.length > 0 && <BudgetOverview budgets={budgets} /> }
+        { budgets.length > 0 && stage === 0 && <BudgetOverview budgets={budgets} /> }
+        { budgets.length === 0 && stage === 0 && <div className="">No budgets found</div> }
 
         {/* // Vytvořit nový plán */}
         { stage === 0 && (

@@ -21,6 +21,7 @@ const Overview = () => {
         monthTotalExpense: 0,
         monthTotalIncome: 0,
         savedThisMonth: 0,
+        monthBudget: 0
     })
 
 
@@ -75,6 +76,7 @@ const Overview = () => {
                 <InfoRow title={userLangID === LANG_CZECH ? "Příjmy" : "Income"} value={formatCurrency(overViewData.monthTotalIncome, userCurrency)} color="text-green-500" />
                 <InfoRow title={userLangID === LANG_CZECH ? "Výdaje" : "Expense"} value={formatCurrency(overViewData.monthTotalExpense, userCurrency)} color="text-red-500" />
                 <InfoRow title={userLangID === LANG_CZECH ? "Ušetřeno" : "Saved"} value={formatCurrency(overViewData.savedThisMonth, userCurrency)} color="text-blue-500" />
+                <InfoRow title={userLangID === LANG_CZECH ? "Plánovaná útrata" : "Planned expense"} value={formatCurrency(overViewData.monthBudget, userCurrency)} color="text-orange-500" />
             </div>
         )}
 

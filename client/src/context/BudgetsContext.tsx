@@ -1,13 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { IBudget, INewBudget } from "../utils/interfaces/interfaces"
-import { handleCreateBudget, handleDeleteBudget, handleGetBudget } from "../API/Budget"
+import { IBudget, IGetBudget, INewBudget } from "../utils/interfaces/interfaces"
+import { handleCreateBudget, handleDeleteBudget, handleGetBudget, handleUpdateBudget } from "../API/Budget"
 
 
 interface BudgetContextProps {
-    budgets: IBudget[]
+    budgets: IGetBudget[]
     refreshBudgets: () => void
     createBudget: (newBudget: INewBudget) => void
     deleteBudget: (budgetID: string) => void
+    updateBudget: (newBudget: IGetBudget) => void
 }
 
 
@@ -15,7 +16,7 @@ export const BudgetContext = createContext<BudgetContextProps | undefined>(undef
 
 export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
-    const [budgets, setBudgets] = useState<IBudget[]>([])
+    const [budgets, setBudgets] = useState<IGetBudget[]>([])
 
 
     // GET  - Get all budgets
@@ -46,13 +47,22 @@ export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         }
     }
 
+    // TODO - Post - Update budget
+    const updateBudget = async(newBudget: IGetBudget) => {
+        try {
+            await handleUpdateBudget(newBudget)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         refreshBudgets()
     }, [] )
 
 
     return(
-        <BudgetContext.Provider value={{ budgets, refreshBudgets, createBudget, deleteBudget }}>
+        <BudgetContext.Provider value={{ budgets, refreshBudgets, createBudget, deleteBudget, updateBudget }}>
             { children }
         </BudgetContext.Provider>
     )
