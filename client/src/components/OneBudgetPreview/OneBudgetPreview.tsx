@@ -67,8 +67,22 @@ const OneBudgetPreview = () => {
       price: 0
     }
 
-    setThisBudget( (prev) => prev ? { ...prev, budgetCategories: [...prev.budgetCategories, newCatData], } : null)
-    await handleUpdatePlan()
+    try {
+      if(thisBudget) {
+        const updateData = {
+          _id: thisBudget._id,
+          budgetCategories: [ ...thisBudget.budgetCategories, newCatData ],
+          month: thisBudget.month,
+          year: thisBudget.year,
+          totalPricePlanned: 0
+        }
+
+        await updateBudget(updateData)
+        await refreshBudgets()
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handlePriceChange = (categoryID: string, newPrice: string) => {
