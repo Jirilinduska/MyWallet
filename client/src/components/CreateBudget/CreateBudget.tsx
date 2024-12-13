@@ -51,9 +51,9 @@ const CreateBudget = ({ newBudget, setNewBudget } : CrateBudgetProps) => {
     }
 
   return (
-    <div className="my-10">
+    <div className="my-10 h-[50vh] overflow-y-auto">
 
-        <div className="">
+        <div className="p-2">
             {categories.length && categories.map((x) => {
 
                 const iconObject = categoryIcons.find( (icon) => icon.id === x.iconID)
@@ -62,7 +62,7 @@ const CreateBudget = ({ newBudget, setNewBudget } : CrateBudgetProps) => {
                 return (
                     <div
                         key={x._id}
-                        className={`${ isCategoryInArray(x._id) ? "ring-green-500 ring-2" : "ring-0" } flex items-center justify-between gap-4 p-4 rounded-md cursor-pointer mb-2 bg-white shadow hover:shadow-lg hover:bg-gray-100`}
+                        className={`${ isCategoryInArray(x._id) ? "ring-green-500 ring-2" : "ring-0" } flex items-center justify-between gap-4 p-4 rounded-md mb-2 bg-white shadow hover:shadow-lg hover:bg-gray-100`}
                     >
                         <div className="flex items-center justify-between gap-4">
                             <span className="text-sm sm:text-xl lg:text-2xl text-colorBlue">{iconJSX}</span>

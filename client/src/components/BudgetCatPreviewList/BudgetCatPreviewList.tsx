@@ -23,7 +23,7 @@ const BudgetCatPreviewList = ({
 
 } : BudgetCatPreviewListProps) => {
   return (
-    <div>
+    <div className="h-[50vh] overflow-y-auto p-2">
         { budgetCategories.length > 0 && budgetCategories.map((x) => {
     
             const iconObject = x?.category?.iconID ? categoryIcons.find((icon) => icon.id === x.category.iconID) : null

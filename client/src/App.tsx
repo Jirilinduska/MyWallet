@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import Home from './pages/Home/Home'
 import PrivateRoute from './pages/PrivateRoute/PrivateRoute'
 import WelcomeBack from './pages/WelcomeBack/WelcomeBack'
@@ -16,50 +18,16 @@ const App = () => {
             <Route path='/' element={<Home/>}/>
 
             {/* Private */}
-            <Route 
-              path='/welcome-back'
-              element={
-                <PrivateRoute>
-                    <WelcomeBack/>
-                </PrivateRoute>
-              }
-            />
+            <Route path='/welcome-back' element={ <PrivateRoute> <WelcomeBack/> </PrivateRoute> } />
 
-            <Route 
-              path='/new-user'
-              element={
-                <PrivateRoute>
-                    <NewUser/>
-                </PrivateRoute>
-              }
-            />
+            <Route path='/new-user' element={ <PrivateRoute> <NewUser/> </PrivateRoute> } />
 
-            <Route 
-              path='/email-confirmed'
-              element={
-                <PrivateRoute>
-                    <EmailConfirmed/>
-                </PrivateRoute>
-              }
-            />
+            <Route path='/email-confirmed' element={ <PrivateRoute> <EmailConfirmed/> </PrivateRoute> } />
 
-            <Route 
-              path='/dashboard/:pageID'
-              element={
-                <PrivateRoute>
-                    <Dashboard/>
-                </PrivateRoute>
-              }
-            />
+            <Route path='/dashboard/:pageID' element={ <PrivateRoute> <Dashboard/> </PrivateRoute> } />
+            <Route path='/dashboard/:pageID/preview-budget/:budgetID'  element={ <PrivateRoute> <Dashboard/> </PrivateRoute> } />
+            <Route path='/dashboard/planner/create-budget' element={ <PrivateRoute> <Dashboard/> </PrivateRoute> } />
 
-            <Route 
-              path='/dashboard/:pageID/preview-budget/:budgetID' 
-              element={
-                <PrivateRoute>
-                  <Dashboard />
-                </PrivateRoute>
-              } 
-            />
 
             <Route 
               path='/profile'
@@ -69,10 +37,25 @@ const App = () => {
                 </PrivateRoute>
               }
             />
-
-
+          
 
         </Routes>
+
+
+        <ToastContainer 
+            position="top-right" 
+            autoClose={3000} 
+            hideProgressBar={false} 
+            newestOnTop={true} 
+            closeOnClick 
+            rtl={false} 
+            pauseOnFocusLoss 
+            draggable 
+            pauseOnHover 
+            theme="colored" 
+          />
+
+
     </Router>
   )
 }

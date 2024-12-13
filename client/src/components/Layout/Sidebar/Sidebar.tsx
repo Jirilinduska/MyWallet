@@ -1,10 +1,10 @@
 import { Link, useParams } from "react-router-dom"
 import { sidebarData } from "../../../utils/data/sidebar-dara"
 import { IconHome, IconLogout, IconUser } from "../../../utils/icons/icons"
-import { handleLogOut } from "../../../utils/functions/handleLogOut"
 import { useUserContext } from "../../../context/UserContext"
 import { useEffect } from "react"
 import { LANG_CZECH } from "../../../config/globals"
+import { handleLogoutUser } from "../../../API/Auth"
 
 // TODO Dokončit reponsivitu!
 
@@ -53,7 +53,7 @@ const Sidebar = () => {
                     <span className="">{ userLangID === LANG_CZECH ? "Profil" : "Profile" }</span>
                 </Link>
 
-                <button onClick={handleLogOut} className="flex items-center w-full gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out text-white hover:bg-colorGrayHover hover:text-black">
+                <button onClick={handleLogoutUser} className="flex items-center w-full gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out text-white hover:bg-colorGrayHover hover:text-black">
                     <IconLogout/>
                     <span className="">{ userLangID === LANG_CZECH ? "Odhlásit" : "Logout" }</span>
                 </button>

@@ -23,3 +23,10 @@ export const CATEGORY_ID_TRANSACTION = "transaction"
 // UseCase
 export const USE_CASE_EDIT = "EDIT"
 export const USE_CASE_CREATE = "CREATE"
+
+
+// Notifications
+export const NOTIF_SUCCESS = "success"
+export const NOTIF_ERROR = "error"
+export const NOTIF_INFO = "info"
+export const NOTIF_WARN = "warn"

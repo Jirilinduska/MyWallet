@@ -1,7 +1,7 @@
 import { useState } from "react"
 import Sidebar from "../../components/Layout/Sidebar/Sidebar"
 import { IconClose, IconMenu } from "../../utils/icons/icons"
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import Transactions from "../../components/Dashboard/Transactions/Transactions"
 import Categories from "../../components/Dashboard/Categories/Categories"
 import Overview from "../../components/Dashboard/Overview/Overview"
@@ -12,6 +12,7 @@ import OneBudgetPreview from "../../components/OneBudgetPreview/OneBudgetPreview
 const Dashboard = () => {
 
     const [showNav, setShowNav] = useState(false)
+
     const { pageID, budgetID } = useParams()
 
   return (

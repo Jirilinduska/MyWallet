@@ -6,6 +6,7 @@ import { ICategory, IGetBudgetCategories } from "../../../../utils/interfaces/in
 import { useCategoriesContext } from "../../../../context/CategoriesContext"
 import { categoryIcons } from "../../../../utils/icons/category-icons"
 import Button from "../../Button/Button"
+import { Link } from "react-router-dom"
 
 interface NewBudgetCatModalProps {
     toggleWantNewCat: () => void
@@ -37,14 +38,30 @@ const NewBudgetCatModal = ({ toggleWantNewCat, budgetCategories, handleAddCatCli
 
         <div className="relative p-4 w-full max-w-md max-h-full">
 
-            <div className="relative rounded-lg shadow bg-gray-700">
+            <div className="relative rounded-lg shadow bg-gray-700 pb-4">
 
+                {/* Modal header */}
                 <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
                     <h3 className="text-lg font-semibold text-white">{formatLang(userLangID, "Přidat kategorii", "Add category")}</h3>
                     <IconClose onClick={toggleWantNewCat} className="icon"/>
                 </div>
 
-                <div className="p-4">
+                <div className="p-4 h-[70vh] md:h-[60vh] lg:h-[50vh] overflow-y-auto">
+
+                    {/* // Pokud jsou všechny kategorie již použity. */}
+                    { categories.length === 0 && (
+                        <div className="flex items-center justify-center gap-4 flex-col h-full">
+                            <p className="text-white">{formatLang(userLangID, "Všechny vaše kategorie jsou již součástí rozpočtu", "All your categories are already part of the budget")}</p>
+                            <Link 
+                                to="/dashboard/categories"
+                                className="button-blue"
+                            >
+                                {formatLang(userLangID, "Vytvořit novou kategorii", "Create new category")}
+                            </Link>
+                        </div>
+                    )}
+
+                    {/* // Kategori, které uživatel ještě nepřidal do tohoto budgetu. */}
                     { categories.length > 0 && categories.map((x) => {
 
                         const iconJSX = categoryIcons.find( (icon) => icon.id === x.iconID )?.iconJSX
@@ -62,9 +79,9 @@ const NewBudgetCatModal = ({ toggleWantNewCat, budgetCategories, handleAddCatCli
                         )
                     })}
 
-                    <Button buttonValue={formatLang(userLangID, "Zavřít", "Close")} className='button-blue w-1/2 mx-auto block mt-6' handleClick={toggleWantNewCat}/>
-
                 </div>
+
+                <Button buttonValue={formatLang(userLangID, "Zavřít", "Close")} className='button-blue w-1/2 mx-auto block mt-6' handleClick={toggleWantNewCat}/>
 
             </div>
 

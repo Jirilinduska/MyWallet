@@ -2,16 +2,15 @@ import { useState } from "react"
 import { IconEyeHide, IconEyeShow } from "../../../utils/icons/icons"
 import { handleLoginUser, handleRegisterUser } from "../../../API/Auth"
 import ButtonLoading from "../../UI/Loaders/ButtonLoading/ButtonLoading"
-import { handleErrMsg } from "../../../utils/functions/handleErrMsg"
 import Input from "../../UI/Input/Input"
-import { LANG_ENGLISH } from "../../../config/globals"
+import { NOTIF_ERROR } from "../../../config/globals"
+import { handleNotification } from "../../../utils/functions/notificationsUtils"
 
 const AuthForm = () => {
 
     const [formData, setFormData] = useState({ userName: "", email: "", password: "" })
     const [showPass, setShowPass] = useState(false)
     const [isLogin, setIsLogin] = useState(true)
-    const [errMsg, setErrMsg] = useState("")
     const [loading, setLoading] = useState(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,41 +18,42 @@ const AuthForm = () => {
         setFormData( (prev) => ({...prev, [name]: value}) )
     }
 
-    const toggleLogin = () => {
-        setIsLogin( (prev) => (!prev))
-        setErrMsg("")
-    }
+    const toggleLogin = () => setIsLogin( (prev) => (!prev))
+    
 
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault()
-        setErrMsg("")
         setLoading(true)
 
         try {
+            
+            if(!formData.email) {
+                handleNotification(NOTIF_ERROR, "", "Prosím vyplňte heslo", "Please enter your email")
+                setLoading(false)
+                return
+            }
+
+            if(!formData.password) {
+                handleNotification(NOTIF_ERROR, "", "Prosím vyplňte heslo", "Please enter your password")
+                setLoading(false)
+                return
+            }
+
             if(isLogin) {
                 // Login user
-                if(!formData.password) {
-                    setErrMsg("Please fill your password")
-                    setLoading(false)
-                    return
-                }
                 await handleLoginUser(formData.email, formData.password)
             } else {
                 // Register user
                 if(!formData.userName) {
-                    setErrMsg("Please fill your username")
-                    setLoading(false)
-                    return
-                }
-                if(!formData.password) {
-                    setErrMsg("Please fill your password")
+                    // setErrMsg("Please fill your username")
+                    handleNotification(NOTIF_ERROR, "", "Prosím vyplňte jméno", "Please enter your username")
                     setLoading(false)
                     return
                 }
                 await handleRegisterUser(formData.userName, formData.email, formData.password)
             }
         } catch (err) {
-            handleErrMsg("Something went wrong", "Něco se pokazilo", setErrMsg, LANG_ENGLISH)
+            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
         } finally {
             setLoading(false)
         }
@@ -69,8 +69,6 @@ const AuthForm = () => {
         <h3 className="font-bold text-white mb-10 text-xl">
             { isLogin ? "Login now" : "Register now" }
         </h3>
-
-        { errMsg && <p className="text-red-500 text-sm font-bold mb-6">{errMsg}</p> }
 
 
         { !isLogin && (

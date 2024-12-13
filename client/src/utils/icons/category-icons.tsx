@@ -1,4 +1,4 @@
-import { IconBasket, IconBitcoin, IconCar, IconCarDashboard, IconCoffee, IconDanger, IconDrink, IconGift, IconHome, IconLaptop, IconLightbulb, IconLove, IconPainter, IconPizza, IconSalary } from "./icons"
+import { IconBasket, IconBitcoin, IconCar, IconCarDashboard, IconCoffee, IconDanger, IconDrink, IconEdit, IconEyeShow, IconGift, IconHome, IconLaptop, IconLightbulb, IconLove, IconPainter, IconPizza, IconSalary } from "./icons"
 
 export const categoryIcons = [
 
@@ -17,4 +17,6 @@ export const categoryIcons = [
     { id: 13, iconJSX: <IconBitcoin/> }, 
     { id: 14, iconJSX: <IconDanger/> }, 
     { id: 15, iconJSX: <IconBasket/> }, 
+    { id: 16, iconJSX: <IconEdit/> }, 
+    { id: 17, iconJSX: <IconEyeShow/> }, 
 ]

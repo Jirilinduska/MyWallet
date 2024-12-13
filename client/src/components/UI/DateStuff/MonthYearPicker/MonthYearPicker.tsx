@@ -25,7 +25,7 @@ const MonthYearPicker = ({ userLangID, setNewBudget }: MonthYearPickerProps) => 
     };
 
     return (
-        <div className="w-full h-96 flex flex-col justify-center items-center">
+        <div className="w-full h-[50vh] p-2 overflow-y-auto flex flex-col justify-center items-center">
 
             <SectionTitle value={formatLang(userLangID, "Vyberte měsíc", "Select month")}/>
 

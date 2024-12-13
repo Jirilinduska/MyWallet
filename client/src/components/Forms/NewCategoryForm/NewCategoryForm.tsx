@@ -1,17 +1,15 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import Input from "../../UI/Input/Input"
 import SelectCategoryType from "../../UI/SelectCategoryType/SelectCategoryType"
-import { LANG_CZECH, LANG_ENGLISH, USE_CASE_CREATE, USE_CASE_EDIT } from "../../../config/globals"
+import { NOTIF_ERROR, NOTIF_INFO, NOTIF_SUCCESS, USE_CASE_CREATE, USE_CASE_EDIT } from "../../../config/globals"
 import { categoryIcons } from "../../../utils/icons/category-icons"
 import AvatarIcon from "../../UI/AvatarIcon/AvatarIcon"
 import { handleDeleteCategory, handleNewCategory, handleUpdateCategory } from "../../../API/Categories"
 import { ICategory } from "../../../utils/interfaces/interfaces"
 import { useCategoriesContext } from "../../../context/CategoriesContext"
-import SuccMsg from "../../Notifications/SuccMsg/SuccMsg"
-import { handleSuccMsg } from "../../../utils/functions/handleSuccMsg"
 import { useUserContext } from "../../../context/UserContext"
-import { handleErrMsg } from "../../../utils/functions/handleErrMsg"
-import ErrMsg from "../../Notifications/ErrMsg/ErrMsg"
+import { handleNotification } from "../../../utils/functions/notificationsUtils"
+import { formatLang } from "../../../utils/functions/formatLang"
 
 export interface INewCategoryForm {
     categoryType: string
@@ -35,8 +33,6 @@ const NewCategoryForm: React.FC<INewCategoryForm> = ({ categoryType, langID, use
     })
     const [selectedIcon, setSelectedIcon] = useState(0)
     const [isEdited, setIsEdited] = useState(false)
-    const [errMsg, setErrMsg] = useState("")
-    const [succMsg, setSuccMsg] = useState("")
     const [wantDelete, setWantDelete] = useState(false)
 
     useEffect(() => {
@@ -52,10 +48,8 @@ const NewCategoryForm: React.FC<INewCategoryForm> = ({ categoryType, langID, use
         }
     }, [useCase] )
 
-    const toggleWantDelete = () => {
-        console.log(newCategory)
-        setWantDelete(!wantDelete)
-    }
+    const toggleWantDelete = () => setWantDelete(!wantDelete)
+    
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target
@@ -77,54 +71,49 @@ const NewCategoryForm: React.FC<INewCategoryForm> = ({ categoryType, langID, use
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        setErrMsg("")
-        setSuccMsg("")
 
         if(!newCategory.name) {
-            handleErrMsg("Please fill in category name", "Prosím vyplňtne název kategorie", setErrMsg, userLangID)
+            handleNotification(NOTIF_ERROR, userLangID, "Prosím vyplňte název kategorie", "Please enter category name")
             return
         }
 
         if(!newCategory.iconID) {
-            handleErrMsg("Please select icon", "Prosím vyberte ikonku", setErrMsg, userLangID)
+            handleNotification(NOTIF_ERROR, userLangID, "Prosím vyberte ikonku", "Please select an icon")
             return
         }
 
         try {
             if(useCase === USE_CASE_CREATE) {
-                const response = await handleNewCategory(newCategory)
+                await handleNewCategory(newCategory)
                 refreshCategories()
+                handleNotification(NOTIF_SUCCESS, userLangID, `Kategorie: ${newCategory.name} vytvořena`, `Category: ${newCategory.name} created`)
                 toggleModal()
-                if(userLangID === LANG_CZECH)   handleSetNotif("succ", "Kategorie vytvořena")
-                if(userLangID === LANG_ENGLISH) handleSetNotif("succ", "Category created")
             }
             if(useCase === USE_CASE_EDIT) {
-                const response = await handleUpdateCategory(newCategory)
-                handleSuccMsg("Category updated", "Změny uloženy", setSuccMsg, userLangID)
+                await handleUpdateCategory(newCategory)
                 refreshCategories()
+                handleNotification(NOTIF_SUCCESS, userLangID, "Změny byly úspěšně uloženy", "Changes have been successfully saved")
+                toggleModal()
             }
         } catch (error) {
             console.log(error)
-            if(userLangID === LANG_CZECH)   handleSetNotif("err", "Něco se pokazilo")
-            if(userLangID === LANG_ENGLISH) handleSetNotif("err", "Something went wrong")
+            handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
         }
     }
 
-    // TODO - Dokončit
-    const handleDelete = async() => {
 
+    const handleDelete = async() => {
         try {
+            // TODO - Tady je problém, maže to jiné kategori :) 
             const response = await handleDeleteCategory(newCategory.id)
             console.log(response)
             refreshCategories()
             toggleModal()
-            if(userLangID === LANG_CZECH)   handleSetNotif("succ", "Kategorie odstraněna")
-            if(userLangID === LANG_ENGLISH) handleSetNotif("succ", "Category deleted")
+            handleNotification(NOTIF_INFO, userLangID, `Kategorie: ${newCategory.name} byla odstraněna.`, `Category: ${newCategory.name} has been deleted.`)
         } catch (error) {
             console.log(error)
             toggleModal()
-            if(userLangID === LANG_CZECH)   handleSetNotif("err", "Něco se pokazilo")
-            if(userLangID === LANG_ENGLISH) handleSetNotif("err", "Something went wrong")
+            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
 
         }
     }
@@ -139,7 +128,7 @@ const NewCategoryForm: React.FC<INewCategoryForm> = ({ categoryType, langID, use
             inputName="name"
             inputType="text"
             labelFor="name"
-            labelValue={`${ langID === LANG_CZECH ? "Název kategorie*" : "Category name*" }`}
+            labelValue={formatLang(langID, "Název kategorie*", "Category name*")}
             onChange={handleInputChange}
             placeholder="Food"
             value={newCategory.name}
@@ -151,7 +140,7 @@ const NewCategoryForm: React.FC<INewCategoryForm> = ({ categoryType, langID, use
         />
 
         {/* Select icon for categoryType */}
-        <h3 className="block text-sm mb-4 font-medium text-white">{ langID === LANG_CZECH ? "Vyberte ikonku*" : "Select icon*" }</h3>
+        <h3 className="block text-sm mb-4 font-medium text-white">{formatLang(langID, "Vyberte ikonku*", "Select icon*")}</h3>
 
         <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
             { categoryIcons && categoryIcons.map( (x) => {
@@ -165,9 +154,6 @@ const NewCategoryForm: React.FC<INewCategoryForm> = ({ categoryType, langID, use
             })}
         </div>
 
-        <SuccMsg value={succMsg} />
-        <ErrMsg value={errMsg} />
-
         <input 
             type="submit" 
             disabled={ useCase === USE_CASE_EDIT && !isEdited ? true : false}
@@ -178,7 +164,7 @@ const NewCategoryForm: React.FC<INewCategoryForm> = ({ categoryType, langID, use
                         ? "button-green" 
                         : "bg-colorGrayHover hover:bg-colorGrayHover button-green" 
             } w-full mt-6`}            
-            value={ langID === LANG_CZECH ? "Uložit" : "Save" } 
+            value={formatLang(langID, "Uložit", "Save")} 
         />
 
         { useCase === USE_CASE_EDIT && (
@@ -187,7 +173,7 @@ const NewCategoryForm: React.FC<INewCategoryForm> = ({ categoryType, langID, use
                 type="button" 
                 onClick={handleDelete}
             >
-                { langID === LANG_CZECH ? "Smazat kategorii" : "Delete category" }
+                {formatLang(langID, "Smazat kategorii", "Delete category")}
             </button>
         )}
 

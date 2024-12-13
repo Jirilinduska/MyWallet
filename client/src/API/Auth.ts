@@ -21,3 +21,8 @@ export const handleRegisterUser = async(userName: string, email: string, passwor
 
     return response
 }
+
+export const handleLogoutUser = () => {
+    localStorage.removeItem("token")
+    window.location.href = "/"
+}

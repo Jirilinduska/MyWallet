@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import "animate.css"
 import BudgetCatPreviewList from "../BudgetCatPreviewList/BudgetCatPreviewList"
 import NewBudgetCatModal from "../UI/Modals/NewBudgetCatModal/NewBudgetCatModal"
+import { handleNotification } from "../../utils/functions/notificationsUtils"
+import { NOTIF_ERROR, NOTIF_SUCCESS } from "../../config/globals"
 
 const OneBudgetPreview = () => {
 
@@ -56,6 +58,7 @@ const OneBudgetPreview = () => {
       setCategoryWantDelete("")
   }
 
+  // HOTOVO 
   const handleAddCatClick = async(cat: ICategory) => {
 
     const newCatData = {
@@ -103,13 +106,20 @@ const OneBudgetPreview = () => {
   
   // HOTOVO 
   const handleDeletePlan = async() => {
+
     if(thisBudget) {
       try {
         await deleteBudget(thisBudget?._id)
         await refreshBudgets()
         navigate("/dashboard/planner")
+        handleNotification(
+          NOTIF_SUCCESS, 
+          userLangID, 
+          `Plán: ${getMonthName(thisBudget.year, thisBudget.month, userLangID)} (${thisBudget.year}) úspěšně odstraněn`,
+          `Budget: ${getMonthName(thisBudget.year, thisBudget.month, userLangID)} (${thisBudget.year}) successfully deleted`
+        )
       } catch (error) {
-        console.log(error)
+        handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
       }
     }
   }
@@ -137,9 +147,11 @@ const OneBudgetPreview = () => {
         console.log("Updating thisBudget:", thisBudget)
         await updateBudget(updateData)
         await refreshBudgets()
+        // TODO notifikace
         closeWantDeleteCategory()
+        handleNotification(NOTIF_SUCCESS, userLangID, `Uloženo`, `Saved`)
       } catch (error) {
-        console.log("Error updating budget:", error)
+        handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
       }
 
     }
@@ -150,8 +162,6 @@ const OneBudgetPreview = () => {
   if (!thisBudget || !thisBudget.budgetCategories) {
     return <div>Loading...</div>; // Nebo jiný placeholder, pokud data ještě nejsou dostupná
   }
-
-  if(thisBudget.budgetCategories.length === 0) return <div className="md:ml-[250px] p-6 min-h-screen">This budget has no categories yet!</div>
 
  
   return (
@@ -204,18 +214,22 @@ const OneBudgetPreview = () => {
           <IconAdd className="icon mb-10 text-4xl" onClick={toggleWantNewCat}/>
         </div>
 
-        <BudgetCatPreviewList
-          budgetCategories={thisBudget.budgetCategories}
-          wantEdit={wantEdit}
-          categoryWantDelete={categoryWantDelete}
-          userCurrency={userCurrency}
-          toggleWantDeleteCat={toggleWantDeleteCat}
-          setCategoryWantDelete={setCategoryWantDelete}
-          handlePriceChange={handlePriceChange}
-          setWantEdit={setWantEdit}
-          handleUpdatePlan={handleUpdatePlan}
-        />
+        { thisBudget.budgetCategories.length === 0 
 
+          ? <p className="text-center">{formatLang(userLangID, "Tento plán nemá zatím žádné kategorie", "This budget has no categories yet")}</p>
+          
+          : <BudgetCatPreviewList
+              budgetCategories={thisBudget.budgetCategories}
+              wantEdit={wantEdit}
+              categoryWantDelete={categoryWantDelete}
+              userCurrency={userCurrency}
+              toggleWantDeleteCat={toggleWantDeleteCat}
+              setCategoryWantDelete={setCategoryWantDelete}
+              handlePriceChange={handlePriceChange}
+              setWantEdit={setWantEdit}
+              handleUpdatePlan={handleUpdatePlan}
+            />
+        }
   </div>
 )}
 

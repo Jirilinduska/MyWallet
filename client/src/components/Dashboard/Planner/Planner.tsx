@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react"
 import { useUserContext } from "../../../context/UserContext"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
-
-
-// TODO - FormatLang používat všude :) + formatCurrency také
 import { formatLang } from "../../../utils/functions/formatLang"
 import MonthYearPicker from "../../UI/DateStuff/MonthYearPicker/MonthYearPicker"
 import CreateBudget from "../../CreateBudget/CreateBudget"
@@ -11,35 +8,25 @@ import { IconClose } from "../../../utils/icons/icons"
 import Button from "../../UI/Button/Button"
 import { INewBudget } from "../../../utils/interfaces/interfaces"
 import { getMonthName } from "../../../utils/functions/dateUtils"
-import ErrMsg from "../../Notifications/ErrMsg/ErrMsg"
 import BudgetOverview from "../../UI/BudgetOverview/BudgetOverview"
-import OneBudgetPreview from "../../OneBudgetPreview/OneBudgetPreview"
 import { useBudgetContext } from "../../../context/BudgetsContext"
-import { useParams } from "react-router-dom"
+import { handleNotification } from "../../../utils/functions/notificationsUtils"
+import { NOTIF_ERROR, NOTIF_SUCCESS } from "../../../config/globals"
 
-
-export interface PlannerProps {
-  budgetID: string | undefined
-}
 
 const Planner = () => {
 
     const { refreshUserData, userLangID, userCurrency } = useUserContext()
     const { budgets, refreshBudgets, createBudget } = useBudgetContext()
-
-    const { budgetID } = useParams()
-
     const [stage, setStage] = useState(0)
-    const [msg, setMsg] = useState({
-      err: "",
-      succ: ""
-    })
+
 
     const [newBudget, setNewBudget] = useState<INewBudget>({
       month: new Date().getMonth() + 1,
       year: new Date().getFullYear(),
       budgetCategories: []
     })
+
 
     useEffect(() => {
       if(!userLangID) refreshUserData()
@@ -50,6 +37,13 @@ const Planner = () => {
     }, [budgets])
 
     const incStage = () =>  {
+      if(stage === 1) {
+        const isAlreadyIn = budgets.some((x) => x.year === newBudget.year && x.month === newBudget.month)
+        if(isAlreadyIn) {
+          handleNotification(NOTIF_ERROR, userLangID, "Plán pro tento měsíc je již vytvořený", "Budget for this year and month is already created")
+          return
+        }
+      }
       setStage( (prev) => prev + 1 )
     }
 
@@ -68,12 +62,10 @@ const Planner = () => {
 
     const monthName = getMonthName(newBudget.year, newBudget.month, userLangID)
 
+    // CreateBudget
     const handleSubmit = async() => {
-
-      // TODO - Zmenit errMsg :) + Multilanguage
-      // TODO - Ošetřit chybu, pokud už pro daný měsic rok budget existuje 
       if(!newBudget.budgetCategories.length) {
-        setMsg({...msg, err: "Please select some budget"})
+        handleNotification(NOTIF_ERROR, userLangID, "Prosím nastavte kategorie", "Please set categories")
         return
       }
 
@@ -81,13 +73,19 @@ const Planner = () => {
         await createBudget(newBudget)
         refreshBudgets()
         setStage(0)
+        handleNotification(
+          NOTIF_SUCCESS, 
+          userLangID, 
+          `Plán: ${getMonthName(newBudget.year, newBudget.month, userLangID)} (${newBudget.year}) úspěšně vytvořen`,
+          `Budget: ${getMonthName(newBudget.year, newBudget.month, userLangID)} (${newBudget.year}) successfully created`
+        )
         setNewBudget({
           month: new Date().getMonth() + 1,
           year: new Date().getFullYear(),
           budgetCategories: []
         })
       } catch (error) {
-        // TODO - ošetřit error
+        handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
       }
     }
 
@@ -121,9 +119,6 @@ const Planner = () => {
               )}
 
               { stage > 0 &&  <p className="my-4">{monthName} ({newBudget.year})</p> }
-
-              <ErrMsg value={msg.err}/>
-
               { stage === 1 && <MonthYearPicker userLangID={userLangID} setNewBudget={setNewBudget}/> }
               { stage === 2 && <CreateBudget newBudget={newBudget} setNewBudget={setNewBudget}/> }
 

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import { IconAdd, IconNext, IconPrev } from "../../../utils/icons/icons"
+import { IconAdd } from "../../../utils/icons/icons"
 import NewTransModal from "../../UI/Modals/NewTransModal/NewTransModal"
 import TransactionsTable from "../../UI/Tables/TransactionsTable/TransactionsTable"
 import { handleGetTransactions } from "../../../API/Transactions"
 import { IGraphBreakdownData, ITransaction } from "../../../utils/interfaces/interfaces"
 import EditTransModal from "../../UI/Modals/EditTransModal/EditTransModal"
 import { useUserContext } from "../../../context/UserContext"
-import { LANG_CZECH, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
+import { LANG_CZECH, NOTIF_ERROR, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
 import PieGraph from "../../Graphs/PieGraph/PieGraph"
 import { useParams } from "react-router-dom"
 import MonthNavigator from "../../UI/DateStuff/MonthNavigator/MonthNavigator"
@@ -16,6 +16,7 @@ import { formatCurrency } from "../../../utils/functions/formatNumber"
 import "animate.css"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
+import { handleNotification } from "../../../utils/functions/notificationsUtils"
 
 
 const Transactions = () => {
@@ -93,13 +94,11 @@ const Transactions = () => {
         setLoading(true)
         try {
             const response = await handleGetTransactions(date.month, date.year)
-            // console.log(response)
             setTransactions(response.data.transactions)
             setGraphData(response.data.graphData)
             setTotalPrice(response.data.totalPrice)
         } catch (error) {
-            // TODO - Dododělat handleError :) 
-            console.log("fetchTransData() => : ", error)
+            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
         } finally {
             setLoading(false)
         }
@@ -114,7 +113,7 @@ const Transactions = () => {
             setGraphData(response.data.graphData)
             setTotalPrice(response.data.totalPrice)
         } catch (error) {
-            console.log("fetchIncomeData() => : ", error)
+            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
         } finally {
             setLoading(false)
         }

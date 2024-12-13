@@ -1,7 +1,7 @@
 import TableHeader from "../TableHeader/TableHeader"
 import TableHeaderSortable from "../TableHeaderSortable/TableHeaderSortable"
 import TableRow from "../TableRow/TableRow"
-import { ITransaction, ITransactionsTable } from "../../../../utils/interfaces/interfaces"
+import { ITransactionsTable } from "../../../../utils/interfaces/interfaces"
 import { useUserContext } from "../../../../context/UserContext"
 import { useEffect, useState } from "react"
 import { LANG_CZECH } from "../../../../config/globals"

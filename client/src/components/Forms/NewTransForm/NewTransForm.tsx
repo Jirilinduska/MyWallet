@@ -1,25 +1,21 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import Input from "../../UI/Input/Input"
-import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import { handleNewTransaction } from "../../../API/Transactions"
-import { handleErrMsg } from "../../../utils/functions/handleErrMsg"
-import { useCategoriesContext } from "../../../context/CategoriesContext"
-import { ICategory, INewTransForm } from "../../../utils/interfaces/interfaces"
+import { INewTransForm } from "../../../utils/interfaces/interfaces"
 import ButtonLoading from "../../UI/Loaders/ButtonLoading/ButtonLoading"
 import DatePickerElement from "../../UI/DateStuff/DatePicker/DatePickerElement"
 import SelectCategory from "../../UI/SelectCategory/SelectCategory"
-import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, NOTIF_ERROR, NOTIF_SUCCESS, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
 import { useUserContext } from "../../../context/UserContext"
-import ErrMsg from "../../Notifications/ErrMsg/ErrMsg"
+import { handleNotification } from "../../../utils/functions/notificationsUtils"
+import { formatLang } from "../../../utils/functions/formatLang"
 
 const NewTransForm: React.FC<INewTransForm> = ({ handleHide, pageID, fetchIncomeData, fetchTransData }) => {
 
-    // const { categoriesIncome, categoriesTransactions, refreshCategories } = useCategoriesContext()
     const { refreshUserData, userCurrency, userLangID } = useUserContext()
 
     const [loading, setLoading] = useState(false)
-    const [errMsg, setErrMsg] = useState("")
     const [transData, setTransData] = useState({ 
         title: "", 
         amount: "", 
@@ -31,15 +27,9 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide, pageID, fetchIncome
                        pageID === PAGE_ID_INCOME ? CATEGORY_ID_INCOME : null
     })
 
-    // useEffect(() => {
-    //     refreshCategories()
-    // }, [] )
-
     useEffect(() => {
         if(!userCurrency) refreshUserData()
     }, [] )
-
-    // const handleSetErrMsg = (msg: string) => setErrMsg(msg)
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target
@@ -60,32 +50,34 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide, pageID, fetchIncome
     // Add new transaction
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault()
-        setErrMsg("")
         setLoading(true)
 
         try {
             if(!transData.amount) {
-                setErrMsg("Please fill amount")
+                handleNotification(NOTIF_ERROR, userLangID, "Prosím vyplňte částku", "Please enter an amount")
                 setLoading(false)
                 return
             }
             if(!transData.category) {
-                setErrMsg("Please select category")
+                handleNotification(NOTIF_ERROR, userLangID, "Prosím vyberte kategorii", "Please select a category")
                 setLoading(false)
                 return
             }
-            const response = await handleNewTransaction(transData)
+            
+            await handleNewTransaction(transData)
+            handleHide()
 
             if (pageID === PAGE_ID_TRANSACTIONS) {
                 fetchTransData()
+                handleNotification(NOTIF_SUCCESS, userLangID, "Transakce přidána", "Transaction added")
             } else if (pageID === PAGE_ID_INCOME) {
                 fetchIncomeData()
+                handleNotification(NOTIF_SUCCESS, userLangID, "Příjem přidán", "Income added")
             }
             
-            handleHide()
         } catch (error) {
             console.log(error)
-            handleErrMsg("Something went wrong", "Něco se pokazilo", setErrMsg, userLangID)
+            handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
         } finally {
             setLoading(false)
         }
@@ -99,7 +91,7 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide, pageID, fetchIncome
             <Input
                 inputType="text"
                 labelFor="transTitle"
-                labelValue="Title"
+                labelValue={`${formatLang(userLangID, "Popis", "Description")}`}
                 placeholder="Food"
                 inputName="title"
                 value={transData.title}
@@ -113,7 +105,7 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide, pageID, fetchIncome
                 <Input
                     inputType="number"
                     labelFor="price"
-                    labelValue="Price*"
+                    labelValue={`${formatLang(userLangID, "Cena*", "Price*")}`}
                     placeholder={`2000 ${userCurrency}`}
                     inputName="amount"
                     value={transData.amount}
@@ -134,8 +126,6 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide, pageID, fetchIncome
           handleSetDate={handleSetDate}  
         />
 
-        {/* <p className="text-red-500 font-bold text-sm">{errMsg}</p> */}
-        <ErrMsg value={errMsg}/>
 
         { loading 
             ? <ButtonLoading/> 
