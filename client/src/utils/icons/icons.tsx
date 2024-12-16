@@ -1,15 +1,17 @@
-import { IoMdEye, IoIosEyeOff, IoMdAddCircle, IoIosLaptop } from "react-icons/io"
+import { IoMdEye, IoIosEyeOff, IoMdAddCircle, IoIosLaptop, IoLogoGameControllerB } from "react-icons/io"
 import { IoMail, IoCard, IoHome, IoClose, IoCheckmarkSharp } from "react-icons/io5"
-import { MdDashboard, MdCategory, MdDeleteForever } from "react-icons/md";
-import { GiMoneyStack, GiTakeMyMoney } from "react-icons/gi";
+import { MdDashboard, MdCategory, MdDeleteForever, MdOutlineSmokingRooms, MdAttachMoney } from "react-icons/md";
+import { GiMoneyStack, GiTakeMyMoney, GiPill,  } from "react-icons/gi";
 import { RiMenu3Line, RiArrowGoBackLine } from "react-icons/ri";
-import { FaUserTie, FaSort, FaCar , FaMoneyBillWave, FaPiggyBank } from "react-icons/fa";
+import { FaUserTie, FaSort, FaCar , FaMoneyBillWave, FaPiggyBank, FaTshirt, FaShieldAlt, FaHiking, FaWallet } from "react-icons/fa";
 import { FaPowerOff, FaRegLightbulb } from "react-icons/fa6";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { CiPizza, CiEdit } from "react-icons/ci";
 import { BiSolidDrink } from "react-icons/bi";
 import { AiFillDashboard, AiFillFormatPainter, AiFillGift } from "react-icons/ai";
 import { BsArrowThroughHeart, BsCupHot, BsCurrencyBitcoin, BsExclamationTriangle, BsFillBasket2Fill } from "react-icons/bs";
+import { TfiCut } from "react-icons/tfi";
+
 
 export {
     IoMdEye as IconEyeShow,
@@ -48,4 +50,13 @@ export {
     RiArrowGoBackLine as IconGoBack,
     MdDeleteForever as IconDelete,
     IoCheckmarkSharp as IconSave,
+    MdOutlineSmokingRooms as IconCigarette,
+    IoLogoGameControllerB as IconGameController,
+    FaTshirt as IconTshirt, 
+    TfiCut as IconCut,
+    GiPill as IconPill,
+    FaShieldAlt as IconShield,
+    FaHiking as IconHiking,
+    MdAttachMoney as IconDollar,
+    FaWallet as IconWallet,
 }

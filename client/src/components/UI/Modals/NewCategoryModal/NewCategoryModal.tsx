@@ -5,15 +5,14 @@ import { IconClose } from "../../../../utils/icons/icons"
 import NewCategoryForm from "../../../Forms/NewCategoryForm/NewCategoryForm"
 import { ICategory } from "../../../../utils/interfaces/interfaces"
 
-export interface INewCategoryModal {
+export interface NewCategoryModalProps {
     categoryType: string
     toggleModal: () => void
     useCase: string
     selectedCategory: ICategory | null
-    handleSetNotif: (key: "err" | "succ", msg: string) => void
 }
 
-const NewCategoryModal: React.FC<INewCategoryModal> = ({ categoryType, toggleModal, useCase, selectedCategory, handleSetNotif }) => {
+const NewCategoryModal: React.FC<NewCategoryModalProps> = ({ categoryType, toggleModal, useCase, selectedCategory }) => {
 
     const { refreshUserData, userLangID } = useUserContext()
 
@@ -39,7 +38,7 @@ const NewCategoryModal: React.FC<INewCategoryModal> = ({ categoryType, toggleMod
 
                 </div>
 
-                <NewCategoryForm categoryType={categoryType} langID={userLangID} useCase={useCase} selectedCategory={selectedCategory} handleSetNotif={handleSetNotif} toggleModal={toggleModal}/>   
+                <NewCategoryForm categoryType={categoryType} langID={userLangID} useCase={useCase} selectedCategory={selectedCategory} toggleModal={toggleModal}/>   
 
             </div>
         </div>

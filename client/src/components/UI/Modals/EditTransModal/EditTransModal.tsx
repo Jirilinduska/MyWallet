@@ -12,6 +12,8 @@ import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, LANG_CZECH, NOTIF_SUCCESS,
 import { useTransactionsContext } from "../../../../context/TransactionsContext"
 import { useParams } from "react-router-dom"
 import { handleNotification } from "../../../../utils/functions/notificationsUtils"
+import { formatLang } from "../../../../utils/functions/formatLang"
+import Button from "../../Button/Button"
 
 
 interface EditTransModalProsp {
@@ -29,6 +31,7 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
     const [errMsg, setErrMsg] = useState("")
     const [succMsg, setSuccMsg] = useState("")
     const [isEdited, setIsEdited] = useState(false)
+    const [wantDelete, setWantDelete] = useState(false)
 
     const [transData, setTransData] = useState({ 
       id: transaction._id,
@@ -148,7 +151,7 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
             
             {/* // TODO - Při delete - přidat are you sure? left:0 absolute :) */}
             {/* // Delete transaction */}
-            <button 
+            {/* <button 
               className="button-red w-1/3 mx-auto block"
               onClick={() => {
                 console.log('Deleting transaction:', transaction._id)
@@ -157,16 +160,55 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
               }}
             >
               { userLangID === LANG_CZECH ? "Odstranit" : "Delete" }
-            </button>
+            </button> */}
 
-            {/* Save edited transaction */}
-            <button 
-              className={`${ isEdited ? "button-green" : "button-green bg-colorGrayHover hover:bg-colorGrayHover"} w-1/3 mx-auto block`}
-              disabled={!isEdited}
-              onClick={handleUpdateTrans}
-            >
-              { userLangID === LANG_CZECH ? "Uložit" : "Save" }
-            </button>
+            { !wantDelete && (
+              <>
+                <Button
+                  buttonValue={formatLang(userLangID, "Odstranit", "Delete")}
+                  className="button-red w-1/3 mx-auto block"
+                  handleClick={() => setWantDelete(true)
+                  }
+                />
+
+                <button 
+                  className={`${ isEdited ? "button-green" : "button-green bg-colorGrayHover hover:bg-colorGrayHover"} w-1/3 mx-auto block`}
+                  disabled={!isEdited}
+                  onClick={handleUpdateTrans}
+                >
+                  {formatLang(userLangID, "Uložit", "Save")}
+                </button>
+
+              </>
+            )}
+
+            { wantDelete && (
+              <div className="mx-auto">
+
+                <h3 className="font-semibold mb-6 text-white">{formatLang(userLangID, "Opravdu chcete odstranit tuto transakci?", "Do you really want to delete this transaction?")}</h3>
+
+                <div className="flex items-center justify-between">
+
+                  <Button 
+                    buttonValue={formatLang(userLangID, "Ano", "Yes")} 
+                    className="button-red w-1/3 mx-auto block" 
+                    handleClick={ () => { pageID &&
+                      deleteTransaction(transaction._id, userLangID, pageID)
+                      toggleEditModal()
+                      setWantDelete(false)
+                    }}
+                  />
+
+                  <Button 
+                    buttonValue={formatLang(userLangID, "Zrušit", "Close")}
+                    className="button-blue w-1/3 mx-auto block"
+                    handleClick={ () => setWantDelete(false) }
+                  />
+
+                </div>
+
+              </div>
+            )}
 
           </div>
           

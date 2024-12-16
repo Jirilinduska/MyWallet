@@ -1,4 +1,4 @@
-import { IconBasket, IconBitcoin, IconCar, IconCarDashboard, IconCoffee, IconDanger, IconDrink, IconEdit, IconEyeShow, IconGift, IconHome, IconLaptop, IconLightbulb, IconLove, IconPainter, IconPizza, IconSalary } from "./icons"
+import { IconBasket, IconBitcoin, IconCar, IconCarDashboard, IconCigarette, IconCoffee, IconCut, IconDanger, IconDollar, IconDrink, IconEdit, IconEyeShow, IconGameController, IconGift, IconHiking, IconHome, IconLaptop, IconLightbulb, IconLove, IconPainter, IconPill, IconPizza, IconSalary, IconShield, IconTshirt, IconWallet } from "./icons"
 
 export const categoryIcons = [
 
@@ -19,4 +19,13 @@ export const categoryIcons = [
     { id: 15, iconJSX: <IconBasket/> }, 
     { id: 16, iconJSX: <IconEdit/> }, 
     { id: 17, iconJSX: <IconEyeShow/> }, 
+    { id: 18, iconJSX: <IconCigarette/> }, 
+    { id: 19, iconJSX: <IconGameController/> }, 
+    { id: 20, iconJSX: <IconTshirt/> }, 
+    { id: 21, iconJSX: <IconCut/> }, 
+    { id: 22, iconJSX: <IconPill/> }, 
+    { id: 23, iconJSX: <IconShield/> }, 
+    { id: 24, iconJSX: <IconHiking/> }, 
+    { id: 25, iconJSX: <IconDollar/> }, 
+    { id: 26, iconJSX: <IconWallet/> }, 
 ]

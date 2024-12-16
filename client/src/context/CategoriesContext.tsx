@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { ICategory } from "../utils/interfaces/interfaces"
-import { handleGetCategories } from "../API/Categories"
-import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION } from "../config/globals"
+import { handleDeleteCategory, handleGetCategories } from "../API/Categories"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, NOTIF_ERROR, NOTIF_INFO, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../config/globals"
+import { handleNotification } from "../utils/functions/notificationsUtils"
 
 
 // TODO - Přida do všech contextů i ostatní funkce :)
@@ -10,6 +11,7 @@ interface CategoriesContextProps {
     categoriesIncome: ICategory[]
     categoriesTransactions: ICategory[]
     refreshCategories: () => void
+    deleteCategory: (catID: string, userLangID: string, catName: string) => void
 }
 
 export const CategoriesContext = createContext<CategoriesContextProps | undefined>(undefined)
@@ -31,12 +33,23 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         }
     }
 
+    const deleteCategory = async(catID: string, userLangID: string, catName: string) => {
+        
+        try {
+            await handleDeleteCategory(catID)
+            await fetchData()
+            handleNotification(NOTIF_INFO, userLangID, `Kategorie: ${catName} byla odstraněna.`, `Category: ${catName} has been deleted.`);
+        } catch (error) {
+            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
+        }
+    }
+
     useEffect(() => {
         fetchData()
     }, [] )
 
     return (
-        <CategoriesContext.Provider value={{ categoriesIncome, categoriesTransactions, refreshCategories: fetchData }}>
+        <CategoriesContext.Provider value={{ categoriesIncome, categoriesTransactions, refreshCategories: fetchData, deleteCategory }}>
           {children}
         </CategoriesContext.Provider>
     )

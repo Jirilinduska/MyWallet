@@ -6,7 +6,7 @@ const deleteBudget = async(req,res) => {
 
     try {
 
-        await Budget.findOneAndDelete(id)
+        await Budget.findByIdAndDelete(id)
 
         return res.status(200).json({ message: "success" })
 

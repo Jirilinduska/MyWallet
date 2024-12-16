@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useUserContext } from "../../../context/UserContext"
-import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, LANG_CZECH } from "../../../config/globals"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION } from "../../../config/globals"
 import { useCategoriesContext } from "../../../context/CategoriesContext"
 import GridCategories from "../../UI/GridCategories/GridCategories"
-import NotifError from "../../Notifications/NofitError/NotifError"
-import NotifSuccess from "../../Notifications/NotifSuccess/NotifSuccess"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
 
@@ -13,23 +11,12 @@ const Categories = () => {
     const { userLangID, refreshUserData } = useUserContext()
     const { categoriesIncome,categoriesTransactions, refreshCategories } = useCategoriesContext()
 
-    const [notifs, setNotifs] = useState({
-        err: "",
-        succ: ""
-    })
-
-    const handleSetNotif = (key: "err" | "succ", msg: string) => {
-        setNotifs({...notifs, [key]: msg})
-    }
-
-    // useEffect(() => {
-    //     if(!userLangID) refreshUserData()
-    // }, [])
-
     useEffect(() => {
-        if(!categoriesIncome || !categoriesTransactions) refreshCategories()
+        // if(!categoriesIncome || !categoriesTransactions) refreshCategories()
+        
         if(!userLangID) refreshUserData()
-    }, [] )
+        refreshCategories()
+    }, [categoriesIncome, categoriesTransactions] )
 
   return (
     <div className="md:ml-[250px] p-6 min-h-screen">
@@ -38,25 +25,16 @@ const Categories = () => {
 
         <GridCategories
             categories={categoriesIncome}
-            langID={userLangID}
-            titleCS="Kategorie příjmů"
-            titleEN="Income categories"
+            title={formatLang(userLangID, "Kategorie příjmů", "Income categories")}
             categoryType={CATEGORY_ID_INCOME}
-            handleSetNotif={handleSetNotif}
         />
 
         <GridCategories
             categories={categoriesTransactions}
-            langID={userLangID}
-            titleCS="Kategorie výdajů"
-            titleEN="Expense categories"
+            title={formatLang(userLangID, "Kategorie výdajů", "Expense categories")}
             categoryType={CATEGORY_ID_TRANSACTION}
-            handleSetNotif={handleSetNotif}
         />
 
-        <NotifSuccess message={notifs.succ} onClose={ () => setNotifs({...notifs, succ: ""}) }/>
-
-        <NotifError message={notifs.err} onClose={ () => setNotifs({...notifs, err: ""}) }/>
     </div>
   )
 }

@@ -11,18 +11,17 @@ import { useUserContext } from "../../../context/UserContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
 
-export interface INewCategoryForm {
+export interface NewCategoryFormProps {
     categoryType: string
     langID: string
     useCase: string,
     selectedCategory: ICategory | null
-    handleSetNotif: (key: "err" | "succ", msg: string) => void
     toggleModal: () => void
 }
 
-const NewCategoryForm: React.FC<INewCategoryForm> = ({ categoryType, langID, useCase, selectedCategory, handleSetNotif, toggleModal }) => {
+const NewCategoryForm: React.FC<NewCategoryFormProps> = ({ categoryType, langID, useCase, selectedCategory, toggleModal }) => {
 
-    const { refreshCategories } = useCategoriesContext()
+    const { refreshCategories, deleteCategory } = useCategoriesContext()
     const { userLangID } = useUserContext()
 
     const [newCategory, setNewCategory] = useState({
@@ -69,6 +68,16 @@ const NewCategoryForm: React.FC<INewCategoryForm> = ({ categoryType, langID, use
         setIsEdited(true)
     }
 
+    const handleDelete = async () => {
+        try {
+            deleteCategory(newCategory.id, userLangID, newCategory.name)
+            toggleModal()
+        } catch (error) {
+            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
+            toggleModal()
+        }
+    }
+
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
@@ -101,23 +110,6 @@ const NewCategoryForm: React.FC<INewCategoryForm> = ({ categoryType, langID, use
         }
     }
 
-
-    const handleDelete = async() => {
-        try {
-            // TODO - Tady je problém, maže to jiné kategori :) 
-            const response = await handleDeleteCategory(newCategory.id)
-            console.log(response)
-            refreshCategories()
-            toggleModal()
-            handleNotification(NOTIF_INFO, userLangID, `Kategorie: ${newCategory.name} byla odstraněna.`, `Category: ${newCategory.name} has been deleted.`)
-        } catch (error) {
-            console.log(error)
-            toggleModal()
-            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
-
-        }
-    }
-
   return (
     <form 
         onSubmit={handleSubmit} 
@@ -142,7 +134,7 @@ const NewCategoryForm: React.FC<INewCategoryForm> = ({ categoryType, langID, use
         {/* Select icon for categoryType */}
         <h3 className="block text-sm mb-4 font-medium text-white">{formatLang(langID, "Vyberte ikonku*", "Select icon*")}</h3>
 
-        <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-10 overflow-y-auto h-[150px] py-4">
             { categoryIcons && categoryIcons.map( (x) => {
                 return <AvatarIcon 
                             key={x.id}

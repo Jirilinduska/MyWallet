@@ -16,7 +16,7 @@ interface TransContextProps {
     fetchIncomeData: (month: number, year: number) => void
     date: { month: number, year: number }
     setDate: React.Dispatch<React.SetStateAction<{ month: number, year: number }>>
-    deleteTransaction: (transID: string, langID: string) => void
+    deleteTransaction: (transID: string, langID: string, type: string) => void
     handlePrevMonth: (pageID: string) => void
     handleNextMonth: (pageID: string) => void
 }
@@ -98,13 +98,16 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }, [])
 
     // DELETE
-    const deleteTransaction = useCallback(async(transID: string, langID: string) => {
+    const deleteTransaction = useCallback(async(transID: string, langID: string, type: string) => {
         setLoading(true)
         try {
             await handleDeleteTransaction(transID)  
             handleNotification(NOTIF_SUCCESS, langID, "Transakce odstraněna", "Transaction deleted") 
-            fetchExpenseData(date.month, date.year)
-            fetchIncomeData(date.month, date.year)       
+            if (type === PAGE_ID_INCOME) {
+                fetchExpenseData(date.month, date.year)
+            } else if(type === PAGE_ID_TRANSACTIONS) {
+                setTransactionExpense((prev) => prev.filter((item) => item._id !== transID))
+            }   
         } catch (error) {
             handleNotification(NOTIF_ERROR, langID, "Něco se pokazilo", "Something went wrong")
         } finally {

@@ -79,6 +79,8 @@ const NewBudgetCatModal = ({ toggleWantNewCat, budgetCategories, handleAddCatCli
                         )
                     })}
 
+                    {/* // TODO - Přidat tlačítko vytvořit novou kategorii :) */}
+
                 </div>
 
                 <Button buttonValue={formatLang(userLangID, "Zavřít", "Close")} className='button-blue w-1/2 mx-auto block mt-6' handleClick={toggleWantNewCat}/>

@@ -9,7 +9,7 @@ const deleteTransaction = async(req,res) => {
 
     try {
         
-        const transaction = await Transaction.findOneAndDelete(id)
+        const transaction = await Transaction.findByIdAndDelete(id)
 
         return res.status(200).json(transaction)
 

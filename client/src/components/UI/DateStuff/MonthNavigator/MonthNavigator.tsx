@@ -22,7 +22,7 @@ const MonthNavigator: React.FC<MonthNavigatorProps> = ({ pageID, monthName }) =>
 
         <IconNext 
             onClick={ () => pageID && handleNextMonth(pageID)} 
-            className={`${ date.month > new Date().getMonth() && "hidden" } icon`} 
+            className={`${(date.year > new Date().getFullYear() || (date.year === new Date().getFullYear() && date.month > new Date().getMonth())) ? "hidden" : ""} icon`}
         />
 
     </div>
