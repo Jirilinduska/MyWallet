@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom"
 import ProgressRadius from "../../UI/ProgressRadius/ProgressRadius"
 
+
+// TODO - Upravit celou home page style!
+
 const HeroLogged = () => {
+
+
   return (
     <div className="flex flex-col items-center justify-center gap-10 h-full">
 

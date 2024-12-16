@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import { useUserContext } from "../../context/UserContext"
-import { LANG_CZECH } from "../../config/globals"
+import { NOTIF_ERROR, NOTIF_SUCCESS } from "../../config/globals"
 import { Link } from "react-router-dom"
 import { userAvatars } from "../../utils/icons/avatars"
 import Input from "../../components/UI/Input/Input"
@@ -9,10 +9,8 @@ import SelectCurrency from "../../components/UI/SelectCurrency/SelectCurrency"
 import { handleUpdateUserData } from "../../API/User"
 import Avatars from "../../components/OffCanvas/Avatars/Avatars"
 import { IUserDataUpdate } from "../../utils/interfaces/interfaces"
-import NotifSuccess from "../../components/Notifications/NotifSuccess/NotifSuccess"
-import { handleShowNotif } from "../../utils/functions/notifications"
-import NotifError from "../../components/Notifications/NofitError/NotifError"
-import { handleErrMsg } from "../../utils/functions/handleErrMsg"
+import { handleNotification } from "../../utils/functions/notificationsUtils"
+import { formatLang } from "../../utils/functions/formatLang"
 
 const Profile = () => {
 
@@ -20,8 +18,6 @@ const Profile = () => {
 
     const [isEdited, setIsEdited] = useState(false)
     const [showAvatars, setShowAvatars] = useState(false)
-    const [succMsg, setSuccMsg] = useState("")
-    const [errMsg, setErrMsg] = useState("")
     const [userInfo, setUserInfo] = useState<IUserDataUpdate>({
         userName: userData?.userName || "",
         email: userData?.email || "",
@@ -55,29 +51,28 @@ const Profile = () => {
         setIsEdited(true)
     }
 
+    // TODO - Přidat handleNotifications()
+    // TODO - změnit změnu emailu!
     const handleSubmit = async() => {
-        setSuccMsg("")
-        setErrMsg("")
 
         if(!userInfo.userName) {
-            handleShowNotif("Username is required", "Prosím zadejte vaše uživatelské jméno", setErrMsg, userLangID)
+            handleNotification(NOTIF_ERROR, userLangID, "Prosím vyplňte jméno", "Please enter username")
             return
         }
 
         if(!userInfo.email) {
-            handleShowNotif("Email is required", "Prosím zadejte váš email", setErrMsg, userLangID)
+            //TODO handleNotification(NOTIF_ERROR, userLangID, "Prosím zadejte email", "Please enter email")
             return
         }
 
         try {
-            const response = await handleUpdateUserData(userInfo)
-            handleShowNotif("Profile updated", "Profil aktualizován", setSuccMsg , userLangID)
+            await handleUpdateUserData(userInfo)
+            const lang = userInfo.language
             refreshUserData()
-            console.log(response)
+            handleNotification(NOTIF_SUCCESS, userLangID, "Uloženo", "Saved")
+            setIsEdited(false)
         } catch (error) {
-            console.log(error)
-            handleErrMsg("Something went wrong", "Něco se pokazilo", setErrMsg, userLangID)
-            handleShowNotif(errMsg, errMsg, setErrMsg, userLangID)
+            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
         }
     }
 
@@ -89,17 +84,6 @@ const Profile = () => {
   return (
     <section className="h-screen flex items-center justify-center">
 
-        {/* Notifikace */}
-        <NotifSuccess
-            message={succMsg}
-            onClose={ () => setSuccMsg("") }
-        />
-
-        {/* Notifikace */}
-        <NotifError
-            message={errMsg}
-            onClose={ () => setErrMsg("") }
-        />
 
         {/* Profile header */}
         <div className="fixed top-0 left-0 w-full h-[80px] bg-black flex items-center justify-center sm:justify-end gap-2 py-10">
@@ -139,7 +123,7 @@ const Profile = () => {
                     inputName="userName"
                     inputType="userName"
                     labelFor="userName"
-                    labelValue={`${userLangID === LANG_CZECH ? "Uživatelské jméno" : "Username"}`}
+                    labelValue={formatLang(userLangID, "Uživatelské jméno", "Username")}
                     onChange={handleInputChange}
                     placeholder="Your username"
                     value={userInfo.userName}
@@ -182,7 +166,7 @@ const Profile = () => {
                 disabled={!isEdited}
                 onClick={handleSubmit}
               >
-                {userLangID === LANG_CZECH ? "Uložit" : "Save"}
+                {formatLang(userLangID, "Uložit", "Save")}
             </button>
 
         </div>

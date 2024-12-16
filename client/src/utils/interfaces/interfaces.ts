@@ -102,23 +102,6 @@ export interface ITableRow {
     userCurrency: string
 }
 
-// NewTransModal
-export interface INewTransModal {
-    handleHide: () => void
-    fetchTransData: () => void
-    fetchIncomeData: () => void
-    pageID: string | undefined
-    langID: string
-}
-
-// NewTransForm
-export interface INewTransForm {
-    handleHide: () => void,
-    fetchTransData: () => void
-    fetchIncomeData: () => void
-    pageID: string | undefined
-}
-
 // Notifications
 export interface INotif {
     message: string
@@ -129,19 +112,6 @@ export interface INotif {
 export interface ICategoryIcon {
     id: number
     iconJSX: ReactElement
-}
-
-// EditTransModal
-export interface IEditTransModal {
-    toggleEditModal: () => void
-    transaction: ITransaction
-    fetchTransData: () => void
-    pageID: string | undefined
-}
-
-// TransactionsTable
-export interface ITransactionsTable {
-    data: (ITransaction & { onEdit: () => void })[]
 }
 
 // PieGraph
@@ -157,18 +127,6 @@ export interface IAvatars {
     setUserInfo: React.Dispatch<React.SetStateAction<IUserDataUpdate>>
     setIsEdited: (state: boolean) => void
     setShowAvatars: (state: boolean) => void
-}
-
-// MonthNavigator
-export interface IMonthNavigator {
-    pageID: string | undefined
-    handlePrevMonth: () => void
-    handleNextMonth: () => void
-    monthName: string
-    year: number
-    month: number
-    fetchTransData: () => void
-    fetchIncomeData: () => void
 }
 
 // =========== APIs ===========

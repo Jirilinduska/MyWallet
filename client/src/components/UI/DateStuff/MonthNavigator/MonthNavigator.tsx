@@ -1,29 +1,28 @@
-import { PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../../config/globals"
+import { useTransactionsContext } from "../../../../context/TransactionsContext"
 import { IconNext, IconPrev } from "../../../../utils/icons/icons"
-import { IMonthNavigator } from "../../../../utils/interfaces/interfaces"
 
-const MonthNavigator: React.FC<IMonthNavigator> = ({ pageID, handlePrevMonth, handleNextMonth, monthName, year, month, fetchTransData, fetchIncomeData  }) => {
+export interface MonthNavigatorProps {
+    pageID: string | undefined
+    monthName: string
+}
+
+const MonthNavigator: React.FC<MonthNavigatorProps> = ({ pageID, monthName }) => {
+
+    const { date, handleNextMonth, handlePrevMonth } = useTransactionsContext()
+
   return (
     <div className='flex items-center gap-4'>
         
         <IconPrev 
-            onClick={ () => {
-                handlePrevMonth()
-                { pageID === PAGE_ID_TRANSACTIONS && fetchTransData() }
-                { pageID === PAGE_ID_INCOME && fetchIncomeData() }
-            }} 
+            onClick={ () => pageID && handlePrevMonth(pageID)} 
             className="icon" 
         />
 
-        <p className="font-semibold">{monthName} {year}</p>
+        <p className="font-semibold">{monthName} {date.year}</p>
 
         <IconNext 
-            onClick={ () => {
-                handleNextMonth()
-                { pageID === PAGE_ID_TRANSACTIONS && fetchTransData() }
-                { pageID === PAGE_ID_INCOME && fetchIncomeData() }
-            }} 
-            className={`${ month > new Date().getMonth() && "hidden" } icon`} 
+            onClick={ () => pageID && handleNextMonth(pageID)} 
+            className={`${ date.month > new Date().getMonth() && "hidden" } icon`} 
         />
 
     </div>

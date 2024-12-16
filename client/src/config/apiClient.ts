@@ -1,5 +1,7 @@
 import axios from "axios"
 import { handleLogoutUser } from "../API/Auth"
+import { handleNotification } from "../utils/functions/notificationsUtils"
+import { NOTIF_INFO } from "./globals"
 
 const isTokenExpired = (token: string) => {
     const payload = JSON.parse(atob(token.split('.')[1]))
@@ -21,6 +23,7 @@ apiClient.interceptors.request.use((config) => {
 
         if(isTokenExpired(token)) {
             handleLogoutUser()
+            handleNotification(NOTIF_INFO, "", "", "You have been logged out. Please log in")
             return Promise.reject(new Error("Token expired"))
         }
 

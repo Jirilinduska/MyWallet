@@ -1,9 +1,14 @@
 import { LANG_CZECH, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../../config/globals"
 import { IconClose } from "../../../../utils/icons/icons"
-import { INewTransModal } from "../../../../utils/interfaces/interfaces"
 import NewTransForm from "../../../Forms/NewTransForm/NewTransForm"
 
-const NewTransModal: React.FC<INewTransModal> = ({ handleHide, fetchIncomeData, fetchTransData, pageID, langID}) => {
+interface NewTransModalProps {
+  handleHide: () => void
+  pageID: string | undefined
+  langID: string
+}
+
+const NewTransModal: React.FC<NewTransModalProps> = ({ handleHide, pageID, langID}) => {
     return (
       <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-black bg-opacity-60">
 
@@ -22,8 +27,6 @@ const NewTransModal: React.FC<INewTransModal> = ({ handleHide, fetchIncomeData, 
 
             <NewTransForm 
               handleHide={handleHide}
-              fetchIncomeData={fetchIncomeData}
-              fetchTransData={fetchTransData}
               pageID={pageID}
             />
 

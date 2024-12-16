@@ -7,6 +7,8 @@ import Categories from "../../components/Dashboard/Categories/Categories"
 import Overview from "../../components/Dashboard/Overview/Overview"
 import Planner from "../../components/Dashboard/Planner/Planner"
 import OneBudgetPreview from "../../components/OneBudgetPreview/OneBudgetPreview"
+import Expense from "../../components/Dashboard/Expense/Expense"
+import Income from "../../components/Dashboard/Income/Income"
 
 
 const Dashboard = () => {
@@ -27,8 +29,8 @@ const Dashboard = () => {
 
         <Sidebar/>
 
-        { pageID === "transactions" && <Transactions/> }
-        { pageID === "income" && <Transactions/> }
+        { pageID === "transactions" && <Expense/> }
+        { pageID === "income" && <Income/> }
         { pageID === "categories" && <Categories/> }
         { pageID === "overview" && <Overview/> }
         { pageID === "planner" && !budgetID && <Planner /> }

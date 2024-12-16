@@ -13,6 +13,7 @@ const AuthForm = () => {
     const [isLogin, setIsLogin] = useState(true)
     const [loading, setLoading] = useState(false)
 
+    // TODO - refactor?
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
         setFormData( (prev) => ({...prev, [name]: value}) )

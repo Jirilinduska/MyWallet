@@ -2,7 +2,6 @@ import { ChangeEvent, useEffect, useState } from "react"
 import Input from "../../UI/Input/Input"
 import "react-datepicker/dist/react-datepicker.css"
 import { handleNewTransaction } from "../../../API/Transactions"
-import { INewTransForm } from "../../../utils/interfaces/interfaces"
 import ButtonLoading from "../../UI/Loaders/ButtonLoading/ButtonLoading"
 import DatePickerElement from "../../UI/DateStuff/DatePicker/DatePickerElement"
 import SelectCategory from "../../UI/SelectCategory/SelectCategory"
@@ -10,10 +9,19 @@ import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, NOTIF_ERROR, NOTIF_SUCCESS
 import { useUserContext } from "../../../context/UserContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
+import { useTransactionsContext } from "../../../context/TransactionsContext"
 
-const NewTransForm: React.FC<INewTransForm> = ({ handleHide, pageID, fetchIncomeData, fetchTransData }) => {
+
+interface NewTransFormProps {
+    handleHide: () => void,
+    pageID: string | undefined
+}
+
+
+const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
 
     const { refreshUserData, userCurrency, userLangID } = useUserContext()
+    const { fetchExpenseData, fetchIncomeData, date } = useTransactionsContext()
 
     const [loading, setLoading] = useState(false)
     const [transData, setTransData] = useState({ 
@@ -65,15 +73,16 @@ const NewTransForm: React.FC<INewTransForm> = ({ handleHide, pageID, fetchIncome
             }
             
             await handleNewTransaction(transData)
-            handleHide()
 
             if (pageID === PAGE_ID_TRANSACTIONS) {
-                fetchTransData()
+                fetchExpenseData(date.month, date.year)
                 handleNotification(NOTIF_SUCCESS, userLangID, "Transakce přidána", "Transaction added")
             } else if (pageID === PAGE_ID_INCOME) {
-                fetchIncomeData()
+                fetchIncomeData(date.month, date.year)
                 handleNotification(NOTIF_SUCCESS, userLangID, "Příjem přidán", "Income added")
             }
+
+            handleHide()
             
         } catch (error) {
             console.log(error)

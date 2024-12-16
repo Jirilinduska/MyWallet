@@ -1,16 +1,27 @@
 import TableHeader from "../TableHeader/TableHeader"
 import TableHeaderSortable from "../TableHeaderSortable/TableHeaderSortable"
 import TableRow from "../TableRow/TableRow"
-import { ITransactionsTable } from "../../../../utils/interfaces/interfaces"
+import { ITransaction } from "../../../../utils/interfaces/interfaces"
 import { useUserContext } from "../../../../context/UserContext"
-import { useEffect, useState } from "react"
+import { CSSProperties, useEffect, useState } from "react"
 import { LANG_CZECH } from "../../../../config/globals"
 import "animate.css"
+import { BarLoader } from "react-spinners"
+import { formatLang } from "../../../../utils/functions/formatLang"
+
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+}
 
 
 // TODO - Upravit classy - smazat nepotřebne
 
-const TransactionsTable: React.FC<ITransactionsTable> = ({ data }) => {
+interface TransactionsTableProps {
+  data: (ITransaction & { onEdit: () => void })[]
+}
+
+const TransactionsTable: React.FC<TransactionsTableProps> = ({ data }) => {
 
     const { refreshUserData, userLangID, userCurrency } = useUserContext()
 
@@ -24,6 +35,7 @@ const TransactionsTable: React.FC<ITransactionsTable> = ({ data }) => {
     return (
       <div className="animate-fadeIn relative overflow-x-auto shadow-md sm:rounded-lg my-10">
 
+        {/* <BarLoader color="#1d4ed80" cssOverride={override} loading={loading}/> */}
 
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 
@@ -32,19 +44,19 @@ const TransactionsTable: React.FC<ITransactionsTable> = ({ data }) => {
 
                 <tr>
                     <TableHeaderSortable 
-                      value={`${ userLangID === LANG_CZECH ? "Datum" : "Date" }`}
+                      value={formatLang(userLangID, "Datum", "Date")}
                       handleSort={handleSort}
                     />
 
-                    <TableHeader value={`${ userLangID === LANG_CZECH ? "Název" : "Title" }`}/>
+                    <TableHeader value={formatLang(userLangID, "Název", "Title")}/>
 
                     <TableHeaderSortable 
-                      value={`${ userLangID === LANG_CZECH ? "Kategorie" : "Category" }`}
+                      value={formatLang(userLangID, "Kategorie", "Category")}
                       handleSort={handleSort}
                     />
 
                     <TableHeaderSortable 
-                      value={`${ userLangID === LANG_CZECH ? "Částka" : "Amount" }`}
+                      value={formatLang(userLangID, "Částka", "Amount")}
                       handleSort={handleSort}
                     />
 

@@ -1,5 +1,8 @@
 import AuthForm from "../../Forms/AuthForm/AuthForm"
 
+
+// TODO - Upravit UI!
+
 const HeroNotLogged = () => {
   return (
     <div className="w-full h-full flex flex-col items-center justify-between lg:flex-row">

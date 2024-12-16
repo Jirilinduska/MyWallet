@@ -1,18 +1,30 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import { IconClose } from "../../../../utils/icons/icons"
-import { IEditTransModal } from "../../../../utils/interfaces/interfaces"
+import { ITransaction } from "../../../../utils/interfaces/interfaces"
 import Input from "../../Input/Input"
 import DatePickerElement from "../../DateStuff/DatePicker/DatePickerElement"
 import SelectCategory from "../../SelectCategory/SelectCategory"
-import { handleDeleteTransaction, handleUpdateTransaction } from "../../../../API/Transactions"
+import { handleUpdateTransaction } from "../../../../API/Transactions"
 import { handleErrMsg } from "../../../../utils/functions/handleErrMsg"
 import { handleSuccMsg } from "../../../../utils/functions/handleSuccMsg"
 import { useUserContext } from "../../../../context/UserContext"
-import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, LANG_CZECH, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../../config/globals"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, LANG_CZECH, NOTIF_SUCCESS, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../../config/globals"
+import { useTransactionsContext } from "../../../../context/TransactionsContext"
+import { useParams } from "react-router-dom"
+import { handleNotification } from "../../../../utils/functions/notificationsUtils"
 
-const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transaction, fetchTransData, pageID }) => {
+
+interface EditTransModalProsp {
+  toggleEditModal: () => void
+  transaction: ITransaction
+}
+
+const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transaction }) => {
 
     const { refreshUserData, userLangID } = useUserContext()
+    const { fetchExpenseData, fetchIncomeData, date, deleteTransaction } = useTransactionsContext()
+
+    const { pageID } = useParams()
 
     const [errMsg, setErrMsg] = useState("")
     const [succMsg, setSuccMsg] = useState("")
@@ -53,21 +65,16 @@ const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transactio
       }
     }
 
-    const handleDeleteTrans = async() => {
-      try {
-        await handleDeleteTransaction(transaction._id)
-        fetchTransData()
-        toggleEditModal()
-      } catch (error) {
-        console.log(error)
-        handleErrMsg("Something went wrong", "Něco se pokazilo", setErrMsg, userLangID)
-      }
-    }
-
+    // TODO - Přidat ke kontextu
     const handleUpdateTrans = async() => {
       try {
         await handleUpdateTransaction(transData)
-        fetchTransData()
+        if(pageID === PAGE_ID_INCOME) {
+          fetchIncomeData(date.month, date.year)
+        }
+        if(pageID === PAGE_ID_TRANSACTIONS) {
+          fetchExpenseData(date.month, date.year)
+        }
         handleSuccMsg("Updated successfully", "Úspěšně aktualizováno", setSuccMsg, userLangID)
       } catch (error) {
         console.log(error)
@@ -143,7 +150,11 @@ const EditTransModal: React.FC<IEditTransModal> = ({ toggleEditModal, transactio
             {/* // Delete transaction */}
             <button 
               className="button-red w-1/3 mx-auto block"
-              onClick={handleDeleteTrans}
+              onClick={() => {
+                console.log('Deleting transaction:', transaction._id)
+                deleteTransaction(transaction._id, userLangID)
+                toggleEditModal()
+              }}
             >
               { userLangID === LANG_CZECH ? "Odstranit" : "Delete" }
             </button>

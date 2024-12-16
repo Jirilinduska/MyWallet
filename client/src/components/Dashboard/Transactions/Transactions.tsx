@@ -2,21 +2,17 @@ import { useEffect, useState } from "react"
 import { IconAdd } from "../../../utils/icons/icons"
 import NewTransModal from "../../UI/Modals/NewTransModal/NewTransModal"
 import TransactionsTable from "../../UI/Tables/TransactionsTable/TransactionsTable"
-import { handleGetTransactions } from "../../../API/Transactions"
-import { IGraphBreakdownData, ITransaction } from "../../../utils/interfaces/interfaces"
 import EditTransModal from "../../UI/Modals/EditTransModal/EditTransModal"
 import { useUserContext } from "../../../context/UserContext"
-import { LANG_CZECH, NOTIF_ERROR, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
-import PieGraph from "../../Graphs/PieGraph/PieGraph"
+import { PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
 import { useParams } from "react-router-dom"
 import MonthNavigator from "../../UI/DateStuff/MonthNavigator/MonthNavigator"
-import { handleGetIncomes } from "../../../API/Income"
 import { getMonthName } from "../../../utils/functions/dateUtils"
-import { formatCurrency } from "../../../utils/functions/formatNumber"
 import "animate.css"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
-import { handleNotification } from "../../../utils/functions/notificationsUtils"
+import { useTransactionsContext } from "../../../context/TransactionsContext"
+import { ITransaction } from "../../../utils/interfaces/interfaces"
 
 
 const Transactions = () => {
@@ -24,102 +20,42 @@ const Transactions = () => {
     const { refreshUserData, userLangID, userCurrency } = useUserContext()
     const { pageID } = useParams()
 
+    const { fetchExpenseData, fetchIncomeData, graphData, totalPrice, transactionExpense, transactionIncome, date } = useTransactionsContext()
+
     const [showNewTrans, setShowNewTrans] = useState(false)
-    const [transactions, setTransactions] = useState<ITransaction[]>([])
-    const [graphData, setGraphData] = useState<IGraphBreakdownData[]>([])
     const [showEditModal, setShowEditModal] = useState(false)
     const [selectedTransaction, setSelectedTransaction] = useState<ITransaction | null>(null)
-    const [loading, setLoading] = useState(false)
-    const [totalPrice, setTotalPrice] = useState(0)
 
     const toggleEditModal = () => setShowEditModal(!showEditModal)
 
     const handleHideNewTransModal = () => setShowNewTrans(false)
 
     // TODO Dokončit sorttovani
-    // const [sortedData, setSortedData] = useState<ITransaction[]>(transactions)
-    const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc")
 
-    const handleSortByAmount = () => {
-      const newSortOrder = sortOrder === "asc" ? "desc" : "asc"
+    // TODO - OPRAVIT CHYBY!!!!!!§
 
-      const sorted = [...transactions].sort((a, b) => {
-        if (newSortOrder === "asc") {
-          return a.day - b.day
-        } else {
-          return b.day - a.day
-        }
-      })
-      setTransactions(sorted)
-      setSortOrder(newSortOrder)
+    const monthName = getMonthName(date.year, date.month, userLangID)
 
-    }
-
-    const [date, setDate] = useState( () => {
-        const today = new Date()
-        return { month: today.getMonth() + 1, year: today.getFullYear() }
-    })
-
-
-    useEffect( () => {
-        console.log(date)
-        if(pageID === PAGE_ID_TRANSACTIONS) fetchTransData()
-        if(pageID === PAGE_ID_INCOME) fetchIncomeData()
-    }, [date, pageID] )
 
     useEffect( () => {
         if(!userLangID) refreshUserData()
     }, [] )
 
-    const handlePrevMonth = () => {
-        setDate( (prev) => {
-            const newMonth = prev.month - 1
-            return  newMonth < 1 
-            ? { month: 12, year: prev.year - 1 }
-            : { month: newMonth, year: prev.year }
-        })
-    }
-
-    const handleNextMonth = () => {
-        setDate( (prev) => {
-            const newMonth = prev.month + 1
-            return newMonth > 12
-            ? { month: 1, year: prev.year + 1 }
-            : { month: newMonth, year: prev.year }
-        })
-    }
-
-    // TODO - Zrefactorovat do jedne funkce :)
-    const fetchTransData = async() => {
-        setLoading(true)
-        try {
-            const response = await handleGetTransactions(date.month, date.year)
-            setTransactions(response.data.transactions)
-            setGraphData(response.data.graphData)
-            setTotalPrice(response.data.totalPrice)
-        } catch (error) {
-            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
-        } finally {
-            setLoading(false)
+    useEffect(() => {
+        if(pageID === PAGE_ID_INCOME && transactionIncome.length === 0) {
+            if(date) {
+                fetchIncomeData(date.month, date.year)
+            }
+        } else if(pageID === PAGE_ID_TRANSACTIONS && transactionExpense.length === 0) {
+            if(date) {
+                if(!transactionExpense) fetchExpenseData(date.month, date.year)
+            }
         }
-    }
-
-    // TODO - Dokončit
-    const fetchIncomeData = async() => {
-        setLoading(true)
-        try {
-            const response = await handleGetIncomes(date.month, date.year)
-            setTransactions(response.data.transactions)
-            setGraphData(response.data.graphData)
-            setTotalPrice(response.data.totalPrice)
-        } catch (error) {
-            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    const monthName = getMonthName(date.year, date.month, userLangID)
+        // fetchIncomeData(date.month, date.year)
+        // fetchExpenseData(date.month, date.year)
+        // console.log(date.month, date.year)
+    }, [] )
+    
 
   return (
     <div className="md:ml-[250px] p-6 min-h-screen">
@@ -128,16 +64,12 @@ const Transactions = () => {
             <EditTransModal 
                 toggleEditModal={toggleEditModal}
                 transaction={selectedTransaction}
-                fetchTransData={fetchTransData} 
-                pageID={pageID}  
             /> 
         )}
 
         { showNewTrans && (
             <NewTransModal
                 handleHide={handleHideNewTransModal} 
-                fetchIncomeData={fetchIncomeData}
-                fetchTransData={fetchTransData}
                 pageID={pageID}
                 langID={userLangID}
             />
@@ -149,45 +81,50 @@ const Transactions = () => {
             <IconAdd className="icon text-6xl" onClick={ () => setShowNewTrans(true) }/>
         </div>
 
-        <MonthNavigator
-            fetchIncomeData={fetchIncomeData}
-            fetchTransData={fetchTransData}
-            handleNextMonth={handleNextMonth}
-            handlePrevMonth={handlePrevMonth}
-            month={date.month}
-            monthName={monthName}
-            pageID={pageID}
-            year={date.year}
-        />
+        <MonthNavigator pageID={pageID} monthName={monthName} />
 
-
-        { transactions.length > 0 && (
-            <div className="my-10 flex items-center justify-between">
-                <PieGraph graphData={graphData} pageID={pageID} langID={userLangID} /> 
-                {/* // TODO -  Přidat možnost export Data! */}
-                <div className="">
-                    <button className="button-blue">Export data</button>
-                    <p className="">{formatCurrency(totalPrice, userCurrency)}</p>
-                </div>
-            </div>
-        )}
-
-        { transactions.length === 0 && (
+        { transactionExpense.length === 0 && pageID === PAGE_ID_TRANSACTIONS && (
             <div className="flex items-center justify-center mt-20">
-                <p className="h-full">{`No ${pageID === PAGE_ID_TRANSACTIONS ? "transactions" : "incomes" } found for ${monthName}.`}</p>
+                <p className="h-full">{`No transactions found for ${monthName}.`}</p>
+            </div>
+        )}
+        { transactionIncome.length === 0 && pageID === PAGE_ID_INCOME && (
+            <div className="flex items-center justify-center mt-20">
+                <p className="h-full">{`No income found for ${monthName}.`}</p>
             </div>
         )}
 
-        {transactions.length > 0 && (
-            <TransactionsTable
-                data={transactions.map(transaction => ({
-                    ...transaction,
-                onEdit: () => {
-                    setSelectedTransaction(transaction)
-                    toggleEditModal()
-                }}))}
-            />
+        {/* // TODO Přidat graf + totalIncome */}
+
+        { transactionIncome.length >= 1 && pageID === PAGE_ID_INCOME && (
+            
+            <>
+                <TransactionsTable
+                    data={transactionIncome.map(transaction => ({
+                        ...transaction,
+                    onEdit: () => {
+                        setSelectedTransaction(transaction)
+                        toggleEditModal()
+                    }}))}
+                />
+            </>
         )}
+
+        { transactionExpense.length >= 1 && pageID === PAGE_ID_TRANSACTIONS && (
+            <>
+            
+                <TransactionsTable
+                    data={transactionExpense.map(transaction => ({
+                    ...transaction,
+                    onEdit: () => {
+                        setSelectedTransaction(transaction)
+                        toggleEditModal()
+                    }}))}
+                />
+            </>
+        )}
+
+        
 
     </div>
   )
