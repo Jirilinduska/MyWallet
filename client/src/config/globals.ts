@@ -30,3 +30,18 @@ export const NOTIF_SUCCESS = "success"
 export const NOTIF_ERROR = "error"
 export const NOTIF_INFO = "info"
 export const NOTIF_WARN = "warn"
+
+
+// Transactions tabs
+export const SHOW_TABLE = "show_table"
+export const SHOW_CHARTS = "show_charts"
+export const SHOW_CATEGORIES = "show_categories"
+
+
+// InfoItem colors
+export const COLOR_INFOITEM_BLUE  = "blue"
+export const COLOR_INFOITEM_WHITE = "white"
+export const COLOR_INFOITEM_GREEN = "green"
+export const SIZE_SMALL  = ""
+export const SIZE_MEDIUM = ""
+export const SIZE_LARGE = ""

@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useUserContext } from '../../../context/UserContext'
+import { formatLang } from '../../../utils/functions/formatLang'
+import { formatCurrency } from '../../../utils/functions/formatNumber'
 
 
-interface IProgressRadius {
-    title: string,
+interface ProgressRadiusProps {
     plannedPrice: number,
     actualPrice: number,
-    currency: string
 }
 
-const ProgressRadius = ({ title, plannedPrice, actualPrice, currency } : IProgressRadius) => {
+const ProgressRadius = ({ plannedPrice, actualPrice } : ProgressRadiusProps) => {
+
+    const { refreshUserData, userLangID, userCurrency } = useUserContext()
 
     const percent = Math.min((actualPrice / plannedPrice) * 100)
     const displayedPercent = percent.toFixed(0)
@@ -28,64 +31,68 @@ const ProgressRadius = ({ title, plannedPrice, actualPrice, currency } : IProgre
         progressColor = "#1d4ed8"
     }
 
+    useEffect(() => {
+        if(!userCurrency) refreshUserData()
+    }, [])
+
   return (
     <div className="text-center shadow-lg rounded-lg w-[250px] p-4">
         
-    <h2 className="text-xl font-bold mb-2">{title}</h2>
+        <h2 className="text-xl font-bold mb-2">{formatLang(userLangID, "Stav rozpočtu", "Budget status")}</h2>
 
-    {/* Popis */}
-    <p className="text-gray-600 mb-4">
-        Aktuální využití rozpočtu:
-    </p>
+        {/* Popis */}
+        <p className="text-gray-600 mb-4">
+            {formatLang(userLangID, "Aktuální využití rozpočtu", "Current Budget Usage")}
+        </p>
 
-    {/* SVG kruhový graf */}
-    <svg width="120" height="120" className="mx-auto">
-        
-        {/* Šedé pozadí kruhu */}
-        <circle
-            cx="60"
-            cy="60"
-            r={radius}
-            fill="transparent"
-            stroke="#e0e0e0"
-            strokeWidth="10"
-        />
+        {/* SVG kruhový graf */}
+        <svg width="120" height="120" className="mx-auto">
 
-        {/* Vyplněný kruh s barvou */}
-        <circle
-            cx="60"
-            cy="60"
-            r={radius}
-            fill="transparent"
-            stroke={progressColor}
-            strokeWidth="10"
-            strokeDasharray={circumference}
-            strokeDashoffset={offset}
-            strokeLinecap="round"
-            transform="rotate(-90 60 60)"
-        />
+            {/* Šedé pozadí kruhu */}
+            <circle
+                cx="60"
+                cy="60"
+                r={radius}
+                fill="transparent"
+                stroke="#e0e0e0"
+                strokeWidth="10"
+            />
 
-        {/* Text s procenty */}
-        <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="20" fill="#333">
-            {displayedPercent}%
-        </text>
-    </svg>
+            {/* Vyplněný kruh s barvou */}
+            <circle
+                cx="60"
+                cy="60"
+                r={radius}
+                fill="transparent"
+                stroke={progressColor}
+                strokeWidth="10"
+                strokeDasharray={circumference}
+                strokeDashoffset={offset}
+                strokeLinecap="round"
+                transform="rotate(-90 60 60)"
+            />
 
-    {/* Text pod grafem */}
-    <p className="mt-4 text-gray-700 mb-4">
-        {percent > 100 ? "Překročený rozpočet!" : "V rámci rozpočtu"}
-    </p>
+            {/* Text s procenty */}
+            <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="20" fill="#333">
+                {displayedPercent}%
+            </text>
+        </svg>
 
-    <p className="flex items-center gap-2">
-        Planned: 
-        <span className="flex items-center gap-1">{plannedPrice.toLocaleString()} <span>{currency}</span></span>
-    </p>
+        {/* Text pod grafem */}
+        <p className="mt-4 text-gray-700 mb-4">
+            {percent > 100 ? `${formatLang(userLangID, "Překročený rozpočet!", "Budget Exceeded!")}` : `${formatLang(userLangID, "V rámci rozpočtu", "Within Budget")}`}
+        </p>
 
-    <p className="flex items-center gap-2">
-        Actual: 
-        <span className="flex items-center gap-1">{actualPrice.toLocaleString()} <span>{currency}</span></span>
-    </p>
-</div>
+        <p className="flex items-center gap-2">
+            {formatLang(userLangID, "Naplánováno", "Planend")}
+            <span className="">{formatCurrency(plannedPrice, userCurrency)}</span>
+        </p>
+
+        <p className="flex items-center gap-2">
+            {formatLang(userLangID, "Skutečná", "Actual")}
+            <span className="">{formatCurrency(actualPrice, userCurrency)}</span>
+        </p>
+    </div>
   )
 }
 

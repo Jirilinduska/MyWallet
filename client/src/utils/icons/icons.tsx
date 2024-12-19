@@ -4,7 +4,7 @@ import { MdDashboard, MdCategory, MdDeleteForever, MdOutlineSmokingRooms, MdAtta
 import { GiMoneyStack, GiTakeMyMoney, GiPill,  } from "react-icons/gi";
 import { RiMenu3Line, RiArrowGoBackLine } from "react-icons/ri";
 import { FaUserTie, FaSort, FaCar , FaMoneyBillWave, FaPiggyBank, FaTshirt, FaShieldAlt, FaHiking, FaWallet } from "react-icons/fa";
-import { FaPowerOff, FaRegLightbulb } from "react-icons/fa6";
+import { FaPowerOff, FaRegLightbulb, FaChartLine, FaRegCalendarMinus, FaRegCalendarPlus } from "react-icons/fa6";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { CiPizza, CiEdit } from "react-icons/ci";
 import { BiSolidDrink } from "react-icons/bi";
@@ -59,4 +59,7 @@ export {
     FaHiking as IconHiking,
     MdAttachMoney as IconDollar,
     FaWallet as IconWallet,
+    FaChartLine as IconChart,
+    FaRegCalendarMinus as IconExpense,
+    FaRegCalendarPlus as IconIncome
 }

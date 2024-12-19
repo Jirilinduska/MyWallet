@@ -1,28 +1,20 @@
 import { useEffect, useState } from "react"
 import { useUserContext } from "../../../context/UserContext"
-import { LANG_CZECH } from "../../../config/globals"
-import { handleGetOverview } from "../../../API/Overview"
-import { formatCurrency } from "../../../utils/functions/formatNumber"
+import { COLOR_INFOITEM_BLUE, COLOR_INFOITEM_GREEN, COLOR_INFOITEM_WHITE, LANG_CZECH, SIZE_MEDIUM } from "../../../config/globals"
 import DateNavigator from "../../UI/DateNavigator/DateNavigator"
-import InfoRow from "../../UI/InfoRow/InfoRow"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
+import { useOverviewData } from "../../../context/OverviewDataContext"
+import { IconExpense, IconIncome, IconMoneyInHand } from "../../../utils/icons/icons"
+import InfoItem from "../../UI/InfoItem/InfoItem"
 
 const Overview = () => {
 
-    const { refreshUserData, userLangID, userCurrency } = useUserContext()
+    const { refreshUserData, userLangID } = useUserContext()
+    const { refreshOverviewData, overviewData } = useOverviewData()
 
     const [year, setYear] = useState(0)
     const [month, setMonth] = useState(0)
-    const [overViewData, setOverviewData] = useState({
-        yearTotalExpense: 0,
-        yearTotalIncome: 0,
-        savedThisYear: 0,
-        monthTotalExpense: 0,
-        monthTotalIncome: 0,
-        savedThisMonth: 0,
-        monthBudget: 0
-    })
 
 
     useEffect(() => {
@@ -35,23 +27,12 @@ const Overview = () => {
 
     useEffect(() => {
         if (year !== 0) { 
-            handleFetchData()
+            refreshOverviewData(year, month)
         }
     }, [year])
 
     const handlePrevYear = () => setYear(year - 1)
     const handleNextYear = () => setYear(year + 1)
-
-    const handleFetchData = async() => {
-
-        try {
-            const response = await handleGetOverview(year, month)
-            console.log(response)
-            setOverviewData(response.data)
-        } catch (error) {
-            console.log("handleFetchData() => : ", error)
-        }
-    }
 
 
   return (
@@ -66,28 +47,75 @@ const Overview = () => {
         />
 
         {/* // TODO - Další sekce */}
+        {/* // TODO - Přdat nahoru tlačítka (stats, graphs) pro možnost překliknutní na grafy/statistiky */}
 
         { month === (new Date().getMonth() + 1) && year === new Date().getFullYear() && (
             <div className="mb-10 p-4 bg-white shadow-md rounded-lg">
+
                 <h3 className="font-bold mb-6 border-b pb-2">
-                    { userLangID === LANG_CZECH ? "Tento měsíc" : "This month" }
+                    {formatLang(userLangID, "Tento měsíc", "This month" )}
                 </h3>
-        
-                <InfoRow title={userLangID === LANG_CZECH ? "Příjmy" : "Income"} value={formatCurrency(overViewData.monthTotalIncome, userCurrency)} color="text-green-500" />
-                <InfoRow title={userLangID === LANG_CZECH ? "Výdaje" : "Expense"} value={formatCurrency(overViewData.monthTotalExpense, userCurrency)} color="text-red-500" />
-                <InfoRow title={userLangID === LANG_CZECH ? "Ušetřeno" : "Saved"} value={formatCurrency(overViewData.savedThisMonth, userCurrency)} color="text-blue-500" />
-                <InfoRow title={userLangID === LANG_CZECH ? "Plánovaná útrata" : "Planned expense"} value={formatCurrency(overViewData.monthBudget, userCurrency)} color="text-orange-500" />
+
+                { overviewData && (
+                    <div className="flex items-center gap-4">
+                        
+                        <InfoItem 
+                            amount={overviewData.monthTotalExpense} 
+                            desc={formatLang(userLangID, "Výdaje", "Expense")} 
+                            icon={<IconExpense/>} 
+                            plannedAmount={overviewData.monthBudget} 
+                            color={COLOR_INFOITEM_WHITE}
+                        />
+
+                        <InfoItem 
+                            amount={overviewData.monthTotalIncome} 
+                            desc={formatLang(userLangID, "Příjmy", "Income")} 
+                            icon={<IconIncome/>} 
+                            plannedAmount={null} 
+                            color={COLOR_INFOITEM_GREEN}
+                        />
+
+                    </div>
+                )}
             </div>
         )}
 
+
         <div className="mb-10 p-4 bg-white shadow-md rounded-lg">
+
             <h3 className="font-bold text-lg mb-10">
                 { year === new Date().getFullYear() ? `${userLangID === LANG_CZECH ? `Tento rok (${year})` : `This year (${year})`}` : `(${year})`}
             </h3>
 
-            <InfoRow title={userLangID === LANG_CZECH ? "Příjmy" : "Income"} value={formatCurrency(overViewData.yearTotalIncome, userCurrency)} color="text-green-500" />
-            <InfoRow title={userLangID === LANG_CZECH ? "Výdaje" : "Expense"} value={formatCurrency(overViewData.yearTotalExpense, userCurrency)} color="text-red-500" />
-            <InfoRow title={userLangID === LANG_CZECH ? "Ušetřeno" : "Saved"} value={formatCurrency(overViewData.savedThisYear, userCurrency)} color="text-blue-500" />
+            { overviewData && (
+                <div className="flex items-center gap-4">
+
+                    <InfoItem 
+                        amount={overviewData.yearTotalExpense} 
+                        desc={formatLang(userLangID, "Výdaje", "Expense")} 
+                        icon={<IconExpense/>} color={COLOR_INFOITEM_WHITE} 
+                        plannedAmount={null}
+                    />
+
+                    <InfoItem 
+                        amount={overviewData.yearTotalIncome} 
+                        desc={formatLang(userLangID, "Příjmy", "Income")} 
+                        icon={<IconIncome/>} 
+                        color={COLOR_INFOITEM_GREEN} 
+                        plannedAmount={null}
+                    />
+
+                    <InfoItem 
+                        amount={overviewData.savedThisYear} 
+                        desc={formatLang(userLangID, "Ušetřeno", "Saved")} 
+                        icon={<IconMoneyInHand/>} 
+                        color={COLOR_INFOITEM_BLUE} 
+                        plannedAmount={null}
+
+                    />
+
+                </div>
+            )}
         </div>
 
         {/* // TODO - Přidat grafy */}

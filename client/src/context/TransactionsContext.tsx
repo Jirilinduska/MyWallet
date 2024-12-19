@@ -70,6 +70,7 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
         try {
             const response = await handleGetTransactions(month, year)
             console.log('Expense data:', response.data.transactions) 
+            // const data = response.data.transactions
             setTransactionExpense(response.data.transactions)
             setGraphData(response.data.graphData)
             setTotalPrice(response.data.totalPrice)

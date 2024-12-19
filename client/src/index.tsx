@@ -6,6 +6,7 @@ import { CategoriesProvider } from './context/CategoriesContext'
 import { UserProvider } from './context/UserContext'
 import { BudgetProvider } from './context/BudgetsContext'
 import { TransactionsProvider } from './context/TransactionsContext'
+import { OverviewDataProvider } from './context/OverviewDataContext'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,9 +19,11 @@ root.render(
       <CategoriesProvider>
         <BudgetProvider>
           <TransactionsProvider>
+            <OverviewDataProvider>
 
-            <App />
-
+              <App />
+              
+            </OverviewDataProvider>
           </TransactionsProvider>
         </BudgetProvider>
       </CategoriesProvider>

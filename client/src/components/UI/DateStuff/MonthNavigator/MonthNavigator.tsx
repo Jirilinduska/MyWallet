@@ -11,7 +11,7 @@ const MonthNavigator: React.FC<MonthNavigatorProps> = ({ pageID, monthName }) =>
     const { date, handleNextMonth, handlePrevMonth } = useTransactionsContext()
 
   return (
-    <div className='flex items-center gap-4'>
+    <div className='flex items-center justify-between w-[200px]'>
         
         <IconPrev 
             onClick={ () => pageID && handlePrevMonth(pageID)} 

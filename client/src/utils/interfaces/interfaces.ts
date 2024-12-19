@@ -64,6 +64,19 @@ export interface INewBudgetCategories {
     price: string
 }
 
+export interface IOverviewData {
+    yearTotalExpense: number
+    yearTotalIncome: number
+    savedThisYear: number
+    monthTotalExpense: number
+    monthTotalIncome: number
+    savedThisMonth: number
+    monthBudget: number
+    todayExpense: ITransaction[] | null
+    lastExpense: ITransaction
+    lastExpenseIconID: number
+}
+
 
 // ! ===================
 

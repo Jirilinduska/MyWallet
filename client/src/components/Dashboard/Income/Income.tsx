@@ -14,6 +14,7 @@ import EditTransModal from "../../UI/Modals/EditTransModal/EditTransModal"
 import { BarLoader } from "react-spinners"
 import PieGraph from "../../Graphs/PieGraph/PieGraph"
 import { formatCurrency } from "../../../utils/functions/formatNumber"
+import TransactionsHeader from "../TransactionsHeader/TransactionsHeader"
 
 const Income = () => {
 
@@ -39,6 +40,7 @@ const Income = () => {
   return (
     <div className="md:ml-[250px] p-6 min-h-screen">
 
+        {/* Modal window - Edit transaction */}
         { showEditModal && selectedTransaction && (
             <EditTransModal 
                 toggleEditModal={toggleEditModal}
@@ -46,6 +48,7 @@ const Income = () => {
             /> 
         )}
 
+        {/* Modal window - Create transaction */}
         { showNewTrans && (
             <NewTransModal
                 handleHide={handleHideNewTransModal} 
@@ -54,6 +57,7 @@ const Income = () => {
             />
         )}
 
+        {/* Section title */}
         <div className="w-full flex items-center justify-between">
             <SectionTitle value={formatLang(userLangID, "Příjmy", "Income")} />
             <IconAdd className="icon text-6xl" onClick={ () => setShowNewTrans(true) }/>
@@ -61,6 +65,7 @@ const Income = () => {
 
         <MonthNavigator pageID={PAGE_ID_INCOME} monthName={getMonthName(date.year, date.month, userLangID)} />
 
+        {/* // TODO - Změnit content, pokud není income/expense pro daný mesic... */}
         { transactionIncome.length === 0 && (
             <div className="flex items-center justify-center mt-20">
                 <p className="h-full">
@@ -72,13 +77,18 @@ const Income = () => {
             </div>
         )}
 
+        {/* // TODO - Dodelat header a dat do nej sekci podtímto :) */}
+        {/* <TransactionsHeader/> */}
+
         { transactionIncome.length >= 1 && (
             <div className="flex items-center justify-between">
                 <PieGraph langID={userLangID} pageID={PAGE_ID_INCOME} graphData={graphData}/>
                 <p className="font-bold">{formatCurrency(totalPrice, userCurrency)}</p>
+                {/* // TODO - Přidat souhr utra podle kategorii! (graphData) */}
             </div>
         )}
 
+        {/* // TODO - Změnit zobrazení "tabulky" na mobilu. - Nová komponenta! */}
         { transactionIncome.length >= 1 && (
             <>
                 <TransactionsTable
