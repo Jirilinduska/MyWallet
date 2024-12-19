@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useUserContext } from "../../../context/UserContext"
-import { COLOR_INFOITEM_BLUE, COLOR_INFOITEM_GREEN, COLOR_INFOITEM_WHITE, LANG_CZECH, SIZE_MEDIUM } from "../../../config/globals"
+import { COLOR_INFOITEM_BLUE, COLOR_INFOITEM_GREEN, COLOR_INFOITEM_WHITE, LANG_CZECH, SIZE_MEDIUM, SIZE_ROW } from "../../../config/globals"
 import DateNavigator from "../../UI/DateNavigator/DateNavigator"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
@@ -57,7 +57,8 @@ const Overview = () => {
                 </h3>
 
                 { overviewData && (
-                    <div className="flex items-center gap-4">
+                    // <div className="flex items-center gap-4">
+                    <div className="">
                         
                         <InfoItem 
                             amount={overviewData.monthTotalExpense} 
@@ -65,6 +66,7 @@ const Overview = () => {
                             icon={<IconExpense/>} 
                             plannedAmount={overviewData.monthBudget} 
                             color={COLOR_INFOITEM_WHITE}
+                            size={SIZE_ROW}
                         />
 
                         <InfoItem 
@@ -73,6 +75,16 @@ const Overview = () => {
                             icon={<IconIncome/>} 
                             plannedAmount={null} 
                             color={COLOR_INFOITEM_GREEN}
+                            size={SIZE_ROW}
+                        />
+
+                        <InfoItem 
+                            amount={overviewData.monthTotalIncome - overviewData.monthTotalExpense} 
+                            desc={formatLang(userLangID, "Ušetřeno", "Saved")} 
+                            icon={<IconMoneyInHand/>} 
+                            plannedAmount={null} 
+                            color={COLOR_INFOITEM_BLUE}
+                            size={SIZE_ROW}
                         />
 
                     </div>
@@ -88,13 +100,15 @@ const Overview = () => {
             </h3>
 
             { overviewData && (
-                <div className="flex items-center gap-4">
+                // <div className="flex items-center gap-4">
+                <div className="">
 
                     <InfoItem 
                         amount={overviewData.yearTotalExpense} 
                         desc={formatLang(userLangID, "Výdaje", "Expense")} 
                         icon={<IconExpense/>} color={COLOR_INFOITEM_WHITE} 
                         plannedAmount={null}
+                        size={SIZE_ROW}
                     />
 
                     <InfoItem 
@@ -103,6 +117,7 @@ const Overview = () => {
                         icon={<IconIncome/>} 
                         color={COLOR_INFOITEM_GREEN} 
                         plannedAmount={null}
+                        size={SIZE_ROW}
                     />
 
                     <InfoItem 
@@ -111,6 +126,7 @@ const Overview = () => {
                         icon={<IconMoneyInHand/>} 
                         color={COLOR_INFOITEM_BLUE} 
                         plannedAmount={null}
+                        size={SIZE_ROW}
 
                     />
 

@@ -8,7 +8,7 @@ import HeroTransactionItem from "../../HeroTransactionItem/HeroTransactionItem"
 import { formatLang } from "../../../utils/functions/formatLang"
 import InfoRow from "../../UI/InfoRow/InfoRow"
 import InfoItem from "../../UI/InfoItem/InfoItem"
-import { COLOR_INFOITEM_GREEN } from "../../../config/globals"
+import { COLOR_INFOITEM_GREEN, SIZE_ROW } from "../../../config/globals"
 import { IconExpense } from "../../../utils/icons/icons"
 
 
@@ -47,15 +47,9 @@ const HeroLogged = () => {
                   desc={overviewData.lastExpense.category}
                   icon={<IconExpense/>}
                   plannedAmount={null}
+                  size={SIZE_ROW}
                 />
 
-                {/* <HeroTransactionItem 
-                  amount={overviewData.lastExpense.amount}
-                  category={overviewData.lastExpense.category}
-                  title={overviewData.lastExpense.title}
-                  userCurrency={userCurrency}
-                  iconID={overviewData.lastExpenseIconID}
-                /> */}
             </div>
 
             <div className="my-4">

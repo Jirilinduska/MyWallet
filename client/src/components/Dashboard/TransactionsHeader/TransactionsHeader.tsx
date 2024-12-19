@@ -3,7 +3,7 @@ import { useUserContext } from "../../../context/UserContext"
 import PieGraph from "../../Graphs/PieGraph/PieGraph"
 import Tabs from "../../UI/Tabs/Tabs"
 import { IGraphBreakdownData } from "../../../utils/interfaces/interfaces"
-import { COLOR_INFOITEM_WHITE, SHOW_CATEGORIES, SHOW_TABLE, SIZE_MEDIUM, SIZE_SMALL } from "../../../config/globals"
+import { COLOR_INFOITEM_WHITE, SHOW_CATEGORIES, SHOW_TABLE, SIZE_MEDIUM, SIZE_ROW, SIZE_SMALL } from "../../../config/globals"
 import TableHeaderSortable from "../../UI/Tables/TableHeaderSortable/TableHeaderSortable"
 import { formatLang } from "../../../utils/functions/formatLang"
 import InfoItem from "../../UI/InfoItem/InfoItem"
@@ -45,7 +45,7 @@ const TransactionsHeader = ({ wantSee, toggleWantSee, pageID, graphData } : Tran
             )}
 
             { wantSee === SHOW_CATEGORIES && (
-                <div className="flex flex-wrap gap-2">
+                <div className="w-1/2 mx-auto">
 
                     { graphData.map( (x) => {
 
@@ -58,6 +58,7 @@ const TransactionsHeader = ({ wantSee, toggleWantSee, pageID, graphData } : Tran
                                 desc={x.category}
                                 icon={<IconExpense/>}
                                 plannedAmount={null} // TODO - přidat kolik bylo naplanovano pro dany mesic pro danou kategorii
+                                size={SIZE_ROW}
                             />
                         )
                     })}

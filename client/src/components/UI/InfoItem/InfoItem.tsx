@@ -1,4 +1,4 @@
-import { COLOR_INFOITEM_BLUE, COLOR_INFOITEM_GREEN, COLOR_INFOITEM_WHITE, SIZE_MEDIUM, SIZE_SMALL } from "../../../config/globals";
+import { COLOR_INFOITEM_BLUE, COLOR_INFOITEM_GREEN, COLOR_INFOITEM_WHITE, SIZE_MEDIUM, SIZE_ROW, SIZE_SMALL } from "../../../config/globals";
 import { useUserContext } from "../../../context/UserContext";
 import { formatCurrency } from "../../../utils/functions/formatNumber";
 
@@ -8,9 +8,10 @@ interface InfoItemProps {
     desc: string
     plannedAmount: number | null
     color: string
+    size: string
 }
 
-const InfoItem = ({ icon, amount, desc, plannedAmount, color }: InfoItemProps) => {
+const InfoItem = ({ icon, amount, desc, plannedAmount, color, size }: InfoItemProps) => {
 
     const { userCurrency } = useUserContext()
 
@@ -33,6 +34,27 @@ const InfoItem = ({ icon, amount, desc, plannedAmount, color }: InfoItemProps) =
 
     const bgColor = handleItemColor(color)
 
+    // Row
+    if(size === SIZE_ROW) {
+        return (
+            <div className={`rounded-xl shadow-lg ${bgColor} w-full p-3 flex items-center justify-between mb-4`}>
+
+                <div className="flex items-center gap-4">
+                    <span className="text-xl">{icon}</span>
+                    <p className="text-base font-semibold">{desc}</p>
+                </div>
+
+                <div className="flex flex-col items-end">
+
+                    <h3 className="font-semibold text-lg">{formatCurrency(amount, userCurrency)}</h3>
+
+                    <span className={`${percentage! > 75 ? "text-red-400" : "text-black"} font-semibold text-xs`}>{ plannedAmount ? `${percentage}%` : null }</span>
+                </div>
+            </div>
+        )
+    }
+
+    // Medium
     return (
         <div className={`rounded-xl shadow-lg ${bgColor} w-[200px] h-[230px] p-4 flex flex-col justify-between`}>
 
