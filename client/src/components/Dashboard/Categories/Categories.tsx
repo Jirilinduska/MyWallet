@@ -8,15 +8,9 @@ import { formatLang } from "../../../utils/functions/formatLang"
 
 const Categories = () => {
 
-    const { userLangID, refreshUserData } = useUserContext()
-    const { categoriesIncome,categoriesTransactions, refreshCategories } = useCategoriesContext()
+    const { userLangID } = useUserContext()
+    const { categoriesIncome,categoriesTransactions } = useCategoriesContext()
 
-    useEffect(() => {
-        // if(!categoriesIncome || !categoriesTransactions) refreshCategories()
-        
-        if(!userLangID) refreshUserData()
-        refreshCategories()
-    }, [categoriesIncome, categoriesTransactions] )
 
   return (
     <div className="md:ml-[250px] p-6 min-h-screen">

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState } from "react"
+import { createContext, useCallback, useContext, useEffect, useState } from "react"
 import { handleDeleteTransaction, handleGetTransactions } from "../API/Transactions"
 import { IGraphBreakdownData, ITransaction } from "../utils/interfaces/interfaces"
 import { handleGetIncomes } from "../API/Income"
@@ -120,6 +120,11 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const createTransaction = useCallback(async() => {
 
     }, [])
+
+    useEffect(() => {
+        fetchExpenseData(date.month, date.year)
+        fetchIncomeData(date.month, date.year)
+    }, [] )
 
     return (
         <TransactionsContext.Provider value={

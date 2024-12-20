@@ -25,10 +25,10 @@ const HeroLogged = () => {
   }, [])
 
   return (
-    <div className="flex flex-col items-center justify-center gap-10 h-full">
+    <div className="flex flex-col items-center justify-center gap-10 h-full w-full">
 
       { overviewData && (
-        <div className="flex flex-col items-center justify-center gap-10 xl:flex-row">
+        <div className="flex flex-col items-center justify-between gap-10 xl:flex-row">
 
           <ProgressRadius actualPrice={overviewData.monthTotalExpense} plannedPrice={overviewData.monthBudget}/>
 

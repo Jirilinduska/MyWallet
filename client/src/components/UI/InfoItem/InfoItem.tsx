@@ -1,6 +1,7 @@
-import { COLOR_INFOITEM_BLUE, COLOR_INFOITEM_GREEN, COLOR_INFOITEM_WHITE, SIZE_MEDIUM, SIZE_ROW, SIZE_SMALL } from "../../../config/globals";
+import { COLOR_BLUE, COLOR_GREEN, COLOR_RED, COLOR_WHITE, SIZE_MEDIUM, SIZE_ROW, SIZE_SMALL } from "../../../config/globals";
 import { useUserContext } from "../../../context/UserContext";
 import { formatCurrency } from "../../../utils/functions/formatNumber";
+import { IconAdd } from "../../../utils/icons/icons"
 
 interface InfoItemProps {
     icon: React.ReactElement | null
@@ -9,25 +10,30 @@ interface InfoItemProps {
     plannedAmount: number | null
     color: string
     size: string
+    formatToCurrency: boolean
+    subtitle?: string
 }
 
-const InfoItem = ({ icon, amount, desc, plannedAmount, color, size }: InfoItemProps) => {
+const InfoItem = ({ icon, amount, desc, plannedAmount, color, size, formatToCurrency, subtitle }: InfoItemProps) => {
+
 
     const { userCurrency } = useUserContext()
 
     const percentage = plannedAmount ? Math.round((amount / plannedAmount) * 100) : null
     const percentageBar = plannedAmount ? Math.min(Math.round((amount / plannedAmount) * 100), 100) : null
     
+    
 
     const handleItemColor = (color: string): string => {
         switch (color) {
-            case COLOR_INFOITEM_BLUE:
-                // return "bg-gradient-to-r from-blue-500 to-blue-300 text-white"
+            case COLOR_BLUE:
                 return "bg-blue-500 text-white"
-            case COLOR_INFOITEM_GREEN:
+            case COLOR_GREEN:
                 return "bg-green-500 text-white"
-            case COLOR_INFOITEM_WHITE:
+            case COLOR_WHITE:
                 return "bg-white text-gray-800"
+            case COLOR_RED:
+                return "bg-red-400 text-white"
             default:
                 return "bg-gray-100 text-gray-600"
         }
@@ -41,13 +47,15 @@ const InfoItem = ({ icon, amount, desc, plannedAmount, color, size }: InfoItemPr
             <div className={`rounded-xl shadow-lg ${bgColor} w-full p-3 flex items-center justify-between mb-4`}>
 
                 <div className="flex items-center gap-4">
-                    <span className="text-xl">{icon}</span>
+                    { icon && <span className="text-xl">{icon}</span> }
                     <p className="text-base font-semibold">{desc}</p>
                 </div>
 
+                <span className="text-xs">{subtitle}</span>
+
                 <div className="flex flex-col items-end">
 
-                    <h3 className="font-semibold text-lg">{formatCurrency(amount, userCurrency)}</h3>
+                    <h3 className="font-semibold text-lg">{formatToCurrency ? formatCurrency(amount, userCurrency) : amount}</h3>
 
                     <span className={`${percentage! > 75 ? "text-red-400" : "text-black"} font-semibold text-xs`}>{ plannedAmount ? `${percentage}%` : null }</span>
                 </div>
@@ -57,12 +65,16 @@ const InfoItem = ({ icon, amount, desc, plannedAmount, color, size }: InfoItemPr
 
     // Medium
     return (
-        <div className={`rounded-xl shadow-lg ${bgColor} w-[200px] h-[230px] p-4 flex flex-col justify-between`}>
+        <div className={`
+            rounded-xl shadow-lg flex flex-col justify-between
+            ${bgColor} 
+            ${size === SIZE_MEDIUM && "w-[200px] h-[230px] p-4"}
+            `}
+        >
 
-            <div className="flex items-center gap-4">
-                <span className="text-3xl">{icon}</span>
-                <h3 className="font-semibold text-xl">{formatCurrency(amount, userCurrency)}</h3>
-            </div>
+            <span className="text-3xl">{icon}</span>
+
+            <h3 className="font-semibold text-xl">{formatToCurrency ? formatCurrency(amount, userCurrency) : amount}</h3>
 
             <div className="">
                 { plannedAmount 

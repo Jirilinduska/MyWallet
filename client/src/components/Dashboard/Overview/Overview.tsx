@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useUserContext } from "../../../context/UserContext"
-import { COLOR_INFOITEM_BLUE, COLOR_INFOITEM_GREEN, COLOR_INFOITEM_WHITE, LANG_CZECH, SIZE_MEDIUM, SIZE_ROW } from "../../../config/globals"
+import { COLOR_BLUE, COLOR_GREEN, COLOR_RED, COLOR_WHITE, LANG_CZECH, SIZE_MEDIUM, SIZE_ROW } from "../../../config/globals"
 import DateNavigator from "../../UI/DateNavigator/DateNavigator"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
@@ -65,8 +65,9 @@ const Overview = () => {
                             desc={formatLang(userLangID, "Výdaje", "Expense")} 
                             icon={<IconExpense/>} 
                             plannedAmount={overviewData.monthBudget} 
-                            color={COLOR_INFOITEM_WHITE}
+                            color={COLOR_WHITE}
                             size={SIZE_ROW}
+                            formatToCurrency={true}
                         />
 
                         <InfoItem 
@@ -74,8 +75,9 @@ const Overview = () => {
                             desc={formatLang(userLangID, "Příjmy", "Income")} 
                             icon={<IconIncome/>} 
                             plannedAmount={null} 
-                            color={COLOR_INFOITEM_GREEN}
+                            color={COLOR_GREEN}
                             size={SIZE_ROW}
+                            formatToCurrency={true}
                         />
 
                         <InfoItem 
@@ -83,8 +85,9 @@ const Overview = () => {
                             desc={formatLang(userLangID, "Ušetřeno", "Saved")} 
                             icon={<IconMoneyInHand/>} 
                             plannedAmount={null} 
-                            color={COLOR_INFOITEM_BLUE}
+                            color={COLOR_BLUE}
                             size={SIZE_ROW}
+                            formatToCurrency={true}
                         />
 
                     </div>
@@ -106,28 +109,31 @@ const Overview = () => {
                     <InfoItem 
                         amount={overviewData.yearTotalExpense} 
                         desc={formatLang(userLangID, "Výdaje", "Expense")} 
-                        icon={<IconExpense/>} color={COLOR_INFOITEM_WHITE} 
+                        icon={<IconExpense/>} 
+                        color={COLOR_WHITE} 
                         plannedAmount={null}
                         size={SIZE_ROW}
+                        formatToCurrency={true}
                     />
 
                     <InfoItem 
                         amount={overviewData.yearTotalIncome} 
                         desc={formatLang(userLangID, "Příjmy", "Income")} 
                         icon={<IconIncome/>} 
-                        color={COLOR_INFOITEM_GREEN} 
+                        color={COLOR_GREEN} 
                         plannedAmount={null}
                         size={SIZE_ROW}
+                        formatToCurrency={true}
                     />
 
                     <InfoItem 
                         amount={overviewData.savedThisYear} 
                         desc={formatLang(userLangID, "Ušetřeno", "Saved")} 
                         icon={<IconMoneyInHand/>} 
-                        color={COLOR_INFOITEM_BLUE} 
+                        color={COLOR_BLUE} 
                         plannedAmount={null}
                         size={SIZE_ROW}
-
+                        formatToCurrency={true}
                     />
 
                 </div>

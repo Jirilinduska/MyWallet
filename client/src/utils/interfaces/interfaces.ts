@@ -82,6 +82,21 @@ export interface IOverviewData {
 
 }
 
+export interface ICategoryPreview {
+    categoryID: string
+    categoryName: string
+    iconID: number,
+    categoryType: string
+    totalAmount: number // Total za celou dobu
+    transactionCount: number // Count za celou dobu
+    averageAmount: number // Prumerna castka za celou dobu
+    monthlySummary: { [key: string]: number }
+    monthlyCounts: { [key: string]: number }
+    largestTransaction: ITransaction, // Největší transakce za celou dobu :)
+    largestTransactionsByMonth: ITransaction[]
+    yearlySummary: { [key: string]: number }
+}
+
 
 // ! ===================
 

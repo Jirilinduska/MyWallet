@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { COLOR_INFOITEM_BLUE, SIZE_ROW } from "../../../config/globals"
+import { COLOR_BLUE, SIZE_ROW } from "../../../config/globals"
 import { useUserContext } from "../../../context/UserContext"
 import { IGetBudget } from "../../../utils/interfaces/interfaces"
 import InfoItem from "../InfoItem/InfoItem"
@@ -31,12 +31,13 @@ const BudgetOverview = ({ budgets } : BudgetOverviewProps ) => {
               
               <InfoItem
                 amount={x.totalPricePlanned}
-                color={COLOR_INFOITEM_BLUE}
+                color={COLOR_BLUE}
                 desc={`${monthName} (${x.year})`}
                 icon={<IconChart/>}
                 plannedAmount={null}
                 size={SIZE_ROW}
                 key={x._id}
+                formatToCurrency={true}
               />
             </Link>
           )

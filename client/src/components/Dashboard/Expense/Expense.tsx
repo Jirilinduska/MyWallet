@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import NewTransModal from "../../UI/Modals/NewTransModal/NewTransModal"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { useUserContext } from "../../../context/UserContext"
@@ -17,8 +17,8 @@ import { formatCurrency } from "../../../utils/functions/formatNumber"
 
 const Expense = () => {
 
-    const { refreshUserData, userLangID, userCurrency } = useUserContext()
-    const { date, fetchExpenseData, transactionExpense, totalPrice, graphData } = useTransactionsContext()
+    const { userLangID, userCurrency } = useUserContext()
+    const { date, transactionExpense, totalPrice, graphData } = useTransactionsContext()
 
     const [showNewTrans, setShowNewTrans] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
@@ -28,14 +28,6 @@ const Expense = () => {
     const toggleWantSee = (id: string) => setWantSee(id)
     const handleHideNewTransModal = () => setShowNewTrans(false)
     const toggleEditModal = () => setShowEditModal(!showEditModal)
-
-    useEffect( () => {
-        if(!userLangID) refreshUserData()
-    }, [] )
-
-    useEffect(() => {
-        fetchExpenseData(date.month, date.year)
-    }, [] )
 
     console.log(graphData)
 

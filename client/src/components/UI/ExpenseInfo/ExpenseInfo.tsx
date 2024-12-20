@@ -1,4 +1,4 @@
-import { COLOR_INFOITEM_BLUE, COLOR_INFOITEM_GREEN, SIZE_ROW } from "../../../config/globals"
+import { COLOR_BLUE, COLOR_GREEN, SIZE_ROW } from "../../../config/globals"
 import { useCategoriesContext } from "../../../context/CategoriesContext"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
@@ -16,7 +16,7 @@ const ExpenseInfo = ({ overviewData } : ExpenseInfoProps ) => {
     const { categoriesTransactions } = useCategoriesContext()
 
   return (
-    <div className="shadow-lg rounded-lg w-full sm:w-[500px] p-4">
+    <div className="shadow-lg rounded-lg w-full p-4">
 
         <div className="my-4">
 
@@ -25,11 +25,12 @@ const ExpenseInfo = ({ overviewData } : ExpenseInfoProps ) => {
             { overviewData?.lastExpense && (
                 <InfoItem
                     amount={overviewData.lastExpense.amount}
-                    color={COLOR_INFOITEM_GREEN}
+                    color={COLOR_GREEN}
                     desc={overviewData.lastExpenseCategory.name}
                     icon={categoryIcons.find((icon) => icon.id === overviewData.lastExpenseCategory.iconID)?.iconJSX || null}
                     plannedAmount={null}
                     size={SIZE_ROW}
+                    formatToCurrency={true}
                 />  
             )}
 
@@ -49,11 +50,12 @@ const ExpenseInfo = ({ overviewData } : ExpenseInfoProps ) => {
                         <InfoItem
                           key={x._id}
                           amount={x.amount}
-                          color={COLOR_INFOITEM_BLUE}
+                          color={COLOR_BLUE}
                           desc={category?.name || formatLang(userLangID, "Neznámá kategorie", "Unknown category")}
                           icon={categoryIcons.find((icon) => icon.id === overviewData.lastExpenseCategory.iconID)?.iconJSX || null}
                           plannedAmount={null}
                           size={SIZE_ROW}
+                          formatToCurrency={true}
 
                         />
                       )

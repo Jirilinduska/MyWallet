@@ -5,6 +5,7 @@ import { IconAdd } from "../../../utils/icons/icons"
 import { ICategory } from "../../../utils/interfaces/interfaces"
 import NewCategoryModal from "../Modals/NewCategoryModal/NewCategoryModal"
 import { formatLang } from "../../../utils/functions/formatLang"
+import ItemCategory from "../../ItemCategory/ItemCategory"
 
 interface GridCategoriesProps {
     categories: ICategory[]
@@ -21,7 +22,6 @@ const GridCategories: React.FC<GridCategoriesProps> = ({ categories, title, cate
     const toggleModalEdit = () => setShowModalEdit(!showModalEdit)
     const [selectedCategory, setSelectedCategory] = useState<ICategory>()
 
-    // TODO - Opravit chybu při mazání kategorii (podle _id)!
     const handleOpenEditModal = (x: ICategory) => {
         setSelectedCategory(x)
         setShowModalEdit(true)
@@ -58,18 +58,15 @@ const GridCategories: React.FC<GridCategoriesProps> = ({ categories, title, cate
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map((x) => {
             
-                const iconObject = categoryIcons.find( (icon) => icon.id === x.iconID)
-                const iconJSX = iconObject ? iconObject.iconJSX : null
+                const iconJSX = categoryIcons.find( (icon) => icon.id === x.iconID)?.iconJSX || null
 
                 return (
-                    <div
+                    <ItemCategory
                         key={x._id}
-                        onClick={ () => handleOpenEditModal(x)}
-                        className="flex items-center gap-4 p-4 rounded-md cursor-pointer bg-white shadow hover:shadow-lg hover:bg-gray-100"
-                    >
-                        <span className="text-sm sm:text-xl lg:text-2xl text-colorBlue">{iconJSX}</span>
-                        <p className="text-xs sm:text-base xl:text-lg font-medium">{x.name}</p>
-                    </div>
+                        category={x}
+                        handleOpenEditModal={handleOpenEditModal}
+                        iconJSX={iconJSX}
+                    />
                 )
             })}
         </div>

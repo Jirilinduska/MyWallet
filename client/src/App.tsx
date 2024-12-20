@@ -28,6 +28,8 @@ const App = () => {
             <Route path='/dashboard/:pageID/preview-budget/:budgetID'  element={ <PrivateRoute> <Dashboard/> </PrivateRoute> } />
             <Route path='/dashboard/planner/create-budget' element={ <PrivateRoute> <Dashboard/> </PrivateRoute> } />
 
+            <Route path='/dashboard/:pageID/preview-category/:categoryID' element={ <PrivateRoute> <Dashboard/> </PrivateRoute> } />
+
 
             <Route 
               path='/profile'

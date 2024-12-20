@@ -1,4 +1,4 @@
-import { IoMdEye, IoIosEyeOff, IoMdAddCircle, IoIosLaptop, IoLogoGameControllerB } from "react-icons/io"
+import { IoMdEye, IoIosEyeOff, IoMdAddCircle, IoIosLaptop, IoLogoGameControllerB, IoMdSettings } from "react-icons/io"
 import { IoMail, IoCard, IoHome, IoClose, IoCheckmarkSharp } from "react-icons/io5"
 import { MdDashboard, MdCategory, MdDeleteForever, MdOutlineSmokingRooms, MdAttachMoney } from "react-icons/md";
 import { GiMoneyStack, GiTakeMyMoney, GiPill,  } from "react-icons/gi";
@@ -11,7 +11,8 @@ import { BiSolidDrink } from "react-icons/bi";
 import { AiFillDashboard, AiFillFormatPainter, AiFillGift } from "react-icons/ai";
 import { BsArrowThroughHeart, BsCupHot, BsCurrencyBitcoin, BsExclamationTriangle, BsFillBasket2Fill } from "react-icons/bs";
 import { TfiCut } from "react-icons/tfi";
-
+import { HiDotsVertical } from "react-icons/hi";
+import { BsFillBarChartLineFill } from 'react-icons/bs'
 
 export {
     IoMdEye as IconEyeShow,
@@ -61,5 +62,8 @@ export {
     FaWallet as IconWallet,
     FaChartLine as IconChart,
     FaRegCalendarMinus as IconExpense,
-    FaRegCalendarPlus as IconIncome
+    FaRegCalendarPlus as IconIncome,
+    IoMdSettings as IconSettings,
+    HiDotsVertical as IconDots,
+    BsFillBarChartLineFill as IconChart2,
 }

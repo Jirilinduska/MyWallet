@@ -30,6 +30,7 @@ export const URL_GET_CATEGORIES = `${API_BASE_URL}/api/category/get-category`
 export const URL_NEW_CATEGORY = `${API_BASE_URL}/api/category/new-category`
 export const URL_UPDATE_CATEGORY = `${API_BASE_URL}/api/category/update-category`
 export const URL_DELETE_CATEGORY = `${API_BASE_URL}/api/category/delete-category`
+export const URL_GET_CATEGORY_INFO = `${API_BASE_URL}/api/category/get-category-info`
 
 // Budget
 export const URL_NEW_BUDGET = `${API_BASE_URL}/api/budget/new-budget`
