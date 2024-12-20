@@ -20,6 +20,7 @@ export const OverviewDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const refreshOverviewData = async(year: number, month: number) => {
         try {
             const response = await handleGetOverview(year, month)
+            console.log("Overview: ", response.data)
             setOverviewData(response.data)
         } catch (error) {
             handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")

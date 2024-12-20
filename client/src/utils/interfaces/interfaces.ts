@@ -19,7 +19,10 @@ export interface MonthYearPickerProps {
 }
 
 // * =========== Datové struktury ===========
-
+export interface CategoryDetails {
+    categoryName: string;
+    categoryIcon: JSX.Element | null
+  }
 
 export interface IGetBudgetCategories {
     category: {
@@ -74,7 +77,9 @@ export interface IOverviewData {
     monthBudget: number
     todayExpense: ITransaction[] | null
     lastExpense: ITransaction
+    lastExpenseCategory: ICategory
     lastExpenseIconID: number
+
 }
 
 
@@ -102,17 +107,6 @@ export interface IProgressBar {
 export interface ITableHeaderSortable {
     value: string
     handleSort: () => void
-}
-
-// TableRow
-export interface ITableRow {
-    dateValue: string
-    titleValue: string
-    categoryValue: string
-    priceValue: number
-    toggleEditModal: () => void
-    userLangID: string
-    userCurrency: string
 }
 
 // Notifications

@@ -1,7 +1,19 @@
 import { LANG_CZECH } from "../../../../config/globals"
-import { ITableRow } from "../../../../utils/interfaces/interfaces"
 
-const TableRow: React.FC<ITableRow> = ({ dateValue, titleValue, categoryValue, priceValue, toggleEditModal, userLangID, userCurrency }) => {
+
+interface TableRowProps {
+  dateValue: string
+  titleValue: string
+  categoryValue: string
+  priceValue: number
+  toggleEditModal: () => void
+  userLangID: string
+  userCurrency: string
+  categoryIcon: React.ReactElement | null
+}
+
+
+const TableRow: React.FC<TableRowProps> = ({ dateValue, titleValue, categoryValue, priceValue, toggleEditModal, userLangID, userCurrency, categoryIcon }) => {
 
 
   return (
@@ -13,7 +25,10 @@ const TableRow: React.FC<ITableRow> = ({ dateValue, titleValue, categoryValue, p
             {titleValue}
         </th>
 
-        <td className="px-6 py-4">{categoryValue}</td>
+        <td className="px-6 py-4 flex items-center gap-2">
+          <span className="">{categoryIcon}</span>
+          <span className="">{categoryValue}</span>
+        </td>
         
         <td className="px-6 py-4">{priceValue} {userCurrency}</td>
     

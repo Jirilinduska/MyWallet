@@ -4,11 +4,11 @@ const Budget = require("../../../models/Budget")
 const newBudget = async(req,res) => {
 
     const { month, year, budgetCategories } = req.body
-    const userID = req.userID
+    const userID = req.user.userID
     
     try {
 
-        const user = await User.findOne(userID)
+        const user = await User.findById(userID)
 
         await Budget.create({
             budgetCategories,

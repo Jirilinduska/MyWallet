@@ -3,7 +3,7 @@ import { useUserContext } from "../../../context/UserContext";
 import { formatCurrency } from "../../../utils/functions/formatNumber";
 
 interface InfoItemProps {
-    icon: React.ReactElement
+    icon: React.ReactElement | null
     amount: number
     desc: string
     plannedAmount: number | null
@@ -22,9 +22,10 @@ const InfoItem = ({ icon, amount, desc, plannedAmount, color, size }: InfoItemPr
     const handleItemColor = (color: string): string => {
         switch (color) {
             case COLOR_INFOITEM_BLUE:
-                return "bg-gradient-to-r from-blue-500 to-blue-300 text-white"
+                // return "bg-gradient-to-r from-blue-500 to-blue-300 text-white"
+                return "bg-blue-500 text-white"
             case COLOR_INFOITEM_GREEN:
-                return "bg-gradient-to-r from-green-500 to-green-300 text-white"
+                return "bg-green-500 text-white"
             case COLOR_INFOITEM_WHITE:
                 return "bg-white text-gray-800"
             default:

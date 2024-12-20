@@ -9,13 +9,11 @@ import { useTransactionsContext } from "../../../context/TransactionsContext"
 import { getMonthName } from "../../../utils/functions/dateUtils"
 import TransactionsTable from "../../UI/Tables/TransactionsTable/TransactionsTable"
 import { ITransaction } from "../../../utils/interfaces/interfaces"
-import { PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS, SHOW_TABLE } from "../../../config/globals"
+import { PAGE_ID_TRANSACTIONS, SHOW_TABLE } from "../../../config/globals"
 import EditTransModal from "../../UI/Modals/EditTransModal/EditTransModal"
-import { BarLoader } from "react-spinners"
-import { formatCurrency } from "../../../utils/functions/formatNumber"
 import PieGraph from "../../Graphs/PieGraph/PieGraph"
-import Tabs from "../../UI/Tabs/Tabs"
-import TransactionsHeader from "../TransactionsHeader/TransactionsHeader"
+import { formatCurrency } from "../../../utils/functions/formatNumber"
+
 
 const Expense = () => {
 
@@ -77,11 +75,13 @@ const Expense = () => {
             </div>
         )}
 
-        {/* // TODO - Tohle takto? */}
         { transactionExpense.length >= 1 && (
-            <TransactionsHeader toggleWantSee={toggleWantSee} wantSee={wantSee} pageID={PAGE_ID_INCOME} graphData={graphData}/>
+            <div className="flex items-center justify-between">
+                <PieGraph langID={userLangID} pageID={PAGE_ID_TRANSACTIONS} graphData={graphData}/>
+                <p className="font-bold">{formatCurrency(totalPrice, userCurrency)}</p>
+                {/* // TODO - Přidat souhr utra podle kategorii! (graphData) */}
+            </div>
         )}
-
 
         {/* // TODO - Přidat "tabulku pro mobil atd..." */}
         { transactionExpense.length >= 1 && (

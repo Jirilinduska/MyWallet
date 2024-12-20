@@ -4,11 +4,11 @@ const Category = require("../../../models/Category")
 
 const getBudget = async(req,res) => {
 
-    const userID = req.userID
+    const userID = req.user.userID
     
     try {
 
-        const user = await User.findOne(userID)
+        const user = await User.findById(userID)
 
         const budgets = await Budget.find({ createdBy: user._id })
             .populate({

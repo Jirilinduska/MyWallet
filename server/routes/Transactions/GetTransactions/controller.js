@@ -6,16 +6,17 @@ const { countTotalPrice } = require("../../../libs/countTotalPrice")
 const getTransaction = async(req,res) => {
 
     const { month, year, transCategory} = req.params 
-    const userID = req.userID
+    const userID = req.user.userID
 
     try {
         
-        const user = await User.findOne(userID)
+        const user = await User.findById(userID)
 
         // Veškeré transakce podle datumu
-        const transactions = await Transaction.find({ month: month, year: year, createdBy: user._id, transCategory: transCategory })
+        const transactions = await Transaction.find({ createdBy: user._id, month, year, transCategory })
 
         // Seskupit data pro graf
+        // TODO - Tohle predelat 
         const graphData = await Transaction.aggregate([
             { 
                 $match: {

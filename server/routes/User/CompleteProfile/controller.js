@@ -4,11 +4,11 @@ const User = require("../../../models/User")
 const completeProfile = async(req,res) => {
 
     const { lang, curr, avatarID } = req.body
-    const userID = req.userID
+    const userID = req.user.userID
 
     try {
         
-        const user = await User.findOne(userID)
+        const user = await User.findById(userID)
 
         if(!user) return res.status(400).json({ message: "User not found." })
 

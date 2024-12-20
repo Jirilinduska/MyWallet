@@ -4,7 +4,7 @@ const User = require("../../../models/User")
 const updateBudget = async(req,res) => {
 
     const { _id, budgetCategories, month, year, totalPricePlanned } = req.body
-    // const userID = req.userID
+    
     // TODO - Předělat u všech :)
     const userID = req.user.userID
 
@@ -14,6 +14,7 @@ const updateBudget = async(req,res) => {
 
     try {
         const user = await User.findById(userID)
+
         if (!user) {
             console.log("User not found")
             return res.status(404).json({ message: "User not found." })

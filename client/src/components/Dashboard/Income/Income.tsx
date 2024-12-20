@@ -14,7 +14,6 @@ import EditTransModal from "../../UI/Modals/EditTransModal/EditTransModal"
 import { BarLoader } from "react-spinners"
 import PieGraph from "../../Graphs/PieGraph/PieGraph"
 import { formatCurrency } from "../../../utils/functions/formatNumber"
-import TransactionsHeader from "../TransactionsHeader/TransactionsHeader"
 
 const Income = () => {
 

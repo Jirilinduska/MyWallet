@@ -25,8 +25,8 @@ const SelectCategory: React.FC<IInputSelectCategory> = ({ value, handleChange, c
         </label>
 
         <select
-            id="category"
-            name="category"
+            id="categoryID"
+            name="categoryID"
             value={value}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -36,7 +36,7 @@ const SelectCategory: React.FC<IInputSelectCategory> = ({ value, handleChange, c
 
             { categoryType === CATEGORY_ID_TRANSACTION && categoriesTransactions.map( (cat: ICategory) => (
                 <>
-                    <option key={cat._id} value={cat.name}>
+                    <option key={cat._id} value={cat._id}>
                         {cat.name}
                     </option>
                 </>
@@ -44,7 +44,7 @@ const SelectCategory: React.FC<IInputSelectCategory> = ({ value, handleChange, c
 
             { categoryType === CATEGORY_ID_INCOME && categoriesIncome.map( (cat: ICategory) => (
                 <>
-                    <option key={cat._id} value={cat.name}>
+                    <option key={cat._id} value={cat._id}>
                         {cat.name}
                     </option>
                 </>

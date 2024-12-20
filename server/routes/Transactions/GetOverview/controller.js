@@ -8,13 +8,13 @@ const Category = require("../../../models/Category")
 const getOverview = async(req,res) => {
 
     const { year, month } = req.params 
-    const userID = req.userID
+    const userID = req.user.userID
 
     const today = new Date()
 
     try {
         
-        const user = await User.findOne(userID)
+        const user = await User.findById(userID)
 
         // Veškeré transakce podle roku
         const expense = await Transaction.find({ year: year, createdBy: user._id, transCategory: "transaction" })
@@ -30,19 +30,35 @@ const getOverview = async(req,res) => {
             .exec()
         
         if(lastExpense) {
-            const category = await Category.findOne({ 
-                // TODO tohle zmenit na ID ne name!
-                name: lastExpense.category, 
-                createdBy: user._id
-            }).exec()
+            const category = await Category.findById(lastExpense.category).exec()
 
             if(category) {
                 var lastExpenseIconID = category.iconID
+                var lastExpenseCategory = category
             } else {
                 console.log("No category found for the last expense.")
             }
         }
-        
+
+        const top3CategoriesExpense = await Transaction.aggregate([
+            { $match: {
+                year: parseInt(year),
+                month: parseInt(month),
+                createdBy: user._id, 
+                transCategory: "transaction" 
+            }},
+            { $group: {
+                _id: "$category",
+                totalAmount: { $sum: "$amount" }
+            }},
+            { $sort: { totalAmount: -1 } },
+            { $limit: 3 },
+        ])
+
+        const top3CategoryDetails = await Category.find({
+            _id: { $in: top3CategoriesExpense.map(item => item._id) }
+        })
+
         const todayExpense = await Transaction.find({
             createdBy: user._id,
             transCategory: "transaction",
@@ -76,8 +92,13 @@ const getOverview = async(req,res) => {
             monthBudget,
             todayExpense, // TODO Přidáno - interface
             lastExpense, // TODO Přidáno - interface
-            lastExpenseIconID
+            lastExpenseCategory,
+            lastExpenseIconID,
+            top3CategoriesExpense,
+            top3CategoryDetails
         }
+
+        console.log(result)
 
         return res.status(200).json(result)
 

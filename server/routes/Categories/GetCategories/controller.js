@@ -4,10 +4,10 @@ const User = require("../../../models/User")
 const getCategories = async(req,res) => {
 
     const { categoryType } = req.params
-    const userID = req.userID
+    const userID = req.user.userID
 
     try {
-        const user = await User.findOne(userID)
+        const user = await User.findById(userID)
 
         const categories = await Category.find({
             createdBy: user._id,

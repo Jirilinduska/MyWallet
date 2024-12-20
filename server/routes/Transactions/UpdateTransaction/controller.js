@@ -3,13 +3,13 @@ const Transaction = require("../../../models/Transaction")
 
 const updateTransaction = async(req,res) => {
 
-    const { id, title, amount, category, year, month, day } = req.body
+    const { id, title, amount, categoryID, year, month, day } = req.body
 
     try {
-
+        
         await Transaction.findOneAndUpdate(
             { _id: id },
-            { $set: { title, amount, category, year, month, day } }, 
+            { $set: { title, amount, category: categoryID, year, month, day } }, 
             { new: true }
         )
     

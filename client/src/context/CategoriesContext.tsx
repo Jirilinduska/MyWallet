@@ -1,8 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { ICategory } from "../utils/interfaces/interfaces"
+import { CategoryDetails, ICategory, IGraphBreakdownData } from "../utils/interfaces/interfaces"
 import { handleDeleteCategory, handleGetCategories } from "../API/Categories"
-import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, NOTIF_ERROR, NOTIF_INFO, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../config/globals"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, NOTIF_ERROR, NOTIF_INFO} from "../config/globals"
 import { handleNotification } from "../utils/functions/notificationsUtils"
+import { categoryIcons } from "../utils/icons/category-icons"
+import { formatLang } from "../utils/functions/formatLang"
 
 
 // TODO - Přida do všech contextů i ostatní funkce :)

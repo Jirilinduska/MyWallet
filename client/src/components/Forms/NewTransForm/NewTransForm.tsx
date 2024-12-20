@@ -27,7 +27,7 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
     const [transData, setTransData] = useState({ 
         title: "", 
         amount: "", 
-        category: "", 
+        categoryID: "", 
         year: new Date().getFullYear().toString(),
         month: (new Date().getMonth() + 1).toString().padStart(2, "0"),
         day: new Date().getDate().toString().padStart(2, "0"),
@@ -66,7 +66,7 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
                 setLoading(false)
                 return
             }
-            if(!transData.category) {
+            if(!transData.categoryID) {
                 handleNotification(NOTIF_ERROR, userLangID, "Prosím vyberte kategorii", "Please select a category")
                 setLoading(false)
                 return
@@ -124,7 +124,7 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
 
             <SelectCategory
                 handleChange={handleChange}
-                value={transData.category}
+                value={transData.categoryID}
                 categoryType={`${pageID === PAGE_ID_TRANSACTIONS ? CATEGORY_ID_TRANSACTION : CATEGORY_ID_INCOME}`}
             />
 
