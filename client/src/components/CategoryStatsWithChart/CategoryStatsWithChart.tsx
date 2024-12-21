@@ -93,8 +93,7 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
         <InfoItem amount={catInfo.totalAmount} color={COLOR_INFOITEM_WHITE} desc={"2023"} icon={<IconChart/>} plannedAmount={null} size={SIZE_ROW}/> */}
       </div>
 
-      {/* // TODO GRAF */}
-      <div className="w-2/4 h-full">
+      <div className="w-1/2 h-full">
         <BarChart graphData={catInfo.yearlySummary}/>
       </div>
     </div>

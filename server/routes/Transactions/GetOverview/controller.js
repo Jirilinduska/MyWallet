@@ -33,12 +33,26 @@ const getOverview = async(req,res) => {
             const category = await Category.findById(lastExpense.category).exec()
 
             if(category) {
-                var lastExpenseIconID = category.iconID
                 var lastExpenseCategory = category
             } else {
                 console.log("No category found for the last expense.")
             }
         }
+
+        const lastIncome = await Transaction.findOne({ createdBy: user._id, transCategory: "income" })
+            .sort({ createdAt: -1 })
+            .exec()
+
+        if(lastIncome) {
+            const category = await Category.findById(lastIncome.category).exec()
+
+            if(category) {
+                var lastIncomeCategory = category
+            } else {
+                console.log("No category found for the last income.")
+            }
+        }
+        
 
         const top3CategoriesExpense = await Transaction.aggregate([
             { $match: {
@@ -93,7 +107,8 @@ const getOverview = async(req,res) => {
             todayExpense, // TODO Přidáno - interface
             lastExpense, // TODO Přidáno - interface
             lastExpenseCategory,
-            lastExpenseIconID,
+            lastIncome,
+            lastIncomeCategory,
             top3CategoriesExpense,
             top3CategoryDetails
         }

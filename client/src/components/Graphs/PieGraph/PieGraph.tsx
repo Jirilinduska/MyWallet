@@ -34,13 +34,13 @@ const PieGraph: React.FC<IPieGraph> = ({ graphData, pageID, langID }) => {
             display: false
             // position: 'top' as const,
           },
-          tooltip: {
-            callbacks: {
-                label: (context: any) => {
-                    return `${context.raw} Kč`
-                },
-            }
-          },
+        //   tooltip: {
+        //     callbacks: {
+        //         label: (context: any) => {
+        //             return `${context.raw} Kč`
+        //         },
+        //     }
+        //   },
           title: {
             display: true,
             text: pageID === PAGE_ID_TRANSACTIONS 

@@ -78,7 +78,8 @@ export interface IOverviewData {
     todayExpense: ITransaction[] | null
     lastExpense: ITransaction
     lastExpenseCategory: ICategory
-    lastExpenseIconID: number
+    lastIncome: ITransaction
+    lastIncomeCategory: ICategory
 
 }
 
@@ -166,6 +167,7 @@ export interface ITransaction {
     year: number
     month: number
     day: number
+    createdAt: Date
 }
 
 export interface IGraphBreakdownData {

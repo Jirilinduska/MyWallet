@@ -47,15 +47,15 @@ const InfoItem = ({ icon, amount, desc, plannedAmount, color, size, formatToCurr
             <div className={`rounded-xl shadow-lg ${bgColor} w-full p-3 flex items-center justify-between mb-4`}>
 
                 <div className="flex items-center gap-4">
-                    { icon && <span className="text-xl">{icon}</span> }
-                    <p className="text-base font-semibold">{desc}</p>
+                    { icon && <span className="text-sm xs:text-base">{icon}</span> }
+                    <p className="text-xs xs:text-base font-semibold">{desc}</p>
                 </div>
 
                 <span className="text-xs">{subtitle}</span>
 
                 <div className="flex flex-col items-end">
 
-                    <h3 className="font-semibold text-lg">{formatToCurrency ? formatCurrency(amount, userCurrency) : amount}</h3>
+                    <h3 className="font-semibold text-xs xs:text-base">{formatToCurrency ? formatCurrency(amount, userCurrency) : amount}</h3>
 
                     <span className={`${percentage! > 75 ? "text-red-400" : "text-black"} font-semibold text-xs`}>{ plannedAmount ? `${percentage}%` : null }</span>
                 </div>

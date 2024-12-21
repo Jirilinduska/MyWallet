@@ -1,14 +1,16 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import { IOverviewData } from "../utils/interfaces/interfaces"
 import { handleGetOverview } from "../API/Overview"
 import { handleNotification } from "../utils/functions/notificationsUtils"
 import { NOTIF_ERROR } from "../config/globals"
 
-
-
 interface OverviewDataProps {
     overviewData?: IOverviewData
     refreshOverviewData: (year: number, month: number) => void
+    year: number
+    month: number
+    handlePrevYear: () => void
+    handleNextYear: () => void
 }
 
 export const OverviewDataContext = createContext<OverviewDataProps | undefined>(undefined)
@@ -16,6 +18,11 @@ export const OverviewDataContext = createContext<OverviewDataProps | undefined>(
 export const OverviewDataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const [overviewData, setOverviewData] = useState<IOverviewData | undefined>()
+    const [year, setYear] = useState(new Date().getFullYear())
+    const [month, setMonth] = useState(new Date().getMonth() + 1)
+
+    const handlePrevYear = () => setYear(year - 1)
+    const handleNextYear = () => setYear(year + 1)
 
     const refreshOverviewData = async(year: number, month: number) => {
         try {
@@ -28,8 +35,12 @@ export const OverviewDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
         }
     }
 
+    useEffect(() => {
+        refreshOverviewData(year, month)
+    }, [year, month])
+
     return (
-        <OverviewDataContext.Provider value={{ overviewData, refreshOverviewData }}>
+        <OverviewDataContext.Provider value={{ overviewData, refreshOverviewData, year, month, handleNextYear, handlePrevYear }}>
             { children }
         </OverviewDataContext.Provider>
     )

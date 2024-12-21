@@ -12,6 +12,9 @@ import { IUserDataUpdate } from "../../utils/interfaces/interfaces"
 import { handleNotification } from "../../utils/functions/notificationsUtils"
 import { formatLang } from "../../utils/functions/formatLang"
 
+// TODO - Přidat možnosti na změnu emailu, heslo, username!
+// TODO - Zmenit UI celeho profilu!
+
 const Profile = () => {
 
     const { refreshUserData, userData, userLangID } = useUserContext()
@@ -25,10 +28,6 @@ const Profile = () => {
         language: userData?.utils.language || "",
         avatarID: userData?.utils.avatarID || 0
     })
-
-    useEffect(() => {
-        refreshUserData()
-    }, [] )
 
     useEffect(() => {
         if (userData) {

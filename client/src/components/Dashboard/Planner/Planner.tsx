@@ -12,6 +12,7 @@ import BudgetOverview from "../../UI/BudgetOverview/BudgetOverview"
 import { useBudgetContext } from "../../../context/BudgetsContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { NOTIF_ERROR, NOTIF_SUCCESS } from "../../../config/globals"
+import TopBar from "../../UI/TopBar/TopBar"
 
 
 const Planner = () => {
@@ -90,7 +91,9 @@ const Planner = () => {
     }
 
   return (
-    <div className="md:ml-[250px] p-6 min-h-screen">
+    <div className="section-padding">
+
+        <TopBar showYearNavigator={false} />
 
         <SectionTitle value={formatLang(userLangID, "Plánovač výdajů", "Budget planner")} />
 

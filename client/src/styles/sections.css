@@ -1,0 +1,12 @@
+.section-padding {
+    padding-top: 6.5rem; /* pt-24 */
+    padding-left: 1.5rem; /* px-6 */
+    padding-right: 1.5rem; /* px-6 */
+    min-height: 100vh; /* min-h-screen */
+}
+
+@media (min-width: 768px) {
+    .section-padding {
+        margin-left: 250px; /* md:ml-[250px] */
+    }
+}
