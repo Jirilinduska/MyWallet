@@ -1,45 +1,64 @@
-import { LANG_CZECH } from "../../../../config/globals"
-
+import { PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../../config/globals"
+import { useCategoriesContext } from "../../../../context/CategoriesContext"
+import { useUserContext } from "../../../../context/UserContext"
+import { formatLang } from "../../../../utils/functions/formatLang"
+import { formatCurrency } from "../../../../utils/functions/formatNumber"
+import { ITransaction } from "../../../../utils/interfaces/interfaces"
 
 interface TableRowProps {
-  dateValue: string
-  titleValue: string
-  categoryValue: string
-  priceValue: number
-  toggleEditModal: () => void
-  userLangID: string
-  userCurrency: string
-  categoryIcon: React.ReactElement | null
+    transaction: ITransaction
+    transType: string;
+    setSelectedTransaction: (transaction: ITransaction) => void
+    toggleEditModal: () => void
 }
 
+const TableRow = ({ transaction, transType, setSelectedTransaction, toggleEditModal }: TableRowProps) => {
 
-const TableRow: React.FC<TableRowProps> = ({ dateValue, titleValue, categoryValue, priceValue, toggleEditModal, userLangID, userCurrency, categoryIcon }) => {
+    const { categoriesIncome, categoriesTransactions } = useCategoriesContext()
+    const { userCurrency, userLangID } = useUserContext()
 
+    const categoryID = transaction.category
+    let categoryName = "Neznámá kategorie";
 
-  return (
-    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    
-        <td className="px-6 py-4">{dateValue}</td>
+    if (transType === PAGE_ID_INCOME) {
+        categoryName = categoriesIncome.find(cat => cat._id === categoryID)?.name || "Neznámá kategorie";
+    } else if (transType === PAGE_ID_TRANSACTIONS) {
+        categoryName = categoriesTransactions.find(cat => cat._id === categoryID)?.name || "Neznámá kategorie";
+    }
 
-        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            {titleValue}
-        </th>
+    return (
+        <div className="flex border-b bg-gray-800 border-gray-700 text-gray-400 py-2">
 
-        <td className="px-6 py-4 flex items-center gap-2">
-          <span className="">{categoryIcon}</span>
-          <span className="">{categoryValue}</span>
-        </td>
-        
-        <td className="px-6 py-4">{priceValue} {userCurrency}</td>
-    
-        <td className="px-6 py-4 text-right">
-            <span onClick={toggleEditModal} className="font-medium text-blue-500 cursor-pointer hover:underline">
-                { userLangID === LANG_CZECH ? "Upravit" : "Edit" }
-            </span>
-        </td>
+            <div className="flex-1 p-2 text-left pl-4">
+                {`${transaction.day}.${transaction.month}.${transaction.year}`}
+            </div>
 
-    </tr>
-  )
+            <div className="flex-1 p-2 text-left">
+                {transaction.title || ""}
+            </div>
+
+            <div className="flex-1 p-2 text-left">
+                {categoryName}
+            </div>
+
+            <div className="flex-1 p-2 text-left">
+                {formatCurrency(transaction.amount, userCurrency)}
+            </div>
+
+            <div className="w-20 p-2 text-center">
+                <span
+                    onClick={ () => {
+                       setSelectedTransaction(transaction)
+                       toggleEditModal() 
+                    }} 
+                    className="font-medium text-blue-500 cursor-pointer hover:underline"
+                >
+                    {formatLang(userLangID, "Upravit", "Edit")}
+                </span>
+            </div>
+
+        </div>
+    )
 }
 
 export default TableRow

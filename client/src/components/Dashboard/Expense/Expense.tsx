@@ -7,12 +7,13 @@ import { IconAdd } from "../../../utils/icons/icons"
 import MonthNavigator from "../../UI/DateStuff/MonthNavigator/MonthNavigator"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
 import { getMonthName } from "../../../utils/functions/dateUtils"
-import TransactionsTable from "../../UI/Tables/TransactionsTable/TransactionsTable"
 import { ITransaction } from "../../../utils/interfaces/interfaces"
 import { PAGE_ID_TRANSACTIONS, SHOW_TABLE } from "../../../config/globals"
 import EditTransModal from "../../UI/Modals/EditTransModal/EditTransModal"
 import PieGraph from "../../Graphs/PieGraph/PieGraph"
 import { formatCurrency } from "../../../utils/functions/formatNumber"
+import TopBar from "../../UI/TopBar/TopBar"
+import TableTransactions from "../../UI/Tables/TableTransactions/TableTransactions"
 
 
 const Expense = () => {
@@ -32,7 +33,9 @@ const Expense = () => {
     console.log(graphData)
 
   return (
-    <div className="md:ml-[250px] p-6 min-h-screen">
+    <div className="section-padding">
+
+        <TopBar showYearNavigator={false}/>
 
         { showEditModal && selectedTransaction && (
             <EditTransModal 
@@ -45,7 +48,6 @@ const Expense = () => {
             <NewTransModal
                 handleHide={handleHideNewTransModal} 
                 pageID={PAGE_ID_TRANSACTIONS}
-                langID={userLangID}
             />
         )}
 
@@ -75,18 +77,14 @@ const Expense = () => {
             </div>
         )}
 
-        {/* // TODO - Přidat "tabulku pro mobil atd..." */}
+        {/* // TODO - Přidat nastaveni pro telefony */}
         { transactionExpense.length >= 1 && (
-            <>
-                <TransactionsTable
-                    data={transactionExpense.map(transaction => ({
-                    ...transaction,
-                    onEdit: () => {
-                        setSelectedTransaction(transaction)
-                        toggleEditModal()
-                    }}))}
-                />
-            </>
+            <TableTransactions 
+                data={transactionExpense} 
+                transType={PAGE_ID_TRANSACTIONS}
+                setSelectedTransaction={setSelectedTransaction}
+                toggleEditModal={toggleEditModal}
+            />
         )}
 
     </div>

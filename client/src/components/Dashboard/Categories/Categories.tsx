@@ -1,10 +1,10 @@
-import { useEffect } from "react"
 import { useUserContext } from "../../../context/UserContext"
 import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION } from "../../../config/globals"
 import { useCategoriesContext } from "../../../context/CategoriesContext"
 import GridCategories from "../../UI/GridCategories/GridCategories"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
+import TopBar from "../../UI/TopBar/TopBar"
 
 const Categories = () => {
 
@@ -13,7 +13,9 @@ const Categories = () => {
 
 
   return (
-    <div className="md:ml-[250px] p-6 min-h-screen">
+    <div className="section-padding">
+
+        <TopBar showYearNavigator={false}/>
 
         <SectionTitle value={formatLang(userLangID, "Kategorie", "Categories")}/>
 

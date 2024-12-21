@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom"
 import ProgressRadius from "../../UI/ProgressRadius/ProgressRadius"
 import { useOverviewData } from "../../../context/OverviewDataContext"
-import { useEffect } from "react"
-import { useUserContext } from "../../../context/UserContext"
-import { useCategoriesContext } from "../../../context/CategoriesContext"
 import ExpenseInfo from "../../UI/ExpenseInfo/ExpenseInfo"
 
 
@@ -11,18 +8,8 @@ import ExpenseInfo from "../../UI/ExpenseInfo/ExpenseInfo"
 
 const HeroLogged = () => {
 
-  const { refreshOverviewData, overviewData } = useOverviewData()
-  const { userCurrency, refreshUserData, userLangID } = useUserContext()
-  const { categoriesIncome, categoriesTransactions, refreshCategories } = useCategoriesContext()
+  const { overviewData } = useOverviewData()
 
-  useEffect(() => {
-    const yearNow = new Date().getFullYear()
-    const monthNow = new Date().getMonth() + 1
-    if(!overviewData) refreshOverviewData(yearNow, monthNow)
-    if(!userCurrency) refreshUserData()
-    refreshCategories()
-    console.log(categoriesIncome)
-  }, [])
 
   return (
     <div className="flex flex-col items-center justify-center gap-10 h-full w-full">
@@ -32,7 +19,7 @@ const HeroLogged = () => {
 
           <ProgressRadius actualPrice={overviewData.monthTotalExpense} plannedPrice={overviewData.monthBudget}/>
 
-          <ExpenseInfo overviewData={overviewData}/>
+          <ExpenseInfo />
 
         </div>
       )}

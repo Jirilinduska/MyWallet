@@ -10,6 +10,7 @@ import { useUserContext } from "../../../context/UserContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
+import { useOverviewData } from "../../../context/OverviewDataContext"
 
 
 interface NewTransFormProps {
@@ -22,6 +23,7 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
 
     const { refreshUserData, userCurrency, userLangID } = useUserContext()
     const { fetchExpenseData, fetchIncomeData, date } = useTransactionsContext()
+    const { refreshOverviewData, year, month } = useOverviewData()
 
     const [loading, setLoading] = useState(false)
     const [transData, setTransData] = useState({ 
@@ -82,6 +84,7 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
                 handleNotification(NOTIF_SUCCESS, userLangID, "Příjem přidán", "Income added")
             }
 
+            refreshOverviewData(year, month)
             handleHide()
             
         } catch (error) {

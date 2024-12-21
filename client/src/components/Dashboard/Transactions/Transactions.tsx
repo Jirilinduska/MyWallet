@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { IconAdd } from "../../../utils/icons/icons"
 import NewTransModal from "../../UI/Modals/NewTransModal/NewTransModal"
-import TransactionsTable from "../../UI/Tables/TransactionsTable/TransactionsTable"
+// import TransactionsTable from "../../UI/Tables/TransactionsTable/TransactionsTable"
 import EditTransModal from "../../UI/Modals/EditTransModal/EditTransModal"
 import { useUserContext } from "../../../context/UserContext"
 import { PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
@@ -71,7 +71,6 @@ const Transactions = () => {
             <NewTransModal
                 handleHide={handleHideNewTransModal} 
                 pageID={pageID}
-                langID={userLangID}
             />
         )}
 
@@ -96,7 +95,7 @@ const Transactions = () => {
 
         {/* // TODO Přidat graf + totalIncome */}
 
-        { transactionIncome.length >= 1 && pageID === PAGE_ID_INCOME && (
+        {/* { transactionIncome.length >= 1 && pageID === PAGE_ID_INCOME && (
             
             <>
                 <TransactionsTable
@@ -122,7 +121,7 @@ const Transactions = () => {
                     }}))}
                 />
             </>
-        )}
+        )} */}
 
         
 

@@ -1,37 +1,41 @@
-import { COLOR_BLUE, COLOR_GREEN, SIZE_ROW } from "../../../config/globals"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, COLOR_BLUE, SIZE_ROW } from "../../../config/globals"
 import { useCategoriesContext } from "../../../context/CategoriesContext"
+import { useOverviewData } from "../../../context/OverviewDataContext"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { categoryIcons } from "../../../utils/icons/category-icons"
-import { IOverviewData } from "../../../utils/interfaces/interfaces"
+import LastTransaction from "../../LastTransaction/LastTransaction"
 import InfoItem from "../InfoItem/InfoItem"
 
-interface ExpenseInfoProps {
-    overviewData: IOverviewData | null
-}
-
-const ExpenseInfo = ({ overviewData } : ExpenseInfoProps ) => {
+const ExpenseInfo = () => {
 
     const { userLangID } = useUserContext()
     const { categoriesTransactions } = useCategoriesContext()
+    const { overviewData } = useOverviewData()
 
   return (
     <div className="shadow-lg rounded-lg w-full p-4">
 
-        <div className="my-4">
-
-            <h3 className="font-semibold text-lg mb-2">Poslední výdaj</h3>
+        <div className="space-y-2">
 
             { overviewData?.lastExpense && (
-                <InfoItem
-                    amount={overviewData.lastExpense.amount}
-                    color={COLOR_GREEN}
-                    desc={overviewData.lastExpenseCategory.name}
-                    icon={categoryIcons.find((icon) => icon.id === overviewData.lastExpenseCategory.iconID)?.iconJSX || null}
-                    plannedAmount={null}
-                    size={SIZE_ROW}
-                    formatToCurrency={true}
-                />  
+              <LastTransaction
+                amount={overviewData.lastExpense.amount}
+                date={overviewData.lastExpense.createdAt}
+                iconID={overviewData.lastExpenseCategory.iconID}
+                name={overviewData.lastExpenseCategory.name}
+                type={CATEGORY_ID_TRANSACTION}
+              />
+            )}
+
+            { overviewData?.lastIncome && (
+              <LastTransaction
+                amount={overviewData.lastIncome.amount}
+                date={overviewData.lastIncome.createdAt}
+                iconID={overviewData.lastIncomeCategory.iconID}
+                name={overviewData.lastIncomeCategory.name}
+                type={CATEGORY_ID_INCOME}
+              />
             )}
 
             { !overviewData?.lastExpense && <p className="text-gray-500 text-center font-semibold">{formatLang(userLangID, "Zatím žádné transakce", "No transactions yet")}</p> }

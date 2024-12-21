@@ -7,13 +7,14 @@ import { IconAdd } from "../../../utils/icons/icons"
 import MonthNavigator from "../../UI/DateStuff/MonthNavigator/MonthNavigator"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
 import { getMonthName } from "../../../utils/functions/dateUtils"
-import TransactionsTable from "../../UI/Tables/TransactionsTable/TransactionsTable"
 import { ITransaction } from "../../../utils/interfaces/interfaces"
 import { PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
 import EditTransModal from "../../UI/Modals/EditTransModal/EditTransModal"
 import { BarLoader } from "react-spinners"
 import PieGraph from "../../Graphs/PieGraph/PieGraph"
 import { formatCurrency } from "../../../utils/functions/formatNumber"
+import TopBar from "../../UI/TopBar/TopBar"
+import TableTransactions from "../../UI/Tables/TableTransactions/TableTransactions"
 
 const Income = () => {
 
@@ -37,7 +38,9 @@ const Income = () => {
     }, [] )
 
   return (
-    <div className="md:ml-[250px] p-6 min-h-screen">
+    <div className="section-padding">
+
+        <TopBar showYearNavigator={false}/>
 
         {/* Modal window - Edit transaction */}
         { showEditModal && selectedTransaction && (
@@ -52,7 +55,6 @@ const Income = () => {
             <NewTransModal
                 handleHide={handleHideNewTransModal} 
                 pageID={PAGE_ID_INCOME}
-                langID={userLangID}
             />
         )}
 
@@ -88,7 +90,7 @@ const Income = () => {
         )}
 
         {/* // TODO - Změnit zobrazení "tabulky" na mobilu. - Nová komponenta! */}
-        { transactionIncome.length >= 1 && (
+        {/* { transactionIncome.length >= 1 && (
             <>
                 <TransactionsTable
                     data={transactionIncome.map(transaction => ({
@@ -99,7 +101,16 @@ const Income = () => {
                     }}))}
                 />
             </>
-        )}
+        )} */}
+
+        { transactionIncome.length >= 1 && (
+            <TableTransactions
+                data={transactionIncome}
+                setSelectedTransaction={setSelectedTransaction}
+                toggleEditModal={toggleEditModal}
+                transType={PAGE_ID_INCOME}
+            />
+        )}  
 
     </div>
   )
