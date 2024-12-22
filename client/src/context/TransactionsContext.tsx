@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react"
-import { handleDeleteTransaction, handleGetTransactions } from "../API/Transactions"
+import { handleDeleteTransaction, handleGetTransactions, handleGetTransactionsByCategory } from "../API/Transactions"
 import { IGraphBreakdownData, ITransaction } from "../utils/interfaces/interfaces"
 import { handleGetIncomes } from "../API/Income"
 import { handleNotification } from "../utils/functions/notificationsUtils"
@@ -19,6 +19,8 @@ interface TransContextProps {
     deleteTransaction: (transID: string, langID: string, type: string) => void
     handlePrevMonth: (pageID: string) => void
     handleNextMonth: (pageID: string) => void
+    getTransactionByCat: (catID: string) => void
+    transactionsByCategory: ITransaction[]
 }
 
 
@@ -28,6 +30,7 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     const [transactionIncome, setTransactionIncome] = useState<ITransaction[]>([])
     const [transactionExpense, setTransactionExpense] = useState<ITransaction[]>([])
+    const [transactionsByCategory, setTransactionsByCategory] = useState<ITransaction[]>([])
     const [loading, setLoading] = useState(false)
     const [graphData, setGraphData] = useState<IGraphBreakdownData[]>([])
     const [totalPrice, setTotalPrice] = useState(0)
@@ -70,7 +73,6 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
         try {
             const response = await handleGetTransactions(month, year)
             console.log('Expense data:', response.data.transactions) 
-            // const data = response.data.transactions
             setTransactionExpense(response.data.transactions)
             setGraphData(response.data.graphData)
             setTotalPrice(response.data.totalPrice)
@@ -86,7 +88,6 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
         setLoading(true)
         try {
             const response = await handleGetIncomes(month, year)
-            // console.log('Income data:', response.data)
             setTransactionIncome(response.data.transactions)
             setGraphData(response.data.graphData)
             setTotalPrice(response.data.totalPrice)
@@ -120,6 +121,17 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const createTransaction = useCallback(async() => {
 
     }, [])
+    
+    // GET TRANS BY CATEGORY
+    const getTransactionByCat = useCallback(async(catID: string) => {
+        try {
+            const response = await handleGetTransactionsByCategory(catID)
+            setTransactionsByCategory(response.data)
+        } catch (error) {   
+            // handleNotification(NOTIF_ERROR, langID, "Něco se pokazilo", "Something went wrong")
+            console.log(error)
+        }
+    }, [] )
 
     useEffect(() => {
         fetchExpenseData(date.month, date.year)
@@ -129,7 +141,8 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return (
         <TransactionsContext.Provider value={
             { transactionExpense, transactionIncome, loading, graphData, handleNextMonth, handlePrevMonth,
-                totalPrice, fetchExpenseData, fetchIncomeData, date, setDate, deleteTransaction 
+                totalPrice, fetchExpenseData, fetchIncomeData, date, setDate, deleteTransaction, getTransactionByCat,
+                transactionsByCategory
             }}
         >
             { children }

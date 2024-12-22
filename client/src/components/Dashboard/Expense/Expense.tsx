@@ -24,18 +24,16 @@ const Expense = () => {
     const [showNewTrans, setShowNewTrans] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
     const [selectedTransaction, setSelectedTransaction] = useState<ITransaction | null>(null)
-    const [wantSee, setWantSee] = useState(SHOW_TABLE)
+    // const [wantSee, setWantSee] = useState(SHOW_TABLE)
 
-    const toggleWantSee = (id: string) => setWantSee(id)
+    // const toggleWantSee = (id: string) => setWantSee(id)
     const handleHideNewTransModal = () => setShowNewTrans(false)
     const toggleEditModal = () => setShowEditModal(!showEditModal)
-
-    console.log(graphData)
 
   return (
     <div className="section-padding">
 
-        <TopBar showYearNavigator={false}/>
+        <TopBar showYearNavigator={false} showMonthNavigator={true} pageID={PAGE_ID_TRANSACTIONS}/>
 
         { showEditModal && selectedTransaction && (
             <EditTransModal 
@@ -55,8 +53,6 @@ const Expense = () => {
             <SectionTitle value={formatLang(userLangID, "Výdaje", "Expense")} />
             <IconAdd className="icon text-6xl" onClick={ () => setShowNewTrans(true) }/>
         </div>
-
-        <MonthNavigator pageID={PAGE_ID_TRANSACTIONS} monthName={getMonthName(date.year, date.month, userLangID)} />
 
         { transactionExpense.length === 0 && (
             <div className="flex items-center justify-center mt-20">

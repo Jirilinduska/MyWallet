@@ -27,10 +27,7 @@ const TableTransactions = ({ data, transType, setSelectedTransaction, toggleEdit
         </div>
 
 
-        { data.map( x  => <TableRow transaction={x} transType={transType} setSelectedTransaction={setSelectedTransaction} toggleEditModal={toggleEditModal}/> )}
-        {/* <div className="max-h-[500px] overflow-y-auto">
-             { data.map( x  => <TableRow transaction={x} transType={transType} setSelectedTransaction={setSelectedTransaction} toggleEditModal={toggleEditModal}/> )}
-        </div> */}
+        { data.map( x  => <TableRow key={x._id} transaction={x} transType={transType} setSelectedTransaction={setSelectedTransaction} toggleEditModal={toggleEditModal}/> )}
 
     </div>
   )

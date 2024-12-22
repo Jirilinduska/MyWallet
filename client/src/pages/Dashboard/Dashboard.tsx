@@ -9,13 +9,14 @@ import OneBudgetPreview from "../../components/OneBudgetPreview/OneBudgetPreview
 import Expense from "../../components/Dashboard/Expense/Expense"
 import Income from "../../components/Dashboard/Income/Income"
 import CategoryPreview from "../../components/CategoryPreview/CategoryPreview"
+import TransactionsByCategory from "../../components/TransactionsByCategory/TransactionsByCategory"
 
 
 const Dashboard = () => {
 
     const [showNav, setShowNav] = useState(false)
 
-    const { pageID, budgetID, categoryID } = useParams()
+    const { pageID, budgetID, categoryID, showTrans } = useParams()
 
   return (
     <section className="min-h-screen w-full">
@@ -31,9 +32,12 @@ const Dashboard = () => {
 
         { pageID === "transactions" && <Expense/> }
         { pageID === "income" && <Income/> }
-        { pageID === "categories" && !categoryID && <Categories/> }
-        { pageID === "categories" && categoryID && <CategoryPreview/> }
         { pageID === "overview" && <Overview/> }
+
+        { pageID === "categories" && !categoryID && <Categories/> }
+        { pageID === "categories" && categoryID && !showTrans && <CategoryPreview/> }
+        { pageID === "categories" && categoryID && showTrans && <TransactionsByCategory/> }
+
         { pageID === "planner" && !budgetID && <Planner /> }
         { pageID === "planner" && budgetID && <OneBudgetPreview /> }
 

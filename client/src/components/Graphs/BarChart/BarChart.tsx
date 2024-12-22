@@ -4,8 +4,8 @@ import { useUserContext } from '../../../context/UserContext'
 import { formatCurrency } from '../../../utils/functions/formatNumber'
 import { formatLang } from '../../../utils/functions/formatLang'
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend, Title)
-
+// ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend, Title)
+ChartJS.register(CategoryScale, BarElement, Title, Tooltip, Legend, LinearScale)
 
 // * Příklad graphData props
 
@@ -30,38 +30,46 @@ const BarChart = ({ graphData } : BarChartProps ) => {
 
   const allValuesAreZero = dataValues.every((value) => value === 0)
 
+  const options = {
+    responsive: true,
+    indexAxis: 'y' as const,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        callbacks: {
+          label: (context: any) => {
+            const value = formatCurrency(context.raw, userCurrency);
+            return value ? value.toString() : '';
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+      },
+      y: {
+        ticks: {
+          padding: 10, // Mezera mezi popisky a sloupci
+        },
+      },
+    },
+  }
+  
   const data = {
     labels: labels,
     datasets: [
       {
         data: dataValues,
-        backgroundColor: ["#1d4ed8"], // modrá
-        // backgroundColor: ["#10B981"], // zelená
-        hoverBorderWidth: 5,
+        backgroundColor: ['#1d4ed8'], // Barva sloupců
+        barThickness: 25, // Nastaví tloušťku sloupců
+        maxBarThickness: 40, // Maximální tloušťka sloupců
       },
     ],
-  };
-
-  const options = {
-    indexAxis: 'x' as const,
-    plugins: {
-      legend: {
-        display: false,
-      },
-      title: {
-        display: true,
-        text: 'Přehled transakcí',
-        font: {
-            size: 20,
-            weight: 'bold' as const  
-        },
-        color: '#1e40af', 
-      },
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    barThickness: 90, 
   }
+
 
   return (
     <div className="w-full h-full relative">

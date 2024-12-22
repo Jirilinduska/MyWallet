@@ -5,6 +5,7 @@ import GridCategories from "../../UI/GridCategories/GridCategories"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
 import TopBar from "../../UI/TopBar/TopBar"
+import NavigatorCategories from "../../NavigatorCategories/NavigatorCategories"
 
 const Categories = () => {
 
@@ -15,9 +16,10 @@ const Categories = () => {
   return (
     <div className="section-padding">
 
-        <TopBar showYearNavigator={false}/>
+        <TopBar showYearNavigator={false} showMonthNavigator={false} />
 
-        <SectionTitle value={formatLang(userLangID, "Kategorie", "Categories")}/>
+        {/* <SectionTitle value={formatLang(userLangID, "Kategorie", "Categories")}/> */}
+        <NavigatorCategories pageStage={0} />
 
         <GridCategories
             categories={categoriesIncome}

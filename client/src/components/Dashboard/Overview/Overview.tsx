@@ -24,11 +24,13 @@ const Overview = () => {
 
     // TODO
     if(!overviewData) return <div className="">NoData</div>
+    
+    { console.log(overviewData) }
 
   return (
     <div className="section-padding">
 
-        <TopBar showYearNavigator={true} />
+        <TopBar showYearNavigator={true} showMonthNavigator={false} />
 
         <SectionTitle value={formatLang(userLangID, "Přehled", "Overview")}/>
 
@@ -48,9 +50,11 @@ const Overview = () => {
             { overviewData && (
                 <OverviewYear
                     year={year}
-                    budget={200000000}
+                    budget={null}
                     expense={overviewData.yearTotalExpense}
                     income={overviewData.yearTotalIncome}
+                    chartDataExpense={overviewData.categoriesYearExpense}
+                    chartDataIncome={overviewData.categoriesYearIncome}
                 />
             )}
         </div>

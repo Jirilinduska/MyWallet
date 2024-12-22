@@ -1,5 +1,5 @@
 import { apiClient } from "../config/apiClient"
-import { URL_DELETE_TRANSACTION, URL_GET_TRANSACTION, URL_NEW_TRANSACTION, URL_UPDATE_TRANSACTION } from "../config/apiUrls"
+import { URL_DELETE_TRANSACTION, URL_GET_TRANSACTION, URL_GET_TRANSACTIONS_BY_CAT, URL_NEW_TRANSACTION, URL_UPDATE_TRANSACTION } from "../config/apiUrls"
 import { CATEGORY_ID_TRANSACTION } from "../config/globals"
 
 
@@ -27,5 +27,11 @@ export const handleDeleteTransaction = async(id: string) => {
 export const handleUpdateTransaction = async(transObject: any) => {
 
     const response = await apiClient.patch(URL_UPDATE_TRANSACTION, transObject)
+    return response
+}
+
+export const handleGetTransactionsByCategory = async(catID: string) => {
+
+    const response = await apiClient.get(`${URL_GET_TRANSACTIONS_BY_CAT}/${catID}`)
     return response
 }

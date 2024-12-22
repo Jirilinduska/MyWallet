@@ -54,25 +54,114 @@ const getOverview = async(req,res) => {
         }
         
 
-        const top3CategoriesExpense = await Transaction.aggregate([
-            { $match: {
+        // const top3CategoriesExpense = await Transaction.aggregate([
+        //     { $match: {
+        //         year: parseInt(year),
+        //         month: parseInt(month),
+        //         createdBy: user._id, 
+        //         transCategory: "transaction" 
+        //     }},
+        //     { $group: {
+        //         _id: "$category",
+        //         totalAmount: { $sum: "$amount" }
+        //     }},
+        //     { $sort: { totalAmount: -1 } },
+        //     { $limit: 3 },
+        // ])
+
+        // const top3CategoryDetails = await Category.find({
+        //     _id: { $in: top3CategoriesExpense.map(item => item._id) }
+        // })
+
+        const categoriesYearExpense = await Transaction.aggregate([
+            {
+              $match: {
                 year: parseInt(year),
-                month: parseInt(month),
-                createdBy: user._id, 
-                transCategory: "transaction" 
-            }},
-            { $group: {
-                _id: "$category",
+                createdBy: user._id,
+                transCategory: "transaction"
+              }
+            },
+            {
+              $group: {
+                _id: "$category", // category je stále String, nic neměníme
                 totalAmount: { $sum: "$amount" }
-            }},
-            { $sort: { totalAmount: -1 } },
-            { $limit: 3 },
+              }
+            },
+            {
+              $sort: { totalAmount: -1 }
+            },
+            {
+              $lookup: {
+                from: 'categories', // Název kolekce pro kategorie (ověřte, zda je správný)
+                let: { category_id: { $toObjectId: "$_id" } }, // Přetypování String na ObjectId
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: { $eq: ["$_id", "$$category_id"] } // Porovnání ObjectId
+                    }
+                  }
+                ],
+                as: 'categoryDetails'
+              }
+            },
+            {
+              $unwind: "$categoryDetails" // Pokud existují víc než jedna kategorie, zajišťujeme, že to bude jeden objekt
+            },
+            {
+              $project: {
+                _id: 1,
+                totalAmount: 1,
+                categoryName: "$categoryDetails.name", // Výběr dat z kategorie
+                categoryIconID: "$categoryDetails.iconID"
+              }
+            }
         ])
 
-        const top3CategoryDetails = await Category.find({
-            _id: { $in: top3CategoriesExpense.map(item => item._id) }
-        })
+        const categoriesYearIncome = await Transaction.aggregate([
+            {
+              $match: {
+                year: parseInt(year),
+                createdBy: user._id,
+                transCategory: "income"
+              }
+            },
+            {
+              $group: {
+                _id: "$category", // category je stále String, nic neměníme
+                totalAmount: { $sum: "$amount" }
+              }
+            },
+            {
+              $sort: { totalAmount: -1 }
+            },
+            {
+              $lookup: {
+                from: 'categories', // Název kolekce pro kategorie (ověřte, zda je správný)
+                let: { category_id: { $toObjectId: "$_id" } }, // Přetypování String na ObjectId
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: { $eq: ["$_id", "$$category_id"] } // Porovnání ObjectId
+                    }
+                  }
+                ],
+                as: 'categoryDetails'
+              }
+            },
+            {
+              $unwind: "$categoryDetails" // Pokud existují víc než jedna kategorie, zajišťujeme, že to bude jeden objekt
+            },
+            {
+              $project: {
+                _id: 1,
+                totalAmount: 1,
+                categoryName: "$categoryDetails.name", // Výběr dat z kategorie
+                categoryIconID: "$categoryDetails.iconID"
+              }
+            }
+        ])
 
+        // TODO ! ODSTRANIT
         const todayExpense = await Transaction.find({
             createdBy: user._id,
             transCategory: "transaction",
@@ -104,13 +193,13 @@ const getOverview = async(req,res) => {
             monthTotalIncome,
             savedThisMonth,
             monthBudget,
-            todayExpense, // TODO Přidáno - interface
-            lastExpense, // TODO Přidáno - interface
+            todayExpense, 
+            lastExpense,
             lastExpenseCategory,
             lastIncome,
             lastIncomeCategory,
-            top3CategoriesExpense,
-            top3CategoryDetails
+            categoriesYearExpense,
+            categoriesYearIncome
         }
 
         console.log(result)

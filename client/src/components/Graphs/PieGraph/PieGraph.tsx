@@ -2,14 +2,17 @@ import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title, } from 'chart.js'
 import { IPieGraph } from '../../../utils/interfaces/interfaces'
 import { LANG_CZECH, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from '../../../config/globals'
+import { useCategoriesContext } from '../../../context/CategoriesContext'
+import { getCategoryNames } from '../../../utils/functions/categoryUtils'
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title)
 
 const PieGraph: React.FC<IPieGraph> = ({ graphData, pageID, langID }) => {
 
+    const { categoriesIncome, categoriesTransactions } = useCategoriesContext()
 
     const data = {
-        labels: graphData.map( (x) => x.category),
+        labels: pageID ? getCategoryNames(pageID, categoriesIncome, categoriesTransactions, graphData) : [],
         datasets: [
             {
                 data: graphData.map( (x) => x.totalAmount ),

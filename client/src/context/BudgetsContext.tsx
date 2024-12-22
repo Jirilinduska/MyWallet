@@ -23,7 +23,14 @@ export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const refreshBudgets = async() => {
         try {
             const response = await handleGetBudget()
-            setBudgets(response.data)
+            const data : IGetBudget[] = response.data
+            const sortedBudgets = data.sort((a, b) => {
+                if (a.year !== b.year) {
+                    return a.year - b.year
+                }
+                return a.month - b.month
+            })
+            setBudgets(sortedBudgets)
         } catch (error) {
             console.log(error)
         }

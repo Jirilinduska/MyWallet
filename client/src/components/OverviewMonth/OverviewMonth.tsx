@@ -17,18 +17,18 @@ const OverviewMonth = ({ budget, income, expense } : OverviewMonthProps ) => {
 
     const graphDataEN = {
         "Income": income,
-        "Expense": expense,
+        "Actual expenses": expense,
         "Budget": budget
     }
 
     const graphDataCS = {
         "Příjmy": income,
-        "Výdaje": expense,
+        "Skutečné výdaje": expense,
         "Naplánované výdaje": budget
     }
 
   return (
-    <div className="mb-10 p-4">
+    <div className="mb-4 p-4 pb-10 border-b border-colorGray">
 
         <h3 className="font-bold mb-6 pb-2">
             {formatLang(userLangID, "Tento měsíc", "This month")}

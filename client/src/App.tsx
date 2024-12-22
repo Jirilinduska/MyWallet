@@ -29,6 +29,7 @@ const App = () => {
             <Route path='/dashboard/planner/create-budget' element={ <PrivateRoute> <Dashboard/> </PrivateRoute> } />
 
             <Route path='/dashboard/:pageID/preview-category/:categoryID' element={ <PrivateRoute> <Dashboard/> </PrivateRoute> } />
+            <Route path='/dashboard/:pageID/preview-category/:categoryID/:showTrans' element={ <PrivateRoute> <Dashboard/> </PrivateRoute> } />
 
 
             <Route 

@@ -5,40 +5,43 @@ import { LANG_CZECH } from '../../config/globals'
 import { formatLang } from '../../utils/functions/formatLang'
 import InfoItems from '../InfoItems/InfoItems'
 import BarChart from '../Graphs/BarChart/BarChart'
+import SectionTitle from '../UI/SectionTitle/SectionTitle'
+import { IcategoriesYearOverview } from '../../utils/interfaces/interfaces'
+import BarChartCategories from '../Graphs/BarChartCategories/BarChartCategories'
 
 interface OverviewYearProps {
     year: number
     income: number
-    budget: number
+    budget: number |  null
     expense: number
+    chartDataExpense: IcategoriesYearOverview[]
+    chartDataIncome: IcategoriesYearOverview[]
 }
 
-const OverviewYear = ({ year, income, budget, expense } : OverviewYearProps ) => {
+const OverviewYear = ({ year, income, budget, expense, chartDataExpense, chartDataIncome } : OverviewYearProps ) => {
 
     const { userLangID } = useUserContext()
-    const {  } = useOverviewData()
 
     const graphDataEN = {
         "Income": income,
-        "Expense": expense,
-        "Budget": budget
+        "Expenses": expense,
+        ...(budget !== null && { "Budget": budget })
     }
 
     const graphDataCS = {
         "Příjmy": income,
         "Výdaje": expense,
-        "Naplánované výdaje": budget
+        ...(budget !== null && { "Naplánované výdaje": budget })
     }
 
   return (
     <div className="mb-10 p-4">
 
         <h3 className="font-bold text-lg mb-10">
-            {/* { year === new Date().getFullYear() ? `${userLangID === LANG_CZECH ? `Tento rok (${year})` : `This year (${year})`}` : `(${year})`} */}
             { year === new Date().getFullYear() ? formatLang(userLangID, `Tento rok (${year})`, `This year (${year})`) :`(${year})` }
         </h3>
 
-        <div className="xl:h-[300px] xl:flex items-center justify-between gap-4">
+        <div className="xl:h-[300px] xl:flex items-center justify-between gap-4 mb-10">
 
             <InfoItems 
                 budget={budget}
@@ -47,12 +50,29 @@ const OverviewYear = ({ year, income, budget, expense } : OverviewYearProps ) =>
             />
 
             <div className="w-full h-[300px] xl:h-full xl:w-1/2 ">
-                <BarChart
-                    graphData={userLangID === LANG_CZECH ? graphDataCS : graphDataEN}
-                />
+                <BarChart graphData={userLangID === LANG_CZECH ? graphDataCS : graphDataEN} />
             </div>
 
         </div>
+
+        {/* // TODO - Grafy */}
+        <div className="flex justify-between gap-10">
+
+            {/* // TODO - Graf - výdaje */}
+            <div className="w-1/2">
+                <SectionTitle value={formatLang(userLangID, `Výdaje podle kategorií (${year})`, `Expenses by category (${year})`)}/>
+                <BarChartCategories chartData={chartDataExpense}/>
+            </div>
+
+
+            {/* // TODO - Graf příjmy */}
+            <div className="w-1/2">
+                <SectionTitle value={formatLang(userLangID, `Příjmy podle kategorií (${year})`, `Income by category (${year})`)}/>
+                <BarChartCategories chartData={chartDataIncome}/>
+            </div>
+
+        </div>
+
     </div>
   )
 }

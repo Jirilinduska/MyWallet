@@ -15,25 +15,30 @@ const BudgetOverview = ({ budgets } : BudgetOverviewProps ) => {
 
   const { refreshUserData, userLangID } = useUserContext()
 
+  const sortedBudfgets = 
+
   useEffect(() => {
     if(!userLangID) refreshUserData()
   }, [])
 
   return (
-    // TODO - třídit od nejmenšího měsíce a rok až po nejvyšší :)
     <div className="w-1/2 mx-auto">
+
         { budgets.length > 0 && budgets.map((x) => {
 
             const monthName = getMonthName(x.year, x.month, userLangID)
 
           return (
-            <Link to={`/dashboard/planner/preview-budget/${x._id}`}>
+            <Link 
+              key={x._id}
+              to={`/dashboard/planner/preview-budget/${x._id}`}
+            >
               
               <InfoItem
                 amount={x.totalPricePlanned}
                 color={COLOR_BLUE}
                 desc={`${monthName} (${x.year})`}
-                icon={<IconChart/>}
+                icon={null}
                 plannedAmount={null}
                 size={SIZE_ROW}
                 key={x._id}

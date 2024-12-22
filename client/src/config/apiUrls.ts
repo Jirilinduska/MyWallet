@@ -17,6 +17,7 @@ export const URL_NEW_TRANSACTION = `${API_BASE_URL}/api/transaction/new-transact
 export const URL_GET_TRANSACTION = `${API_BASE_URL}/api/transaction/get-transaction`
 export const URL_DELETE_TRANSACTION = `${API_BASE_URL}/api/transaction/delete`
 export const URL_UPDATE_TRANSACTION = `${API_BASE_URL}/api/transaction/update`
+export const URL_GET_TRANSACTIONS_BY_CAT = `${API_BASE_URL}/api/transaction/get-transactions-by-category`
 
 // Income
 export const URL_GET_INCOME = `${API_BASE_URL}/api/income/get-income`

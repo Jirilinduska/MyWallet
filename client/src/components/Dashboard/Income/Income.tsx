@@ -40,7 +40,7 @@ const Income = () => {
   return (
     <div className="section-padding">
 
-        <TopBar showYearNavigator={false}/>
+        <TopBar showYearNavigator={false} showMonthNavigator={true} pageID={PAGE_ID_INCOME}/>
 
         {/* Modal window - Edit transaction */}
         { showEditModal && selectedTransaction && (

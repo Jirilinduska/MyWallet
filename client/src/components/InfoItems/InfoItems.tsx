@@ -7,7 +7,7 @@ import InfoItem from "../UI/InfoItem/InfoItem"
 interface InfoItemsProps {
     expense: number
     income: number
-    budget: number
+    budget: number | null
 }
 
 const InfoItems = ({ budget, expense, income } : InfoItemsProps ) => {

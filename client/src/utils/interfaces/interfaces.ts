@@ -67,6 +67,13 @@ export interface INewBudgetCategories {
     price: string
 }
 
+export interface IcategoriesYearOverview {
+    _id: string,
+    totalAmount: number,
+    categoryName: string,
+    categoryIconID: number
+}
+
 export interface IOverviewData {
     yearTotalExpense: number
     yearTotalIncome: number
@@ -80,7 +87,8 @@ export interface IOverviewData {
     lastExpenseCategory: ICategory
     lastIncome: ITransaction
     lastIncomeCategory: ICategory
-
+    categoriesYearExpense: IcategoriesYearOverview[]
+    categoriesYearIncome: IcategoriesYearOverview[]
 }
 
 export interface ICategoryPreview {

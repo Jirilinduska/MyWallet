@@ -11,6 +11,8 @@ import SectionTitle from "../UI/SectionTitle/SectionTitle"
 import InfoItem from "../UI/InfoItem/InfoItem"
 import BarChart from "../Graphs/BarChart/BarChart"
 import CategoryStatsWithChart from "../CategoryStatsWithChart/CategoryStatsWithChart"
+import TopBar from "../UI/TopBar/TopBar"
+import NavigatorCategories from "../NavigatorCategories/NavigatorCategories"
 
 // TODO - Vybvrat všechny hodnoty
 // export interface ICategoryPreview {
@@ -20,7 +22,7 @@ import CategoryStatsWithChart from "../CategoryStatsWithChart/CategoryStatsWithC
 //     yearlySummary: { [key: string]: number }
 // }
 
-
+// TODO - Přidat tlačítko na /transactions pro zobrazení všech transakcí pro tuto categori :)
 
 const CategoryPreview = () => {
 
@@ -31,8 +33,8 @@ const CategoryPreview = () => {
     const { userLangID, userCurrency } = useUserContext()
 
     useEffect(() => {
-        if(categoryID && userLangID) getCategoryInfo(categoryID, userLangID)
-    }, [categoryID])
+        if(categoryID) getCategoryInfo(categoryID, userLangID)
+    }, [] )
 
     // TODO 
     if(!catInfo) return <div className="flex items-center justify-center">Loading</div>
@@ -40,12 +42,18 @@ const CategoryPreview = () => {
     console.log(catInfo)
 
   return (
-    <div className="md:ml-[250px] p-6 min-h-screen">
+    <div className="section-padding">
 
-        <Link to="/dashboard/categories" className="inline-block mb-10">
+        <TopBar showMonthNavigator={false} showYearNavigator={false}/>
+
+        {/* // ! VYmazat */}
+        {/* <Link to="/dashboard/categories" className="inline-block mb-10">
             <IconGoBack className="icon" />
-        </Link>
+        </Link> */}
 
+        <NavigatorCategories pageStage={1} catName={catInfo.categoryName}/>
+
+        {/* // TODO - Dokončit nastavení - modalEditCategory! */}
         <div className="flex items-center justify-between mb-4">
 
             <div className="flex items-center gap-2">

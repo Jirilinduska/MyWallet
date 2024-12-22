@@ -93,7 +93,7 @@ const Planner = () => {
   return (
     <div className="section-padding">
 
-        <TopBar showYearNavigator={false} />
+        <TopBar showYearNavigator={false} showMonthNavigator={false} />
 
         <SectionTitle value={formatLang(userLangID, "Plánovač výdajů", "Budget planner")} />
 

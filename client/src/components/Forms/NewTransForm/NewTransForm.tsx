@@ -11,6 +11,7 @@ import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
 import { useOverviewData } from "../../../context/OverviewDataContext"
+import { newDate } from "react-datepicker/dist/date_utils"
 
 
 interface NewTransFormProps {
@@ -21,7 +22,7 @@ interface NewTransFormProps {
 
 const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
 
-    const { refreshUserData, userCurrency, userLangID } = useUserContext()
+    const { userCurrency, userLangID } = useUserContext()
     const { fetchExpenseData, fetchIncomeData, date } = useTransactionsContext()
     const { refreshOverviewData, year, month } = useOverviewData()
 
@@ -38,8 +39,8 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
     })
 
     useEffect(() => {
-        if(!userCurrency) refreshUserData()
-    }, [] )
+        handleSetDate(new Date(date.year, date.month - 1))
+    }, [date] )
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target

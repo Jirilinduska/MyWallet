@@ -21,9 +21,9 @@ const TableRow = ({ transaction, transType, setSelectedTransaction, toggleEditMo
     let categoryName = "Neznámá kategorie";
 
     if (transType === PAGE_ID_INCOME) {
-        categoryName = categoriesIncome.find(cat => cat._id === categoryID)?.name || "Neznámá kategorie";
+        categoryName = categoriesIncome.find(cat => cat._id === categoryID)?.name || "Neznámá kategorie"
     } else if (transType === PAGE_ID_TRANSACTIONS) {
-        categoryName = categoriesTransactions.find(cat => cat._id === categoryID)?.name || "Neznámá kategorie";
+        categoryName = categoriesTransactions.find(cat => cat._id === categoryID)?.name || "Neznámá kategorie"
     }
 
     return (
