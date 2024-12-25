@@ -49,6 +49,7 @@ export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const deleteBudget = async(budgetID: string) => {
         try {
             await handleDeleteBudget(budgetID)
+            setBudgets((prevBudgets) => prevBudgets.filter((budget) => budget._id !== budgetID))
         } catch (error) {
             console.log(error)
         }
@@ -78,7 +79,7 @@ export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 export const useBudgetContext = () => {
     const context = useContext(BudgetContext)
     if (!context) {
-        throw new Error("useCategoriesContext must be used within a CategoriesProvider")
+        throw new Error("useBudgetContext must be used within a BudgetProvider")
     }
     return context
 }

@@ -6,6 +6,7 @@ import { ICategory } from "../../../utils/interfaces/interfaces"
 import NewCategoryModal from "../Modals/NewCategoryModal/NewCategoryModal"
 import { formatLang } from "../../../utils/functions/formatLang"
 import ItemCategory from "../../ItemCategory/ItemCategory"
+import { useUserContext } from "../../../context/UserContext"
 
 interface GridCategoriesProps {
     categories: ICategory[]
@@ -14,6 +15,8 @@ interface GridCategoriesProps {
 }
 
 const GridCategories: React.FC<GridCategoriesProps> = ({ categories, title, categoryType }) => {
+
+    const { userLangID } = useUserContext()
 
     const [showModalCreate, setShowModalCreate] = useState(false)
     const [showModalEdit, setShowModalEdit] = useState(false)
@@ -56,19 +59,23 @@ const GridCategories: React.FC<GridCategoriesProps> = ({ categories, title, cate
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categories.map((x) => {
+            {categories.length >= 1 
+                
+                ? categories.map((x) => {
             
                 const iconJSX = categoryIcons.find( (icon) => icon.id === x.iconID)?.iconJSX || null
 
-                return (
-                    <ItemCategory
-                        key={x._id}
-                        category={x}
-                        handleOpenEditModal={handleOpenEditModal}
-                        iconJSX={iconJSX}
-                    />
-                )
-            })}
+                    return (
+                        <ItemCategory
+                            key={x._id}
+                            category={x}
+                            handleOpenEditModal={handleOpenEditModal}
+                            iconJSX={iconJSX}
+                        />
+                    )
+                })
+                : <p className="text-gray-500">{formatLang(userLangID, "Žádné kategorie", "No categories")}</p>
+            }
         </div>
 
     </div>

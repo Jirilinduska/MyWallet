@@ -53,26 +53,6 @@ const getOverview = async(req,res) => {
             }
         }
         
-
-        // const top3CategoriesExpense = await Transaction.aggregate([
-        //     { $match: {
-        //         year: parseInt(year),
-        //         month: parseInt(month),
-        //         createdBy: user._id, 
-        //         transCategory: "transaction" 
-        //     }},
-        //     { $group: {
-        //         _id: "$category",
-        //         totalAmount: { $sum: "$amount" }
-        //     }},
-        //     { $sort: { totalAmount: -1 } },
-        //     { $limit: 3 },
-        // ])
-
-        // const top3CategoryDetails = await Category.find({
-        //     _id: { $in: top3CategoriesExpense.map(item => item._id) }
-        // })
-
         const categoriesYearExpense = await Transaction.aggregate([
             {
               $match: {
@@ -202,7 +182,7 @@ const getOverview = async(req,res) => {
             categoriesYearIncome
         }
 
-        console.log(result)
+        // console.log(result)
 
         return res.status(200).json(result)
 

@@ -39,17 +39,12 @@ const CategoryPreview = () => {
     // TODO 
     if(!catInfo) return <div className="flex items-center justify-center">Loading</div>
 
-    console.log(catInfo)
+    // console.log(catInfo)
 
   return (
     <div className="section-padding">
 
         <TopBar showMonthNavigator={false} showYearNavigator={false}/>
-
-        {/* // ! VYmazat */}
-        {/* <Link to="/dashboard/categories" className="inline-block mb-10">
-            <IconGoBack className="icon" />
-        </Link> */}
 
         <NavigatorCategories pageStage={1} catName={catInfo.categoryName}/>
 
@@ -72,14 +67,34 @@ const CategoryPreview = () => {
             )}
         </p>
 
-        <h3 className="font-semibold mb-2">
+        <div className="flex items-center justify-between">
+            
+            <h3 className="font-semibold mb-2">
+                {`${formatLang(
+                        userLangID, 
+                        catInfo.categoryType === CATEGORY_ID_INCOME ? "Příjmy pro tuto kategorii" : "Výdaje pro tuto kategorii", 
+                        catInfo.categoryType === CATEGORY_ID_INCOME ? "Income for this category" : "Expenses for this category"
+                    )}:
+                `}
+            </h3>
+
+            <Link 
+                className="button-blue" 
+                to={`/dashboard/categories/preview-category/${catInfo.categoryID}/transactions`}
+            >
+                Zobrazit transakce
+            </Link>
+
+        </div>
+
+        {/* <h3 className="font-semibold mb-2">
             {`${formatLang(
                     userLangID, 
                     catInfo.categoryType === CATEGORY_ID_INCOME ? "Příjmy pro tuto kategorii" : "Výdaje pro tuto kategorii", 
                     catInfo.categoryType === CATEGORY_ID_INCOME ? "Income for this category" : "Expenses for this category"
                 )}:
             `}
-        </h3>
+        </h3> */}
 
         <CategoryStatsWithChart catInfo={catInfo}/>
 

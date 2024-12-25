@@ -5,6 +5,7 @@ import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, NOTIF_ERROR, NOTIF_INFO} f
 import { handleNotification } from "../utils/functions/notificationsUtils"
 import { categoryIcons } from "../utils/icons/category-icons"
 import { formatLang } from "../utils/functions/formatLang"
+import { handleError } from "../Errors/handleError"
 
 
 // TODO - Přida do všech contextů i ostatní funkce :)
@@ -45,14 +46,13 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             await fetchData()
             handleNotification(NOTIF_INFO, userLangID, `Kategorie: ${catName} byla odstraněna.`, `Category: ${catName} has been deleted.`);
         } catch (error) {
-            handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
+            handleError(error, userLangID)
         }
     }
 
     const getCategoryInfo = async(catID: string, userLangID: string) => {
         try {
             const response = await handleGetCategoryInfo(catID)
-            // console.log("PREVIEW: ", response)
             setCatInfo(response.data)
         } catch (error) {
             handleNotification(NOTIF_ERROR, userLangID,  "Něco se pokazilo", "Something went wrong")

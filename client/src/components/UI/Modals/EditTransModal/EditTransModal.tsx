@@ -8,28 +8,29 @@ import { handleUpdateTransaction } from "../../../../API/Transactions"
 import { handleErrMsg } from "../../../../utils/functions/handleErrMsg"
 import { handleSuccMsg } from "../../../../utils/functions/handleSuccMsg"
 import { useUserContext } from "../../../../context/UserContext"
-import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, LANG_CZECH, NOTIF_SUCCESS, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../../config/globals"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, COLOR_BLUE, COLOR_RED, LANG_CZECH, NOTIF_ERROR, NOTIF_SUCCESS, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../../config/globals"
 import { useTransactionsContext } from "../../../../context/TransactionsContext"
 import { useParams } from "react-router-dom"
 import { handleNotification } from "../../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../../utils/functions/formatLang"
-import Button from "../../Button/Button"
+import { useOverviewData } from "../../../../context/OverviewDataContext"
+import Button from "../../../Button/Button"
 
 
 interface EditTransModalProsp {
   toggleEditModal: () => void
   transaction: ITransaction
+  pageID: string | null
 }
 
-const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transaction }) => {
+const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transaction, pageID }) => {
 
-    const { refreshUserData, userLangID } = useUserContext()
+    const { userLangID } = useUserContext()
     const { fetchExpenseData, fetchIncomeData, date, deleteTransaction } = useTransactionsContext()
+    const { refreshOverviewData, year, month } = useOverviewData()
 
-    const { pageID } = useParams()
+    // const { pageID } = useParams()
 
-    const [errMsg, setErrMsg] = useState("")
-    const [succMsg, setSuccMsg] = useState("")
     const [isEdited, setIsEdited] = useState(false)
     const [wantDelete, setWantDelete] = useState(false)
 
@@ -42,10 +43,6 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
       month: transaction.month,
       year: transaction.year
     })
-
-    useEffect(() => {
-      refreshUserData()
-    }, [] )
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, value } = e.target
@@ -78,12 +75,18 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
         if(pageID === PAGE_ID_TRANSACTIONS) {
           fetchExpenseData(date.month, date.year)
         }
-        handleSuccMsg("Updated successfully", "Úspěšně aktualizováno", setSuccMsg, userLangID)
+        refreshOverviewData(year, month)
+        handleNotification(NOTIF_SUCCESS, userLangID, "Úspěšně aktualizováno", "Updated successfully")
       } catch (error) {
         console.log(error)
-        handleErrMsg("Something went wrong", "Něco se pokazilo", setErrMsg, userLangID)
+        handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
       }
     }
+
+    useEffect(() => {
+      fetchIncomeData(date.month, date.year)
+      fetchExpenseData(date.month, date.year)
+    }, [] )
 
 
   return (
@@ -95,8 +98,8 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
 
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
 
-            { pageID === PAGE_ID_TRANSACTIONS && <h3 className="text-lg font-semibold text-white">{ userLangID === LANG_CZECH ? "Upravit výdaj" : "Edit transaction" }</h3> }
-            { pageID === PAGE_ID_INCOME && <h3 className="text-lg font-semibold text-white">{ userLangID === LANG_CZECH ? "Upravit příjem" : "Edit income" }</h3> }
+            { pageID === PAGE_ID_TRANSACTIONS && <h3 className="text-lg font-semibold text-white">{formatLang(userLangID, "Upravit výdaj", "Edit transaction")}</h3> }
+            { pageID === PAGE_ID_INCOME && <h3 className="text-lg font-semibold text-white">{formatLang(userLangID, "Upravit příjem", "Edit income")}</h3> }
 
             <IconClose onClick={toggleEditModal} className="icon"/>
 
@@ -144,37 +147,24 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
             />
           </div>
 
-          { errMsg && <p className="text-red-500 px-4 md:px-5 font-bold">{errMsg}</p> }
-          { succMsg && <p className="text-green-500 px-4 md:px-5 font-bold">{succMsg}</p> }
-
           <div className="py-10 flex items-center justify-between">
             
-            {/* // TODO - Při delete - přidat are you sure? left:0 absolute :) */}
-            {/* // Delete transaction */}
-            {/* <button 
-              className="button-red w-1/3 mx-auto block"
-              onClick={() => {
-                console.log('Deleting transaction:', transaction._id)
-                deleteTransaction(transaction._id, userLangID)
-                toggleEditModal()
-              }}
-            >
-              { userLangID === LANG_CZECH ? "Odstranit" : "Delete" }
-            </button> */}
-
             { !wantDelete && (
               <>
                 <Button
-                  buttonValue={formatLang(userLangID, "Odstranit", "Delete")}
-                  className="button-red w-1/3 mx-auto block"
-                  handleClick={() => setWantDelete(true)
-                  }
+                  color={COLOR_RED}
+                  loading={false}
+                  value={formatLang(userLangID, "Odstranit", "Delete")}
+                  handleClick={ () => setWantDelete(true) }
                 />
 
                 <button 
                   className={`${ isEdited ? "button-green" : "button-green bg-colorGrayHover hover:bg-colorGrayHover"} w-1/3 mx-auto block`}
                   disabled={!isEdited}
-                  onClick={handleUpdateTrans}
+                  onClick={ () => {
+                    handleUpdateTrans()
+                    toggleEditModal()
+                  }}
                 >
                   {formatLang(userLangID, "Uložit", "Save")}
                 </button>
@@ -189,9 +179,10 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
 
                 <div className="flex items-center justify-between">
 
-                  <Button 
-                    buttonValue={formatLang(userLangID, "Ano", "Yes")} 
-                    className="button-red w-1/3 mx-auto block" 
+                  <Button
+                    color={COLOR_RED}
+                    loading={false}
+                    value={formatLang(userLangID, "Ano", "Yes")} 
                     handleClick={ () => { pageID &&
                       deleteTransaction(transaction._id, userLangID, pageID)
                       toggleEditModal()
@@ -199,9 +190,10 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
                     }}
                   />
 
-                  <Button 
-                    buttonValue={formatLang(userLangID, "Zrušit", "Close")}
-                    className="button-blue w-1/3 mx-auto block"
+                  <Button
+                    color={COLOR_BLUE}
+                    loading={false}
+                    value={formatLang(userLangID, "Zrušit", "Close")}
                     handleClick={ () => setWantDelete(false) }
                   />
 

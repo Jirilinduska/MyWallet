@@ -11,7 +11,6 @@ import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
 import { useOverviewData } from "../../../context/OverviewDataContext"
-import { newDate } from "react-datepicker/dist/date_utils"
 
 
 interface NewTransFormProps {
@@ -49,6 +48,7 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
 
     const handleSetDate = (newDate: Date | null) => {
         if (newDate) {
+            // Pokud je měsíc stejný jako aktuální, nastavíme skutečně vybrané datum
             setTransData((prev) => ({
                 ...prev,
                 year: newDate.getFullYear().toString(),
@@ -57,6 +57,7 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
             }))
         }
     }
+    
 
     // Add new transaction
     const handleSubmit = async(e: React.FormEvent) => {
@@ -85,6 +86,7 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
                 handleNotification(NOTIF_SUCCESS, userLangID, "Příjem přidán", "Income added")
             }
 
+            // Tohle je potřeba, aby se aktualizovala data v TopBaru!
             refreshOverviewData(year, month)
             handleHide()
             
@@ -138,6 +140,12 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
           dateValues={{ day: transData.day, month: transData.month, year: transData.year }}
           handleSetDate={handleSetDate}  
         />
+
+            {/* <DatePickerElement
+                dateValues={{ day: transData.day, month: transData.month, year: transData.year }}
+                handleSetDate={handleSetDate}  
+                // selected={new Date(transData.year, parseInt(transData.month) - 1, parseInt(transData.day))} // Nastavení správného data v DatePickeru
+            /> */}
 
 
         { loading 

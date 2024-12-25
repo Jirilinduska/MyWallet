@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import HeroLogged from "../../components/Hero/HeroLogged/HeroLogged"
-import HeroNotLogged from "../../components/Hero/HeroNotLogged/HeroNotLogged"
+import HeroNotLogged from "../../better_components/Hero/HeroNotLogged/HeroNotLogged"
 
 const Home = () => {
 
@@ -12,7 +12,7 @@ const Home = () => {
     }, [] )
 
   return (
-    <section className="h-screen mx-auto flex flex-col">
+    <section className="h-screen mx-auto flex items-center justify-center flex-col">
       {isLoggedIn ? <HeroLogged /> : <HeroNotLogged />}
     </section>
   )

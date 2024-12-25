@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react"
 import { handleDeleteTransaction, handleGetTransactions, handleGetTransactionsByCategory } from "../API/Transactions"
-import { IGraphBreakdownData, ITransaction } from "../utils/interfaces/interfaces"
+import { IGraphBreakdownData, ITransaction, IcategoriesYearOverview } from "../utils/interfaces/interfaces"
 import { handleGetIncomes } from "../API/Income"
 import { handleNotification } from "../utils/functions/notificationsUtils"
 import { NOTIF_ERROR, NOTIF_SUCCESS, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../config/globals"
@@ -10,8 +10,10 @@ interface TransContextProps {
     transactionIncome : ITransaction[]
     transactionExpense: ITransaction[]
     loading: boolean
-    graphData: IGraphBreakdownData[]
-    totalPrice: number
+    graphDataInc: IcategoriesYearOverview[]
+    graphDataExp: IcategoriesYearOverview[]
+    totalPriceInc: number
+    totalPriceExp: number
     fetchExpenseData: (month: number, year: number) => void
     fetchIncomeData: (month: number, year: number) => void
     date: { month: number, year: number }
@@ -23,7 +25,6 @@ interface TransContextProps {
     transactionsByCategory: ITransaction[]
 }
 
-
 export const TransactionsContext = createContext<TransContextProps | undefined>(undefined)
 
 export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -32,10 +33,12 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const [transactionExpense, setTransactionExpense] = useState<ITransaction[]>([])
     const [transactionsByCategory, setTransactionsByCategory] = useState<ITransaction[]>([])
     const [loading, setLoading] = useState(false)
-    const [graphData, setGraphData] = useState<IGraphBreakdownData[]>([])
-    const [totalPrice, setTotalPrice] = useState(0)
+    const [graphDataInc, setGraphDataInc] = useState<IcategoriesYearOverview[]>([])
+    const [graphDataExp, setGraphDataExp] = useState<IcategoriesYearOverview[]>([])
+    const [totalPriceInc, setTotalPriceInc] = useState(0)
+    const [totalPriceExp, setTotalPriceExp] = useState(0)
     const [date, setDate] = useState({ month: new Date().getMonth() + 1, year: new Date().getFullYear() })
-
+    
 
     const handlePrevMonth = (pageID: string) => {
         setDate((prev) => {
@@ -74,8 +77,8 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
             const response = await handleGetTransactions(month, year)
             console.log('Expense data:', response.data.transactions) 
             setTransactionExpense(response.data.transactions)
-            setGraphData(response.data.graphData)
-            setTotalPrice(response.data.totalPrice)
+            setGraphDataExp(response.data.graphData)
+            setTotalPriceExp(response.data.totalPrice)
         } catch (error) {
             handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
         } finally {
@@ -89,10 +92,9 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
         try {
             const response = await handleGetIncomes(month, year)
             setTransactionIncome(response.data.transactions)
-            setGraphData(response.data.graphData)
-            setTotalPrice(response.data.totalPrice)
+            setGraphDataInc(response.data.graphData)
+            setTotalPriceInc(response.data.totalPrice)
         } catch (error) {
-            // TODO - Přidat langID
             handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
         } finally {
             setLoading(false)
@@ -103,13 +105,16 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const deleteTransaction = useCallback(async(transID: string, langID: string, type: string) => {
         setLoading(true)
         try {
-            await handleDeleteTransaction(transID)  
-            handleNotification(NOTIF_SUCCESS, langID, "Transakce odstraněna", "Transaction deleted") 
+            await handleDeleteTransaction(transID) 
+            
+            setTransactionsByCategory((prev) => prev.filter((trans) => trans._id !== transID))
+
             if (type === PAGE_ID_INCOME) {
-                fetchExpenseData(date.month, date.year)
+                setTransactionIncome((prev) => prev.filter((trans) => trans._id !== transID))
             } else if(type === PAGE_ID_TRANSACTIONS) {
-                setTransactionExpense((prev) => prev.filter((item) => item._id !== transID))
-            }   
+                setTransactionExpense((prev) => prev.filter((trans) => trans._id !== transID))
+            }  
+            handleNotification(NOTIF_SUCCESS, langID, "Transakce odstraněna", "Transaction deleted")  
         } catch (error) {
             handleNotification(NOTIF_ERROR, langID, "Něco se pokazilo", "Something went wrong")
         } finally {
@@ -126,12 +131,14 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const getTransactionByCat = useCallback(async(catID: string) => {
         try {
             const response = await handleGetTransactionsByCategory(catID)
+            console.log("getTransactionByCat() => : response: ", response)
             setTransactionsByCategory(response.data)
         } catch (error) {   
             // handleNotification(NOTIF_ERROR, langID, "Něco se pokazilo", "Something went wrong")
             console.log(error)
         }
     }, [] )
+
 
     useEffect(() => {
         fetchExpenseData(date.month, date.year)
@@ -140,8 +147,8 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     return (
         <TransactionsContext.Provider value={
-            { transactionExpense, transactionIncome, loading, graphData, handleNextMonth, handlePrevMonth,
-                totalPrice, fetchExpenseData, fetchIncomeData, date, setDate, deleteTransaction, getTransactionByCat,
+            { transactionExpense, transactionIncome, loading, graphDataExp, graphDataInc, handleNextMonth, handlePrevMonth,
+                totalPriceExp, totalPriceInc, fetchExpenseData, fetchIncomeData, date, setDate, deleteTransaction, getTransactionByCat,
                 transactionsByCategory
             }}
         >

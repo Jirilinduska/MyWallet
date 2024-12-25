@@ -1,26 +1,27 @@
 import { useState } from "react"
 import { IconEyeHide, IconEyeShow } from "../../../utils/icons/icons"
 import { handleLoginUser, handleRegisterUser } from "../../../API/Auth"
-import ButtonLoading from "../../UI/Loaders/ButtonLoading/ButtonLoading"
 import Input from "../../UI/Input/Input"
-import { NOTIF_ERROR } from "../../../config/globals"
+import { COLOR_GREEN, NOTIF_ERROR } from "../../../config/globals"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
+import Button from "../../Button/Button"
 
-const AuthForm = () => {
+interface AuthFormProps {
+    isLogin: boolean
+    toggleIsLogin: () => void
+}
+
+const AuthForm = ({ isLogin, toggleIsLogin } : AuthFormProps ) => {
 
     const [formData, setFormData] = useState({ userName: "", email: "", password: "" })
     const [showPass, setShowPass] = useState(false)
-    const [isLogin, setIsLogin] = useState(true)
     const [loading, setLoading] = useState(false)
 
     // TODO - refactor?
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
         setFormData( (prev) => ({...prev, [name]: value}) )
-    }
-
-    const toggleLogin = () => setIsLogin( (prev) => (!prev))
-    
+    }    
 
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault()
@@ -46,7 +47,6 @@ const AuthForm = () => {
             } else {
                 // Register user
                 if(!formData.userName) {
-                    // setErrMsg("Please fill your username")
                     handleNotification(NOTIF_ERROR, "", "Prosím vyplňte jméno", "Please enter your username")
                     setLoading(false)
                     return
@@ -64,7 +64,7 @@ const AuthForm = () => {
   return (
     <form 
         onSubmit={handleSubmit} 
-        className="w-full p-6"
+        className="w-full p-6 h-full flex flex-col justify-center lg:block lg:h-auto"
     >
 
         <h3 className="font-bold text-white mb-10 text-xl">
@@ -118,29 +118,24 @@ const AuthForm = () => {
                 onChange={handleChange}
             />
 
-            <span className="absolute top-1/2 -translate-y-1/2 right-2 icon text-white" onClick={() => setShowPass(!showPass)}>
+            <span className="absolute top-1/2 right-2 icon text-white" onClick={() => setShowPass(!showPass)}>
                 { showPass ? <IconEyeHide/> : <IconEyeShow/> }
             </span>
 
         </div>
 
-        { loading 
-            ? <ButtonLoading/>
-            : (
-                <button type="submit" className="button-green w-full flex items-center justify-center">
-                    { isLogin ? "Login" : "Register" }
-                </button>
-            )
-        }
+        <Button 
+            color={COLOR_GREEN} 
+            loading={loading} 
+            value={ isLogin ? "Login" : "Register" }
+            buttonType="submit"
+        />
 
-        <div className="text-white text-sm lg:text-base flex items-center gap-4 mt-10">
+        <div className="hidden text-white text-sm lg:text-base items-center gap-4 mt-10 lg:flex">
 
             <p className="">{ isLogin ? "Not a member yet?" : "Already a member?" }</p>
 
-            <span 
-                className="underline cursor-pointer"
-                onClick={toggleLogin}
-            >
+            <span className="underline cursor-pointer" onClick={toggleIsLogin}>
                 { isLogin ? "Register now" : "Login now" }
             </span>
 

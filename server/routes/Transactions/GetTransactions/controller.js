@@ -13,38 +13,57 @@ const getTransaction = async(req,res) => {
         const user = await User.findById(userID)
 
         // Veškeré transakce podle datumu
-        const transactions = await Transaction.find({ createdBy: user._id, month, year, transCategory })
+        const transactions = await Transaction.find({ 
+            createdBy: user._id, month, year, transCategory 
+        }).sort({ day: 1 })
 
         // Seskupit data pro graf
-        // TODO - Tohle predelat 
         const graphData = await Transaction.aggregate([
-            { 
-                $match: {
-                    createdBy: user._id, 
-                    month: parseInt(month), 
-                    year: parseInt(year),
-                    transCategory: transCategory,
-                }
-            }, 
-            { 
-                $group: { 
-                    _id: "$category", 
-                    totalAmount: { $sum: "$amount" } 
-                }
+            {
+              $match: {
+                year: parseInt(year),
+                month: parseInt(month),
+                createdBy: user._id,
+                transCategory: transCategory
+              }
             },
-            { 
-                $project: { 
-                    category: "$_id", 
-                    totalAmount: 1, 
-                    _id: 0 
-                }
+            {
+              $group: {
+                _id: "$category",
+                totalAmount: { $sum: "$amount" }
+              }
+            },
+            {
+              $sort: { totalAmount: -1 }
+            },
+            {
+              $lookup: {
+                from: 'categories', 
+                let: { category_id: { $toObjectId: "$_id" } }, 
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: { $eq: ["$_id", "$$category_id"] } 
+                    }
+                  }
+                ],
+                as: 'categoryDetails'
+              }
+            },
+            {
+              $unwind: "$categoryDetails"
+            },
+            {
+              $project: {
+                _id: 1,
+                totalAmount: 1,
+                categoryName: "$categoryDetails.name",
+                categoryIconID: "$categoryDetails.iconID"
+              }
             }
         ])
 
-        // const totalPrice = transactions.reduce((total, transaction) => total + transaction.amount, 0)
         const totalPrice = countTotalPrice(transactions)
-
-        // TODO - Propočítat tady total spendings a vrátít je zvlášt poli :) 
 
         return res.status(200).json({ transactions, graphData, totalPrice })
 

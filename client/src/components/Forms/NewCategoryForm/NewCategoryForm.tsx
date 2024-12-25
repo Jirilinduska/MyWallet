@@ -10,6 +10,7 @@ import { useCategoriesContext } from "../../../context/CategoriesContext"
 import { useUserContext } from "../../../context/UserContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
+import { handleError } from "../../../Errors/handleError"
 
 export interface NewCategoryFormProps {
     categoryType: string
@@ -32,7 +33,6 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({ categoryType, langID,
     })
     const [selectedIcon, setSelectedIcon] = useState(0)
     const [isEdited, setIsEdited] = useState(false)
-    const [wantDelete, setWantDelete] = useState(false)
 
     useEffect(() => {
         if(useCase === USE_CASE_EDIT) {
@@ -46,8 +46,6 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({ categoryType, langID,
             setSelectedIcon(selectedCategory?.iconID || 0)
         }
     }, [useCase] )
-
-    const toggleWantDelete = () => setWantDelete(!wantDelete)
     
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -106,7 +104,7 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({ categoryType, langID,
             }
         } catch (error) {
             console.log(error)
-            handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
+            handleError(error, userLangID)
         }
     }
 

@@ -1,5 +1,6 @@
 const Category = require("../../../models/Category")
 const Transaction = require("../../../models/Transaction")
+const Budget = require("../../../models/Budget")
 
 const deleteCategory = async(req,res) => {
 
@@ -13,16 +14,17 @@ const deleteCategory = async(req,res) => {
         // TODO - Při mazani categorii pokud existutují transakce, tak presmerovat na dashboard/categories/preview-category/6760b43337cfdfa6dea0c538/transactions, (přidat i /catID/overview...) kde se zobrazi všechny transakce pro tuto kategorii :)
         // TODO - Pokud jich bude mnoho, tak vytvořit komponentu "SHOW MORE" kde při kliknutí zobrazí dalších 10... 
         // TODO - Na fe vytvořit funkci handleErrorMSg - a přidat chybovy kod a překlad do daneho jazyka...
+        // TODO - Ošetři na fe, pokud je kategori přiřazena k budgetu, tak vyhodit chybu a přesmerovat na daný budget?
 
-        if (transactions.length > 0) {
-            return res.status(400).json({
-              message: "Category cannot be deleted. There are transactions associated with it."
-            });
-          }
+        if (transactions.length > 0) return res.status(400).json({ errCode: 2000 })
+        
+        const budget = await Budget.findOne({
+          "budgetCategories.categoryID": id
+        })
 
-        const category = await Category.findByIdAndDelete(id)
+        if (budget) return res.status(400).json({ errCode: 2001 })
 
-        if(!category) return res.status(400).json({ message: "Category not found." })
+        await Category.findByIdAndDelete(id)
 
         return res.status(200).json({ message: "Category deleted." })
 

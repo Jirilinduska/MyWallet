@@ -8,7 +8,6 @@ import { formatLang } from '../../../utils/functions/formatLang'
 ChartJS.register(CategoryScale, BarElement, Title, Tooltip, Legend, LinearScale)
 
 // * Příklad graphData props
-
 // const graphData = {
 //   2024: 143400,
 //   2023: 1500,

@@ -1,6 +1,5 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { handleGetCategoryInfo } from "../../API/Categories"
 import { useUserContext } from "../../context/UserContext"
 import { useCategoriesContext } from "../../context/CategoriesContext"
 import TopBar from "../UI/TopBar/TopBar"
@@ -9,6 +8,9 @@ import SectionTitle from "../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../utils/functions/formatLang"
 import TableTransactions from "../UI/Tables/TableTransactions/TableTransactions"
 import { useTransactionsContext } from "../../context/TransactionsContext"
+import EditTransModal from "../UI/Modals/EditTransModal/EditTransModal"
+import { ITransaction } from "../../utils/interfaces/interfaces"
+import { CATEGORY_ID_TRANSACTION, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../config/globals"
 
 // TODO http://localhost:3000/dashboard/categories/preview-category/6760b39337cfdfa6dea08984/transactions
 // TODO - Dokončit tabulku, modal atd...
@@ -22,7 +24,10 @@ const TransactionsByCategory = () => {
     const { categoryID, showTrans } = useParams()
     const navigate = useNavigate()
 
-    const testFunction = () => {}
+    const [showModal, setShowModal] = useState(false)
+    const [selectedTransaction, setSelectedTransaction] = useState<ITransaction | null>(null)
+
+    const handleModal = () => setShowModal(!showModal)
 
     useEffect(() => {
         if(showTrans !== "transactions") {
@@ -41,9 +46,19 @@ const TransactionsByCategory = () => {
   return (
     <div className="section-padding">
 
+        {/* Modal - Edit transaction*/}
+        {/* // TODO - Vyřešeit problémy (chybí nadpis, setSelected(null)) */}
+        { showModal && selectedTransaction && (
+            <EditTransModal
+                toggleEditModal={handleModal}
+                transaction={selectedTransaction}
+                pageID={ catInfo?.categoryType === CATEGORY_ID_TRANSACTION ? PAGE_ID_TRANSACTIONS : PAGE_ID_INCOME }
+            />
+        )}
+
         <TopBar showMonthNavigator={false} showYearNavigator={false} />
 
-        <NavigatorCategories pageStage={2} catName={catInfo?.categoryName} />
+        <NavigatorCategories pageStage={2} catName={catInfo?.categoryName} catID={catInfo?.categoryID}/>
 
         <SectionTitle value={formatLang(userLangID, `Seznam všech transakcí pro kategorii: ${catInfo?.categoryName}`, `List of all transactions for the category: ${catInfo?.categoryName}`)}/>
     
@@ -52,8 +67,8 @@ const TransactionsByCategory = () => {
         { transactionsByCategory.length >= 1 && catInfo && 
             <TableTransactions 
                 data={transactionsByCategory} 
-                setSelectedTransaction={testFunction} 
-                toggleEditModal={testFunction} 
+                setSelectedTransaction={setSelectedTransaction} 
+                toggleEditModal={handleModal} 
                 transType={catInfo?.categoryType} 
             />
         }

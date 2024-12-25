@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { IconClose } from '../../../../utils/icons/icons'
 import { useUserContext } from '../../../../context/UserContext'
-import { LANG_CZECH } from '../../../../config/globals'
-import Button from '../../Button/Button'
+import { COLOR_BLUE, COLOR_RED, LANG_CZECH } from '../../../../config/globals'
 import { formatLang } from '../../../../utils/functions/formatLang'
+import Button from '../../../Button/Button'
 
 
 export interface IAreYouSureModal {
@@ -35,10 +35,8 @@ const AreYouSureModal = ({ handleNo, handleYes, textCS, textEN } : IAreYouSureMo
                 </div>
 
                 <div className="flex items-center justify-center h-[100px]">
-
-                    <Button buttonValue={formatLang(userLangID, "Smazat", "Delete")} className='button-blue bg-red-500 hover:bg-red-600' handleClick={handleYes}/>
-                    <Button buttonValue={formatLang(userLangID, "Zrušit", "Cancel")} className='button-blue' handleClick={handleNo}/>
-
+                    <Button value={formatLang(userLangID, "Smazat", "Delete")} color={COLOR_RED} loading={false} handleClick={handleYes} />
+                    <Button value={formatLang(userLangID, "Zrušit", "Cancel")} color={COLOR_BLUE} loading={false} handleClick={handleNo}/>
                 </div>
 
             </div>

@@ -17,7 +17,7 @@ const HeroLogged = () => {
       { overviewData && (
         <div className="flex flex-col items-center justify-between gap-10 xl:flex-row">
 
-          <ProgressRadius actualPrice={overviewData.monthTotalExpense} plannedPrice={overviewData.monthBudget}/>
+          {/* <ProgressRadius actualPrice={overviewData.monthTotalExpense} plannedPrice={overviewData.monthBudget}/> */}
 
           <ExpenseInfo />
 

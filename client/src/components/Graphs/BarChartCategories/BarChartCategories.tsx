@@ -10,9 +10,10 @@ interface BarChartCategoriesProps {
     chartData: IcategoriesYearOverview[]
 }
 
-const BarChartCategories = ({ chartData } : BarChartCategoriesProps ) => {
+// * Chart data input:
+// {_id: '676ab3f36442bcf0b603390f', totalAmount: 325776, categoryName: 'Výplata', categoryIconID: 26}
 
-    console.log(chartData)
+const BarChartCategories = ({ chartData } : BarChartCategoriesProps ) => {
 
     const { userCurrency } = useUserContext()
 

@@ -1,14 +1,26 @@
-import { LANG_CZECH, LANG_ENGLISH } from "../config/globals"
+import { NOTIF_ERROR } from "../config/globals"
+import { handleNotification } from "../utils/functions/notificationsUtils"
 import { ErrorCodes } from "./errorCodes"
 
+export const handleError = (err: any, userLangID: string) => {
 
+    const defaultMessage = {
+        cs: "Něco se pokazilo",
+        en: "Something went wrong",
+    }
 
-// ! Už není potřeba
-export const handleError = (errCode: number, userLangID: string, setErrMsg : (msg: string) => void ) => {
+    if (err?.response?.data?.errCode) {
+        handleErrorByCode(err.response.data.errCode, userLangID)
+    } else {
+        handleNotification(NOTIF_ERROR, userLangID, defaultMessage.cs, defaultMessage.en)
+        console.error("Unhandled error:", err)
+    }
 
-    const lang = userLangID === LANG_CZECH ? "cs" : userLangID === LANG_ENGLISH ? "en" : "en"
+}
 
-    const message = ErrorCodes[errCode]?.[lang] || "Unknown error"
+const handleErrorByCode = (errCode: number, userLangID: string) => {
 
-    setErrMsg(message)
+    const message = ErrorCodes[errCode]
+    
+    handleNotification(NOTIF_ERROR, userLangID, message.cs, message.en)
 }

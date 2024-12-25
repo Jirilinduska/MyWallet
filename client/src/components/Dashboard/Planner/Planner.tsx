@@ -5,19 +5,19 @@ import { formatLang } from "../../../utils/functions/formatLang"
 import MonthYearPicker from "../../UI/DateStuff/MonthYearPicker/MonthYearPicker"
 import CreateBudget from "../../CreateBudget/CreateBudget"
 import { IconClose } from "../../../utils/icons/icons"
-import Button from "../../UI/Button/Button"
 import { INewBudget } from "../../../utils/interfaces/interfaces"
 import { getMonthName } from "../../../utils/functions/dateUtils"
 import BudgetOverview from "../../UI/BudgetOverview/BudgetOverview"
 import { useBudgetContext } from "../../../context/BudgetsContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
-import { NOTIF_ERROR, NOTIF_SUCCESS } from "../../../config/globals"
+import { COLOR_BLUE, NOTIF_ERROR, NOTIF_SUCCESS } from "../../../config/globals"
 import TopBar from "../../UI/TopBar/TopBar"
+import Button from "../../Button/Button"
 
 
 const Planner = () => {
 
-    const { refreshUserData, userLangID, userCurrency } = useUserContext()
+    const { userLangID, userCurrency } = useUserContext()
     const { budgets, refreshBudgets, createBudget } = useBudgetContext()
     const [stage, setStage] = useState(0)
 
@@ -27,15 +27,6 @@ const Planner = () => {
       year: new Date().getFullYear(),
       budgetCategories: []
     })
-
-
-    useEffect(() => {
-      if(!userLangID) refreshUserData()
-    }, [userLangID] )
-
-    useEffect(() => {
-      if(!budgets) refreshBudgets()
-    }, [budgets])
 
     const incStage = () =>  {
       if(stage === 1) {
@@ -98,14 +89,15 @@ const Planner = () => {
         <SectionTitle value={formatLang(userLangID, "Plánovač výdajů", "Budget planner")} />
 
         { budgets.length > 0 && stage === 0 && <BudgetOverview budgets={budgets} /> }
-        { budgets.length === 0 && stage === 0 && <div className="">No budgets found</div> }
+        { budgets.length === 0 && stage === 0 && <p className="text-center">{formatLang(userLangID, "Žádné plány výdajů", "No budget plans")}</p> }
 
         {/* // Vytvořit nový plán */}
         { stage === 0 && (
-          <div className="flex items-center justify-center">
-            <Button 
-              buttonValue={formatLang(userLangID, "Vytvořit plán", "Create plan")} 
-              className="button-blue" 
+          <div className="flex items-center justify-center mt-10">
+            <Button
+              color={COLOR_BLUE}
+              loading={false}
+              value={formatLang(userLangID, "Vytvořit plán", "Create plan")} 
               handleClick={incStage}
             />
           </div>
@@ -128,15 +120,17 @@ const Planner = () => {
               { stage > 0 && (
                 <div className="flex items-center justify-center gap-10 my-10">
 
-                  <Button 
-                    className="button-blue"
-                    buttonValue={`${stage === 1 ? `${formatLang(userLangID, "Zrušit", "Cancel")}` : `${formatLang(userLangID, "Předchozí", "Prev")}`}`} 
+                  <Button
+                    color={COLOR_BLUE}
+                    loading={false}
+                    value={`${stage === 1 ? `${formatLang(userLangID, "Zrušit", "Cancel")}` : `${formatLang(userLangID, "Předchozí", "Prev")}`}`} 
                     handleClick={decStage}
                   />
 
-                  <Button 
-                    className="button-blue"
-                    buttonValue={`${stage === 2 ? `${formatLang(userLangID, "Uložit", "Save")}` : `${formatLang(userLangID, "Další", "Next")}`}`} 
+                  <Button
+                    color={COLOR_BLUE}
+                    loading={false}
+                    value={`${stage === 2 ? `${formatLang(userLangID, "Uložit", "Save")}` : `${formatLang(userLangID, "Další", "Next")}`}`} 
                     handleClick={handleNextButtonClick}
                   />
 

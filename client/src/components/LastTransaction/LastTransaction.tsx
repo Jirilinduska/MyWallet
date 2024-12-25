@@ -1,4 +1,4 @@
-import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, LANG_CZECH } from "../../config/globals"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, LANG_CZECH, TODAY_TRANSACTION } from "../../config/globals"
 import { useUserContext } from "../../context/UserContext"
 import { formatLang } from "../../utils/functions/formatLang"
 import { formatCurrency } from "../../utils/functions/formatNumber"
@@ -27,7 +27,9 @@ return (
 
         <div className="flex items-center justify-between mb-1">
             <h6 className="text-gray-700 font-medium">
-                { type === CATEGORY_ID_TRANSACTION ? formatLang(userLangID, "Poslední transakce", "Last transaction") :  formatLang(userLangID, "Poslední příjem", "Last income")}
+                { type === CATEGORY_ID_TRANSACTION && formatLang(userLangID, "Poslední transakce", "Last transaction")}
+                { type === CATEGORY_ID_INCOME      && formatLang(userLangID, "Poslední příjem", "Last income")}
+                { type === TODAY_TRANSACTION       && formatLang(userLangID, "Dnešní transakce", "Today's transactions")}
             </h6>
             <span className="text-gray-500">{formatDistanceToNow(timestamp, { addSuffix: true, locale: userLangID === LANG_CZECH ? cs : undefined })}</span>
         </div>

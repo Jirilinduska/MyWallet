@@ -5,8 +5,9 @@ import { formatLang } from "../../../../utils/functions/formatLang"
 import { ICategory, IGetBudgetCategories } from "../../../../utils/interfaces/interfaces"
 import { useCategoriesContext } from "../../../../context/CategoriesContext"
 import { categoryIcons } from "../../../../utils/icons/category-icons"
-import Button from "../../Button/Button"
 import { Link } from "react-router-dom"
+import Button from "../../../Button/Button"
+import { COLOR_BLUE } from "../../../../config/globals"
 
 interface NewBudgetCatModalProps {
     toggleWantNewCat: () => void
@@ -83,7 +84,12 @@ const NewBudgetCatModal = ({ toggleWantNewCat, budgetCategories, handleAddCatCli
 
                 </div>
 
-                <Button buttonValue={formatLang(userLangID, "Zavřít", "Close")} className='button-blue w-1/2 mx-auto block mt-6' handleClick={toggleWantNewCat}/>
+                <Button
+                    color={COLOR_BLUE}
+                    loading={false}
+                    value={formatLang(userLangID, "Zavřít", "Close")}
+                    handleClick={toggleWantNewCat}
+                />
 
             </div>
 

@@ -16,7 +16,7 @@ const getTransactionsByCategory = async(req,res) => {
         const transactions = await Transaction.find({
             createdBy: user._id,
             category: categoryID
-        })
+        }).sort({ year: -1, month: -1, day: -1 })
 
         if(transactions.length === 0) {
             return res.status(400).json({ message: "No transactions for this category" })

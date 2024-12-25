@@ -20,7 +20,7 @@ const Transactions = () => {
     const { refreshUserData, userLangID, userCurrency } = useUserContext()
     const { pageID } = useParams()
 
-    const { fetchExpenseData, fetchIncomeData, graphData, totalPrice, transactionExpense, transactionIncome, date } = useTransactionsContext()
+    const { fetchExpenseData, fetchIncomeData, transactionExpense, transactionIncome, date } = useTransactionsContext()
 
     const [showNewTrans, setShowNewTrans] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
@@ -64,6 +64,7 @@ const Transactions = () => {
             <EditTransModal 
                 toggleEditModal={toggleEditModal}
                 transaction={selectedTransaction}
+                pageID={PAGE_ID_INCOME}
             /> 
         )}
 

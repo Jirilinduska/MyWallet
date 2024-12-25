@@ -14,7 +14,7 @@ export interface IDatePicker {
 const DatePickerElement: React.FC<IDatePicker> = ({ dateValues, handleSetDate }) => {
 
     const today = new Date()
-    today.setHours(0, 0, 0, 0)
+    today.setHours(0, 0, 0, 0)    
 
   return (
     <div className="my-4">
@@ -27,10 +27,8 @@ const DatePickerElement: React.FC<IDatePicker> = ({ dateValues, handleSetDate })
         </label>
 
         <DatePicker
-            selected={dateValues.year && dateValues.month && dateValues.day 
-                ? new Date(parseInt(dateValues.year), parseInt(dateValues.month) - 1, parseInt(dateValues.day)) 
-                : new Date() }
-            onChange={handleSetDate}
+            selected={new Date(parseInt(dateValues.year), parseInt(dateValues.month) - 1, parseInt(dateValues.day))}
+            onChange={(date: Date | null) => { handleSetDate(date) }}
             dateFormat="dd-MM-yyyy"
             maxDate={today}
             className="w-full p-2 border rounded-lg shadow-md focus:outline-none focus:ring focus:ring-blue-500"

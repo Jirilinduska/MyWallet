@@ -1,5 +1,5 @@
 
-
+// TODO - Zkontrolovat co z tohoto se používá!
 
 // Language
 export const LANG_ENGLISH   = "EN"
@@ -44,7 +44,11 @@ export const COLOR_WHITE = "white"
 export const COLOR_GREEN = "green"
 export const COLOR_RED   = "red"
 
+// SIZE
 export const SIZE_SMALL  = "small"
 export const SIZE_MEDIUM = "medium"
 export const SIZE_LARGE = "large"
 export const SIZE_ROW = "row"
+
+// OSTATNÍ
+export const TODAY_TRANSACTION = "transaction_today"
