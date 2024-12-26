@@ -31,7 +31,6 @@ app.use(cors({
     credentials: true
 }))
 
-
 loadRoutes(app, path.join(__dirname, 'routes'))
 
 const startServer = async () => {
