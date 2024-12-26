@@ -6,11 +6,14 @@ import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
 import TopBar from "../../../better_components/Layout/TopBar/TopBar"
 import NavigatorCategories from "../../NavigatorCategories/NavigatorCategories"
+import { usePageTitle } from "../../../hooks/usePageTitle"
 
 const Categories = () => {
 
     const { userLangID } = useUserContext()
     const { categoriesIncome,categoriesTransactions } = useCategoriesContext()
+
+    usePageTitle(formatLang(userLangID, "Kategorie", "Categories"))
 
 
   return (
@@ -18,7 +21,6 @@ const Categories = () => {
 
         <TopBar showYearNavigator={false} showMonthNavigator={false} />
 
-        {/* <SectionTitle value={formatLang(userLangID, "Kategorie", "Categories")}/> */}
         <NavigatorCategories pageStage={0} />
 
         <GridCategories

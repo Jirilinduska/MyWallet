@@ -3,11 +3,14 @@ import { COLOR_BLUE, COLOR_GREEN } from "../../../config/globals"
 import { IconCard, IconChart, IconClose, IconWallet } from "../../../utils/icons/icons"
 import Button from "../../Common/Button/Button"
 import AuthForm from "../../Forms/AuthForm/AuthForm"
+import { usePageTitle } from "../../../hooks/usePageTitle"
 
 const HeroNotLogged = () => {
 
   const [isLogin, setIsLogin] = useState(true)
   const [showForm, setShowForm] = useState(false)
+
+  usePageTitle("Log In")
 
   const toggleIsLogin = () => setIsLogin(!isLogin)
   const toggleForm = () => setShowForm(!showForm)

@@ -11,8 +11,8 @@ import { useTransactionsContext } from "../../context/TransactionsContext"
 import EditTransModal from "../UI/Modals/EditTransModal/EditTransModal"
 import { ITransaction } from "../../utils/interfaces/interfaces"
 import { CATEGORY_ID_TRANSACTION, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../config/globals"
+import { usePageTitle } from "../../hooks/usePageTitle"
 
-// TODO http://localhost:3000/dashboard/categories/preview-category/6760b39337cfdfa6dea08984/transactions
 // TODO - Dokončit tabulku, modal atd...
 
 const TransactionsByCategory = () => {
@@ -26,6 +26,8 @@ const TransactionsByCategory = () => {
 
     const [showModal, setShowModal] = useState(false)
     const [selectedTransaction, setSelectedTransaction] = useState<ITransaction | null>(null)
+
+    usePageTitle(formatLang(userLangID, `${catInfo?.categoryName} - transakce`, `${catInfo?.categoryName} - transactions`))
 
     const handleModal = () => setShowModal(!showModal)
 
@@ -63,7 +65,6 @@ const TransactionsByCategory = () => {
         <SectionTitle value={formatLang(userLangID, `Seznam všech transakcí pro kategorii: ${catInfo?.categoryName}`, `List of all transactions for the category: ${catInfo?.categoryName}`)}/>
     
         {/* // TODO - Boční funkce... přidat do kontextu! */}
-        {/* <TableTransactions /> */}
         { transactionsByCategory.length >= 1 && catInfo && 
             <TableTransactions 
                 data={transactionsByCategory} 

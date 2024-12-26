@@ -12,7 +12,10 @@ const app = express()
 app.use(express.json())
 
 
-const allowedOrigins = ['http://localhost:3000', 'https://minisocial-app.vercel.app']
+const allowedOrigins = [
+    'http://localhost:3000', 
+    'https://my-wallet-budget-app.vercel.app'
+]
 
 
 app.use(cors({
@@ -20,7 +23,7 @@ app.use(cors({
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
-            callback(new Error('Not allowed by CORS'));
+            callback(new Error('Not allowed by CORS'))
         }
     },
     methods: 'GET,POST,PUT,DELETE,PATCH',

@@ -3,6 +3,6 @@ import { useEffect } from "react"
 export const usePageTitle = (title: string) => {
 
     useEffect(() => {
-        document.title = `${title} - My wallet`
+        document.title = `${title} - My wallet app`
     }, [title])
 }

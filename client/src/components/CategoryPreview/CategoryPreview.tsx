@@ -11,22 +11,16 @@ import InfoItem from "../../better_components/Common/InfoItem/InfoItem"
 import CategoryStatsWithChart from "../CategoryStatsWithChart/CategoryStatsWithChart"
 import TopBar from "../../better_components/Layout/TopBar/TopBar"
 import NavigatorCategories from "../NavigatorCategories/NavigatorCategories"
-
-// TODO - Vybvrat všechny hodnoty
-// export interface ICategoryPreview {
-//     monthlySummary: { [key: string]: number }
-//     monthlyCounts: { [key: string]: number }
-//     largestTransactionsByMonth: ITransaction[]
-//     yearlySummary: { [key: string]: number }
-// }
+import { usePageTitle } from "../../hooks/usePageTitle"
 
 const CategoryPreview = () => {
 
     const { categoryID } = useParams()
-    console.log(categoryID)
 
     const { getCategoryInfo, catInfo } = useCategoriesContext()
-    const { userLangID, userCurrency } = useUserContext()
+    const { userLangID } = useUserContext()
+
+    usePageTitle(`${catInfo?.categoryName}`)
 
     useEffect(() => {
         if(categoryID) getCategoryInfo(categoryID, userLangID)
@@ -35,7 +29,6 @@ const CategoryPreview = () => {
     // TODO 
     if(!catInfo) return <div className="flex items-center justify-center">Loading</div>
 
-    // console.log(catInfo)
 
   return (
     <div className="section-padding">
@@ -82,15 +75,6 @@ const CategoryPreview = () => {
             </Link>
 
         </div>
-
-        {/* <h3 className="font-semibold mb-2">
-            {`${formatLang(
-                    userLangID, 
-                    catInfo.categoryType === CATEGORY_ID_INCOME ? "Příjmy pro tuto kategorii" : "Výdaje pro tuto kategorii", 
-                    catInfo.categoryType === CATEGORY_ID_INCOME ? "Income for this category" : "Expenses for this category"
-                )}:
-            `}
-        </h3> */}
 
         <CategoryStatsWithChart catInfo={catInfo}/>
 
