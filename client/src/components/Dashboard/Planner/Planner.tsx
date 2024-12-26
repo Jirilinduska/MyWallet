@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useUserContext } from "../../../context/UserContext"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
@@ -11,8 +11,8 @@ import BudgetOverview from "../../UI/BudgetOverview/BudgetOverview"
 import { useBudgetContext } from "../../../context/BudgetsContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { COLOR_BLUE, NOTIF_ERROR, NOTIF_SUCCESS } from "../../../config/globals"
-import TopBar from "../../UI/TopBar/TopBar"
-import Button from "../../Button/Button"
+import TopBar from "../../../better_components/Layout/TopBar/TopBar"
+import Button from "../../../better_components/Common/Button/Button"
 
 
 const Planner = () => {
@@ -77,7 +77,7 @@ const Planner = () => {
           budgetCategories: []
         })
       } catch (error) {
-        handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
+        console.log("handleSubmit() => : ", error)
       }
     }
 

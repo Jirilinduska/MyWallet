@@ -4,10 +4,11 @@ import { useUserContext } from "../../context/UserContext"
 import { getMonthName } from "../../utils/functions/dateUtils"
 import { formatLang } from "../../utils/functions/formatLang"
 import { ITransaction } from "../../utils/interfaces/interfaces"
-import TableTransactions from "../UI/Tables/TableTransactions/TableTransactions"
-import { PAGE_ID_TRANSACTIONS } from "../../config/globals"
+import TableTransactions from "../../better_components/Tables/TableTransactions/TableTransactions"
+import { COLOR_BLUE, PAGE_ID_TRANSACTIONS } from "../../config/globals"
 import { formatCurrency } from "../../utils/functions/formatNumber"
-import BarChartCategories from "../Graphs/BarChartCategories/BarChartCategories"
+import BarChartCategories from "../../better_components/Charts/BarChartCategories/BarChartCategories"
+import Button from "../../better_components/Common/Button/Button"
 
 interface TransactionsContentProps {
     transactions: ITransaction[]
@@ -25,7 +26,6 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
 
     const [wantTable, setWantTable] = useState(true)
     const [wantStats, setWantStats] = useState(false)
-
 
     // Pokud nejsou žádné transakce pro daný měsíc.
     if(transactions.length === 0) {
@@ -50,7 +50,7 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
         <div className="flex items-center justify-between">
 
             {/* Navigator */}
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col justify-center gap-6 text-xs sm:flex-row sm:text-sm">
                 <div className="">
 
                     <button className={`${wantTable ? "font-semibold text-black" : "font-light text-gray-500"}`} onClick={ () => {
@@ -73,12 +73,15 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
                 </div>
             </div>
 
-            <button className="button-blue" onClick={toggleNewTransModal}>
-                {formatLang(userLangID, 
-                    pageID === PAGE_ID_TRANSACTIONS ? "Nová transakce" : "Nový příjem", 
-                    pageID === PAGE_ID_TRANSACTIONS ? "New transaction" : "New income"
-                )}
-            </button>
+            <div className="w-1/2 sm:w-[200px]">
+                <Button 
+                    color={COLOR_BLUE}
+                    loading={false}
+                    value={formatLang(userLangID, pageID === PAGE_ID_TRANSACTIONS ? "Nová transakce" : "Nový příjem", pageID === PAGE_ID_TRANSACTIONS ? "New transaction" : "New income")}
+                    handleClick={toggleNewTransModal}
+                />
+            </div>
+
 
         </div>
 
@@ -99,7 +102,7 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
         )}
 
         { wantStats && (
-            <div className="">
+            <div className="h-[400px]">
                 <BarChartCategories chartData={ pageID === PAGE_ID_TRANSACTIONS ? graphDataExp : graphDataInc }/>
             </div>
         )}

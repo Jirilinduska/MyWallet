@@ -1,15 +1,13 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react"
-import { handleDeleteTransaction, handleGetTransactions, handleGetTransactionsByCategory } from "../API/Transactions"
-import { IGraphBreakdownData, ITransaction, IcategoriesYearOverview } from "../utils/interfaces/interfaces"
+import { handleDeleteTransaction, handleGetTransactions, handleGetTransactionsByCategory, handleUpdateTransaction } from "../API/Transactions"
+import { ITransaction, IcategoriesYearOverview } from "../utils/interfaces/interfaces"
 import { handleGetIncomes } from "../API/Income"
 import { handleNotification } from "../utils/functions/notificationsUtils"
 import { NOTIF_ERROR, NOTIF_SUCCESS, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../config/globals"
 
-//TODO
 interface TransContextProps {
     transactionIncome : ITransaction[]
     transactionExpense: ITransaction[]
-    loading: boolean
     graphDataInc: IcategoriesYearOverview[]
     graphDataExp: IcategoriesYearOverview[]
     totalPriceInc: number
@@ -32,7 +30,6 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const [transactionIncome, setTransactionIncome] = useState<ITransaction[]>([])
     const [transactionExpense, setTransactionExpense] = useState<ITransaction[]>([])
     const [transactionsByCategory, setTransactionsByCategory] = useState<ITransaction[]>([])
-    const [loading, setLoading] = useState(false)
     const [graphDataInc, setGraphDataInc] = useState<IcategoriesYearOverview[]>([])
     const [graphDataExp, setGraphDataExp] = useState<IcategoriesYearOverview[]>([])
     const [totalPriceInc, setTotalPriceInc] = useState(0)
@@ -72,38 +69,30 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     // GET EXPENSE DATA
     const fetchExpenseData = useCallback( async(month: number, year: number) => {
-        setLoading(true)
         try {
             const response = await handleGetTransactions(month, year)
-            console.log('Expense data:', response.data.transactions) 
             setTransactionExpense(response.data.transactions)
             setGraphDataExp(response.data.graphData)
             setTotalPriceExp(response.data.totalPrice)
         } catch (error) {
-            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
-        } finally {
-            setLoading(false)
+            console.log("fetchExpenseData() => : ", error)
         }
-    }, [])
+    }, [] )
 
     // GET INCOME DATA
     const fetchIncomeData = useCallback(async (month: number, year: number) => {
-        setLoading(true)
         try {
             const response = await handleGetIncomes(month, year)
             setTransactionIncome(response.data.transactions)
             setGraphDataInc(response.data.graphData)
             setTotalPriceInc(response.data.totalPrice)
         } catch (error) {
-            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
-        } finally {
-            setLoading(false)
+            console.log("fetchIncomeData() => : ", error)
         }
-    }, [])
+    }, [] )
 
     // DELETE
     const deleteTransaction = useCallback(async(transID: string, langID: string, type: string) => {
-        setLoading(true)
         try {
             await handleDeleteTransaction(transID) 
             
@@ -117,8 +106,6 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
             handleNotification(NOTIF_SUCCESS, langID, "Transakce odstraněna", "Transaction deleted")  
         } catch (error) {
             handleNotification(NOTIF_ERROR, langID, "Něco se pokazilo", "Something went wrong")
-        } finally {
-            setLoading(false)
         }
     }, [date])
 
@@ -134,8 +121,7 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
             console.log("getTransactionByCat() => : response: ", response)
             setTransactionsByCategory(response.data)
         } catch (error) {   
-            // handleNotification(NOTIF_ERROR, langID, "Něco se pokazilo", "Something went wrong")
-            console.log(error)
+            console.log("getTransactionByCat() => : ", error)
         }
     }, [] )
 
@@ -147,9 +133,9 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     return (
         <TransactionsContext.Provider value={
-            { transactionExpense, transactionIncome, loading, graphDataExp, graphDataInc, handleNextMonth, handlePrevMonth,
+            { transactionExpense, transactionIncome, graphDataExp, graphDataInc, handleNextMonth, handlePrevMonth,
                 totalPriceExp, totalPriceInc, fetchExpenseData, fetchIncomeData, date, setDate, deleteTransaction, getTransactionByCat,
-                transactionsByCategory
+                transactionsByCategory,
             }}
         >
             { children }

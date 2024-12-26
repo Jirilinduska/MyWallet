@@ -4,6 +4,7 @@ import { CurrencyIconCzech, CurrencyIconDollar, CurrencyIconEuro } from '../../.
 import { userAvatars } from '../../../utils/icons/avatars'
 import { IconMail } from '../../../utils/icons/icons'
 import { CURR_CZECH, CURR_DOLLAR, CURR_EURO, LANG_CZECH, LANG_ENGLISH } from '../../../config/globals'
+import { formatLang } from '../../../utils/functions/formatLang'
 
 export interface IProgressBarFixed {
     data: {
@@ -16,9 +17,9 @@ export interface IProgressBarFixed {
 const ProgressBarFixed: React.FC<IProgressBarFixed> = ({ data }) => {
 
   return (
-    <div className="fixed top-0 left-0 w-[100px] p-6 flex flex-col items-center">
+    <div className="hidden fixed top-0 left-0 w-[100px] p-6 sm:flex flex-col items-center">
 
-        <h3 className="font-bold mb-1">Language</h3>
+        <h3 className="font-bold mb-1">{formatLang(data.lang, "Jazyk", "Language")}</h3>
 
         {/* Language */}
         <div className={`${data.lang ? "bg-colorGreenHover" : "bg-colorGray"} w-[80px] h-[80px] bg-colorGray rounded-full flex items-center justify-center transition-all duration-300 ease-out`}>
@@ -29,7 +30,7 @@ const ProgressBarFixed: React.FC<IProgressBarFixed> = ({ data }) => {
         {/* Bar */}
         <div className={`${data.lang ? "bg-colorGreenHover" : "bg-colorGray"} w-[5px] h-[50px] my-6 transition-all duration-300 ease-out`}></div>
 
-        <h3 className="font-bold mb-1">Currency</h3>
+        <h3 className="font-bold mb-1">{formatLang(data.lang, "Měna", "Currency")}</h3>
 
         {/* Currency */}
         <div className={`${data.curr ? "bg-colorGreenHover" : "bg-colorGray"} w-[80px] h-[80px] bg-colorGray rounded-full flex items-center justify-center`}>
@@ -54,7 +55,7 @@ const ProgressBarFixed: React.FC<IProgressBarFixed> = ({ data }) => {
         {/* Bar */}
         <div className={`${data.avatarID ? "bg-colorGreenHover" : "bg-colorGray"} w-[5px] h-[50px] my-6 transition-all duration-300 ease-out`}></div>
 
-        <h3 className="font-bold mb-1">Confirm</h3>
+        <h3 className="font-bold mb-1">Email</h3>
 
         <div className="w-[80px] h-[80px] bg-colorGray rounded-full flex items-center justify-center transition-all duration-300 ease-out">
             <IconMail/>

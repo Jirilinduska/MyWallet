@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import HeroLogged from "../../components/Hero/HeroLogged/HeroLogged"
+import HeroLogged from "../../better_components/Hero/HeroLogged/HeroLogged"
 import HeroNotLogged from "../../better_components/Hero/HeroNotLogged/HeroNotLogged"
 
 const Home = () => {

@@ -13,11 +13,13 @@ const loginUser = async(req,res) => {
         
         const findUser = await User.findOne({ email })
 
-        if(!findUser) return res.status(400).json({ message: "Invalid email adress." })
+        // Špatný email
+        if(!findUser) return res.status(400).json({ errCode: 1000 })
 
         const isMatch = await bcrypt.compare(password, findUser.password)
 
-        if (!isMatch) return res.status(400).json({ message: "Invalid password" })
+        // Špatné heslo
+        if (!isMatch) return res.status(400).json({ errCode: 1001 })
 
         const token = generateToken(findUser._id, findUser.email)
 

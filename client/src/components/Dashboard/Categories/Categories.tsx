@@ -4,7 +4,7 @@ import { useCategoriesContext } from "../../../context/CategoriesContext"
 import GridCategories from "../../UI/GridCategories/GridCategories"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
-import TopBar from "../../UI/TopBar/TopBar"
+import TopBar from "../../../better_components/Layout/TopBar/TopBar"
 import NavigatorCategories from "../../NavigatorCategories/NavigatorCategories"
 
 const Categories = () => {

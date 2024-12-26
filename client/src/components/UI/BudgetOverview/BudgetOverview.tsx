@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { COLOR_BLUE, SIZE_ROW } from "../../../config/globals"
 import { useUserContext } from "../../../context/UserContext"
 import { IGetBudget } from "../../../utils/interfaces/interfaces"
-import InfoItem from "../InfoItem/InfoItem"
+import InfoItem from "../../../better_components/Common/InfoItem/InfoItem"
 import { IconChart } from "../../../utils/icons/icons"
 import { Link } from "react-router-dom"
 import { getMonthName } from "../../../utils/functions/dateUtils"
@@ -13,13 +13,7 @@ export interface BudgetOverviewProps {
 
 const BudgetOverview = ({ budgets } : BudgetOverviewProps ) => {
 
-  const { refreshUserData, userLangID } = useUserContext()
-
-  const sortedBudfgets = 
-
-  useEffect(() => {
-    if(!userLangID) refreshUserData()
-  }, [])
+  const { userLangID } = useUserContext()
 
   return (
     <div className="w-1/2 mx-auto">

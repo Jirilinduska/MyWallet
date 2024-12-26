@@ -9,6 +9,8 @@ import { ICompleteProfileData } from "../../utils/interfaces/interfaces"
 import { handleCompleteProfile } from "../../API/User"
 import { useUserContext } from "../../context/UserContext"
 import { Navigate } from "react-router-dom"
+import { formatLang } from "../../utils/functions/formatLang"
+import SectionTitle from "../../components/UI/SectionTitle/SectionTitle"
 
 
 // TODO - Upravit celkový UI komponenty, + přidat mobile settings
@@ -16,7 +18,7 @@ import { Navigate } from "react-router-dom"
 
 const NewUser = () => {
 
-    const { refreshUserData, userData } = useUserContext()
+    const { userData } = useUserContext()
 
     const [stage, setStage] = useState(0)
     const [data, setData] = useState<ICompleteProfileData>({ lang: "", curr: "", avatarID: 0 })
@@ -27,10 +29,6 @@ const NewUser = () => {
     const handleIncStage = () => setStage( (prev) => prev + 1)
     const handleDecStage = () => setStage( (prev) => prev - 1)
 
-    useEffect(() => {
-        if(!userData) refreshUserData()
-    }, [])
-
     if(userData) {
         if(userData.settings.profileCompleted) {
             return <Navigate to="/"/>
@@ -40,26 +38,28 @@ const NewUser = () => {
   return (
     <section className="h-screen flex items-center justify-center">
 
-        <div className="bg-black w-[60%] h-[60%]">
+        <div className="w-full md:w-[60%] md:h-[60%] rounded-xl shadow-xl">
+
+            {/* <h3 className="font-bold py-4 text-center">{formatLang(data.lang, "Doplňte profil", "Complete your profile")}</h3> */}
 
             {/* Stage title */}
-            <h3 className="text-white font-bold text-center my-6">
-                { stage === 0 && "Select your language" }
-                { stage === 1 && "Select your prefered currency" }
-                { stage === 2 && "Select your avatar" }
-                { stage === 3 && "Confirm your email adress" }
+            <h3 className="font-semibold text-center my-6">
+                { stage === 0 && formatLang(data.lang, "Vyberte jazyk", "Select your language") }
+                { stage === 1 && formatLang(data.lang, "Zvolte preferovanou měnu", "Select prefered currency") }
+                { stage === 2 && formatLang(data.lang, "Vyberte si avatar", "Select your avatar") }
+                { stage === 3 && formatLang(data.lang, "Potvrďte svůj email", "Confirm your email adress") }
             </h3>
 
             {/* STAGE 0 - Select language */}
             { stage === 0 && (
-                <div className="flex items-center justify-center gap-10 text-white h-[40%]">
+                <div className="flex items-center justify-center gap-10 text-white h-[40%] flex-col xs:flex-row">
 
                     <span 
                         className={`${ data.lang === LANG_CZECH && "bg-colorGreen" } py-4 px-6 rounded-full cursor-pointer border-2 border-colorGreen transition-all duration-300 ease-out`} 
                         onClick={ () => handleChangeLang(LANG_CZECH) }
                     >
                         <CzechFlag/>
-                        <p className={`${ data.lang === LANG_CZECH ? "text-black" : "text-white" } mt-1`}>Czech</p>
+                        <p className="text-black mt-1">Čeština</p>
                     </span>
 
                     <span 
@@ -67,7 +67,7 @@ const NewUser = () => {
                         onClick={ () => handleChangeLang(LANG_ENGLISH) }
                     >
                         <USFlag/>
-                        <p className={`${ data.lang === LANG_ENGLISH ? "text-black" : "text-white" } mt-1`}>English</p>
+                        <p className="text-black mt-1">English</p>
                     </span>
 
                 </div>
@@ -75,14 +75,14 @@ const NewUser = () => {
 
             {/* STAGE 1 - Select currency */}
             { stage === 1 && (
-                <div className="flex items-center justify-center gap-10 text-white h-[40%]">
+                <div className="flex items-center justify-center gap-10 text-white h-[40%] flex-col xs:flex-row">
 
                     <span 
                         className={`${ data.curr === CURR_CZECH && "bg-colorGreen" } py-4 px-6 flex flex-col items-center justify-center rounded-full cursor-pointer border-2 border-colorGreen transition-all duration-300 ease-out`}
                         onClick={ () => handleChangeCurrency(CURR_CZECH) }
                     >
                         <CurrencyIconCzech/>
-                        <p className={`${ data.curr === CURR_CZECH ? "text-black" : "text-white" } mt-1`}>CZK</p>
+                        <p className="text-black mt-1">CZK</p>
                     </span>
 
                     <span 
@@ -90,7 +90,7 @@ const NewUser = () => {
                         onClick={ () => handleChangeCurrency(CURR_DOLLAR) }
                     >
                         <CurrencyIconDollar/>
-                        <p className={`${ data.curr === CURR_DOLLAR ? "text-black" : "text-white" } mt-1`}>USD</p>
+                        <p className="text-black mt-1">USD</p>
                     </span>
 
                     <span 
@@ -98,14 +98,14 @@ const NewUser = () => {
                         onClick={ () => handleChangeCurrency(CURR_EURO) }
                     >
                         <CurrencyIconEuro/>
-                        <p className={`${ data.curr === CURR_EURO ? "text-black" : "text-white" } mt-1`}>EUR</p>
+                        <p className="text-black mt-1">EUR</p>
                     </span>
                 </div>
             )}
 
             {/* STAGE 2 - Select avatar */}
-            // TODO - Přidat rámečky pro avatary, selected - podobne jako u lang, currency....
-            // TODO - Přidat flex-wrap
+            {/* // TODO - Přidat rámečky pro avatary, selected - podobne jako u lang, currency.... */}
+            {/* // TODO - Přidat flex-wrap */}
             { stage === 2 && (
                 <div className="flex items-center justify-center gap-10 text-white h-[40%] w-[90%] mx-auto">
 
@@ -119,10 +119,10 @@ const NewUser = () => {
 
                 </div>
             )}
-            // TODO - STAGE 3 - Confirm email?
-            // TODO - Upravit UI - Tlačítko send email předělat :)
+            {/* // TODO - STAGE 3 - Confirm email? */}
+            {/* // TODO - Upravit UI - Tlačítko send email předělat :) */}
             { stage === 3 && (
-                 <div className="flex items-center justify-center gap-10 text-white h-[40%] w-[90%] mx-auto">
+                 <div className="flex items-center justify-center gap-10 h-[40%] w-[90%] mx-auto">
                     <p className="">Please check your email adress.</p>
                  </div>
             )}
@@ -130,7 +130,7 @@ const NewUser = () => {
             {/* Buttons */}
             <div className="my-10 flex items-center justify-center gap-10">
                 
-                <button className={`${ (stage === 0 || stage === 3)&& "hidden" } button-blue`} onClick={handleDecStage}>Back</button>
+                <button className={`${ (stage === 0 || stage === 3)&& "hidden" } button-blue`} onClick={handleDecStage}>{formatLang(data.lang, "Zpět", "Back")}</button>
 
                 <button 
                     className={`${ stage >= 3 && "hidden" } button-green`} 
@@ -142,8 +142,8 @@ const NewUser = () => {
                         }
                     }}
                 >
-                    { stage === 2 && "Save" }
-                    { stage !== 2 && "Next" }
+                    { stage === 2 && formatLang(data.lang, "Uložit", "Save") }
+                    { stage !== 2 && formatLang(data.lang, "Další", "Next") }
                 </button>
                 
             </div>

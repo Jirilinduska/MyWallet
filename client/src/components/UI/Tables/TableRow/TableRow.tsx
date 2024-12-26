@@ -27,13 +27,14 @@ const TableRow = ({ transaction, transType, setSelectedTransaction, toggleEditMo
     }
 
     return (
-        <div className="flex border-b bg-gray-800 border-gray-700 text-gray-400 py-2">
+        <div className="flex border-b text-xs sm:text-sm bg-gray-800 border-gray-700 text-gray-400 py-2 relative">
 
-            <div className="flex-1 p-2 text-left pl-4">
-                {`${transaction.day}.${transaction.month}.${transaction.year}`}
+            <div className="flex-1 p-2 text-left pl-4 hidden xs:block">
+                <span className="hidden sm:block">{`${transaction.day}.${transaction.month}.${transaction.year}`}</span>
+                <span className="block sm:hidden">{`${transaction.day}.${transaction.month}`}</span>
             </div>
 
-            <div className="flex-1 p-2 text-left">
+            <div className="hidden sm:block flex-1 p-2 text-left">
                 {transaction.title || ""}
             </div>
 
@@ -53,7 +54,8 @@ const TableRow = ({ transaction, transType, setSelectedTransaction, toggleEditMo
                     }} 
                     className="font-medium text-blue-500 cursor-pointer hover:underline"
                 >
-                    {formatLang(userLangID, "Upravit", "Edit")}
+                    <span className="block sm:hidden">{formatLang(userLangID, "Detaily", "Details")}</span>
+                    <span className="hidden sm:block">{formatLang(userLangID, "Upravit", "Edit")}</span>
                 </span>
             </div>
 

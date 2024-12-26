@@ -11,8 +11,6 @@ interface NavigatorCategoriesProps {
     catID?: string
 }
 
-// TODO - Doladit > šipky + linky
-
 const NavigatorCategories = ({ pageStage, catName, catID } : NavigatorCategoriesProps ) => {
 
     const { userLangID } = useUserContext()

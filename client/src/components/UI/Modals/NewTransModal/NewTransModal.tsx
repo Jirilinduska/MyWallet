@@ -2,7 +2,7 @@ import { LANG_CZECH, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../../co
 import { useUserContext } from "../../../../context/UserContext"
 import { formatLang } from "../../../../utils/functions/formatLang"
 import { IconClose } from "../../../../utils/icons/icons"
-import NewTransForm from "../../../Forms/NewTransForm/NewTransForm"
+import NewTransForm from "../../../../better_components/Forms/NewTransForm/NewTransForm"
 
 interface NewTransModalProps {
   handleHide: () => void

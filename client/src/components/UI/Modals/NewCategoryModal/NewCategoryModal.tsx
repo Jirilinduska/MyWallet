@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { LANG_CZECH, USE_CASE_CREATE, USE_CASE_EDIT } from "../../../../config/globals"
 import { useUserContext } from "../../../../context/UserContext"
 import { IconClose } from "../../../../utils/icons/icons"
-import NewCategoryForm from "../../../Forms/NewCategoryForm/NewCategoryForm"
+import NewCategoryForm from "../../../../better_components/Forms/NewCategoryForm/NewCategoryForm"
 import { ICategory } from "../../../../utils/interfaces/interfaces"
 
 export interface NewCategoryModalProps {

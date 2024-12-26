@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { COLOR_BLUE, COLOR_GREEN } from "../../../config/globals"
 import { IconCard, IconChart, IconClose, IconWallet } from "../../../utils/icons/icons"
-import Button from "../../../components/Button/Button"
-import AuthForm from "../../../components/Forms/AuthForm/AuthForm"
+import Button from "../../Common/Button/Button"
+import AuthForm from "../../Forms/AuthForm/AuthForm"
 
 const HeroNotLogged = () => {
 

@@ -15,6 +15,8 @@ import BudgetCatPreviewList from "../BudgetCatPreviewList/BudgetCatPreviewList"
 import NewBudgetCatModal from "../UI/Modals/NewBudgetCatModal/NewBudgetCatModal"
 import { handleNotification } from "../../utils/functions/notificationsUtils"
 import { NOTIF_ERROR, NOTIF_SUCCESS } from "../../config/globals"
+import Loader from "../../better_components/Loaders/Loader/Loader"
+import TopBar from "../../better_components/Layout/TopBar/TopBar"
 
 const OneBudgetPreview = () => {
 
@@ -22,7 +24,7 @@ const OneBudgetPreview = () => {
     const navigate = useNavigate()
 
     const { budgets, refreshBudgets, deleteBudget, updateBudget } = useBudgetContext()
-    const { refreshUserData, userLangID, userCurrency } = useUserContext()
+    const { userLangID, userCurrency } = useUserContext()
 
     const [thisBudget, setThisBudget] = useState<IGetBudget | null>(null)
     const [wantDeletePlan, setWantDeletePlan] = useState(false)
@@ -31,12 +33,9 @@ const OneBudgetPreview = () => {
     const [wantEdit, setWantEdit] = useState("")
     const [wantNewCategory, setWantNewCategory] = useState(false)
    
-  useEffect(() => {
-    if(!userLangID) refreshUserData()
-  }, [userLangID])
 
   useEffect(() => {
-    if (budgets.length > 0 && budgetID) handleFindThisBudget();
+    if (budgets.length > 0 && budgetID) handleFindThisBudget()
   }, [budgetID, budgets])
 
 
@@ -147,7 +146,6 @@ const OneBudgetPreview = () => {
         console.log("Updating thisBudget:", thisBudget)
         await updateBudget(updateData)
         await refreshBudgets()
-        // TODO notifikace
         closeWantDeleteCategory()
         handleNotification(NOTIF_SUCCESS, userLangID, `Uloženo`, `Saved`)
       } catch (error) {
@@ -157,15 +155,12 @@ const OneBudgetPreview = () => {
     }
   }
 
-  if(!thisBudget) return <div className="">načítání...</div>
-
-  if (!thisBudget || !thisBudget.budgetCategories) {
-    return <div>Loading...</div>; // Nebo jiný placeholder, pokud data ještě nejsou dostupná
-  }
-
+  if(!thisBudget) return <Loader wantFullSize={true}/>
  
   return (
-    <div className="md:ml-[250px] p-6 min-h-screen">
+    <div className="section-padding">
+
+        <TopBar showMonthNavigator={false} showYearNavigator={false}/>
 
         { wantDeletePlan && (
           <AreYouSureModal 

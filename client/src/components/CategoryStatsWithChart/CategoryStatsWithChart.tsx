@@ -1,9 +1,9 @@
-import InfoItem from "../UI/InfoItem/InfoItem"
+import InfoItem from "../../better_components/Common/InfoItem/InfoItem"
 import { CATEGORY_ID_INCOME, COLOR_BLUE, COLOR_GREEN, COLOR_RED, SIZE_ROW } from "../../config/globals"
 import { ICategoryPreview } from "../../utils/interfaces/interfaces"
 import { formatLang } from "../../utils/functions/formatLang"
 import { useUserContext } from "../../context/UserContext"
-import BarChart from "../Graphs/BarChart/BarChart"
+import BarChart from "../../better_components/Charts/BarChart/BarChart"
 import { IconChart2 } from "../../utils/icons/icons"
 
 interface CategoryStatsWithChartProps {

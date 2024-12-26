@@ -3,7 +3,7 @@ import { IconClose } from '../../../../utils/icons/icons'
 import { useUserContext } from '../../../../context/UserContext'
 import { COLOR_BLUE, COLOR_RED, LANG_CZECH } from '../../../../config/globals'
 import { formatLang } from '../../../../utils/functions/formatLang'
-import Button from '../../../Button/Button'
+import Button from '../../../../better_components/Common/Button/Button'
 
 
 export interface IAreYouSureModal {

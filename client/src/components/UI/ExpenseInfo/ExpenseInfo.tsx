@@ -1,22 +1,25 @@
-import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, COLOR_BLUE, SIZE_ROW, TODAY_TRANSACTION } from "../../../config/globals"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, TODAY_TRANSACTION } from "../../../config/globals"
 import { useCategoriesContext } from "../../../context/CategoriesContext"
 import { useOverviewData } from "../../../context/OverviewDataContext"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
-import { categoryIcons } from "../../../utils/icons/category-icons"
-import LastTransaction from "../../LastTransaction/LastTransaction"
-import InfoItem from "../InfoItem/InfoItem"
+import LastTransaction from "../../../better_components/Common/LastTransaction/LastTransaction"
+import Loader from "../../../better_components/Loaders/Loader/Loader"
 
 const ExpenseInfo = () => {
 
     const { userLangID } = useUserContext()
     const { categoriesTransactions } = useCategoriesContext()
-    const { overviewData } = useOverviewData()
+    const { overviewData, loading } = useOverviewData()
 
   return (
     <div className="shadow-lg rounded-lg w-full p-4">
 
-        <div className="space-y-2">
+        <h3 className="font-semibold text-base mb-2">{formatLang(userLangID, "Poslední transakce", "Last transactions")}</h3>
+
+        <div className="space-y-2 relative w-full xs:min-w-[300px] min-h-[50px]">
+
+            { loading && <Loader wantFullSize={false}/> }
 
             { overviewData?.lastExpense && (
               <LastTransaction
@@ -38,7 +41,7 @@ const ExpenseInfo = () => {
               />
             )}
 
-            { !overviewData?.lastExpense && <p className="text-gray-500 text-center font-semibold">{formatLang(userLangID, "Zatím žádné transakce", "No transactions yet")}</p> }
+            { !overviewData?.lastExpense && <p className="text-gray-500 text-center text-sm font-semibold">{formatLang(userLangID, "Zatím žádné transakce", "No transactions yet")}</p> }
 
         </div>
 

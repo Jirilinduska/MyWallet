@@ -5,7 +5,7 @@
     min-height: 100vh; /* min-h-screen */
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
     .section-padding {
         margin-left: 250px; /* md:ml-[250px] */
     }

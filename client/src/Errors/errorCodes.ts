@@ -3,7 +3,8 @@
 
 export const ErrorCodes: { [key: number]: { cs: string; en: string } } = {
 
-    // AUTORIZACE
+    // * AUTORIZACE
+
     1000: {
         cs: "Špatný email",
         en: "Invalid email"
@@ -14,7 +15,8 @@ export const ErrorCodes: { [key: number]: { cs: string; en: string } } = {
         en: "Invalid password"
     }, 
 
-    // KATEGORIE
+    // * KATEGORIE
+
     2000: {
         cs: "Kategorie nelze smazat, protože jsou s ní spojené transakce",
         en: "Category cannot be deleted because there are transactions associated with it"        

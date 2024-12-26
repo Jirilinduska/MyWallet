@@ -7,11 +7,9 @@ import { categoryIcons } from "../../utils/icons/category-icons"
 import { formatCurrency } from "../../utils/functions/formatNumber"
 import { formatLang } from "../../utils/functions/formatLang"
 import { CATEGORY_ID_INCOME,  COLOR_BLUE,  COLOR_GREEN,  COLOR_RED,  COLOR_WHITE,  SIZE_MEDIUM, SIZE_ROW } from "../../config/globals"
-import SectionTitle from "../UI/SectionTitle/SectionTitle"
-import InfoItem from "../UI/InfoItem/InfoItem"
-import BarChart from "../Graphs/BarChart/BarChart"
+import InfoItem from "../../better_components/Common/InfoItem/InfoItem"
 import CategoryStatsWithChart from "../CategoryStatsWithChart/CategoryStatsWithChart"
-import TopBar from "../UI/TopBar/TopBar"
+import TopBar from "../../better_components/Layout/TopBar/TopBar"
 import NavigatorCategories from "../NavigatorCategories/NavigatorCategories"
 
 // TODO - Vybvrat všechny hodnoty
@@ -21,8 +19,6 @@ import NavigatorCategories from "../NavigatorCategories/NavigatorCategories"
 //     largestTransactionsByMonth: ITransaction[]
 //     yearlySummary: { [key: string]: number }
 // }
-
-// TODO - Přidat tlačítko na /transactions pro zobrazení všech transakcí pro tuto categori :)
 
 const CategoryPreview = () => {
 

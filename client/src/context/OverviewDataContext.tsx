@@ -1,8 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { IOverviewData } from "../utils/interfaces/interfaces"
 import { handleGetOverview } from "../API/Overview"
-import { handleNotification } from "../utils/functions/notificationsUtils"
-import { NOTIF_ERROR } from "../config/globals"
 
 interface OverviewDataProps {
     overviewData?: IOverviewData
@@ -11,6 +9,7 @@ interface OverviewDataProps {
     month: number
     handlePrevYear: () => void
     handleNextYear: () => void
+    loading: boolean
 }
 
 export const OverviewDataContext = createContext<OverviewDataProps | undefined>(undefined)
@@ -20,18 +19,20 @@ export const OverviewDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const [overviewData, setOverviewData] = useState<IOverviewData | undefined>()
     const [year, setYear] = useState(new Date().getFullYear())
     const [month, setMonth] = useState(new Date().getMonth() + 1)
+    const [loading, setLoading] = useState(false)
 
     const handlePrevYear = () => setYear(year - 1)
     const handleNextYear = () => setYear(year + 1)
 
     const refreshOverviewData = async(year: number, month: number) => {
         try {
+            setLoading(true)
             const response = await handleGetOverview(year, month)
-            console.log("Overview: ", response.data)
             setOverviewData(response.data)
         } catch (error) {
-            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
-            console.log("handleFetchData() => : ", error)
+            console.log("refreshOverviewData() => : ", error)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -40,7 +41,7 @@ export const OverviewDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }, [year, month])
 
     return (
-        <OverviewDataContext.Provider value={{ overviewData, refreshOverviewData, year, month, handleNextYear, handlePrevYear }}>
+        <OverviewDataContext.Provider value={{ overviewData, refreshOverviewData, year, month, handleNextYear, handlePrevYear, loading }}>
             { children }
         </OverviewDataContext.Provider>
     )

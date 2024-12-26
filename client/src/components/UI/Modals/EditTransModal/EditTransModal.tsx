@@ -14,7 +14,7 @@ import { useParams } from "react-router-dom"
 import { handleNotification } from "../../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../../utils/functions/formatLang"
 import { useOverviewData } from "../../../../context/OverviewDataContext"
-import Button from "../../../Button/Button"
+import Button from "../../../../better_components/Common/Button/Button"
 
 
 interface EditTransModalProsp {
@@ -28,8 +28,6 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
     const { userLangID } = useUserContext()
     const { fetchExpenseData, fetchIncomeData, date, deleteTransaction } = useTransactionsContext()
     const { refreshOverviewData, year, month } = useOverviewData()
-
-    // const { pageID } = useParams()
 
     const [isEdited, setIsEdited] = useState(false)
     const [wantDelete, setWantDelete] = useState(false)
@@ -82,6 +80,7 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
         handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
       }
     }
+
 
     useEffect(() => {
       fetchIncomeData(date.month, date.year)
@@ -185,6 +184,7 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
                     value={formatLang(userLangID, "Ano", "Yes")} 
                     handleClick={ () => { pageID &&
                       deleteTransaction(transaction._id, userLangID, pageID)
+                      refreshOverviewData(year, month)
                       toggleEditModal()
                       setWantDelete(false)
                     }}

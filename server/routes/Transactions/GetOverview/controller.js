@@ -141,7 +141,7 @@ const getOverview = async(req,res) => {
             }
         ])
 
-        // TODO ! ODSTRANIT
+        // TODO ! ODSTRANIT ?
         const todayExpense = await Transaction.find({
             createdBy: user._id,
             transCategory: "transaction",
@@ -181,8 +181,6 @@ const getOverview = async(req,res) => {
             categoriesYearExpense,
             categoriesYearIncome
         }
-
-        // console.log(result)
 
         return res.status(200).json(result)
 
