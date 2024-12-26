@@ -34,7 +34,6 @@ app.use(cors({
 
 loadRoutes(app, path.join(__dirname, 'routes'))
 
-
 const startServer = async () => {
     try {
         await connectDB()
