@@ -5,8 +5,6 @@ import { URL_LOGIN_USER, URL_REGISTER_USER } from "../config/apiUrls"
 // Login User
 export const handleLoginUser = async(email: string, password: string) => {
 
-    // console.log("Env url: ", process.env.REACT_APP_BASE_URL)
-
     const response = await apiClient.post(URL_LOGIN_USER, { email, password })
     localStorage.setItem("token", response.data.token)
     window.location.href = "/"
