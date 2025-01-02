@@ -20,15 +20,13 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [userCurrency, setUserCurrency] = useState("")
 
     const fetchData = async() => {
-
         try {
             const response = await handleGetUserData()
-            console.log(response)
             setUserData(response.data)
             setUserLangID(response.data?.utils?.language)
             setUserCurrency(response.data?.utils?.currency)
         } catch (error) {
-            console.log(error)
+            console.log("fetchData() => userDataContext : ", error)
         }
     }
 

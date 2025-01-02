@@ -11,7 +11,6 @@ const isTokenExpired = (token: string) => {
 }
 
 export const apiClient = axios.create({
-    // baseURL: "https://my-wallet-be.vercel.app",
     baseURL: process.env.REACT_APP_BASE_URL,
     headers: { 'Content-Type': 'application/json' }
 })

@@ -15,6 +15,26 @@ export const ErrorCodes: { [key: number]: { cs: string; en: string } } = {
         en: "Invalid password"
     }, 
 
+    1002: {
+        cs: "Aktuální heslo je nesprávné",
+        en: "Current password is incorrect"
+    },
+
+    1003: {
+        cs: "Zadejte prosím své aktuální heslo",
+        en: "Please enter your current password"
+    }, 
+
+    1004: {
+        cs: "Zadejte prosím nové heslo",
+        en: "Please enter new password"
+    },
+
+    1005: {
+        cs: "Nové heslo nesmí být stejné jako stávající",
+        en: "New password must be different from current"
+    },
+
     // * KATEGORIE
 
     2000: {

@@ -152,14 +152,6 @@ export interface IPieGraph {
     langID: string
 }
 
-// Avatars
-export interface IAvatars {
-    showAvatars: boolean
-    setUserInfo: React.Dispatch<React.SetStateAction<IUserDataUpdate>>
-    setIsEdited: (state: boolean) => void
-    setShowAvatars: (state: boolean) => void
-}
-
 // =========== APIs ===========
 export interface ICompleteProfileData {
     lang: string

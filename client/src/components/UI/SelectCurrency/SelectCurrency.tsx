@@ -2,21 +2,17 @@ import { useEffect } from "react"
 import { useUserContext } from "../../../context/UserContext"
 import { IInputSelect } from "../../../utils/interfaces/interfaces"
 import { CURR_CZECH, CURR_DOLLAR, CURR_EURO, LANG_CZECH } from "../../../config/globals"
+import { formatLang } from "../../../utils/functions/formatLang"
+import HeadingSmall from "../../HeadingSmall/HeadingSmall"
 
 const SelectCurrency: React.FC<IInputSelect> = ({ value, handleChange }) => {
 
-    const { refreshUserData, userLangID } = useUserContext()
-
-    useEffect( () => {
-        if(!userLangID) refreshUserData()
-    }, [])
+    const { userLangID } = useUserContext()
 
   return (
     <div className="w-full sm:w-1/2">
         
-        <label htmlFor="currency" className="block text-sm mb-2 font-medium text-gray-900 dark:text-white">
-            { userLangID === LANG_CZECH ? "Měna*" : "Currency*" }
-        </label>
+        <HeadingSmall value={formatLang(userLangID, "Měna", "Currency")} className="mb-2"/>
 
         <select
             id="currency"

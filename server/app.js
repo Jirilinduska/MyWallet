@@ -6,7 +6,7 @@ const { loadRoutes } = require("./libs/loadRoutes")
 const path = require("path")
 
 dotenv.config()
-// const port = process.env.PORT
+
 const port = process.env.PORT || 5009
 const app = express()
 

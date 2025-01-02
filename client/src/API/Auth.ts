@@ -1,5 +1,5 @@
 import { apiClient } from "../config/apiClient"
-import { URL_LOGIN_USER, URL_REGISTER_USER } from "../config/apiUrls"
+import { URL_CHANGE_PASSWORD, URL_LOGIN_USER, URL_REGISTER_USER } from "../config/apiUrls"
 
 
 // Login User
@@ -22,6 +22,12 @@ export const handleRegisterUser = async(userName: string, email: string, passwor
     return response
 }
 
+export const handleChangePassword = async(currentPassword: string, newPassword: string, newPasswordAgain: string) => {
+    const response = await apiClient.post(URL_CHANGE_PASSWORD, { currentPassword, newPassword })
+    return response
+}
+
+// Logout 
 export const handleLogoutUser = () => {
     localStorage.removeItem("token")
     window.location.href = "/"

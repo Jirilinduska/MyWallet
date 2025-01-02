@@ -5,6 +5,9 @@ import { useUserContext } from "../../../context/UserContext"
 import { LANG_CZECH } from "../../../config/globals"
 import { handleLogoutUser } from "../../../API/Auth"
 import { useUtilsContext } from "../../../context/UtilsContext"
+import { formatLang } from "../../../utils/functions/formatLang"
+
+// TODO - DOdělat bg active u profile,home?
 
 const Sidebar = () => {
 
@@ -36,7 +39,7 @@ const Sidebar = () => {
                         key={x.id}
                     >
                         <span className="text-lg md:text-xl">{x.icon}</span>
-                        <span className="text-base">{ userLangID === LANG_CZECH ? x.titleCS : x.titleEN }</span>
+                        <span className="text-base">{formatLang(userLangID, x.titleCS, x.titleEN)}</span>
                     </Link>
                 ))}
             </div>
@@ -45,17 +48,17 @@ const Sidebar = () => {
 
                 <Link to="/" onClick={hideNav} className="flex items-center gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out text-white hover:bg-colorGrayHover hover:text-black">
                     <IconHome/>
-                    <span className="">{ userLangID === LANG_CZECH ? "Domů" : "Home" }</span>
+                    <span className="">{formatLang(userLangID, "Domů", "Home")}</span>
                 </Link>
 
                 <Link to="/profile" onClick={hideNav} className="flex items-center gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out text-white hover:bg-colorGrayHover hover:text-black">
                     <IconUser/>
-                    <span className="">{ userLangID === LANG_CZECH ? "Profil" : "Profile" }</span>
+                    <span className="">{formatLang(userLangID, "Profil", "Profile")}</span>
                 </Link>
 
                 <button onClick={handleLogoutUser} className="flex items-center w-full gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out text-white hover:bg-colorGrayHover hover:text-black">
                     <IconLogout/>
-                    <span className="">{ userLangID === LANG_CZECH ? "Odhlásit" : "Logout" }</span>
+                    <span className="">{formatLang(userLangID, "Odhlásit se", "Logout")}</span>
                 </button>
 
             </div>

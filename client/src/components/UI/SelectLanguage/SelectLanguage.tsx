@@ -2,21 +2,17 @@ import { useEffect } from "react"
 import { useUserContext } from "../../../context/UserContext"
 import { IInputSelect } from "../../../utils/interfaces/interfaces"
 import { LANG_CZECH, LANG_ENGLISH } from "../../../config/globals"
+import HeadingSmall from "../../HeadingSmall/HeadingSmall"
+import { formatLang } from "../../../utils/functions/formatLang"
 
 const SelectLanguage: React.FC<IInputSelect> = ({ value, handleChange }) => {
 
-    const { refreshUserData, userLangID } = useUserContext()
-
-    useEffect( () => {
-        if(!userLangID) refreshUserData()
-    }, [])
+    const { userLangID } = useUserContext()
 
   return (
     <div className="w-full sm:w-1/2">
         
-        <label htmlFor="language" className="block text-sm mb-2 font-medium text-gray-900 dark:text-white">
-            { userLangID === LANG_CZECH ? "Jazyk*" : "Language*" }
-        </label>
+        <HeadingSmall value={formatLang(userLangID, "Jazyk", "Language")} className="mb-2"/>
 
         <select
             id="language"

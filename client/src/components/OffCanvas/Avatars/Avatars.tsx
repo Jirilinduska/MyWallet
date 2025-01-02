@@ -1,11 +1,22 @@
 import { userAvatars } from "../../../utils/icons/avatars"
-import { IAvatars } from "../../../utils/interfaces/interfaces"
+import { IconClose } from "../../../utils/icons/icons"
+import { IUserDataUpdate } from "../../../utils/interfaces/interfaces"
 
-const Avatars: React.FC<IAvatars> = ({ showAvatars, setIsEdited, setUserInfo, setShowAvatars }) => {
+interface IAvatarsProps {
+    showAvatars: boolean
+    setUserInfo: React.Dispatch<React.SetStateAction<IUserDataUpdate>>
+    setIsEdited: (state: boolean) => void
+    toggleAvatars: () => void
+}
+
+
+const Avatars: React.FC<IAvatarsProps> = ({ showAvatars, setIsEdited, setUserInfo, toggleAvatars }) => {
   return (
-    <div className={`${ showAvatars ? "right-0" : "-right-full" } fixed top-0 w-[250px] h-screen flex flex-col items-center justify-center gap-4 transition-all bg-white shadow-xl duration-300 ease-in-out`}>
+    <div className={`${ showAvatars ? "right-0" : "-right-full" } fixed top-0 w-[250px] z-[60] bg-black h-screen flex flex-col items-center justify-center gap-4 transition-all shadow-xl duration-300 ease-in-out`}>
 
-            <h3 className="">Select avatar</h3>
+        <h3 className="text-white mb-4">Select avatar</h3>
+
+        <IconClose onClick={toggleAvatars} className="icon absolute top-3 right-3 text-4xl text-red-500"/>
         
         { userAvatars && userAvatars.map( (x) => {
             return (
@@ -15,7 +26,7 @@ const Avatars: React.FC<IAvatars> = ({ showAvatars, setIsEdited, setUserInfo, se
                     onClick={ () => {
                         setUserInfo((prev) => ({...prev, avatarID: x.id}))
                         setIsEdited(true)
-                        setShowAvatars(false)
+                        toggleAvatars()
                     }}
                 >
                     <img src={x.imageSrc} alt={x.title} className="" />

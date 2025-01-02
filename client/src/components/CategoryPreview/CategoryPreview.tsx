@@ -2,16 +2,16 @@ import { Link, useParams } from "react-router-dom"
 import { useCategoriesContext } from "../../context/CategoriesContext"
 import { useUserContext } from "../../context/UserContext"
 import { useEffect } from "react"
-import { IconChart, IconGoBack, IconMoneyInHand, IconSettings } from "../../utils/icons/icons"
+import { IconMoneyInHand, IconSettings } from "../../utils/icons/icons"
 import { categoryIcons } from "../../utils/icons/category-icons"
-import { formatCurrency } from "../../utils/functions/formatNumber"
 import { formatLang } from "../../utils/functions/formatLang"
-import { CATEGORY_ID_INCOME,  COLOR_BLUE,  COLOR_GREEN,  COLOR_RED,  COLOR_WHITE,  SIZE_MEDIUM, SIZE_ROW } from "../../config/globals"
+import { CATEGORY_ID_INCOME,  COLOR_BLUE, COLOR_WHITE, SIZE_ROW } from "../../config/globals"
 import InfoItem from "../../better_components/Common/InfoItem/InfoItem"
 import CategoryStatsWithChart from "../CategoryStatsWithChart/CategoryStatsWithChart"
 import TopBar from "../../better_components/Layout/TopBar/TopBar"
 import NavigatorCategories from "../NavigatorCategories/NavigatorCategories"
 import { usePageTitle } from "../../hooks/usePageTitle"
+import Loader from "../../better_components/Loaders/Loader/Loader"
 
 const CategoryPreview = () => {
 
@@ -26,8 +26,8 @@ const CategoryPreview = () => {
         if(categoryID) getCategoryInfo(categoryID, userLangID)
     }, [] )
 
-    // TODO 
-    if(!catInfo) return <div className="flex items-center justify-center">Loading</div>
+    // TODO ?
+    if(!catInfo) return <Loader wantFullSize={true} />
 
 
   return (
@@ -71,7 +71,7 @@ const CategoryPreview = () => {
                 className="button-blue" 
                 to={`/dashboard/categories/preview-category/${catInfo.categoryID}/transactions`}
             >
-                Zobrazit transakce
+                {formatLang(userLangID, "Zobrazit transakce", "Show transactions")}
             </Link>
 
         </div>

@@ -17,18 +17,11 @@ const Input: React.FC<IInput> = ({ labelFor, labelValue, inputType, placeholder,
         { labelValue &&  (
             <label 
                 htmlFor={labelFor} 
-                className="block mb-2 text-sm font-medium dark:text-white"
+                className="block mb-2 text-sm font-medium text-white"
             >
                 { labelValue }
             </label>
         )}
-
-        {/* <label 
-            htmlFor={labelFor} 
-            className="block mb-2 text-sm font-medium dark:text-white"
-        >
-            { labelValue }
-        </label> */}
 
         <input 
             type={inputType} 

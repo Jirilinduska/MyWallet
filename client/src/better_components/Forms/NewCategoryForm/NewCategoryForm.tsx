@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import Input from "../../../components/UI/Input/Input"
 import SelectCategoryType from "../../../components/UI/SelectCategoryType/SelectCategoryType"
-import { NOTIF_ERROR, NOTIF_INFO, NOTIF_SUCCESS, USE_CASE_CREATE, USE_CASE_EDIT } from "../../../config/globals"
+import { COLOR_RED, NOTIF_ERROR, NOTIF_INFO, NOTIF_SUCCESS, USE_CASE_CREATE, USE_CASE_EDIT } from "../../../config/globals"
 import { categoryIcons } from "../../../utils/icons/category-icons"
 import AvatarIcon from "../../../components/UI/AvatarIcon/AvatarIcon"
 import { handleDeleteCategory, handleNewCategory, handleUpdateCategory } from "../../../API/Categories"
@@ -11,6 +11,7 @@ import { useUserContext } from "../../../context/UserContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { handleError } from "../../../Errors/handleError"
+import Button from "../../Common/Button/Button"
 
 export interface NewCategoryFormProps {
     categoryType: string
@@ -158,13 +159,13 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({ categoryType, langID,
         />
 
         { useCase === USE_CASE_EDIT && (
-            <button 
-                className="button-green bg-red-500 w-full hover:bg-red-600 mt-4" 
-                type="button" 
-                onClick={handleDelete}
-            >
-                {formatLang(langID, "Smazat kategorii", "Delete category")}
-            </button>
+            <Button 
+                color={COLOR_RED} 
+                loading={false} 
+                value={formatLang(langID, "Smazat kategorii", "Delete category")} 
+                handleClick={handleDelete} 
+                buttonType="button"
+            />
         )}
 
     </form>

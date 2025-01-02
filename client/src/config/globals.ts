@@ -52,3 +52,7 @@ export const SIZE_ROW = "row"
 
 // OSTATNÍ
 export const TODAY_TRANSACTION = "transaction_today"
+
+// RESET HESLA
+export const CHANGE_PASSWORD = "Change_password"
+export const FORGOTTEN_PASSWORD = "Forgetten_password"
