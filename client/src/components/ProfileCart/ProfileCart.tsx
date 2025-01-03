@@ -37,6 +37,9 @@ const ProfileCart = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
 
         { newPass    && <ChangePassword toggleWindow={toggleNewPass} useCase={FORGOTTEN_PASSWORD} /> }
 
+        {/* // TODO - Change email */}
+        {/* { newPass    && <ChangePassword toggleWindow={toggleNewPass} useCase={FORGOTTEN_PASSWORD} /> } */}
+
         <HeadingSmall value="Avatar" className="mb-4"/>
 
         {/* Avatar */}
@@ -55,11 +58,12 @@ const ProfileCart = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
         </div>
 
         {/* UserName */}
-        <div className="mb-10">
+        <div className="mb-10 border-b-2 border-b-gray-500 pb-2">
             <HeadingSmall value={formatLang(userLangID, "Uživatelské jméno", "Username")} className="mb-2"/>
 
             <div className="flex items-center justify-between">
 
+            {/* // TODO - Pokud uživatel mění pouze jméno, po submitu je potřeba changeName vrátit na false. */}
                 { changeName  
                     ?   <Input
                             inputName="userName"

@@ -166,8 +166,9 @@ const OneBudgetPreview = () => {
           <AreYouSureModal 
             handleNo={toggleWantDeletePlan} 
             handleYes={handleDeletePlan} 
-            textCS="Chcete odstranit tento plán?" 
-            textEN="Want to delete this plan?"
+            buttonNoValue={formatLang(userLangID, "Zrušit", "Cancel")}
+            buttonYesValue={formatLang(userLangID, "Odstranit", "Delete")}
+            titleValue={formatLang(userLangID, "Chcete odstranit tento plán?", "Want to delete this plan?")}
           />
         )}
 
@@ -175,8 +176,9 @@ const OneBudgetPreview = () => {
           <AreYouSureModal 
             handleNo={closeWantDeleteCategory} 
             handleYes={handleUpdatePlan} 
-            textCS="Chcete odstranit tuto kategorii?" 
-            textEN="Want to delete this category?"
+            buttonNoValue={formatLang(userLangID, "Zrušit", "Cancel")}
+            buttonYesValue={formatLang(userLangID, "Odstranit", "Delete")}
+            titleValue={formatLang(userLangID, "Chcete odstranit tuto kategorii?", "Want to delete this category?")}
           />
         )}
 

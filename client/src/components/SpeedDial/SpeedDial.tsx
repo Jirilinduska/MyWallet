@@ -87,6 +87,8 @@ const SpeedDial = () => {
           </span>
         </button>
 
+        {/* // TODO - přidat tlačítko + modalní okno pro "nový cíl" */}
+
       </div>
     </div>
   );

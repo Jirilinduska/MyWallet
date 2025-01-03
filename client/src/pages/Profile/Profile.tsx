@@ -12,7 +12,7 @@ import ProfileCart from "../../components/ProfileCart/ProfileCart"
 import SettingsCart from "../../components/SettingsCart/SettingsCart"
 import Loader from "../../better_components/Loaders/Loader/Loader"
 
-// TODO - Přidat možnosti na změnu emailu, heslo, username!
+// TODO - Přidat možnosti na změnu emailu + zapomenuté heslo!
 
 const Profile = () => {
 

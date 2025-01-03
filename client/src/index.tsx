@@ -8,6 +8,7 @@ import { BudgetProvider } from './context/BudgetsContext'
 import { TransactionsProvider } from './context/TransactionsContext'
 import { OverviewDataProvider } from './context/OverviewDataContext'
 import { UtilsProvider } from './context/UtilsContext'
+import { GoalsProvider } from './context/GoalsContext'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -22,8 +23,11 @@ root.render(
           <TransactionsProvider>
             <OverviewDataProvider>
               <UtilsProvider>
+                <GoalsProvider>
 
-              <App />
+                  <App />
+                  
+                </GoalsProvider>
               </UtilsProvider>
             </OverviewDataProvider>
           </TransactionsProvider>

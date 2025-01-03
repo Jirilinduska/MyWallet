@@ -39,3 +39,9 @@ export const URL_NEW_BUDGET = `${API_BASE_URL}/api/budget/new-budget`
 export const URL_GET_BUDGET = `${API_BASE_URL}/api/budget/get-budget`
 export const URL_DELETE_BUDGET = `${API_BASE_URL}/api/budget/delete-budget`
 export const URL_UPDATE_BUDGET = `${API_BASE_URL}/api/budget/update-budget`
+
+// Goal
+export const URL_NEW_GOAL = `${API_BASE_URL}/api/goal/new-goal`
+export const URL_GET_GOALS = `${API_BASE_URL}/api/goal/get-goals`
+export const URL_DELETE_GOAL = `${API_BASE_URL}/api/goal/delete-goal`
+export const URL_SET_GOAL_FINISHED = `${API_BASE_URL}/api/goal/set-finished`

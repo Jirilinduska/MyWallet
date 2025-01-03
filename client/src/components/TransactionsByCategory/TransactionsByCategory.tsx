@@ -14,6 +14,7 @@ import { CATEGORY_ID_TRANSACTION, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from ".
 import { usePageTitle } from "../../hooks/usePageTitle"
 
 // TODO - Dokončit tabulku, modal atd...
+// TODO - při editu - aktualizovat tabulku!!!!!!
 
 const TransactionsByCategory = () => {
 

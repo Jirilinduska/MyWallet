@@ -8,6 +8,7 @@ import Expense from "../../better_components/Dashboard/Expense/Expense"
 import Income from "../../better_components/Dashboard/Income/Income"
 import CategoryPreview from "../../components/CategoryPreview/CategoryPreview"
 import TransactionsByCategory from "../../components/TransactionsByCategory/TransactionsByCategory"
+import Goals from "../../better_components/Dashboard/Goals/Goals"
 
 
 const Dashboard = () => {
@@ -22,6 +23,7 @@ const Dashboard = () => {
         { pageID === "transactions" && <Expense/> }
         { pageID === "income" && <Income/> }
         { pageID === "overview" && <Overview/> }
+        { pageID === "goals" && <Goals/>}
 
         { pageID === "categories" && !categoryID && <Categories/> }
         { pageID === "categories" && categoryID && !showTrans && <CategoryPreview/> }

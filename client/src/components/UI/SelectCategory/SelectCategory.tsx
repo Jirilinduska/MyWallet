@@ -20,7 +20,7 @@ const SelectCategory: React.FC<IInputSelectCategory> = ({ value, handleChange, c
   return (
     <div className="w-1/2">
                 
-        <label htmlFor="category" className="block text-sm mb-2 font-medium text-gray-900 dark:text-white">
+        <label htmlFor="category" className="block text-sm mb-2 font-medium dark:text-white">
             { userLangID === LANG_CZECH ? "Kategorie*" : "Category*" }
         </label>
 

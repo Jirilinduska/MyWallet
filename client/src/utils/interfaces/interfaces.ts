@@ -106,6 +106,16 @@ export interface ICategoryPreview {
     yearlySummary: { [key: string]: number }
 }
 
+export interface IGoal {
+    _id?: string
+    title: string
+    amount: number
+    year: number
+    isPriority: boolean
+    isFinished: boolean
+    note: string
+}
+
 
 // ! ===================
 

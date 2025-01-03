@@ -10,6 +10,7 @@ interface OverviewDataProps {
     handlePrevYear: () => void
     handleNextYear: () => void
     loading: boolean
+    savedThisYear: number
 }
 
 export const OverviewDataContext = createContext<OverviewDataProps | undefined>(undefined)
@@ -20,6 +21,7 @@ export const OverviewDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const [year, setYear] = useState(new Date().getFullYear())
     const [month, setMonth] = useState(new Date().getMonth() + 1)
     const [loading, setLoading] = useState(false)
+    const [savedThisYear, setSavedThisYear] = useState(0)
 
     const handlePrevYear = () => setYear(year - 1)
     const handleNextYear = () => setYear(year + 1)
@@ -29,6 +31,7 @@ export const OverviewDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
             setLoading(true)
             const response = await handleGetOverview(year, month)
             setOverviewData(response.data)
+            setSavedThisYear(response.data.savedThisYear)
         } catch (error) {
             console.log("refreshOverviewData() => : ", error)
         } finally {
@@ -41,7 +44,7 @@ export const OverviewDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }, [year, month])
 
     return (
-        <OverviewDataContext.Provider value={{ overviewData, refreshOverviewData, year, month, handleNextYear, handlePrevYear, loading }}>
+        <OverviewDataContext.Provider value={{ overviewData, refreshOverviewData, year, month, handleNextYear, handlePrevYear, loading, savedThisYear }}>
             { children }
         </OverviewDataContext.Provider>
     )
