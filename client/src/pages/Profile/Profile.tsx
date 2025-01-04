@@ -8,9 +8,9 @@ import { handleNotification } from "../../utils/functions/notificationsUtils"
 import { formatLang } from "../../utils/functions/formatLang"
 import TopBar from "../../better_components/Layout/TopBar/TopBar"
 import Sidebar from "../../better_components/Layout/Sidebar/Sidebar"
-import ProfileCart from "../../components/ProfileCart/ProfileCart"
-import SettingsCart from "../../components/SettingsCart/SettingsCart"
 import Loader from "../../better_components/Loaders/Loader/Loader"
+import ProfileCard from "../../components/ProfileCard/ProfileCard"
+import SettingsCard from "../../components/SettingsCard/SettingsCard"
 
 // TODO - Přidat možnosti na změnu emailu + zapomenuté heslo!
 
@@ -96,13 +96,13 @@ const Profile = () => {
 
         <div className="flex flex-col lg:flex-row">
 
-            <ProfileCart
+            <ProfileCard
                 toggleAvatars={toggleAvatars}
                 userInfo={userInfo}
                 handleInputChange={handleInputChange}
             />
 
-            <SettingsCart
+            <SettingsCard
                 userInfo={userInfo}
                 handleInputChange={handleInputChange}
             />

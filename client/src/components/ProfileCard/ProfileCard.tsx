@@ -16,7 +16,7 @@ interface ProfileCartProps {
     handleInputChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
 }
 
-const ProfileCart = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCartProps ) => {
+const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCartProps ) => {
 
     const { userData, userLangID } = useUserContext()
 
@@ -136,4 +136,4 @@ const ProfileCart = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
   )
 }
 
-export default ProfileCart
+export default ProfileCard

@@ -45,3 +45,4 @@ export const URL_NEW_GOAL = `${API_BASE_URL}/api/goal/new-goal`
 export const URL_GET_GOALS = `${API_BASE_URL}/api/goal/get-goals`
 export const URL_DELETE_GOAL = `${API_BASE_URL}/api/goal/delete-goal`
 export const URL_SET_GOAL_FINISHED = `${API_BASE_URL}/api/goal/set-finished`
+export const URL_EDIT_GOAL = `${API_BASE_URL}/api/goal/edit-goal`

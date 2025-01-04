@@ -1,5 +1,5 @@
 import { apiClient } from "../config/apiClient"
-import { URL_DELETE_GOAL, URL_GET_GOALS, URL_NEW_GOAL, URL_SET_GOAL_FINISHED } from "../config/apiUrls"
+import { URL_DELETE_GOAL, URL_EDIT_GOAL, URL_GET_GOALS, URL_NEW_GOAL, URL_SET_GOAL_FINISHED } from "../config/apiUrls"
 import { IGoal } from "../utils/interfaces/interfaces"
 
 
@@ -25,4 +25,11 @@ export const handleSetGoalFinished = async(goalID: string) => {
 
     const response = await apiClient.post(`${URL_SET_GOAL_FINISHED}/${goalID}`)
     return response
+}
+
+export const handleEditGoal = async(goalID: string, goal: IGoal) => {
+
+    const response = await apiClient.patch(`${URL_EDIT_GOAL}/${goalID}`, { goal } )
+    return response
+
 }

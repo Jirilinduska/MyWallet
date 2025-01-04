@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { IGoal } from "../utils/interfaces/interfaces"
-import { handleCreateGoal, handleDeleteGoal, handleGetGoals, handleSetGoalFinished } from "../API/Goals"
+import { handleCreateGoal, handleDeleteGoal, handleEditGoal, handleGetGoals, handleSetGoalFinished } from "../API/Goals"
 import { handleNotification } from "../utils/functions/notificationsUtils"
 import { NOTIF_ERROR, NOTIF_SUCCESS } from "../config/globals"
 import { useUserContext } from "./UserContext"
@@ -10,9 +10,9 @@ interface GoalsContextProps {
     listOfGoals: IGoal[] | null
     loading: boolean
     createGoal: (newGoal: IGoal) => void
-    // getGoals: (langID: string) => void
     deleteGoal: (goalID: string) => void
     setFinishedGoal: (goalID: string) => void
+    editGoal: (goalID: string, goal: IGoal) => void
 }
 
 export const GoalsContext = createContext<GoalsContextProps | undefined>(undefined)
@@ -30,8 +30,8 @@ export const GoalsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setLoading(true)
         try {
             await handleCreateGoal(newGoal)
-            handleNotification(NOTIF_SUCCESS, userLangID, "Uloženo", "Saved")
             await getGoals()
+            handleNotification(NOTIF_SUCCESS, userLangID, "Uloženo", "Saved")
         } catch (error) {
             console.log(error)
             handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
@@ -47,6 +47,21 @@ export const GoalsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             await getGoals()
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    // PATCH - Edit goal
+    const editGoal = async(goalID: string, goal: IGoal) => {
+        setLoading(true)
+        try {
+            await handleEditGoal(goalID, goal)
+            await getGoals()
+            handleNotification(NOTIF_SUCCESS, userLangID, "Uloženo", "Saved")
+        } catch (error) {
+            console.log(error)
+            handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -80,7 +95,7 @@ export const GoalsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }, [] )
 
     return(
-        <GoalsContext.Provider value={{ listOfGoals, loading, createGoal, deleteGoal, setFinishedGoal }}>
+        <GoalsContext.Provider value={{ listOfGoals, loading, createGoal, deleteGoal, setFinishedGoal, editGoal }}>
             { children }
         </GoalsContext.Provider>
     )

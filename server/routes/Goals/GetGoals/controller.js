@@ -19,7 +19,8 @@ const getGoals = async(req,res) => {
         return res.status(200).json(listOfGoals)
 
     } catch (error) {
-        
+        console.log("getGoals() => : ", error)
+        return res.status(500).json({ message: "Server error." })
     }
 }
 

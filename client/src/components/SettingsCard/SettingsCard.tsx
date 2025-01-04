@@ -8,7 +8,7 @@ interface SettingsCartProps {
     handleInputChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
 }
 
-const SettingsCart = ({ userInfo, handleInputChange } : SettingsCartProps) => {
+const SettingsCard = ({ userInfo, handleInputChange } : SettingsCartProps) => {
   return (
     < div className="p-4 w-full lg:w-1/2">
 
@@ -30,4 +30,4 @@ const SettingsCart = ({ userInfo, handleInputChange } : SettingsCartProps) => {
   )
 }
 
-export default SettingsCart
+export default SettingsCard

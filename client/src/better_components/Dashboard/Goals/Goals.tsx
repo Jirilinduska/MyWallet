@@ -1,7 +1,7 @@
 import { useState } from "react"
 import GoalsList from "../../../components/GoalsList/GoalsList"
 import SectionTitle from "../../../components/UI/SectionTitle/SectionTitle"
-import { COLOR_BLUE } from "../../../config/globals"
+import { COLOR_BLUE, USE_CASE_CREATE } from "../../../config/globals"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
 import Button from "../../Common/Button/Button"
@@ -21,7 +21,7 @@ const Goals = () => {
   return (
     <div className="section-padding">
 
-        { showModal && <NewGoalModal toggleModal={toggleModal}/> }
+        { showModal && <NewGoalModal toggleModal={toggleModal} useCase={USE_CASE_CREATE} /> }
 
         <TopBar showMonthNavigator={false} showYearNavigator={false} />
 

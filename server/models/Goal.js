@@ -26,6 +26,3 @@ const GoalSchema = new mongoose.Schema(
 )
 
 module.exports = mongoose.model("Goal", GoalSchema)
-
-// TODO : 
-// [PATCH] /goals/:id - Aktualizace cíle (např. přidání příspěvku).

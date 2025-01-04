@@ -5,12 +5,13 @@ import { handleNewTransaction } from "../../../API/Transactions"
 import ButtonLoading from "../../../components/UI/Loaders/ButtonLoading/ButtonLoading"
 import DatePickerElement from "../../../components/UI/DateStuff/DatePicker/DatePickerElement"
 import SelectCategory from "../../../components/UI/SelectCategory/SelectCategory"
-import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, NOTIF_ERROR, NOTIF_SUCCESS, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, COLOR_GREEN, COLOR_RED, NOTIF_ERROR, NOTIF_SUCCESS, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
 import { useUserContext } from "../../../context/UserContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
 import { useOverviewData } from "../../../context/OverviewDataContext"
+import Button from "../../Common/Button/Button"
 
 
 interface NewTransFormProps {
@@ -141,18 +142,16 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
           handleSetDate={handleSetDate}  
         />
 
-            {/* <DatePickerElement
-                dateValues={{ day: transData.day, month: transData.month, year: transData.year }}
-                handleSetDate={handleSetDate}  
-                // selected={new Date(transData.year, parseInt(transData.month) - 1, parseInt(transData.day))} // Nastavení správného data v DatePickeru
-            /> */}
-
-
-        { loading 
+        {/* { loading 
             ? <ButtonLoading/> 
             : <input type="submit" className="button-green w-full mt-6" value="Submit" />
 
-        }
+        } */}
+
+        <div className="flex items-center justify-between">
+            <Button color={COLOR_GREEN} loading={loading} value={formatLang(userLangID, "Uložit", "Save")} buttonType="submit" />
+            <Button color={COLOR_RED}   loading={loading} value={formatLang(userLangID, "Zavřít", "Close")} buttonType="button" />
+        </div>
 
 
     </form>

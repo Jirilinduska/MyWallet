@@ -1,22 +1,25 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import Button from "../../../../better_components/Common/Button/Button"
-import { COLOR_GREEN, NOTIF_ERROR } from "../../../../config/globals"
+import { COLOR_GREEN, COLOR_RED, NOTIF_ERROR, USE_CASE_CREATE, USE_CASE_EDIT } from "../../../../config/globals"
 import { useUserContext } from "../../../../context/UserContext"
 import { formatLang } from "../../../../utils/functions/formatLang"
 import { IconClose } from "../../../../utils/icons/icons"
 import Input from "../../Input/Input"
 import { useGoalsContext } from "../../../../context/GoalsContext"
 import { handleNotification } from "../../../../utils/functions/notificationsUtils"
+import { IGoal } from "../../../../utils/interfaces/interfaces"
 
 
 interface NewGoalModalProps {
     toggleModal: () => void
+    useCase: string
+    goal?: IGoal
 }
 
-const NewGoalModal = ({ toggleModal } : NewGoalModalProps ) => {
+const NewGoalModal = ({ toggleModal, useCase, goal } : NewGoalModalProps ) => {
 
     const { userLangID } = useUserContext()
-    const { createGoal } = useGoalsContext()
+    const { createGoal, loading, editGoal } = useGoalsContext()
 
     const [newGoal, setNewGoal] = useState({
         title: "",
@@ -29,6 +32,19 @@ const NewGoalModal = ({ toggleModal } : NewGoalModalProps ) => {
 
     const currentYear = new Date().getFullYear()
     const years = Array.from({ length: 100 }, (_, i) => currentYear + i)
+
+    useEffect(() => {
+        if(useCase === USE_CASE_EDIT && goal) {
+            setNewGoal({
+                title: goal?.title,
+                amount: goal?.amount,
+                year: goal?.year,
+                isPriority: goal?.isPriority,
+                isFinished: goal?.isFinished,
+                note: goal?.note
+            })
+        }
+    }, [] )
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { value, name } = e.target
@@ -51,8 +67,14 @@ const NewGoalModal = ({ toggleModal } : NewGoalModalProps ) => {
             return
         }
 
-        await createGoal(newGoal)
-        toggleModal()
+        if(useCase === USE_CASE_CREATE) {
+            createGoal(newGoal)
+            toggleModal()
+        }
+
+        if(useCase === USE_CASE_EDIT && goal?._id) {
+            editGoal(goal?._id, newGoal)
+        }
     }
 
   return (
@@ -64,7 +86,9 @@ const NewGoalModal = ({ toggleModal } : NewGoalModalProps ) => {
 
 
                 <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
-                    <h3 className="text-lg font-semibold text-white">{formatLang(userLangID, "Nový cíl", "New goal")}</h3>
+                    <h3 className="text-lg font-semibold text-white">
+                        { useCase === USE_CASE_CREATE ? formatLang(userLangID, "Nový cíl", "New goal") : formatLang(userLangID, `Upravit cíl: ${goal?.title}`, `Edit goal: ${goal?.title}`)}
+                    </h3>
                     <IconClose onClick={toggleModal} className="icon"/>
                 </div>
 
@@ -162,7 +186,10 @@ const NewGoalModal = ({ toggleModal } : NewGoalModalProps ) => {
                         <span className="text-white text-sm">{formatLang(userLangID, "Nastavit jako prioritní cíl", "Set as priority goal")}</span>
                     </label>
 
-                    <Button value={formatLang(userLangID, "Uložit", "Save")} color={COLOR_GREEN} loading={false} buttonType="submit" />
+                    <div className="flex items-center justify-between">
+                        <Button value={formatLang(userLangID, "Uložit", "Save")} color={COLOR_GREEN} loading={loading} buttonType="submit" />
+                        <Button value={formatLang(userLangID, "Zavřít", "Close")} color={COLOR_RED} loading={loading} buttonType="button" handleClick={toggleModal} />                        
+                    </div>
 
                 </form>
 

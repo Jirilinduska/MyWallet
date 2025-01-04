@@ -7,6 +7,8 @@ import { IGoal } from "../../utils/interfaces/interfaces"
 import { IconCheck, IconDelete, IconEdit, IconPointDown} from "../../utils/icons/icons"
 import AreYouSureModal from "../UI/Modals/AreYouSureModal/AreYouSureModal"
 import { useGoalsContext } from "../../context/GoalsContext"
+import NewGoalModal from "../UI/Modals/NewGoalModal/NewGoalModal"
+import { USE_CASE_EDIT } from "../../config/globals"
 
 interface GoalItemProps {
     goal: IGoal
@@ -20,20 +22,19 @@ const GoalItem = ({ goal } : GoalItemProps ) => {
 
     const [showModalDelete, setShowModalDelete] = useState(false)
     const [showModalFinish, setShowModalFinish] = useState(false)
+    const [showModalEdit, setShowModalEdit] = useState(false)
 
     const [showIcons, setShowIcons] = useState(false)
 
     const toggleDeleteModal = () => setShowModalDelete(!showModalDelete)
     const toggleFinishModal = () => setShowModalFinish(!showModalFinish)
+    const toggleEditModal   = () => setShowModalEdit(!showModalEdit)
     const toggleIcons = () => setShowIcons(!showIcons)
 
     const percentage = goal.amount > 0 ? Math.min(Math.round((savedThisYear / goal.amount) * 100), 100) : 0
 
     const barColor = percentage >= 100 ? "bg-green-500" : percentage > 50 ? "bg-blue-500" : "bg-orange-500"
-                    
-
-    // TODO - Přidat mazání itemů + edit?
-
+        
     const handleDeleteThisGoal = async() => {
         if(goal._id) deleteGoal(goal._id)
     }
@@ -66,6 +67,10 @@ const GoalItem = ({ goal } : GoalItemProps ) => {
             /> 
         }
 
+        { showModalEdit && 
+            <NewGoalModal toggleModal={toggleEditModal} useCase={USE_CASE_EDIT} goal={goal} />
+        }
+
         <div className="mb-6 flex items-center justify-between">
 
             <h3 className="font-semibold">{goal.title}</h3>
@@ -85,7 +90,7 @@ const GoalItem = ({ goal } : GoalItemProps ) => {
         <div className="text-xs flex items-center justify-between mb-6">
             <span className={`${ percentage >= 100 && "font-semibold" }`}>{`${percentage}%`}</span>
             <div className="">
-                { (!goal.isFinished && percentage !== 100) && <span className="">{savedThisYear.toLocaleString()} / </span> }
+                { (!goal.isFinished && percentage !== 100 || percentage <= 0) && <span className="">{savedThisYear.toLocaleString()} / </span> }
                 <span className="font-semibold">{formatCurrency(goal.amount, userCurrency)}</span>
             </div>
         </div>
@@ -103,7 +108,7 @@ const GoalItem = ({ goal } : GoalItemProps ) => {
             <div className="flex items-center justify-between gap-4">
                 
                 {/* EDIT */}
-                <div className="flex items-center gap-2 p-2 cursor-pointer w-1/2 font-semibold bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                <div onClick={toggleEditModal} className="flex items-center gap-2 p-2 cursor-pointer w-1/2 font-semibold bg-blue-500 text-white rounded-lg hover:bg-blue-600">
                     <IconEdit className="icon" />
                     <span className="text-xs">{formatLang(userLangID, "Upravit", "Edit")}</span>
                 </div>
