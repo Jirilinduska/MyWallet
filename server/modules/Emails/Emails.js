@@ -17,7 +17,6 @@ const transporter = nodemailer.createTransport({
 const sendEmailAfterRegistration = async(emailAdressTo, token) => {
 
     try {
-
         const emailConfirmationUrl = `${process.env.API_URL}/api/email/confirm-email?token=${token}`
 
         await transporter.sendMail({
@@ -33,4 +32,23 @@ const sendEmailAfterRegistration = async(emailAdressTo, token) => {
     }
 }
 
-module.exports = { sendEmailAfterRegistration }
+const sendEmailForgottenPassword = async(emailAdressTo, token) => {
+
+    const resetUrl = `${process.env.API_URL}/api/auth/verify-reset-token/${token}`
+
+    console.log("resetUrl: ", resetUrl); // Log pro zobrazení URL
+
+    try {
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: emailAdressTo,
+            subject: "Reset password",
+            text: "Click the link below to confirm your email address.",
+            html: `<p>Click the <a href='${resetUrl}'>link</a> to reset your password</p>`
+        })
+    } catch (error) {
+        console.log("sendEmailForgottenPassword() => : ", error)
+    }
+}
+
+module.exports = { sendEmailAfterRegistration, sendEmailForgottenPassword }

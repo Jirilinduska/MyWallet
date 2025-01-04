@@ -34,6 +34,10 @@ const UserChema = new mongoose.Schema({
         profileCompleted: { type: Boolean, default: false },
 
         emailConfirmed: { type: Boolean, default: false },
+
+        // TODO
+        resetPasswordToken: { type: String, default: null },
+        resetPasswordExpires: { type: Date, default: null }
     }
 })
 

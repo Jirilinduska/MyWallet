@@ -8,7 +8,7 @@ import NewUser from './pages/NewUser/NewUser'
 import EmailConfirmed from './pages/EmailConfirmed/EmailConfirmed'
 import Dashboard from './pages/Dashboard/Dashboard'
 import Profile from './pages/Profile/Profile'
-import Planner from './components/Dashboard/Planner/Planner'
+import ResetPassword from './pages/ResetPassword/ResetPassword'
 
 const App = () => {
   return (
@@ -16,6 +16,8 @@ const App = () => {
         <Routes>
 
             <Route path='/' element={<Home/>}/>
+
+            <Route path='/reset-password/:token' element={<ResetPassword/>}/>
 
             {/* Private */}
             <Route path='/welcome-back' element={ <PrivateRoute> <WelcomeBack/> </PrivateRoute> } />

@@ -21,6 +21,7 @@ const Profile = () => {
 
     const [isEdited, setIsEdited] = useState(false)
     const [showAvatars, setShowAvatars] = useState(false)
+
     const [userInfo, setUserInfo] = useState<IUserDataUpdate>({
         userName: userData?.userName || "",
         email: userData?.email || "",
@@ -30,7 +31,6 @@ const Profile = () => {
     })
 
     const toggleAvatars = () => setShowAvatars( prev => !prev )
-
 
     useEffect(() => {
         if (userData) {

@@ -4,6 +4,9 @@ const API_BASE_URL = process.env.REACT_APP_BASE_URL
 export const URL_REGISTER_USER = `${API_BASE_URL}/api/auth/register`
 export const URL_LOGIN_USER = `${API_BASE_URL}/api/auth/login`
 export const URL_CHANGE_PASSWORD = `${API_BASE_URL}/api/auth/change-password`
+export const URL_FORGOTTEN_PASSWORD = `${API_BASE_URL}/api/auth/forgotten-password`
+export const URL_RESET_PASSWORD = `${API_BASE_URL}/api/auth/reset-password`
+export const URL_CHECK_RESET_TOKEN = `${API_BASE_URL}/api/auth/verify-reset-token`
 
 // User
 export const URL_COMPLETE_PROFILE = `${API_BASE_URL}/api/user/complete-profile`
