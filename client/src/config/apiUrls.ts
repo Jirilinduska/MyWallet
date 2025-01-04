@@ -7,6 +7,7 @@ export const URL_CHANGE_PASSWORD = `${API_BASE_URL}/api/auth/change-password`
 export const URL_FORGOTTEN_PASSWORD = `${API_BASE_URL}/api/auth/forgotten-password`
 export const URL_RESET_PASSWORD = `${API_BASE_URL}/api/auth/reset-password`
 export const URL_CHECK_RESET_TOKEN = `${API_BASE_URL}/api/auth/verify-reset-token`
+export const URL_DELETE_ACCOUNT = `${API_BASE_URL}/api/auth/delete-account`
 
 // User
 export const URL_COMPLETE_PROFILE = `${API_BASE_URL}/api/user/complete-profile`

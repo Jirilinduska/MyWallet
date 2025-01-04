@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { handleIsTokenValid, handleResetPassword } from "../../API/Auth"
 import Loader from "../../better_components/Loaders/Loader/Loader"
 import Input from "../../components/UI/Input/Input"
@@ -13,8 +13,7 @@ const ResetPassword = () => {
     const { token } = useParams()
     const navigate = useNavigate()
 
-    const [isTokenValid, setIsTokenValid] = useState(true)
-
+    const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null)
     const [newPassword, setNewPassword] = useState("")
     const [newPasswordAgain, setNewPasswordAgain] = useState("")
 
@@ -45,16 +44,17 @@ const ResetPassword = () => {
 
         const checkTokenValidity = async () => {
 
-            if(token) {
-                try {
-                    const response = await handleIsTokenValid(token)
-                    if (response.status !== 200) {
-                        setIsTokenValid(false)
-                    }
-                } catch (error) {
+            if (!token) {
+                setIsTokenValid(false)
+                return
+            }
+
+            try {
+                const response = await handleIsTokenValid(token)
+                if (response.status !== 200) {
                     setIsTokenValid(false)
                 }
-            } else {
+            } catch (error) {
                 setIsTokenValid(false)
             }
         }
@@ -62,7 +62,11 @@ const ResetPassword = () => {
         checkTokenValidity()
     }, [token])
 
-    if(!token) return <Loader wantFullSize={false} />
+    // if (!token) return <Navigate to="/" />
+    
+    if (isTokenValid === false) return <Navigate to="/" />
+    if (isTokenValid === null) return <Loader wantFullSize={false} />
+    // if (isTokenValid === null) return <Loader wantFullSize={false} />
 
     if(isTokenValid) return (
         <div className="">

@@ -13,7 +13,6 @@ const transporter = nodemailer.createTransport({
 
 
 // Confirm registration
-// TODO - Předělat celý template - UI
 const sendEmailAfterRegistration = async(emailAdressTo, token) => {
 
     try {
@@ -32,11 +31,10 @@ const sendEmailAfterRegistration = async(emailAdressTo, token) => {
     }
 }
 
+// Forgotten email
 const sendEmailForgottenPassword = async(emailAdressTo, token) => {
 
     const resetUrl = `${process.env.API_URL}/api/auth/verify-reset-token/${token}`
-
-    console.log("resetUrl: ", resetUrl); // Log pro zobrazení URL
 
     try {
         await transporter.sendMail({

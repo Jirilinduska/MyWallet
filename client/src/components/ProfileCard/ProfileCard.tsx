@@ -8,6 +8,8 @@ import { IUserDataUpdate } from "../../utils/interfaces/interfaces"
 import Input from "../UI/Input/Input"
 import HeadingSmall from "../HeadingSmall/HeadingSmall"
 import ChangePassword from "../ChangePassword/ChangePassword"
+import { IconClose } from "../../utils/icons/icons"
+import DeleteAccount from "../DeleteAccount/DeleteAccount"
 
 
 interface ProfileCartProps {
@@ -20,25 +22,22 @@ const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
 
     const { userData, userLangID } = useUserContext()
 
-    const [changeEmail, setChangeEmail] = useState(false)
     const [changePass, setChangPass] = useState(false)
     const [changeName, setChangeName] = useState(false)
+    const [deleteAcc, setDeleteAcc] = useState(false)
     const [newPass, setNewPass] = useState(false)
 
-    const toggleChangeEmail = () => setChangeEmail( prev => !prev )
     const toggleChangeName = () => setChangeName( prev => !prev )
     const toggleChangePass = () => setChangPass( prev => !prev)
+    const toggleDeleteAcc  = () => setDeleteAcc(!deleteAcc)
     const toggleNewPass = () => setNewPass( prev => !prev)
 
   return (
     <div className="p-4 w-full lg:w-1/2">
 
         { changePass && <ChangePassword toggleWindow={toggleChangePass} useCase={CHANGE_PASSWORD}/> }
-
         { newPass    && <ChangePassword toggleWindow={toggleNewPass} useCase={FORGOTTEN_PASSWORD} /> }
-
-        {/* // TODO - Change email */}
-        {/* { newPass    && <ChangePassword toggleWindow={toggleNewPass} useCase={FORGOTTEN_PASSWORD} /> } */}
+        { deleteAcc  && <DeleteAccount toggleWindow={toggleDeleteAcc}/> }
 
         <HeadingSmall value="Avatar" className="mb-4"/>
 
@@ -59,6 +58,7 @@ const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
 
         {/* UserName */}
         <div className="mb-10 border-b-2 border-b-gray-500 pb-2">
+
             <HeadingSmall value={formatLang(userLangID, "Uživatelské jméno", "Username")} className="mb-2"/>
 
             <div className="flex items-center justify-between">
@@ -77,19 +77,19 @@ const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
                     :    <p className="">{userInfo.userName}</p>
                 }
 
-
-                <button 
+                <span 
                     onClick={toggleChangeName} 
-                    className="underline text-red-500 text-xs cursor-pointer"
-                >
-                    {formatLang(userLangID, "Změnit jméno", "Change username")}
-                </button>
+                    className={`${ changeName ? "text-2xl" : "underline text-xs" } text-red-500 cursor-pointer`}
+                > 
+                    { changeName ? <IconClose/> : formatLang(userLangID, "Změnit jméno", "Change username") } 
+                </span>
+
             </div>
 
         </div>
 
         {/* Email */}
-        <div className="mb-12">
+        <div className="mb-12 border-b-2 border-b-gray-500 pb-2">
             <HeadingSmall value="Email" className="mb-2"/>
 
             <div className={`${ userData.settings.emailConfirmed ? "text-green-500" : "text-red-500" } mb-1 text-xs flex items-center gap-1`}>
@@ -98,20 +98,11 @@ const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
                 { !userData.settings.emailConfirmed && <span className="cursor-pointer underline">send email</span> }
             </div>
 
-            <div className="flex items-center justify-between">
-                <p className="">{userInfo.email}</p>
-                {/* // TODO - přidat change email :) - modal, be */}
-                <button 
-                    onClick={toggleChangeEmail} 
-                    className="underline text-red-500 text-xs cursor-pointer"
-                >
-                    {formatLang(userLangID, "Změnit email", "Change email")}
-                </button>
-            </div>
+            <p className="">{userInfo.email}</p>
         </div>
 
-        {/* Password */}
-        <div className="flex items-center gap-10">
+        {/* Password + Delete acc*/}
+        <div className="flex items-center gap-12">
 
             {/* Změnit heslo */}
             <Button 
@@ -124,12 +115,22 @@ const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
 
             {/* Zapomenuté heslo */}
             <Button 
-                color={COLOR_RED} 
+                color={COLOR_BLUE} 
                 loading={false}
                 value={formatLang(userLangID, "Zapomenuté heslo", "Forgotten password")}
                 buttonType="button"
                 handleClick={toggleNewPass}
             />
+
+            {/* Zrušit účet */}
+            <Button 
+                color={COLOR_RED} 
+                loading={false}
+                value={formatLang(userLangID, "Odstranit účet", "Delete account ")}
+                buttonType="button"
+                handleClick={toggleDeleteAcc}
+            />
+
         </div>
 
     </div>

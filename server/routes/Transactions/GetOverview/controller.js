@@ -141,7 +141,6 @@ const getOverview = async(req,res) => {
             }
         ])
 
-        // TODO ! ODSTRANIT ?
         const todayExpense = await Transaction.find({
             createdBy: user._id,
             transCategory: "transaction",
@@ -161,9 +160,6 @@ const getOverview = async(req,res) => {
         const monthTotalExpense = countTotalPrice(expenseThisMonth)
         const monthTotalIncome = countTotalPrice(incomeThisMonth)
         const savedThisMonth = monthTotalIncome - monthTotalExpense
-
-
-        // TODO - tento mesic data pro graf?
 
         const result = {
             yearTotalExpense,

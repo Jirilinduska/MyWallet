@@ -11,7 +11,7 @@ export const ErrorCodes: { [key: number]: { cs: string; en: string } } = {
     }, 
 
     1001: {
-        cs: "Špatné heslo",
+        cs: "Nesprávné heslo",
         en: "Invalid password"
     }, 
 
@@ -33,6 +33,11 @@ export const ErrorCodes: { [key: number]: { cs: string; en: string } } = {
     1005: {
         cs: "Nové heslo nesmí být stejné jako stávající",
         en: "New password must be different from current"
+    },
+
+    1006: {
+        cs: "Tento účet je speciální, nelze ho smazat! :)",
+        en: "This is a special account, it cannot be deleted! :)"
     },
 
     // * KATEGORIE

@@ -9,16 +9,13 @@ const updateUsers = async () => {
 
     const mongoURI = process.env.MONGO_URI
 
-    console.log("mongoURI: ", mongoURI)
-
     await mongoose.connect(mongoURI)
 
     const result = await User.updateMany(
         {}, // Filtr - všechny dokumenty
         {
           $set: {
-            "settings.resetPasswordToken": null,
-            "settings.resetPasswordExpires": null,
+            "settings.canBeDeleted": false,
           },
         }
       )

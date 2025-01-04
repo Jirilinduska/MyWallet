@@ -12,15 +12,12 @@ const forgottenPassword = async(req,res) => {
 
         if(!user) return res.status(404).json({ message: "User not found" })
 
-        // TODO - Pokud tam resetovací token existuje, tak zamítnout request?
-        // if(user.resetPasswordToken) {
-        //     return res.status(200).json({ message: "Password reset email sent" })
-        // }
 
         const token = crypto.randomBytes(32).toString("hex")
 
         user.settings.resetPasswordToken = token
         user.settings.resetPasswordExpires = Date.now() + 600000 // 10 minut
+
         await user.save()
 
         await sendEmailForgottenPassword(email, token)

@@ -99,31 +99,16 @@ const AuthForm = ({ isLogin, toggleIsLogin } : AuthFormProps ) => {
             />
         </div>
 
-
-        <div className="relative mb-10">
-
-            <label 
-                htmlFor="password"
-                className="block mb-2 text-sm font-medium dark:text-white"
-            >
-                Password*
-            </label>
-
-            <input 
-                type={ showPass ? "text" : "password"} 
-                id="password"
-                className="bg-gray-600 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 placeholder-gray-400 text-white focus:border-blue-500" 
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-            />
-
-            <span className="absolute top-1/2 right-2 icon text-white" onClick={() => setShowPass(!showPass)}>
-                { showPass ? <IconEyeHide/> : <IconEyeShow/> }
-            </span>
-
-        </div>
+        <Input
+            inputName="password"
+            inputType="password"
+            labelFor="password"
+            labelValue="Password*"
+            onChange={handleChange}
+            placeholder="Password"
+            value={formData.password}
+            isPassword={true}
+        />
 
         <Button 
             color={COLOR_GREEN} 

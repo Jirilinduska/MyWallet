@@ -9,11 +9,14 @@ import EmailConfirmed from './pages/EmailConfirmed/EmailConfirmed'
 import Dashboard from './pages/Dashboard/Dashboard'
 import Profile from './pages/Profile/Profile'
 import ResetPassword from './pages/ResetPassword/ResetPassword'
+import ErrorPage from './pages/ErrorPage/ErrorPage'
 
 const App = () => {
   return (
     <Router>
         <Routes>
+
+            <Route path='*' element={<ErrorPage/>}/>
 
             <Route path='/' element={<Home/>}/>
 

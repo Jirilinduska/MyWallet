@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, useLocation, useParams } from "react-router-dom"
 import { sidebarData } from "../../../utils/data/sidebar-dara"
 import { IconHome, IconLogout, IconUser } from "../../../utils/icons/icons"
 import { useUserContext } from "../../../context/UserContext"
@@ -6,13 +6,13 @@ import { handleLogoutUser } from "../../../API/Auth"
 import { useUtilsContext } from "../../../context/UtilsContext"
 import { formatLang } from "../../../utils/functions/formatLang"
 
-// TODO - DOdělat bg active u profile,home?
-
 const Sidebar = () => {
 
     const { pageID } = useParams()
     const { userLangID } = useUserContext()
     const { showNav, hideNav } = useUtilsContext()
+
+    const location = useLocation()
 
   return (
     <div className={`
@@ -45,16 +45,25 @@ const Sidebar = () => {
 
             <div className="">
 
-                <Link to="/" onClick={hideNav} className="flex items-center gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out text-white hover:bg-colorGrayHover hover:text-black">
+                <Link 
+                    to="/" 
+                    onClick={hideNav} 
+                    className={`${ location.pathname === "/" ? "bg-white text-black" : "bg-black text-white"} flex items-center gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out hover:bg-colorGrayHover hover:text-black`}
+                >
                     <IconHome/>
                     <span className="">{formatLang(userLangID, "Domů", "Home")}</span>
                 </Link>
 
-                <Link to="/profile" onClick={hideNav} className="flex items-center gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out text-white hover:bg-colorGrayHover hover:text-black">
+                <Link 
+                    to="/profile" 
+                    onClick={hideNav} 
+                    className={`${ location.pathname === "/profile" ? "bg-white text-black" : "bg-black text-white"} flex items-center gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out hover:bg-colorGrayHover hover:text-black`}
+                >
                     <IconUser/>
                     <span className="">{formatLang(userLangID, "Profil", "Profile")}</span>
                 </Link>
 
+                {/* Logout */}
                 <button onClick={handleLogoutUser} className="flex items-center w-full gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out text-white hover:bg-colorGrayHover hover:text-black">
                     <IconLogout/>
                     <span className="">{formatLang(userLangID, "Odhlásit se", "Logout")}</span>

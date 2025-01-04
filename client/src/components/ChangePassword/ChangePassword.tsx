@@ -86,40 +86,41 @@ const ChangePassword = ({ toggleWindow, useCase } : ChangePasswordProps ) => {
             { useCase === CHANGE_PASSWORD && (
 
                 <>
-                    <HeadingSmall value={formatLang(userLangID, "Aktuální heslo", "Current password")} className="mb-2" />
                     
                     <Input
                         inputName="currentPassword"
-                        inputType="text"
-                        labelFor=""
-                        labelValue=""
+                        inputType="password"
+                        labelFor="currentPassword"
+                        labelValue={formatLang(userLangID, "Aktuální heslo", "Current password")}
                         onChange={handleInputChange}
                         placeholder=""
                         value={password.currentPassword}
+                        isPassword={true}
+                        wantDarkText={true}
                     />
-
-                    <HeadingSmall value={formatLang(userLangID, "Nové heslo", "New password")} className="mb-2 mt-4" />
 
                     <Input
                         inputName="newPassword"
-                        inputType="text"
-                        labelFor=""
-                        labelValue=""
+                        inputType="password"
+                        labelFor="newPassword"
+                        labelValue={formatLang(userLangID, "Nové heslo", "New password")}
                         onChange={handleInputChange}
                         placeholder=""
                         value={password.newPassword}
+                        isPassword={true}
+                        wantDarkText={true}
                     />
-
-                    <HeadingSmall value={formatLang(userLangID, "Nové heslo znovu", "New password again")} className="mb-2 mt-4" />
 
                     <Input
                         inputName="newPasswordAgain"
-                        inputType="text"
-                        labelFor=""
-                        labelValue=""
+                        inputType="password"
+                        labelFor="newPasswordAgain"
+                        labelValue={formatLang(userLangID, "Nové heslo znovu", "New password again")}
                         onChange={handleInputChange}
                         placeholder=""
                         value={password.newPasswordAgain}
+                        isPassword={true}
+                        wantDarkText={true}
                     />
                 </>
             )}
