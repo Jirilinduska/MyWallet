@@ -9,6 +9,7 @@ import { TransactionsProvider } from './context/TransactionsContext'
 import { OverviewDataProvider } from './context/OverviewDataContext'
 import { UtilsProvider } from './context/UtilsContext'
 import { GoalsProvider } from './context/GoalsContext'
+import { AuthProvider } from './context/AuthContext'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,23 +17,24 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
 
-
     <UserProvider>
-      <CategoriesProvider>
-        <BudgetProvider>
-          <TransactionsProvider>
-            <OverviewDataProvider>
-              <UtilsProvider>
-                <GoalsProvider>
+      <AuthProvider>
+        <CategoriesProvider>
+          <BudgetProvider>
+            <TransactionsProvider>
+              <OverviewDataProvider>
+                <UtilsProvider>
+                  <GoalsProvider>
 
-                  <App />
+                    <App />
                   
-                </GoalsProvider>
-              </UtilsProvider>
-            </OverviewDataProvider>
-          </TransactionsProvider>
-        </BudgetProvider>
-      </CategoriesProvider>
+                  </GoalsProvider>
+                </UtilsProvider>
+              </OverviewDataProvider>
+            </TransactionsProvider>
+          </BudgetProvider>
+        </CategoriesProvider>
+      </AuthProvider>
     </UserProvider>
     
   </React.StrictMode>

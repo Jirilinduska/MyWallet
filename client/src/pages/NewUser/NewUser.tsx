@@ -15,6 +15,9 @@ import { formatLang } from "../../utils/functions/formatLang"
 // TODO - Upravit celkový UI komponenty, + přidat mobile settings
 // TODO - Rozdělit "stages" do samostatných komponent
 
+
+// TODO - Opravit, aby kdyýž není vyplněná current stage => zabránít odeslání na FE (inc stage)!!!
+
 const NewUser = () => {
 
     const { userData } = useUserContext()

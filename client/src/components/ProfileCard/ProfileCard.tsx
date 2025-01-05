@@ -7,7 +7,7 @@ import { userAvatars } from "../../utils/icons/avatars"
 import { IUserDataUpdate } from "../../utils/interfaces/interfaces"
 import Input from "../UI/Input/Input"
 import HeadingSmall from "../HeadingSmall/HeadingSmall"
-import ChangePassword from "../ChangePassword/ChangePassword"
+import ChangePassword from "../../better_components/Forms/ChangePassword/ChangePassword"
 import { IconClose } from "../../utils/icons/icons"
 import DeleteAccount from "../DeleteAccount/DeleteAccount"
 

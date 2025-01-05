@@ -1,11 +1,9 @@
 import { useState } from "react"
-import { IconEyeHide, IconEyeShow } from "../../../utils/icons/icons"
-import { handleLoginUser, handleRegisterUser } from "../../../API/Auth"
 import Input from "../../../components/UI/Input/Input"
-import { COLOR_GREEN, LANG_ENGLISH, NOTIF_ERROR } from "../../../config/globals"
-import { handleNotification } from "../../../utils/functions/notificationsUtils"
+import { COLOR_GREEN } from "../../../config/globals"
 import Button from "../../Common/Button/Button"
-import { handleError } from "../../../Errors/handleError"
+import { useAuthContext } from "../../../context/AuthContext"
+import { handleInputChange } from "../../../utils/functions/inputUtils"
 
 interface AuthFormProps {
     isLogin: boolean
@@ -14,53 +12,18 @@ interface AuthFormProps {
 
 const AuthForm = ({ isLogin, toggleIsLogin } : AuthFormProps ) => {
 
-    const [formData, setFormData] = useState({ userName: "", email: "", password: "" })
-    const [showPass, setShowPass] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const { loading, loginUser, registerUser } = useAuthContext()
 
-    // TODO - refactor?
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target
-        setFormData( (prev) => ({...prev, [name]: value}) )
-    }    
+    const [formData, setFormData] = useState({ userName: "", email: "", password: "" })
 
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault()
-        setLoading(true)
-
-        try {
-            
-            if(!formData.email) {
-                handleNotification(NOTIF_ERROR, "", "Prosím vyplňte heslo", "Please enter your email")
-                setLoading(false)
-                return
-            }
-
-            if(!formData.password) {
-                handleNotification(NOTIF_ERROR, "", "Prosím vyplňte heslo", "Please enter your password")
-                setLoading(false)
-                return
-            }
-
-            if(isLogin) {
-                // Login user
-                await handleLoginUser(formData.email, formData.password)
-            } else {
-                // Register user
-                if(!formData.userName) {
-                    handleNotification(NOTIF_ERROR, "", "Prosím vyplňte jméno", "Please enter your username")
-                    setLoading(false)
-                    return
-                }
-                await handleRegisterUser(formData.userName, formData.email, formData.password)
-            }
-        } catch (err) {
-            handleError(err, LANG_ENGLISH)
-        } finally {
-            setLoading(false)
+        if(isLogin) {
+            loginUser(formData.email, formData.password)
+        } else {
+            registerUser(formData.userName, formData.email, formData.password)
         }
     }
-
 
   return (
     <form 
@@ -80,7 +43,7 @@ const AuthForm = ({ isLogin, toggleIsLogin } : AuthFormProps ) => {
                     inputType="text"
                     labelFor="userName"
                     labelValue="Username*"
-                    onChange={handleChange}
+                    onChange={ (e) => handleInputChange(e, setFormData) }
                     placeholder="Your username"
                     value={formData.userName}
                 />
@@ -93,7 +56,7 @@ const AuthForm = ({ isLogin, toggleIsLogin } : AuthFormProps ) => {
                 inputType="email"
                 labelFor="email"
                 labelValue="Email adress*"
-                onChange={handleChange}
+                onChange={ (e) => handleInputChange(e, setFormData) }
                 placeholder="Your email adress"
                 value={formData.email}
             />
@@ -104,7 +67,7 @@ const AuthForm = ({ isLogin, toggleIsLogin } : AuthFormProps ) => {
             inputType="password"
             labelFor="password"
             labelValue="Password*"
-            onChange={handleChange}
+            onChange={ (e) => handleInputChange(e, setFormData) }
             placeholder="Password"
             value={formData.password}
             isPassword={true}
@@ -117,14 +80,13 @@ const AuthForm = ({ isLogin, toggleIsLogin } : AuthFormProps ) => {
             buttonType="submit"
         />
 
-        <div className="hidden text-white text-sm lg:text-base items-center gap-4 mt-10 lg:flex">
+        <div className="hidden text-white text-sm lg:text-base items-center gap-4 my-10 lg:flex">
 
             <p className="">{ isLogin ? "Not a member yet?" : "Already a member?" }</p>
 
-            <span className="underline cursor-pointer" onClick={toggleIsLogin}>
+            <span className="underline cursor-pointer hover:text-colorGreen" onClick={toggleIsLogin}>
                 { isLogin ? "Register now" : "Login now" }
             </span>
-
         </div>
 
     </form>

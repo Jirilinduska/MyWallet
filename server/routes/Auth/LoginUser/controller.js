@@ -1,5 +1,4 @@
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const User = require("../../../models/User")
 const { generateToken } = require('../../../libs/jwtUtils')
 
@@ -9,25 +8,26 @@ const loginUser = async(req,res) => {
 
     try {
         
-        if(!email || !password) return res.status(400).json({ message: "Missing credentials" })
+        if(!email)    return res.status(400).json({ errCode: 1007 })
+        if(!password) return res.status(400).json({ errCode: 1003 })
         
         const findUser = await User.findOne({ email })
 
         // Špatný email
-        if(!findUser) return res.status(400).json({ errCode: 1000 })
+        if(!findUser) return res.status(401).json({ errCode: 1000 })
 
         const isMatch = await bcrypt.compare(password, findUser.password)
 
         // Špatné heslo
-        if (!isMatch) return res.status(400).json({ errCode: 1001 })
+        if (!isMatch) return res.status(401).json({ errCode: 1001 })
 
         const token = generateToken(findUser._id, findUser.email)
 
-        return res.status(201).json({ token })
+        return res.status(200).json({ token })
 
     } catch (error) {
         console.log("loginUser() => : ", error)
-        return res.status(500).json({ message: "Server error" })
+        return res.status(500).json({ errCode: 5000 })
     }
 }
 

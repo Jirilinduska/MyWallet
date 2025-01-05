@@ -23,7 +23,7 @@ export const handleRegisterUser = async(userName: string, email: string, passwor
 }
 
 // Change password
-export const handleChangePassword = async(currentPassword: string, newPassword: string, newPasswordAgain: string) => {
+export const handleChangePassword = async(currentPassword: string, newPassword: string) => {
     const response = await apiClient.post(URL_CHANGE_PASSWORD, { currentPassword, newPassword })
     return response
 }

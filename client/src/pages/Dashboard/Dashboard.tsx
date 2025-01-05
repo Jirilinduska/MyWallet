@@ -9,11 +9,15 @@ import Income from "../../better_components/Dashboard/Income/Income"
 import CategoryPreview from "../../components/CategoryPreview/CategoryPreview"
 import TransactionsByCategory from "../../components/TransactionsByCategory/TransactionsByCategory"
 import Goals from "../../better_components/Dashboard/Goals/Goals"
+import { useUserContext } from "../../context/UserContext"
+import { useCompleteProfile } from "../../hooks/useCompleteProfile"
 
 
 const Dashboard = () => {
 
     const { pageID, budgetID, categoryID, showTrans } = useParams()
+    
+    useCompleteProfile()
 
   return (
     <section className="min-h-screen w-full">

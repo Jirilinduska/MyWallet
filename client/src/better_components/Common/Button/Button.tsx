@@ -1,4 +1,5 @@
 import { COLOR_BLUE, COLOR_GREEN, COLOR_RED } from "../../../config/globals"
+import "./ButtonLoading.css"
 
 interface ButtonProps {
   value: string

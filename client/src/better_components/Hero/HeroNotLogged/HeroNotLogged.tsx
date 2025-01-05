@@ -69,10 +69,7 @@ const HeroNotLogged = () => {
       </div>
 
       {showForm && (
-        <div
-          className="fixed top-0 left-0 w-full h-screen bg-black lg:hidden animate-slideInRight"
-          // onClick={toggleForm}
-        >
+        <div className="fixed top-0 left-0 w-full h-screen bg-black lg:hidden animate-slideInRight">
           <AuthForm isLogin={isLogin} toggleIsLogin={toggleIsLogin} />
         </div>
       )}

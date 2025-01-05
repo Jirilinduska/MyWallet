@@ -3,7 +3,6 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Home from './pages/Home/Home'
 import PrivateRoute from './pages/PrivateRoute/PrivateRoute'
-import WelcomeBack from './pages/WelcomeBack/WelcomeBack'
 import NewUser from './pages/NewUser/NewUser'
 import EmailConfirmed from './pages/EmailConfirmed/EmailConfirmed'
 import Dashboard from './pages/Dashboard/Dashboard'
@@ -23,7 +22,6 @@ const App = () => {
             <Route path='/reset-password/:token' element={<ResetPassword/>}/>
 
             {/* Private */}
-            <Route path='/welcome-back' element={ <PrivateRoute> <WelcomeBack/> </PrivateRoute> } />
 
             <Route path='/new-user' element={ <PrivateRoute> <NewUser/> </PrivateRoute> } />
 

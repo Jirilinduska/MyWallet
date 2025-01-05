@@ -34,8 +34,8 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
 
                 <p className="h-full">
                     {formatLang(userLangID, 
-                        `Žádné výdaje pro ${getMonthName(date.year, date.month, userLangID)} ${date.year}`,
-                        `No expense for ${getMonthName(date.year, date.month, userLangID)} ${date.year}`,
+                        `Žádné transakce pro ${getMonthName(date.year, date.month, userLangID)} ${date.year}`,
+                        `No transactions for ${getMonthName(date.year, date.month, userLangID)} ${date.year}`,
                     )}
                 </p>
 

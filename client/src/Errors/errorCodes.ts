@@ -1,13 +1,17 @@
 
-
-
 export const ErrorCodes: { [key: number]: { cs: string; en: string } } = {
+
+    // * SERVER
+    5000: {
+        cs: "Něco se pokazilo, zkuste to prosím později",
+        en: "Something went wrong, please try again later"
+    },  
 
     // * AUTORIZACE
 
     1000: {
-        cs: "Špatný email",
-        en: "Invalid email"
+        cs: "Účet s tímto e-mailem nebyl nalezen",
+        en: "Account with this email not found"
     }, 
 
     1001: {
@@ -38,6 +42,21 @@ export const ErrorCodes: { [key: number]: { cs: string; en: string } } = {
     1006: {
         cs: "Tento účet je speciální, nelze ho smazat! :)",
         en: "This is a special account, it cannot be deleted! :)"
+    },
+
+    1007: {
+        cs: "Prosím zadejte e-mail" ,
+        en: "Please enter your email"
+    },
+
+    1008: {
+        cs: "Prosím zadejte uživatelské jméno" ,
+        en: "Please enter your username"
+    },
+
+    1009: {
+        cs: "Účet s tímto emailem již existuje" ,
+        en: "An account with this email already exists"
     },
 
     // * KATEGORIE

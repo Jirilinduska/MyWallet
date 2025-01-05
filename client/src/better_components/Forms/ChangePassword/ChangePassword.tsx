@@ -1,13 +1,13 @@
-import { ChangeEvent, useState } from "react"
-import Button from "../../better_components/Common/Button/Button"
-import { CHANGE_PASSWORD, COLOR_GREEN, COLOR_RED, FORGOTTEN_PASSWORD, NOTIF_ERROR, NOTIF_SUCCESS } from "../../config/globals"
-import { useUserContext } from "../../context/UserContext"
-import { formatLang } from "../../utils/functions/formatLang"
-import Input from "../UI/Input/Input"
-import HeadingSmall from "../HeadingSmall/HeadingSmall"
-import { handleNotification } from "../../utils/functions/notificationsUtils"
-import { handleChangePassword, handleForgottenPassword } from "../../API/Auth"
-import { handleError } from "../../Errors/handleError"
+import { useEffect, useState } from "react"
+import Button from "../../Common/Button/Button"
+import { CHANGE_PASSWORD, COLOR_GREEN, COLOR_RED, FORGOTTEN_PASSWORD, NOTIF_ERROR } from "../../../config/globals"
+import { useUserContext } from "../../../context/UserContext"
+import { formatLang } from "../../../utils/functions/formatLang"
+import Input from "../../../components/UI/Input/Input"
+import HeadingSmall from "../../../components/HeadingSmall/HeadingSmall"
+import { handleNotification } from "../../../utils/functions/notificationsUtils"
+import { useAuthContext } from "../../../context/AuthContext"
+import { handleInputChange } from "../../../utils/functions/inputUtils"
 
 interface ChangePasswordProps {
     toggleWindow: () => void
@@ -17,71 +17,55 @@ interface ChangePasswordProps {
 const ChangePassword = ({ toggleWindow, useCase } : ChangePasswordProps ) => {
 
     const { userLangID, userData } = useUserContext()
+    const { changePassword, forgottenPassword, loading } = useAuthContext()
 
+    const [email, setEmail] = useState("")
+    const [codeSent, setCodeSent] = useState(false)
     const [password, setPassword] = useState({
         currentPassword: "",
         newPassword: "",
         newPasswordAgain: ""
     })
 
-    const [email, setEmail] = useState(userData.email)
-    const [codeSent, setCodeSent] = useState(false)
-    const [loading, setLoading] = useState(false)
-
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { value, name } = e.target
-        setPassword({
-            ...password,
-            [name]: value
-        })
-    }
+    useEffect(() => {
+        if(userData) {
+            setEmail(userData.email)
+        } else {
+            setEmail("")
+        }
+    }, [] )
 
     const handleSubmit = async(e: React.FormEvent) => {
-
         e.preventDefault()
 
-        setLoading(true)
-
+        // Změna hesla - pokud uživatel zná své aktuální heslo
         if(useCase === CHANGE_PASSWORD) {
             if(password.newPassword !== password.newPasswordAgain) {
                 handleNotification(NOTIF_ERROR, userLangID, "Nová hesla se musí shodovat", "New passwords must match")
                 return
             }
+            changePassword(password.currentPassword, password.newPassword)
+        } 
+
+        // Změna hesla - pokud uživatel nezná své aktuální heslo
+        if(useCase === FORGOTTEN_PASSWORD) {
+            forgottenPassword(email)
+            setCodeSent(true)
         }
 
-        try {
-
-            if(useCase === CHANGE_PASSWORD) {
-                await handleChangePassword(password.currentPassword, password.newPassword, password.newPasswordAgain)
-                handleNotification(NOTIF_SUCCESS, userLangID, "Vaše heslo bylo úspěšně změněno", "Your password has been successfully changed")
-                toggleWindow()
-            }
-
-            if(useCase === FORGOTTEN_PASSWORD) {
-                await handleForgottenPassword(email)
-                setCodeSent(true)
-                handleNotification(NOTIF_SUCCESS, userLangID, "Email byl odeslán", "Email has been sent")
-            }
-
-        } catch (error) {
-            handleError(error, userLangID)
-            console.log(error)
-        } finally {
-            setLoading(false)
-        }
     }
 
   return (
-    <div className="fixed top-0 left-0 w-full h-screen z-[70] bg-white flex flex-col gap-4 items-center justify-center">
+    <div className="fixed top-0 left-0 w-full h-screen z-[70] bg-white flex flex-col gap-4 items-center justify-center border-gray-500 border-l-2">
 
-        <h3 className="font-semibold text-lg">
+        <h3 className="font-semibold text-lg animate-fadeIn">
             { useCase === CHANGE_PASSWORD
                 ? formatLang(userLangID, "Změnit heslo", "Change password") 
                 : formatLang(userLangID, "Zapomenuté heslo", "Forgotten passoword")
             }
         </h3>
 
-        <form onSubmit={handleSubmit} className="w-full px-2 xs:w-3/4 sm:w-1/2 lg:max-w-[300px]">
+        <form onSubmit={handleSubmit} className="w-full px-2 xs:w-3/4 sm:w-1/2 lg:max-w-[300px] animate-fadeIn">
 
             { useCase === CHANGE_PASSWORD && (
 
@@ -92,7 +76,7 @@ const ChangePassword = ({ toggleWindow, useCase } : ChangePasswordProps ) => {
                         inputType="password"
                         labelFor="currentPassword"
                         labelValue={formatLang(userLangID, "Aktuální heslo", "Current password")}
-                        onChange={handleInputChange}
+                        onChange={ (e) => handleInputChange(e, setPassword) }
                         placeholder=""
                         value={password.currentPassword}
                         isPassword={true}
@@ -104,7 +88,7 @@ const ChangePassword = ({ toggleWindow, useCase } : ChangePasswordProps ) => {
                         inputType="password"
                         labelFor="newPassword"
                         labelValue={formatLang(userLangID, "Nové heslo", "New password")}
-                        onChange={handleInputChange}
+                        onChange={ (e) => handleInputChange(e, setPassword) }
                         placeholder=""
                         value={password.newPassword}
                         isPassword={true}
@@ -116,7 +100,7 @@ const ChangePassword = ({ toggleWindow, useCase } : ChangePasswordProps ) => {
                         inputType="password"
                         labelFor="newPasswordAgain"
                         labelValue={formatLang(userLangID, "Nové heslo znovu", "New password again")}
-                        onChange={handleInputChange}
+                        onChange={ (e) => handleInputChange(e, setPassword) }
                         placeholder=""
                         value={password.newPasswordAgain}
                         isPassword={true}

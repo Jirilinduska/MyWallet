@@ -9,8 +9,7 @@ const changePassword = async(req,res) => {
     try {
         const user = await User.findById(userID)
 
-        // TODO - ošetřit na BE všechny odpovedi podle errorCodes :)
-        // TODO - pokud uživatel není nalezen - na fe odhlásit!
+        // TODO - nemelo by nastat - přidat chybu + odshlasit na fe?
         if(!user) {
             return res.status(400).json({ message: "User not found" })
         }
@@ -43,7 +42,7 @@ const changePassword = async(req,res) => {
 
     } catch (error) {
         console.log("changePassword() => : ", error)
-        return res.status(500).json({ message: "Server error" })
+        return res.status(500).json({ errCode: 5000 })
     }
 }
 

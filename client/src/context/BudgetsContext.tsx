@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { IBudget, IGetBudget, INewBudget } from "../utils/interfaces/interfaces"
+import { IGetBudget, INewBudget } from "../utils/interfaces/interfaces"
 import { handleCreateBudget, handleDeleteBudget, handleGetBudget, handleUpdateBudget } from "../API/Budget"
 
 
