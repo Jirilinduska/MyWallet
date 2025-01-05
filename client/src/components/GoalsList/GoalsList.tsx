@@ -29,7 +29,7 @@ const GoalsList = () => {
 
         <div className="mb-10 flex flex-wrap gap-6">
             { priorityGoals?.length 
-                ? ( priorityGoals.map( x => <GoalItem key={x._id} goal={x}/> ) )
+                ? ( priorityGoals.map( x => <GoalItem key={x._id} goal={x} isAchieved={false} /> ) )
                 : <HeadingSmall value={formatLang(userLangID, "Žádné prioritní cíle", "No priority goals")} className="!text-sm" />
             }
         </div>
@@ -39,7 +39,7 @@ const GoalsList = () => {
 
         <div className="flex flex-wrap justify-center lg:justify-start gap-6 mb-10">
             { notPriorityGoals?.length 
-                ? ( notPriorityGoals.map( x => <GoalItem key={x._id} goal={x}/> ) )
+                ? ( notPriorityGoals.map( x => <GoalItem key={x._id} goal={x} isAchieved={false} /> ) )
                 : <HeadingSmall value={formatLang(userLangID, "Žádné cíle", "No goals yet")} className="!text-sm" />
             }
         </div>
@@ -49,7 +49,7 @@ const GoalsList = () => {
 
         <div className="flex flex-wrap justify-center lg:justify-start gap-6 mb-10">
             { finishedGoals?.length
-                ? ( finishedGoals?.map( x => <GoalItem key={x._id} goal={x}/> ))
+                ? ( finishedGoals?.map( x => <GoalItem key={x._id} goal={x} isAchieved={true} /> ))
                 : ( <HeadingSmall value={formatLang(userLangID, "Žádné splněné cíle", "No achieved goals")} className="!text-sm" /> )
             }
         </div>

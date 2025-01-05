@@ -114,6 +114,7 @@ export interface IGoal {
     isPriority: boolean
     isFinished: boolean
     note: string
+    finishedAt?: string
 }
 
 

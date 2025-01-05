@@ -4,13 +4,7 @@ const User = require("../../../models/User")
 const updateBudget = async(req,res) => {
 
     const { _id, budgetCategories, month, year, totalPricePlanned } = req.body
-    
-    // TODO - Předělat u všech :)
     const userID = req.user.userID
-
-    console.log(userID)
-
-    // console.log(req)
 
     try {
         const user = await User.findById(userID)

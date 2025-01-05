@@ -12,6 +12,7 @@ const setFinishedGoal = async(req,res) => {
         if(!goal) return res.status(400).json({ message: "Goal not found" })
 
         goal.isFinished = true
+        goal.finishedAt = new Date().toISOString()
 
         await goal.save()
 

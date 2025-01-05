@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, useState } from "react"
 import { useUserContext } from "../../context/UserContext"
 import { NOTIF_ERROR, NOTIF_SUCCESS } from "../../config/globals"
 import { handleUpdateUserData } from "../../API/User"
@@ -11,8 +11,6 @@ import Sidebar from "../../better_components/Layout/Sidebar/Sidebar"
 import Loader from "../../better_components/Loaders/Loader/Loader"
 import ProfileCard from "../../components/ProfileCard/ProfileCard"
 import SettingsCard from "../../components/SettingsCard/SettingsCard"
-
-// TODO - Přidat možnosti na změnu emailu + zapomenuté heslo!
 
 const Profile = () => {
 
@@ -31,18 +29,6 @@ const Profile = () => {
     })
 
     const toggleAvatars = () => setShowAvatars( prev => !prev )
-
-    useEffect(() => {
-        if (userData) {
-            setUserInfo({
-                userName: userData.userName,
-                email: userData.email,
-                currency: userData.utils.currency,
-                language: userData.utils.language,
-                avatarID: userData.utils.avatarID
-            });
-        }
-    }, [userData])
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { value, name } = e.target

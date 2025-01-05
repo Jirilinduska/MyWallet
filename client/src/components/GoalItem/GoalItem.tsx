@@ -9,12 +9,14 @@ import AreYouSureModal from "../UI/Modals/AreYouSureModal/AreYouSureModal"
 import { useGoalsContext } from "../../context/GoalsContext"
 import NewGoalModal from "../UI/Modals/NewGoalModal/NewGoalModal"
 import { USE_CASE_EDIT } from "../../config/globals"
+import { formatDate } from "../../utils/functions/dateUtils"
 
 interface GoalItemProps {
     goal: IGoal
+    isAchieved: boolean
 }
 
-const GoalItem = ({ goal } : GoalItemProps ) => {
+const GoalItem = ({ goal, isAchieved } : GoalItemProps ) => {
 
     const { userLangID, userCurrency } = useUserContext()
     const { savedThisYear } = useOverviewData()
@@ -45,7 +47,11 @@ const GoalItem = ({ goal } : GoalItemProps ) => {
 
   return (
 
-    <div className={` ${showIcons ? "h-[300px]" : "h-[180px]"} ring-2 rounded-lg flex flex-col p-4 shadow-lg w-[280px] transition-all duration-500`}>
+    <div className={` 
+        ${showIcons ? "h-[300px]" : "h-[180px]"} 
+        ${isAchieved ? "bg-green-500" : "bg-white"}
+        ring-2 rounded-lg flex flex-col p-4 shadow-lg w-[280px] transition-all duration-500 bg-opacity-40`}
+    >
 
         { showModalDelete && 
             <AreYouSureModal 
@@ -67,9 +73,7 @@ const GoalItem = ({ goal } : GoalItemProps ) => {
             /> 
         }
 
-        { showModalEdit && 
-            <NewGoalModal toggleModal={toggleEditModal} useCase={USE_CASE_EDIT} goal={goal} />
-        }
+        { showModalEdit && <NewGoalModal toggleModal={toggleEditModal} useCase={USE_CASE_EDIT} goal={goal} /> }
 
         <div className="mb-6 flex items-center justify-between">
 
@@ -88,18 +92,30 @@ const GoalItem = ({ goal } : GoalItemProps ) => {
 
 
         <div className="text-xs flex items-center justify-between mb-6">
-            <span className={`${ percentage >= 100 && "font-semibold" }`}>{`${percentage}%`}</span>
+
+            <span className={`${ percentage >= 100 && "font-semibold" }`}>{ !isAchieved && `${percentage}%` }</span>
+
             <div className="">
-                { (!goal.isFinished && percentage !== 100 || percentage <= 0) && <span className="">{savedThisYear.toLocaleString()} / </span> }
+                {/* { (!goal.isFinished && percentage !== 100 || percentage <= 0) && <span className="">{savedThisYear.toLocaleString()} / </span> } */}
+                { (!(goal.isFinished) && (percentage !== 100 || percentage <= 0)) && <span className="">{savedThisYear.toLocaleString()} / </span> }
                 <span className="font-semibold">{formatCurrency(goal.amount, userCurrency)}</span>
             </div>
         </div>
 
 
-        <p className="text-xs font-semibold text-colorGreen mb-6 flex justify-between items-start">
-            {goal.isPriority ? formatLang(userLangID, "Prioritní cíl", "Priority goal") : null}
-            <IconPointDown onClick={toggleIcons} className={`icon text-blue-500 cursor-pointer transition-transform duration-300 ${showIcons ? "rotate-180" : "rotate-0"} ml-auto`} />
-        </p>
+        { !isAchieved && 
+            <p className="text-xs font-semibold text-colorGreen mb-6 flex justify-between items-start">
+                {goal.isPriority ? formatLang(userLangID, "Prioritní cíl", "Priority goal") : null}
+                <IconPointDown onClick={toggleIcons} className={`icon text-blue-500 cursor-pointer transition-transform duration-300 ${showIcons ? "rotate-180" : "rotate-0"} ml-auto`} />
+            </p>
+        }
+
+        { isAchieved && goal.finishedAt &&
+            <p className="flex items-center justify-between text-xs font-semibold">
+                {formatLang(userLangID, "Splněno:", "Achieved:")} 
+                <span className="">{formatDate(goal.finishedAt)}</span> 
+            </p> 
+        }
 
 
         {/* Ikonky */}

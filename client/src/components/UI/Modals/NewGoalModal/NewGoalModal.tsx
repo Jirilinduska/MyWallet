@@ -27,7 +27,8 @@ const NewGoalModal = ({ toggleModal, useCase, goal } : NewGoalModalProps ) => {
         year: new Date().getFullYear(),
         isPriority: false,
         isFinished: false,
-        note: ""
+        note: "",
+        finishedAt: "",
     })
 
     const currentYear = new Date().getFullYear()
@@ -41,7 +42,8 @@ const NewGoalModal = ({ toggleModal, useCase, goal } : NewGoalModalProps ) => {
                 year: goal?.year,
                 isPriority: goal?.isPriority,
                 isFinished: goal?.isFinished,
-                note: goal?.note
+                note: goal?.note,
+                finishedAt: goal?.finishedAt || ""
             })
         }
     }, [] )

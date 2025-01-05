@@ -16,6 +16,8 @@ const GoalSchema = new mongoose.Schema(
 
     note: { type: String, required: false },
 
+    finishedAt: { type: String, default: null },
+
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
