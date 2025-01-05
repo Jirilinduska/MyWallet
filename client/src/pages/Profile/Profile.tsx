@@ -11,11 +11,13 @@ import Sidebar from "../../better_components/Layout/Sidebar/Sidebar"
 import Loader from "../../better_components/Loaders/Loader/Loader"
 import ProfileCard from "../../components/ProfileCard/ProfileCard"
 import SettingsCard from "../../components/SettingsCard/SettingsCard"
+import { useCompleteProfile } from "../../hooks/useCompleteProfile"
 
 const Profile = () => {
 
     // TODO - Upravit kontext + přidat funkce na reset heslo, emailu
     const { refreshUserData, userData, userLangID } = useUserContext()
+    useCompleteProfile()
 
     const [isEdited, setIsEdited] = useState(false)
     const [showAvatars, setShowAvatars] = useState(false)

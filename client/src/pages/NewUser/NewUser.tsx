@@ -10,7 +10,6 @@ import { handleCompleteProfile } from "../../API/User"
 import { useUserContext } from "../../context/UserContext"
 import { Navigate } from "react-router-dom"
 import { formatLang } from "../../utils/functions/formatLang"
-import SectionTitle from "../../components/UI/SectionTitle/SectionTitle"
 
 
 // TODO - Upravit celkový UI komponenty, + přidat mobile settings
@@ -38,9 +37,7 @@ const NewUser = () => {
   return (
     <section className="h-screen flex items-center justify-center">
 
-        <div className="w-full md:w-[60%] md:h-[60%] rounded-xl shadow-xl">
-
-            {/* <h3 className="font-bold py-4 text-center">{formatLang(data.lang, "Doplňte profil", "Complete your profile")}</h3> */}
+        <div className="w-full md:w-[60%] md:h-[60%]">
 
             {/* Stage title */}
             <h3 className="font-semibold text-center my-6">
@@ -104,14 +101,16 @@ const NewUser = () => {
             )}
 
             {/* STAGE 2 - Select avatar */}
-            {/* // TODO - Přidat rámečky pro avatary, selected - podobne jako u lang, currency.... */}
-            {/* // TODO - Přidat flex-wrap */}
             { stage === 2 && (
-                <div className="flex items-center justify-center gap-10 text-white h-[40%] w-[90%] mx-auto">
+                <div className="flex items-center justify-center flex-wrap gap-10 text-white h-[40%] w-[90%] mx-auto">
 
                     { userAvatars && userAvatars.map( (x) => {
                         return (
-                            <div className="cursor-pointer" key={x.id} onClick={ () => handleChangeAvatar(x.id) }>
+                            <div 
+                                className={`${ data.avatarID === x.id && "ring-4 ring-green-500 rounded-full" } cursor-pointer w-[80px]`} 
+                                key={x.id} 
+                                onClick={ () => handleChangeAvatar(x.id) }
+                            >
                                 <img src={x.imageSrc} alt={x.title} className="" />
                             </div>
                         )

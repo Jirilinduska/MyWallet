@@ -5,6 +5,9 @@ import Button from "../../Common/Button/Button"
 import AuthForm from "../../Forms/AuthForm/AuthForm"
 import { usePageTitle } from "../../../hooks/usePageTitle"
 
+
+// TODO - Přidat forgotten password!
+
 const HeroNotLogged = () => {
 
   const [isLogin, setIsLogin] = useState(true)
@@ -68,7 +71,7 @@ const HeroNotLogged = () => {
       {showForm && (
         <div
           className="fixed top-0 left-0 w-full h-screen bg-black lg:hidden animate-slideInRight"
-          onClick={toggleForm}
+          // onClick={toggleForm}
         >
           <AuthForm isLogin={isLogin} toggleIsLogin={toggleIsLogin} />
         </div>
