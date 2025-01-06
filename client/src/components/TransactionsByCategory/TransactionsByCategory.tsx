@@ -3,10 +3,10 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useUserContext } from "../../context/UserContext"
 import { useCategoriesContext } from "../../context/CategoriesContext"
 import TopBar from "../../better_components/Layout/TopBar/TopBar"
-import NavigatorCategories from "../NavigatorCategories/NavigatorCategories"
-import SectionTitle from "../UI/SectionTitle/SectionTitle"
+import NavigatorCategories from "../../better_components/UI/NavigatorCategories/NavigatorCategories"
+import SectionTitle from "../../better_components/UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../utils/functions/formatLang"
-import TableTransactions from "../../better_components/Tables/TableTransactions/TableTransactions"
+import TableTransactions from "../../better_components/UI/TableTransactions/TableTransactions"
 import { useTransactionsContext } from "../../context/TransactionsContext"
 import EditTransModal from "../UI/Modals/EditTransModal/EditTransModal"
 import { ITransaction } from "../../utils/interfaces/interfaces"
@@ -63,7 +63,13 @@ const TransactionsByCategory = () => {
 
         <NavigatorCategories pageStage={2} catName={catInfo?.categoryName} catID={catInfo?.categoryID}/>
 
-        <SectionTitle value={formatLang(userLangID, `Seznam všech transakcí pro kategorii: ${catInfo?.categoryName}`, `List of all transactions for the category: ${catInfo?.categoryName}`)}/>
+        <SectionTitle 
+            value={formatLang(
+                userLangID, 
+                `Seznam všech transakcí pro kategorii: ${catInfo?.categoryName}`, 
+                `List of all transactions for the category: ${catInfo?.categoryName}`)}
+                wantInfo={false}
+            />
     
         {/* // TODO - Boční funkce... přidat do kontextu! */}
         { transactionsByCategory.length >= 1 && catInfo && 

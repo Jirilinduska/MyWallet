@@ -15,7 +15,7 @@ const App = () => {
     <Router>
         <Routes>
 
-            <Route path='*' element={<ErrorPage/>}/>
+            <Route path='*' element={<ErrorPage valueCS='Stránka' valueEN='page' />}/>
 
             <Route path='/' element={<Home/>}/>
 

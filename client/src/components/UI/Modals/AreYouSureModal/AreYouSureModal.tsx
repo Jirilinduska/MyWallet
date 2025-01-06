@@ -1,6 +1,6 @@
 import { IconClose } from '../../../../utils/icons/icons'
 import { COLOR_BLUE, COLOR_RED } from '../../../../config/globals'
-import Button from '../../../../better_components/Common/Button/Button'
+import Button from '../../../../better_components/UI/Button/Button'
 
 
 interface AreYouSureModalProps {

@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react"
-import Button from "../../../../better_components/Common/Button/Button"
+import Button from "../../../../better_components/UI/Button/Button"
 import { COLOR_GREEN, COLOR_RED, NOTIF_ERROR, USE_CASE_CREATE, USE_CASE_EDIT } from "../../../../config/globals"
 import { useUserContext } from "../../../../context/UserContext"
 import { formatLang } from "../../../../utils/functions/formatLang"

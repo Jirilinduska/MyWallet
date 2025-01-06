@@ -1,11 +1,11 @@
 import { useState } from "react"
-import { IconAdd, IconCard, IconCategory, IconMoney, IconMoneyInHand, IconPiggyBank } from "../../utils/icons/icons"
-import NewTransModal from "../UI/Modals/NewTransModal/NewTransModal"
-import { CATEGORY_ID_TRANSACTION, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS, USE_CASE_CREATE } from "../../config/globals"
-import NewCategoryModal from "../UI/Modals/NewCategoryModal/NewCategoryModal"
-import { useUserContext } from "../../context/UserContext"
-import { formatLang } from "../../utils/functions/formatLang"
-import NewGoalModal from "../UI/Modals/NewGoalModal/NewGoalModal"
+import { IconAdd, IconCard, IconCategory, IconMoney, IconMoneyInHand, IconPiggyBank } from "../../../utils/icons/icons"
+import NewTransModal from "../../../components/UI/Modals/NewTransModal/NewTransModal"
+import { CATEGORY_ID_TRANSACTION, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS, USE_CASE_CREATE } from "../../../config/globals"
+import NewCategoryModal from "../../../components/UI/Modals/NewCategoryModal/NewCategoryModal"
+import { useUserContext } from "../../../context/UserContext"
+import { formatLang } from "../../../utils/functions/formatLang"
+import NewGoalModal from "../../../components/UI/Modals/NewGoalModal/NewGoalModal"
 import SpeedDialItem from "../SpeedDialItem/SpeedDialItem"
 
 const SpeedDial = () => {

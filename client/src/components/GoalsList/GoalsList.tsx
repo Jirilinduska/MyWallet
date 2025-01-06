@@ -1,10 +1,10 @@
-import Loader from "../../better_components/Loaders/Loader/Loader"
+import Loader from "../../better_components/UI/Loader/Loader"
 import { useGoalsContext } from "../../context/GoalsContext"
 import { useUserContext } from "../../context/UserContext"
 import { formatLang } from "../../utils/functions/formatLang"
 import GoalItem from "../GoalItem/GoalItem"
 import HeadingSmall from "../HeadingSmall/HeadingSmall"
-import SectionTitle from "../UI/SectionTitle/SectionTitle"
+import SectionTitle from "../../better_components/UI/SectionTitle/SectionTitle"
 
 const GoalsList = () => {
 
@@ -25,7 +25,7 @@ const GoalsList = () => {
     <div className="">
 
         {/* Prioritní */}
-        <SectionTitle value={formatLang(userLangID, "Prioritní", "Priority")} />
+        <SectionTitle value={formatLang(userLangID, "Prioritní", "Priority")} wantInfo={false} />
 
         <div className="mb-10 flex flex-wrap gap-6">
             { priorityGoals?.length 
@@ -35,7 +35,7 @@ const GoalsList = () => {
         </div>
 
         {/* Ostatní */}
-        <SectionTitle value={formatLang(userLangID, "Ostatní", "Other")} />
+        <SectionTitle value={formatLang(userLangID, "Ostatní", "Other")} wantInfo={false} />
 
         <div className="flex flex-wrap justify-center lg:justify-start gap-6 mb-10">
             { notPriorityGoals?.length 
@@ -45,7 +45,7 @@ const GoalsList = () => {
         </div>
 
         {/* Splněné */}
-        <SectionTitle value={formatLang(userLangID, "Splněné", "Achieved")} />
+        <SectionTitle value={formatLang(userLangID, "Splněné", "Achieved")} wantInfo={false} />
 
         <div className="flex flex-wrap justify-center lg:justify-start gap-6 mb-10">
             { finishedGoals?.length

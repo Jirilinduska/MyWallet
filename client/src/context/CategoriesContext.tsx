@@ -3,8 +3,6 @@ import { CategoryDetails, ICategory, ICategoryPreview, IGraphBreakdownData } fro
 import { handleDeleteCategory, handleGetCategories, handleGetCategoryInfo } from "../API/Categories"
 import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, NOTIF_ERROR, NOTIF_INFO} from "../config/globals"
 import { handleNotification } from "../utils/functions/notificationsUtils"
-import { categoryIcons } from "../utils/icons/category-icons"
-import { formatLang } from "../utils/functions/formatLang"
 import { handleError } from "../Errors/handleError"
 
 
@@ -17,6 +15,7 @@ interface CategoriesContextProps {
     deleteCategory: (catID: string, userLangID: string, catName: string) => void
     getCategoryInfo: (catID: string, userLangID: string) => void
     catInfo: ICategoryPreview | null
+    loading: boolean
 }
 
 export const CategoriesContext = createContext<CategoriesContextProps | undefined>(undefined)
@@ -26,6 +25,7 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     const [categoriesIncome, setCategoriesIncome] = useState<ICategory[]>([])
     const [categoriesTransactions, setCategoriesTransactions] = useState<ICategory[]>([])
     const [catInfo, setCatInfo] = useState<ICategoryPreview | null>(null)
+    const [loading, setLoading] = useState(false)
 
     const fetchData = async() => {
 
@@ -51,12 +51,14 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
 
     const getCategoryInfo = async(catID: string, userLangID: string) => {
+        setLoading(true)
         try {
             const response = await handleGetCategoryInfo(catID)
             setCatInfo(response.data)
         } catch (error) {
-            handleNotification(NOTIF_ERROR, userLangID,  "Něco se pokazilo", "Something went wrong")
-            console.log(error)
+            handleError(error, userLangID)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -65,7 +67,7 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }, [] )
 
     return (
-        <CategoriesContext.Provider value={{ categoriesIncome, categoriesTransactions, refreshCategories: fetchData, deleteCategory, getCategoryInfo, catInfo }}>
+        <CategoriesContext.Provider value={{ categoriesIncome, categoriesTransactions, refreshCategories: fetchData, deleteCategory, getCategoryInfo, catInfo, loading }}>
           {children}
         </CategoriesContext.Provider>
     )

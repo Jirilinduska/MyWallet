@@ -7,10 +7,7 @@ interface ButtonProps {
   loading: boolean
   color: string
   handleClick?: () => void
-  // disabled?: boolean
 }
-
-// TODO Nahradit všechny buttony!
 
 const Button = ({ value, loading, color, handleClick, buttonType }: ButtonProps) => {
 
@@ -26,7 +23,6 @@ const Button = ({ value, loading, color, handleClick, buttonType }: ButtonProps)
         type={buttonType || "button"}
         className={`${handleColor()} border-none rounded-full text-xs xs:text-sm px-5 flex items-center justify-center text-center mr-2 w-full mb-2 transition duration-300 ease-in-out focus:outline-none focus:ring-4 cursor-pointer`}
         style={{ minHeight: "40px" }}
-        // disabled={disabled}
       >
         {!loading && value}
   

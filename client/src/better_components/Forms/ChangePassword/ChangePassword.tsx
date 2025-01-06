@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import Button from "../../Common/Button/Button"
+import Button from "../../UI/Button/Button"
 import { CHANGE_PASSWORD, COLOR_GREEN, COLOR_RED, FORGOTTEN_PASSWORD, NOTIF_ERROR } from "../../../config/globals"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"

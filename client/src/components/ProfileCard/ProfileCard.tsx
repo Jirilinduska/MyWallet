@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react"
-import Button from "../../better_components/Common/Button/Button"
+import Button from "../../better_components/UI/Button/Button"
 import { CHANGE_PASSWORD, COLOR_BLUE, COLOR_RED, FORGOTTEN_PASSWORD } from "../../config/globals"
 import { useUserContext } from "../../context/UserContext"
 import { formatLang } from "../../utils/functions/formatLang"

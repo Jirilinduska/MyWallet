@@ -11,7 +11,7 @@ import { useUserContext } from "../../../context/UserContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { handleError } from "../../../Errors/handleError"
-import Button from "../../Common/Button/Button"
+import Button from "../../UI/Button/Button"
 
 export interface NewCategoryFormProps {
     categoryType: string

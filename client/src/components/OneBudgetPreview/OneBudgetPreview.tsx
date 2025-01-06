@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useBudgetContext } from "../../context/BudgetsContext"
 import { ICategory, IGetBudget, IGetBudgetCategories } from "../../utils/interfaces/interfaces"
-import SectionTitle from "../UI/SectionTitle/SectionTitle"
+import SectionTitle from "../../better_components/UI/SectionTitle/SectionTitle"
 import { getMonthName } from "../../utils/functions/dateUtils"
 import { useUserContext } from "../../context/UserContext"
 import { Link, useParams } from "react-router-dom"
@@ -15,7 +15,7 @@ import BudgetCatPreviewList from "../BudgetCatPreviewList/BudgetCatPreviewList"
 import NewBudgetCatModal from "../UI/Modals/NewBudgetCatModal/NewBudgetCatModal"
 import { handleNotification } from "../../utils/functions/notificationsUtils"
 import { NOTIF_ERROR, NOTIF_SUCCESS } from "../../config/globals"
-import Loader from "../../better_components/Loaders/Loader/Loader"
+import Loader from "../../better_components/UI/Loader/Loader"
 import TopBar from "../../better_components/Layout/TopBar/TopBar"
 
 const OneBudgetPreview = () => {
@@ -199,7 +199,7 @@ const OneBudgetPreview = () => {
           <IconDelete className="icon text-red-500 text-4xl" onClick={toggleWantDeletePlan}/>
         </div>
 
-        <SectionTitle value={`${getMonthName(thisBudget.year, thisBudget.month, userLangID)} (${thisBudget.year})`} />
+        <SectionTitle value={`${getMonthName(thisBudget.year, thisBudget.month, userLangID)} (${thisBudget.year})`} wantInfo={false} />
 
         <div className="flex items-center gap-4 mb-10">
           <p>{formatLang(userLangID, "Naplánováno", "Planned")}</p>
@@ -207,7 +207,7 @@ const OneBudgetPreview = () => {
         </div>
 
         <div className="flex items-center justify-between mb-0">
-          <SectionTitle value={formatLang(userLangID, "Podle kategorií", "By category")}/>
+          <SectionTitle value={formatLang(userLangID, "Podle kategorií", "By category")} wantInfo={false}/>
           <IconAdd className="icon mb-10 text-4xl" onClick={toggleWantNewCat}/>
         </div>
 

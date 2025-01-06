@@ -1,8 +1,8 @@
 import { useOverviewData } from "../../../context/OverviewDataContext"
 import YearNavigator from "../../../components/UI/YearNavigator/YearNavigator"
-import LastTransaction from "../../Common/LastTransaction/LastTransaction"
+import LastTransaction from "../../UI/LastTransaction/LastTransaction"
 import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION } from "../../../config/globals"
-import SpeedDial from "../../../components/SpeedDial/SpeedDial"
+import SpeedDial from "../../UI/SpeedDial/SpeedDial"
 import MonthNavigator from "../../../components/UI/DateStuff/MonthNavigator/MonthNavigator"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
 import { useUserContext } from "../../../context/UserContext"
@@ -60,16 +60,15 @@ const TopBar = ({ showYearNavigator, showMonthNavigator, pageID } : TopBarProps 
             )}
         </div>
 
-        {/* Menu pro rychlé vytvoření transakce */}
         <SpeedDial/>
 
         <div onClick={toggleNav} className="lg:hidden cursor-pointer">
             { showNav ? <IconClose className="icon"/> : <IconMenu className="icon"/> }
         </div>
 
-        {/* // TODO Zobrazení dnešního dne a času */}
+        {/* // TODO Zobrazení dnešního dne a času? */}
         {/* <CurrentTime/> */}
-        {/* // TODO Tlačítko pro přepnutí tmavého/světlého režimu */}
+        {/* // TODO Tlačítko pro přepnutí tmavého/světlého režimu? */}
 
 </div>
   )

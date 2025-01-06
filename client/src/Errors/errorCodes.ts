@@ -80,9 +80,14 @@ export const ErrorCodes: { [key: number]: { cs: string; en: string } } = {
         cs: "Kategorie nelze smazat, protože jsou s ní spojené plány výdajů",
         en: "Category cannot be deleted because there are budget plans associated with it"
     },
+
     2002: {
         cs: "Kategorie s tímto názvem již existuje",
         en: "Category with this name already exists"
-    }
+    },
 
+    2003: {
+        cs: "Kategorie nenalezena",
+        en: "Category not found"
+    }
 }

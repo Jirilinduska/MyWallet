@@ -1,6 +1,6 @@
 import { useState } from "react"
 import NewTransModal from "../../../components/UI/Modals/NewTransModal/NewTransModal"
-import SectionTitle from "../../../components/UI/SectionTitle/SectionTitle"
+import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
@@ -47,7 +47,7 @@ const Expense = () => {
             />
         )}
 
-        <SectionTitle value={formatLang(userLangID, "Výdaje", "Expense")} />
+        <SectionTitle value={formatLang(userLangID, "Výdaje", "Expense")} wantInfo={false} />
 
         <TransactionsContent 
             transactions={transactionExpense} 

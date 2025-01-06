@@ -3,7 +3,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
 import { cs, enGB } from "date-fns/locale";
 import { LANG_CZECH } from "../../../../config/globals";
-import SectionTitle from "../../SectionTitle/SectionTitle";
+import SectionTitle from "../../../../better_components/UI/SectionTitle/SectionTitle";
 import { formatLang } from "../../../../utils/functions/formatLang"
 import { MonthYearPickerProps } from "../../../../utils/interfaces/interfaces"
 
@@ -27,7 +27,7 @@ const MonthYearPicker = ({ userLangID, setNewBudget }: MonthYearPickerProps) => 
     return (
         <div className="w-full h-[50vh] p-2 overflow-y-auto flex flex-col justify-center items-center">
 
-            <SectionTitle value={formatLang(userLangID, "Vyberte měsíc", "Select month")}/>
+            <SectionTitle value={formatLang(userLangID, "Vyberte měsíc", "Select month")} wantInfo={false} />
 
             <DatePicker
                 selected={startDate}

@@ -1,5 +1,5 @@
 import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title, CategoryScale, LinearScale, BarElement } from 'chart.js';
+import { Chart as ChartJS, Tooltip, Legend, Title, CategoryScale, LinearScale, BarElement } from 'chart.js';
 import { useUserContext } from '../../../context/UserContext'
 import { formatCurrency } from '../../../utils/functions/formatNumber'
 import { formatLang } from '../../../utils/functions/formatLang'

@@ -1,18 +1,20 @@
 import { useState } from "react"
 import GoalsList from "../../../components/GoalsList/GoalsList"
-import SectionTitle from "../../../components/UI/SectionTitle/SectionTitle"
+import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { COLOR_BLUE, USE_CASE_CREATE } from "../../../config/globals"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
-import Button from "../../Common/Button/Button"
+import Button from "../../UI/Button/Button"
 import TopBar from "../../Layout/TopBar/TopBar"
 import NewGoalModal from "../../../components/UI/Modals/NewGoalModal/NewGoalModal"
-
-// TODO - ProfileCart a SettingsCart přejmenovat na CARD s D!
+import { hints } from "../../../utils/data/hints"
+import { usePageTitle } from "../../../hooks/usePageTitle"
 
 const Goals = () => {
 
     const { userLangID } = useUserContext()
+
+    usePageTitle(formatLang(userLangID, "Cíle", "Goals"))
 
     const [showModal, setShowModal] = useState(false)
 
@@ -27,11 +29,11 @@ const Goals = () => {
 
         <div className="flex items-center justify-between">
 
-            <div className="flex gap-2">
-                <SectionTitle value={formatLang(userLangID, "Cíle", "Goals")}/>
-                {/* // TODO - při hoveru - info - přidat všude na stránku:) */}
-                <p className="">i (ikonka) - tady info jak to funguej</p>
-            </div>
+            <SectionTitle 
+                value={formatLang(userLangID, "Cíle", "Goals")} 
+                wantInfo={true} 
+                infoValue={formatLang(userLangID, hints.hintGoalsCS, hints.hintGoalsEN)}
+            />
 
             <div className="mb-10">
                 <Button handleClick={toggleModal} color={COLOR_BLUE} loading={false} value={formatLang(userLangID, "Nový cíl", "New goal")} buttonType="button" />

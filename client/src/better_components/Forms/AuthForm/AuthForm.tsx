@@ -1,7 +1,7 @@
 import { useState } from "react"
 import Input from "../../../components/UI/Input/Input"
 import { COLOR_GREEN } from "../../../config/globals"
-import Button from "../../Common/Button/Button"
+import Button from "../../UI/Button/Button"
 import { useAuthContext } from "../../../context/AuthContext"
 import { handleInputChange } from "../../../utils/functions/inputUtils"
 

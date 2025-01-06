@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { handleIsTokenValid, handleResetPassword } from "../../API/Auth"
-import Loader from "../../better_components/Loaders/Loader/Loader"
+import Loader from "../../better_components/UI/Loader/Loader"
 import Input from "../../components/UI/Input/Input"
 import HeadingSmall from "../../components/HeadingSmall/HeadingSmall"
-import Button from "../../better_components/Common/Button/Button"
+import Button from "../../better_components/UI/Button/Button"
 import { COLOR_GREEN, NOTIF_ERROR, NOTIF_SUCCESS } from "../../config/globals"
 import { handleNotification } from "../../utils/functions/notificationsUtils"
 

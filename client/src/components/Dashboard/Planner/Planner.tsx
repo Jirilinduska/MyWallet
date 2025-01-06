@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useUserContext } from "../../../context/UserContext"
-import SectionTitle from "../../UI/SectionTitle/SectionTitle"
+import SectionTitle from "../../../better_components/UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
 import MonthYearPicker from "../../UI/DateStuff/MonthYearPicker/MonthYearPicker"
 import CreateBudget from "../../CreateBudget/CreateBudget"
@@ -12,7 +12,7 @@ import { useBudgetContext } from "../../../context/BudgetsContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { COLOR_BLUE, NOTIF_ERROR, NOTIF_SUCCESS } from "../../../config/globals"
 import TopBar from "../../../better_components/Layout/TopBar/TopBar"
-import Button from "../../../better_components/Common/Button/Button"
+import Button from "../../../better_components/UI/Button/Button"
 
 
 const Planner = () => {
@@ -86,7 +86,7 @@ const Planner = () => {
 
         <TopBar showYearNavigator={false} showMonthNavigator={false} />
 
-        <SectionTitle value={formatLang(userLangID, "Plánovač výdajů", "Budget planner")} />
+        <SectionTitle value={formatLang(userLangID, "Plánovač výdajů", "Budget planner")} wantInfo={false} />
 
         { budgets.length > 0 && stage === 0 && <BudgetOverview budgets={budgets} /> }
         { budgets.length === 0 && stage === 0 && <p className="text-center">{formatLang(userLangID, "Žádné plány výdajů", "No budget plans")}</p> }

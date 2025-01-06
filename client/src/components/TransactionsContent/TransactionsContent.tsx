@@ -4,11 +4,11 @@ import { useUserContext } from "../../context/UserContext"
 import { getMonthName } from "../../utils/functions/dateUtils"
 import { formatLang } from "../../utils/functions/formatLang"
 import { ITransaction } from "../../utils/interfaces/interfaces"
-import TableTransactions from "../../better_components/Tables/TableTransactions/TableTransactions"
+import TableTransactions from "../../better_components/UI/TableTransactions/TableTransactions"
 import { COLOR_BLUE, PAGE_ID_TRANSACTIONS } from "../../config/globals"
 import { formatCurrency } from "../../utils/functions/formatNumber"
 import BarChartCategories from "../../better_components/Charts/BarChartCategories/BarChartCategories"
-import Button from "../../better_components/Common/Button/Button"
+import Button from "../../better_components/UI/Button/Button"
 
 interface TransactionsContentProps {
     transactions: ITransaction[]

@@ -11,11 +11,11 @@ const getCategoryInfo = async(req,res) => {
         
         const user = await User.findById(userID)
 
-        if(!user) return res.status(400).json({ message: "User not found" })
+        if(!user) return res.status(400).json({ errCode: 1010 })
 
         const category = await Category.findById(id)
 
-        if(!category) return res.status(400).json({ message: "Category not found" })
+        if(!category) return res.status(400).json({ errCode: 2003 })
 
         const allTransactions = await Transaction.find({ category: category._id })
 
@@ -28,11 +28,6 @@ const getCategoryInfo = async(req,res) => {
             return transaction.amount > max.amount ? transaction : max
         }, { amount: 0 })
 
-        // Výstup:
-        // {
-        //     "2024-12": 200000,
-        //     "2024-11": 222
-        //   }
         const monthlySummary = allTransactions.reduce((summary, transaction) => {
             const key = `${transaction.year}-${transaction.month}`
             summary[key] = (summary[key] || 0) + transaction.amount
@@ -91,7 +86,7 @@ const getCategoryInfo = async(req,res) => {
 
     } catch (error) {
         console.log("getCategoryInfo() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 
 }

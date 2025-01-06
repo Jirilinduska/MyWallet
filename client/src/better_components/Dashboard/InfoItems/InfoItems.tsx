@@ -2,7 +2,7 @@ import { COLOR_BLUE, COLOR_GREEN, COLOR_WHITE, SIZE_ROW } from "../../../config/
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { IconExpense, IconIncome, IconMoneyInHand } from "../../../utils/icons/icons"
-import InfoItem from "../../Common/InfoItem/InfoItem"
+import InfoItem from "../../UI/InfoItem/InfoItem"
 
 interface InfoItemsProps {
     expense: number

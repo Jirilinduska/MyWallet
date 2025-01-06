@@ -14,7 +14,7 @@ import { useParams } from "react-router-dom"
 import { handleNotification } from "../../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../../utils/functions/formatLang"
 import { useOverviewData } from "../../../../context/OverviewDataContext"
-import Button from "../../../../better_components/Common/Button/Button"
+import Button from "../../../../better_components/UI/Button/Button"
 
 
 interface EditTransModalProsp {

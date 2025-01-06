@@ -1,10 +1,10 @@
-import InfoItem from "../../better_components/Common/InfoItem/InfoItem"
-import { CATEGORY_ID_INCOME, COLOR_BLUE, COLOR_GREEN, COLOR_RED, SIZE_ROW } from "../../config/globals"
-import { ICategoryPreview } from "../../utils/interfaces/interfaces"
-import { formatLang } from "../../utils/functions/formatLang"
-import { useUserContext } from "../../context/UserContext"
-import BarChart from "../../better_components/Charts/BarChart/BarChart"
-import { IconChart2 } from "../../utils/icons/icons"
+import InfoItem from "../../UI/InfoItem/InfoItem"
+import { CATEGORY_ID_INCOME, COLOR_BLUE, COLOR_GREEN, COLOR_RED, SIZE_ROW } from "../../../config/globals"
+import { ICategoryPreview } from "../../../utils/interfaces/interfaces"
+import { formatLang } from "../../../utils/functions/formatLang"
+import { useUserContext } from "../../../context/UserContext"
+import BarChart from "../BarChart/BarChart"
+import { IconChart2 } from "../../../utils/icons/icons"
 
 interface CategoryStatsWithChartProps {
     catInfo: ICategoryPreview
@@ -17,9 +17,9 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
     const getAmountForYear = (year: number) => catInfo.yearlySummary[year] || 0
 
   return (
-    <div className="flex items-center justify-between mb-6 h-[400px]">
+    <div className="flex flex-col justify-between mb-6 h-[400px] xl:flex-row gap-6">
 
-      <div className="w-1/3">
+      <div className="w-full xl:w-1/2">
 
         <InfoItem
           formatToCurrency={true}
@@ -31,7 +31,7 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
           desc={formatLang(userLangID, catInfo.categoryType === CATEGORY_ID_INCOME ? "Celkové příjmy" : "Celkem utraceno", catInfo.categoryType === CATEGORY_ID_INCOME ? "Total income" : "Total spent")}
         />
 
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-col items-center justify-between gap-2 sm:flex-row">
 
           <InfoItem
             formatToCurrency={true}
@@ -55,7 +55,7 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
 
         </div>
 
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-col items-center justify-between gap-2 sm:flex-row">
           
           <InfoItem
             formatToCurrency={true}
@@ -88,12 +88,9 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
           size={SIZE_ROW}
           desc={formatLang(userLangID, "Měsíční průměr", "Monthly average")}
         />
-        {/* // TODO - bakcend */}
-        {/* <InfoItem amount={catInfo.totalAmount} color={COLOR_INFOITEM_WHITE} desc="2024" icon={<IconChart/>} plannedAmount={null} size={SIZE_ROW}/>
-        <InfoItem amount={catInfo.totalAmount} color={COLOR_INFOITEM_WHITE} desc={"2023"} icon={<IconChart/>} plannedAmount={null} size={SIZE_ROW}/> */}
       </div>
 
-      <div className="w-1/2 h-full">
+      <div className="w-full xl:w-1/2 h-full">
         <BarChart graphData={catInfo.yearlySummary}/>
       </div>
     </div>

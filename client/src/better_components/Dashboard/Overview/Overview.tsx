@@ -1,11 +1,11 @@
 import { useUserContext } from "../../../context/UserContext"
-import SectionTitle from "../../../components/UI/SectionTitle/SectionTitle"
+import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { useOverviewData } from "../../../context/OverviewDataContext"
 import OverviewMonth from "../OverviewMonth/OverviewMonth"
 import OverviewYear from "../OverviewYear/OverviewYear"
 import TopBar from "../../Layout/TopBar/TopBar"
-import Loader from "../../Loaders/Loader/Loader"
+import Loader from "../../UI/Loader/Loader"
 import { usePageTitle } from "../../../hooks/usePageTitle"
 
 const Overview = () => {
@@ -22,7 +22,7 @@ const Overview = () => {
 
         <TopBar showYearNavigator={true} showMonthNavigator={false} />
 
-        <SectionTitle value={formatLang(userLangID, "Přehled", "Overview")}/>
+        <SectionTitle value={formatLang(userLangID, "Přehled", "Overview")} wantInfo={false} />
 
         {/* Měsíční přehled */}
         { month === (new Date().getMonth() + 1) && year === new Date().getFullYear() && overviewData && 

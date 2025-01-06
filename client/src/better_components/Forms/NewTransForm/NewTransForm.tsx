@@ -11,7 +11,7 @@ import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
 import { useOverviewData } from "../../../context/OverviewDataContext"
-import Button from "../../Common/Button/Button"
+import Button from "../../UI/Button/Button"
 
 
 interface NewTransFormProps {

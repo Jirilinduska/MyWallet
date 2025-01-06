@@ -1,10 +1,10 @@
 import { IoMdEye, IoIosEyeOff, IoMdAddCircle, IoIosLaptop, IoLogoGameControllerB, IoMdSettings, IoMdArrowBack } from "react-icons/io"
-import { IoMail, IoCard, IoHome, IoClose, IoCheckmarkSharp, IoChevronDown } from "react-icons/io5"
+import { IoMail, IoCard, IoHome, IoClose, IoCheckmarkSharp, IoChevronDown, IoCloseCircle } from "react-icons/io5"
 import { MdDashboard, MdCategory, MdDeleteForever, MdOutlineSmokingRooms, MdAttachMoney } from "react-icons/md";
 import { GiMoneyStack, GiTakeMyMoney, GiPill,  } from "react-icons/gi";
 import { RiMenu3Line } from "react-icons/ri";
 import { FaUserTie, FaSort, FaCar , FaMoneyBillWave, FaPiggyBank, FaTshirt, FaShieldAlt, FaHiking, FaWallet, FaCheckCircle } from "react-icons/fa";
-import { FaPowerOff, FaRegLightbulb, FaChartLine, FaRegCalendarMinus, FaRegCalendarPlus } from "react-icons/fa6";
+import { FaPowerOff, FaRegLightbulb, FaChartLine, FaRegCalendarMinus, FaRegCalendarPlus, FaCircleInfo } from "react-icons/fa6";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { CiPizza, CiEdit } from "react-icons/ci";
 import { BiSolidDrink } from "react-icons/bi";
@@ -68,4 +68,6 @@ export {
     BsFillBarChartLineFill as IconChart2,
     FaCheckCircle as IconCheck,
     IoChevronDown as IconPointDown,
+    FaCircleInfo as IconInfo,
+    IoCloseCircle as IconCloseCircle,
 }

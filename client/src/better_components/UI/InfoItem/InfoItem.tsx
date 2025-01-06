@@ -43,11 +43,11 @@ const InfoItem = ({ icon, amount, desc, plannedAmount, color, size, formatToCurr
             <div className={`rounded-xl shadow-lg ${bgColor} w-full p-3 flex items-center justify-between mb-4`}>
 
                 <div className="flex items-center gap-4">
-                    { icon && <span className="text-sm xs:text-base">{icon}</span> }
+                    { icon && <span className="text-sm xs:text-base hidden sm:block">{icon}</span> }
                     <p className="text-xs xs:text-base font-semibold">{desc}</p>
                 </div>
 
-                <span className="text-xs">{subtitle}</span>
+                <span className="text-xs hidden xs:block">{subtitle}</span>
 
                 <div className="flex flex-col items-end">
 

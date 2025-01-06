@@ -6,7 +6,7 @@ import { ICategory, IGetBudgetCategories } from "../../../../utils/interfaces/in
 import { useCategoriesContext } from "../../../../context/CategoriesContext"
 import { categoryIcons } from "../../../../utils/icons/category-icons"
 import { Link } from "react-router-dom"
-import Button from "../../../../better_components/Common/Button/Button"
+import Button from "../../../../better_components/UI/Button/Button"
 import { COLOR_BLUE } from "../../../../config/globals"
 
 interface NewBudgetCatModalProps {
