@@ -23,10 +23,11 @@ const TopBar = ({ showYearNavigator, showMonthNavigator, pageID } : TopBarProps 
     const { userLangID } = useUserContext()
     const { showNav, toggleNav } = useUtilsContext()
 
-    if(!overviewData) return <div className="">NoData</div>
+    // TODO ? 
+    if(!overviewData) return <div className=""></div>
 
   return (
-    <div className="py-4 px-4 mb-10 flex items-center gap-10 fixed top-0 left-0 lg:left-[250px] w-full lg:w-[calc(100%-250px)] bg-white z-10 shadow-lg">
+    <div className="animate-fadeInDown py-4 px-4 mb-10 flex items-center gap-10 fixed top-0 left-0 lg:left-[250px] w-full lg:w-[calc(100%-250px)] bg-white z-10 shadow-lg">
 
         <div className="flex-1 xl:flex-grow-0">
 

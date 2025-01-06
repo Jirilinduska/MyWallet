@@ -71,7 +71,6 @@ const TransactionsByCategory = () => {
                 wantInfo={false}
             />
     
-        {/* // TODO - Boční funkce... přidat do kontextu! */}
         { transactionsByCategory.length >= 1 && catInfo && 
             <TableTransactions 
                 data={transactionsByCategory} 

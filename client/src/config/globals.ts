@@ -1,6 +1,3 @@
-
-// TODO - Zkontrolovat co z tohoto se používá!
-
 // Language
 export const LANG_ENGLISH   = "EN"
 export const LANG_CZECH     = "CZ"

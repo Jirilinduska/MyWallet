@@ -15,8 +15,7 @@ const GoalsList = () => {
     const priorityGoals = listOfGoals?.filter( x => x.isPriority && !x.isFinished )
     const notPriorityGoals = listOfGoals?.filter( x => !x.isPriority )
 
-    // TODO 
-    if(!listOfGoals?.length) return <div className="">žádné cíle</div>
+    if(!listOfGoals?.length) return <p className="">{formatLang(userLangID, "Zatím žádné cíle", "No goals yet")}</p>
 
     if(loading) return <Loader wantFullSize={true} />
 

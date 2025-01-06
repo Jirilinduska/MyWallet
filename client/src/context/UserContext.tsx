@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { handleGetUserData } from "../API/User"
-import { IUser } from "../utils/interfaces/interfaces"
+import { handleGetUserData, handleUpdateUserData } from "../API/User"
+import { IUser, IUserDataUpdate } from "../utils/interfaces/interfaces"
+import { handleError } from "../Errors/handleError"
 
 
 interface UserContextProps {
@@ -8,6 +9,7 @@ interface UserContextProps {
     userLangID: string
     userCurrency: string
     refreshUserData: () => void
+    updateUserData: (userData: IUserDataUpdate) => void
 }
 
 
@@ -19,6 +21,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [userLangID, setUserLangID] = useState("")
     const [userCurrency, setUserCurrency] = useState("")
 
+    // GET - get user data
     const fetchData = async() => {
         try {
             const response = await handleGetUserData()
@@ -30,12 +33,22 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }
 
+    // PATCH - update user data 
+    const updateUserData = async(userData: IUserDataUpdate) => {
+        try {
+            await handleUpdateUserData(userData)
+            await fetchData()
+        } catch (error) {
+            handleError(error, userData.language)
+        }
+    }
+
     useEffect(() => {
         fetchData()
     }, [] )
 
     return (
-        <UserContext.Provider value={{ userData: userData as IUser, userLangID, userCurrency, refreshUserData: fetchData }}>
+        <UserContext.Provider value={{ userData: userData as IUser, userLangID, userCurrency, refreshUserData: fetchData, updateUserData }}>
             {children}
         </UserContext.Provider>
     )

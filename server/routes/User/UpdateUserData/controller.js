@@ -9,21 +9,21 @@ const updateUserData = async(req,res) => {
 
         const user = await User.findById(userID)
 
-        if(!user) return res.status(400).json({ message: "User not found." })
+        if(!user) return res.status(400).json({ errCode: 1010 })
 
         user.userName = userName
-        user.email = email
+        // user.email = email 
         user.utils.currency = currency
         user.utils.language = language
         user.utils.avatarID = avatarID
 
         await user.save() 
     
-        return res.status(200).json({ message: "Profile updated." })
+        return res.status(200).json({ errCode: 5001 })
 
     } catch (error) {
         console.log("updateUserData() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 
 }

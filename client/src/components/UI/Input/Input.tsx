@@ -1,8 +1,7 @@
 import { useState } from "react"
 import { IconEyeHide, IconEyeShow } from "../../../utils/icons/icons"
 
-// TODO - Umístit do souboru Interfaces
-export interface IInput {
+interface InputProps {
     labelFor: string
     labelValue: string | ""
     inputType: string
@@ -14,7 +13,7 @@ export interface IInput {
     wantDarkText?: boolean
 }
 
-const Input: React.FC<IInput> = ({ labelFor, labelValue, inputType, placeholder, inputName, value, onChange, isPassword, wantDarkText }) => {
+const Input: React.FC<InputProps> = ({ labelFor, labelValue, inputType, placeholder, inputName, value, onChange, isPassword, wantDarkText }) => {
 
     const [showPass, setShowPass] = useState(false)
 

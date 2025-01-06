@@ -1,7 +1,6 @@
 import { ChangeEvent, useState } from "react"
 import { useUserContext } from "../../context/UserContext"
 import { NOTIF_ERROR, NOTIF_SUCCESS } from "../../config/globals"
-import { handleUpdateUserData } from "../../API/User"
 import Avatars from "../../components/OffCanvas/Avatars/Avatars"
 import { IUserDataUpdate } from "../../utils/interfaces/interfaces"
 import { handleNotification } from "../../utils/functions/notificationsUtils"
@@ -16,8 +15,7 @@ import { usePageTitle } from "../../hooks/usePageTitle"
 
 const Profile = () => {
 
-    // TODO - Upravit kontext + přidat funkce na reset heslo, emailu
-    const { refreshUserData, userData, userLangID } = useUserContext()
+    const { userData, userLangID, updateUserData } = useUserContext()
 
     useCompleteProfile()
     usePageTitle(formatLang(userLangID, "Profil", "Profile"))
@@ -50,22 +48,11 @@ const Profile = () => {
             return
         }
 
-        if(!userInfo.email) {
-            //TODO handleNotification(NOTIF_ERROR, userLangID, "Prosím zadejte email", "Please enter email")
-            return
-        }
-
-        try {
-            await handleUpdateUserData(userInfo)
-            refreshUserData()
-            handleNotification(NOTIF_SUCCESS, userInfo.language, "Uloženo", "Saved")
-            setIsEdited(false)
-        } catch (error) {
-            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
-        } 
+        updateUserData(userInfo)
+        handleNotification(NOTIF_SUCCESS, userInfo.language, "Uloženo", "Saved")
+        setIsEdited(false)
     }
 
-    // TODO - Přidal loader
     if(!userData) {
         return <Loader wantFullSize={true} />
     }

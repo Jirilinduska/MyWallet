@@ -9,7 +9,7 @@ const getUserData = async(req,res) => {
         
         const user = await User.findById(userID)
 
-        if(!user) return res.status(400).json({ message: "User not found." })
+        if(!user) return res.status(400).json({ errCode: 1010 })
 
         const userData = {
             _id: user._id,
@@ -23,7 +23,7 @@ const getUserData = async(req,res) => {
 
     } catch (error) {
         console.log("getUserData() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 
 }
