@@ -150,7 +150,7 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
 
         <div className="flex items-center justify-between">
             <Button color={COLOR_GREEN} loading={loading} value={formatLang(userLangID, "Uložit", "Save")} buttonType="submit" />
-            <Button color={COLOR_RED}   loading={loading} value={formatLang(userLangID, "Zavřít", "Close")} buttonType="button" />
+            <Button color={COLOR_RED}   loading={loading} value={formatLang(userLangID, "Zavřít", "Close")} buttonType="button" handleClick={handleHide} />
         </div>
 
 

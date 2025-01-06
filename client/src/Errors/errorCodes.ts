@@ -1,11 +1,16 @@
 
 export const ErrorCodes: { [key: number]: { cs: string; en: string } } = {
 
-    // * SERVER
+    // * OTHER
     5000: {
         cs: "Něco se pokazilo, zkuste to prosím později",
         en: "Something went wrong, please try again later"
     },  
+
+    5001: {
+        cs: "Success",
+        en: "Success"
+    },
 
     // * AUTORIZACE
 
@@ -57,6 +62,11 @@ export const ErrorCodes: { [key: number]: { cs: string; en: string } } = {
     1009: {
         cs: "Účet s tímto emailem již existuje" ,
         en: "An account with this email already exists"
+    },
+
+    1010:{
+        cs: "Uživatel nenalezen",
+        en: "User not found"
     },
 
     // * KATEGORIE

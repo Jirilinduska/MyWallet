@@ -9,36 +9,27 @@ const changePassword = async(req,res) => {
     try {
         const user = await User.findById(userID)
 
-        // TODO - nemelo by nastat - přidat chybu + odshlasit na fe?
-        if(!user) {
-            return res.status(400).json({ message: "User not found" })
-        }
+        if(!user) return res.status(400).json({ errCode: 1010 })
 
-        if(!currentPassword) {
-            return res.status(400).json({ errCode: 1003 })
-        }
+        if(!currentPassword) return res.status(400).json({ errCode: 1003 })
 
-        if(!newPassword) {
-            return res.status(400).json({ errCode: 1004 })
-        }
-
+        if(!newPassword) return res.status(400).json({ errCode: 1004 })
+        
         if(currentPassword === newPassword) {
             return res.status(400).json({ errCode: 1005 })
         }
 
         const isMatch = await bcrypt.compare(currentPassword, user.password)
 
-        if (!isMatch) {
-            return res.status(400).json({ errCode: 1002 })
-        }
-
+        if (!isMatch) return res.status(400).json({ errCode: 1002 })
+        
         const hashPassword = await bcrypt.hash(newPassword, 10)
 
         user.password = hashPassword
 
         await user.save()
 
-        return res.status(200).json({ message: "Password has been successfully updated" })
+        return res.status(200).json({ errCode: 5001 })
 
     } catch (error) {
         console.log("changePassword() => : ", error)

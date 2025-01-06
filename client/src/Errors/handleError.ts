@@ -1,3 +1,4 @@
+import { handleLogoutUser } from "../API/Auth"
 import { NOTIF_ERROR } from "../config/globals"
 import { handleNotification } from "../utils/functions/notificationsUtils"
 import { ErrorCodes } from "./errorCodes"
@@ -10,6 +11,13 @@ export const handleError = (err: any, userLangID: string) => {
     }
 
     if (err?.response?.data?.errCode) {
+
+        // Uživatel nenalezen
+        if(err.response.data.errCode === 1010) {
+            handleErrorByCode(err.response.data.errCode, userLangID)
+            handleLogoutUser()
+        }
+
         handleErrorByCode(err.response.data.errCode, userLangID)
     } else {
         handleNotification(NOTIF_ERROR, userLangID, defaultMessage.cs, defaultMessage.en)
