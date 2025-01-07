@@ -5,7 +5,12 @@ import { cs, enGB } from "date-fns/locale";
 import { LANG_CZECH } from "../../../../config/globals";
 import SectionTitle from "../../../../better_components/UI/SectionTitle/SectionTitle";
 import { formatLang } from "../../../../utils/functions/formatLang"
-import { MonthYearPickerProps } from "../../../../utils/interfaces/interfaces"
+import { INewBudget } from "../../../../utils/interfaces/interfaces"
+
+interface MonthYearPickerProps {
+    userLangID: string;
+    setNewBudget: React.Dispatch<React.SetStateAction<INewBudget>>
+}
 
 const MonthYearPicker = ({ userLangID, setNewBudget }: MonthYearPickerProps) => {
     const [startDate, setStartDate] = useState<Date | null>(new Date());
@@ -27,7 +32,7 @@ const MonthYearPicker = ({ userLangID, setNewBudget }: MonthYearPickerProps) => 
     return (
         <div className="w-full h-[50vh] p-2 overflow-y-auto flex flex-col justify-center items-center">
 
-            <SectionTitle value={formatLang(userLangID, "Vyberte měsíc", "Select month")} wantInfo={false} />
+            <h3 className="font-semibold mb-6">{formatLang(userLangID, "Vyberte měsíc", "Select month")}</h3>
 
             <DatePicker
                 selected={startDate}

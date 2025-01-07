@@ -20,7 +20,6 @@ export const formatCurrency = (number: number, userCurrency: string) => {
     }
 
     if (!currencyCode) {
-        console.error("Currency code is required with currency style.")
         return number
     }
 

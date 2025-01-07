@@ -1,22 +1,5 @@
-import { ChangeEvent, ReactElement, ReactNode } from "react"
+import { ChangeEvent, ReactElement } from "react"
 
-
-// * =========== Základní typy ===========
-export interface IString {
-    value: string
-}
-
-// * =========== Komponenty (Props) ===========
-
-export interface CrateBudgetProps {
-    newBudget: INewBudget
-    setNewBudget: React.Dispatch<React.SetStateAction<INewBudget>>
-}
-
-export interface MonthYearPickerProps {
-    userLangID: string;
-    setNewBudget: React.Dispatch<React.SetStateAction<INewBudget>>
-}
 
 // * =========== Datové struktury ===========
 export interface CategoryDetails {
@@ -31,6 +14,7 @@ export interface IGetBudgetCategories {
         iconID: number
     }
     price: number
+    spent: number
 }
 
 export interface IGetBudget {
@@ -117,53 +101,11 @@ export interface IGoal {
     finishedAt?: string
 }
 
-
-// ! ===================
-
-export interface IInputSelect{
-    value: string
-    handleChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
-}
-
-export interface IInputSelectCategory extends IInputSelect {
-    categoryType: string
-}
-
-// PrivateRoute
-export interface IPrivateRoute {
-    children: ReactNode
-}
-
-// ProgressBar
-export interface IProgressBar {
-    stage: number
-}
-
-export interface ITableHeaderSortable {
-    value: string
-    handleSort: () => void
-}
-
-// Notifications
-export interface INotif {
-    message: string
-    onClose: () => void
-}
-
-// Icon
 export interface ICategoryIcon {
     id: number
     iconJSX: ReactElement
 }
 
-// PieGraph
-export interface IPieGraph {
-    graphData: IGraphBreakdownData[]
-    pageID: string | undefined
-    langID: string
-}
-
-// =========== APIs ===========
 export interface ICompleteProfileData {
     lang: string
     curr: string
@@ -227,4 +169,15 @@ export interface IUserDataUpdate {
     currency: string
     language: string
     avatarID: number
+}
+
+// * =========== Props ===========
+
+export interface IInputSelect{
+    value: string
+    handleChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+}
+
+export interface IInputSelectCategory extends IInputSelect {
+    categoryType: string
 }

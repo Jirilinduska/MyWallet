@@ -1,5 +1,5 @@
 import { CURR_CZECH, CURR_DOLLAR, CURR_EURO, LANG_CZECH, LANG_ENGLISH } from "../../config/globals"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { CzechFlag, USFlag } from "../../utils/icons/flags"
 import ProgressBar from "../../components/CompleteProfile/ProgressBar/ProgressBar"
 import { CurrencyIconCzech, CurrencyIconDollar, CurrencyIconEuro } from "../../utils/icons/currency"
@@ -12,7 +12,6 @@ import { Navigate } from "react-router-dom"
 import { formatLang } from "../../utils/functions/formatLang"
 
 
-// TODO - Upravit celkový UI komponenty, + přidat mobile settings
 // TODO - Rozdělit "stages" do samostatných komponent
 
 

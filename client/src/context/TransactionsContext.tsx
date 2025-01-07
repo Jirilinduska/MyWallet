@@ -4,6 +4,8 @@ import { ITransaction, IcategoriesYearOverview } from "../utils/interfaces/inter
 import { handleGetIncomes } from "../API/Income"
 import { handleNotification } from "../utils/functions/notificationsUtils"
 import { NOTIF_ERROR, NOTIF_SUCCESS, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../config/globals"
+import { handleError } from "../Errors/handleError"
+import { useUserContext } from "./UserContext"
 
 interface TransContextProps {
     transactionIncome : ITransaction[]
@@ -26,6 +28,8 @@ interface TransContextProps {
 export const TransactionsContext = createContext<TransContextProps | undefined>(undefined)
 
 export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
+    const { userLangID } = useUserContext()
 
     const [transactionIncome, setTransactionIncome] = useState<ITransaction[]>([])
     const [transactionExpense, setTransactionExpense] = useState<ITransaction[]>([])
@@ -75,7 +79,7 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
             setGraphDataExp(response.data.graphData)
             setTotalPriceExp(response.data.totalPrice)
         } catch (error) {
-            console.log("fetchExpenseData() => : ", error)
+            handleError(error, userLangID)
         }
     }, [] )
 
@@ -87,7 +91,7 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
             setGraphDataInc(response.data.graphData)
             setTotalPriceInc(response.data.totalPrice)
         } catch (error) {
-            console.log("fetchIncomeData() => : ", error)
+            handleError(error, userLangID)
         }
     }, [] )
 
@@ -105,7 +109,7 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
             }  
             handleNotification(NOTIF_SUCCESS, langID, "Transakce odstraněna", "Transaction deleted")  
         } catch (error) {
-            handleNotification(NOTIF_ERROR, langID, "Něco se pokazilo", "Something went wrong")
+            handleError(error, userLangID)
         }
     }, [date])
 

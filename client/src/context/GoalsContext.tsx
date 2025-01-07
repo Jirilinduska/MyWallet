@@ -4,6 +4,7 @@ import { handleCreateGoal, handleDeleteGoal, handleEditGoal, handleGetGoals, han
 import { handleNotification } from "../utils/functions/notificationsUtils"
 import { NOTIF_ERROR, NOTIF_SUCCESS } from "../config/globals"
 import { useUserContext } from "./UserContext"
+import { handleError } from "../Errors/handleError"
 
 
 interface GoalsContextProps {
@@ -33,8 +34,7 @@ export const GoalsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             await getGoals()
             handleNotification(NOTIF_SUCCESS, userLangID, "Uloženo", "Saved")
         } catch (error) {
-            console.log(error)
-            handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
+            handleError(error, userLangID)
         } finally {
             setLoading(false)
         }
@@ -46,7 +46,7 @@ export const GoalsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             await handleSetGoalFinished(goalID)
             await getGoals()
         } catch (error) {
-            console.log(error)
+            handleError(error, userLangID)
         }
     }
 
@@ -58,8 +58,7 @@ export const GoalsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             await getGoals()
             handleNotification(NOTIF_SUCCESS, userLangID, "Uloženo", "Saved")
         } catch (error) {
-            console.log(error)
-            handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
+            handleError(error, userLangID)
         } finally {
             setLoading(false)
         }
@@ -73,8 +72,7 @@ export const GoalsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             const response = await handleGetGoals()
             setListOfGoals(response.data)
         } catch (error) {
-            console.log(error)
-            handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
+            handleError(error, userLangID)
         } finally {
             setLoading(false)
         }
@@ -86,7 +84,7 @@ export const GoalsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             await handleDeleteGoal(goalID)
             setListOfGoals((prev) => (prev ? prev.filter((goal) => goal._id !== goalID) : []))
         } catch (error) {
-            console.log(error)
+            handleError(error, userLangID)
         }
     }
 

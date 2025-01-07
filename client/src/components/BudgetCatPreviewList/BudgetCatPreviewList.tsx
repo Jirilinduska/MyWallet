@@ -22,8 +22,9 @@ const BudgetCatPreviewList = ({
     setCategoryWantDelete , handlePriceChange, setWantEdit, handleUpdatePlan
 
 } : BudgetCatPreviewListProps) => {
+
   return (
-    <div className="h-[50vh] overflow-y-auto p-2">
+    <div className="h-[40vh] overflow-y-auto p-2">
         { budgetCategories.length > 0 && budgetCategories.map((x) => {
     
             const iconObject = x?.category?.iconID ? categoryIcons.find((icon) => icon.id === x.category.iconID) : null

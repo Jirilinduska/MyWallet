@@ -13,6 +13,7 @@ const registerUser = async(req,res) => {
         if(!userName) return res.status(400).json({ errCode: 1008 })
         if(!email)    return res.status(400).json({ errCode: 1007 })
         if(!password) return res.status(400).json({ errCode: 1003 })
+        if(password.length < 8) return res.status(400).json({ errCode: 1011 })
                 
         const isAlreadyIn = await User.findOne({ email })
 

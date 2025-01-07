@@ -17,6 +17,8 @@ import { handleNotification } from "../../utils/functions/notificationsUtils"
 import { NOTIF_ERROR, NOTIF_SUCCESS } from "../../config/globals"
 import Loader from "../../better_components/UI/Loader/Loader"
 import TopBar from "../../better_components/Layout/TopBar/TopBar"
+import BudgetChartItem from "../BudgetChartItem/BudgetChartItem"
+import { handleError } from "../../Errors/handleError"
 
 const OneBudgetPreview = () => {
 
@@ -57,7 +59,6 @@ const OneBudgetPreview = () => {
       setCategoryWantDelete("")
   }
 
-  // HOTOVO 
   const handleAddCatClick = async(cat: ICategory) => {
 
     const newCatData = {
@@ -66,7 +67,8 @@ const OneBudgetPreview = () => {
         name: cat.name,
         iconID: cat.iconID
       }, 
-      price: 0
+      price: 0,
+      spent: 0
     }
 
     try {
@@ -79,8 +81,8 @@ const OneBudgetPreview = () => {
           totalPricePlanned: 0
         }
 
-        await updateBudget(updateData)
-        await refreshBudgets()
+        updateBudget(updateData)
+        refreshBudgets()
       }
     } catch (error) {
       console.log(error)
@@ -103,13 +105,12 @@ const OneBudgetPreview = () => {
     }
   }
   
-  // HOTOVO 
   const handleDeletePlan = async() => {
 
     if(thisBudget) {
       try {
-        await deleteBudget(thisBudget?._id)
-        await refreshBudgets()
+        deleteBudget(thisBudget?._id)
+        refreshBudgets()
         navigate("/dashboard/planner")
         handleNotification(
           NOTIF_SUCCESS, 
@@ -118,18 +119,16 @@ const OneBudgetPreview = () => {
           `Budget: ${getMonthName(thisBudget.year, thisBudget.month, userLangID)} (${thisBudget.year}) successfully deleted`
         )
       } catch (error) {
-        handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
+        handleError(error, userLangID)
       }
     }
   }
 
-  // HOTOVO
   const handleUpdatePlan = async () => {
 
     let newArray: IGetBudgetCategories[] = []
 
     if(thisBudget) {
-
       if(categoryWantDelete) {
         newArray = thisBudget.budgetCategories.filter( (x) => String(x.category._id) !== String(categoryWantDelete) )
       }
@@ -139,17 +138,16 @@ const OneBudgetPreview = () => {
         budgetCategories: categoryWantDelete ? newArray : thisBudget?.budgetCategories,
         month: thisBudget?.month,
         year: thisBudget?.year,
-        totalPricePlanned: 0
+        totalPricePlanned: 0  
       }
 
       try {
-        console.log("Updating thisBudget:", thisBudget)
-        await updateBudget(updateData)
-        await refreshBudgets()
+        updateBudget(updateData)
+        refreshBudgets()
         closeWantDeleteCategory()
         handleNotification(NOTIF_SUCCESS, userLangID, `Uloženo`, `Saved`)
       } catch (error) {
-        handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
+        handleError(error, userLangID)
       }
 
     }
@@ -199,7 +197,7 @@ const OneBudgetPreview = () => {
           <IconDelete className="icon text-red-500 text-4xl" onClick={toggleWantDeletePlan}/>
         </div>
 
-        <SectionTitle value={`${getMonthName(thisBudget.year, thisBudget.month, userLangID)} (${thisBudget.year})`} wantInfo={false} />
+        <h3 className="font-semibold mb-10">{`${getMonthName(thisBudget.year, thisBudget.month, userLangID)} (${thisBudget.year})`}</h3>
 
         <div className="flex items-center gap-4 mb-10">
           <p>{formatLang(userLangID, "Naplánováno", "Planned")}</p>
@@ -207,7 +205,7 @@ const OneBudgetPreview = () => {
         </div>
 
         <div className="flex items-center justify-between mb-0">
-          <SectionTitle value={formatLang(userLangID, "Podle kategorií", "By category")} wantInfo={false}/>
+          <h3 className="font-semibold mb-10">{formatLang(userLangID, "Podle kategorií", "By category")}</h3>
           <IconAdd className="icon mb-10 text-4xl" onClick={toggleWantNewCat}/>
         </div>
 
@@ -226,6 +224,12 @@ const OneBudgetPreview = () => {
               setWantEdit={setWantEdit}
               handleUpdatePlan={handleUpdatePlan}
             />
+        }
+
+        { thisBudget.budgetCategories.length && 
+            <div className="my-20 xl:flex flex-wrap gap-y-20">
+                { thisBudget.budgetCategories.map( x => <BudgetChartItem oneCategory={x} /> ) }
+            </div>
         }
   </div>
 )}

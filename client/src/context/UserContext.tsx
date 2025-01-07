@@ -29,7 +29,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setUserLangID(response.data?.utils?.language)
             setUserCurrency(response.data?.utils?.currency)
         } catch (error) {
-            console.log("fetchData() => userDataContext : ", error)
+            handleError(error, userLangID)
         }
     }
 

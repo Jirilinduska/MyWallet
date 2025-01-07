@@ -17,7 +17,7 @@ const UserChema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        // TODO minLength: 8,
+        minlength: 8,
     },
 
     utils: {

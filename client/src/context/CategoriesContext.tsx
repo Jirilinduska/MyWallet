@@ -4,6 +4,7 @@ import { handleDeleteCategory, handleGetCategories, handleGetCategoryInfo } from
 import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, NOTIF_ERROR, NOTIF_INFO} from "../config/globals"
 import { handleNotification } from "../utils/functions/notificationsUtils"
 import { handleError } from "../Errors/handleError"
+import { useUserContext } from "./UserContext"
 
 
 // TODO - Přida do všech contextů i ostatní funkce :)
@@ -22,11 +23,14 @@ export const CategoriesContext = createContext<CategoriesContextProps | undefine
 
 export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
+    const { userLangID } = useUserContext()
+
     const [categoriesIncome, setCategoriesIncome] = useState<ICategory[]>([])
     const [categoriesTransactions, setCategoriesTransactions] = useState<ICategory[]>([])
     const [catInfo, setCatInfo] = useState<ICategoryPreview | null>(null)
     const [loading, setLoading] = useState(false)
 
+    // GET 
     const fetchData = async() => {
 
         try {
@@ -35,10 +39,12 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             setCategoriesIncome(income.data)
             setCategoriesTransactions(transactions.data)
         } catch (error) {
-            console.log(error)
+            handleError(error, userLangID)
+
         }
     }
 
+    // DELETE
     const deleteCategory = async(catID: string, userLangID: string, catName: string) => {
         
         try {
@@ -50,6 +56,7 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         }
     }
 
+    // GET 
     const getCategoryInfo = async(catID: string, userLangID: string) => {
         setLoading(true)
         try {

@@ -61,24 +61,20 @@ const Planner = () => {
         return
       }
 
-      try {
-        await createBudget(newBudget)
-        refreshBudgets()
-        setStage(0)
-        handleNotification(
-          NOTIF_SUCCESS, 
-          userLangID, 
-          `Plán: ${getMonthName(newBudget.year, newBudget.month, userLangID)} (${newBudget.year}) úspěšně vytvořen`,
-          `Budget: ${getMonthName(newBudget.year, newBudget.month, userLangID)} (${newBudget.year}) successfully created`
-        )
-        setNewBudget({
-          month: new Date().getMonth() + 1,
-          year: new Date().getFullYear(),
-          budgetCategories: []
-        })
-      } catch (error) {
-        console.log("handleSubmit() => : ", error)
-      }
+      createBudget(newBudget)
+      refreshBudgets()
+      setStage(0)
+      handleNotification(
+        NOTIF_SUCCESS, 
+        userLangID, 
+        `Plán: ${getMonthName(newBudget.year, newBudget.month, userLangID)} (${newBudget.year}) úspěšně vytvořen`,
+        `Budget: ${getMonthName(newBudget.year, newBudget.month, userLangID)} (${newBudget.year}) successfully created`
+      )
+      setNewBudget({
+        month: new Date().getMonth() + 1,
+        year: new Date().getFullYear(),
+        budgetCategories: []
+      })
     }
 
   return (
@@ -86,14 +82,14 @@ const Planner = () => {
 
         <TopBar showYearNavigator={false} showMonthNavigator={false} />
 
-        <SectionTitle value={formatLang(userLangID, "Plánovač výdajů", "Budget planner")} wantInfo={false} />
+        <SectionTitle value={formatLang(userLangID, "Plánovač", "Planner")} wantInfo={false} />
 
         { budgets.length > 0 && stage === 0 && <BudgetOverview budgets={budgets} /> }
         { budgets.length === 0 && stage === 0 && <p className="text-center">{formatLang(userLangID, "Žádné plány výdajů", "No budget plans")}</p> }
 
         {/* // Vytvořit nový plán */}
         { stage === 0 && (
-          <div className="flex items-center justify-center mt-10">
+          <div className="w-[200px] mx-auto mt-20">
             <Button
               color={COLOR_BLUE}
               loading={false}
@@ -118,7 +114,7 @@ const Planner = () => {
               { stage === 2 && <CreateBudget newBudget={newBudget} setNewBudget={setNewBudget}/> }
 
               { stage > 0 && (
-                <div className="flex items-center justify-center gap-10 my-10">
+                <div className="flex items-center justify-between w-[250px] gap-4 mx-auto my-10">
 
                   <Button
                     color={COLOR_BLUE}

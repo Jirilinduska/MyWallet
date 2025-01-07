@@ -15,6 +15,7 @@ import { handleNotification } from "../../../../utils/functions/notificationsUti
 import { formatLang } from "../../../../utils/functions/formatLang"
 import { useOverviewData } from "../../../../context/OverviewDataContext"
 import Button from "../../../../better_components/UI/Button/Button"
+import { handleError } from "../../../../Errors/handleError"
 
 
 interface EditTransModalProsp {
@@ -76,8 +77,7 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
         refreshOverviewData(year, month)
         handleNotification(NOTIF_SUCCESS, userLangID, "Úspěšně aktualizováno", "Updated successfully")
       } catch (error) {
-        console.log(error)
-        handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
+        handleError(error, userLangID)
       }
     }
 

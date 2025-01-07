@@ -23,9 +23,6 @@ const TopBar = ({ showYearNavigator, showMonthNavigator, pageID } : TopBarProps 
     const { userLangID } = useUserContext()
     const { showNav, toggleNav } = useUtilsContext()
 
-    // TODO ? 
-    if(!overviewData) return <div className=""></div>
-
   return (
     <div className="animate-fadeInDown py-4 px-4 mb-10 flex items-center gap-10 fixed top-0 left-0 lg:left-[250px] w-full lg:w-[calc(100%-250px)] bg-white z-10 shadow-lg">
 
@@ -40,7 +37,7 @@ const TopBar = ({ showYearNavigator, showMonthNavigator, pageID } : TopBarProps 
 
         {/* Poslední transakce */}
         <div className="hidden xl:flex items-center gap-6 flex-1">
-            { overviewData.lastExpense && (
+            { overviewData && overviewData.lastExpense && (
                 <LastTransaction
                     iconID={overviewData.lastExpenseCategory.iconID}
                     name={overviewData.lastExpenseCategory.name}
@@ -50,7 +47,7 @@ const TopBar = ({ showYearNavigator, showMonthNavigator, pageID } : TopBarProps 
                 />
             )}
 
-            { overviewData.lastIncome && (
+            { overviewData && overviewData.lastIncome && (
                 <LastTransaction
                     iconID={overviewData.lastIncomeCategory.iconID}
                     name={overviewData.lastIncomeCategory.name}
@@ -66,9 +63,7 @@ const TopBar = ({ showYearNavigator, showMonthNavigator, pageID } : TopBarProps 
         <div onClick={toggleNav} className="lg:hidden cursor-pointer">
             { showNav ? <IconClose className="icon"/> : <IconMenu className="icon"/> }
         </div>
-
-        {/* // TODO Zobrazení dnešního dne a času? */}
-        {/* <CurrentTime/> */}
+        
         {/* // TODO Tlačítko pro přepnutí tmavého/světlého režimu? */}
 
 </div>

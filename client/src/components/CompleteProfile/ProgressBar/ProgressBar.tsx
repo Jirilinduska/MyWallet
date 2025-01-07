@@ -1,7 +1,9 @@
-import { IProgressBar } from "../../../utils/interfaces/interfaces"
 
+interface IProgressBarProps {
+  stage: number
+}
 
-const ProgressBar: React.FC<IProgressBar> = ({ stage }) => {
+const ProgressBar: React.FC<IProgressBarProps> = ({ stage }) => {
   return (
     <div className="fixed bottom-10 left-0 flex items-center justify-center w-full">
       

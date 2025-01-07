@@ -69,6 +69,11 @@ export const ErrorCodes: { [key: number]: { cs: string; en: string } } = {
         en: "User not found"
     },
 
+    1011: {
+        cs: "Heslo musí mít minimálně 8 znaků",
+        en: "Password must be at least 8 characters long"
+    },
+
     // * KATEGORIE
 
     2000: {

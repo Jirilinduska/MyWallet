@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react"
 import { useCategoriesContext } from "../../context/CategoriesContext"
-import { CrateBudgetProps, ICategory } from "../../utils/interfaces/interfaces"
+import { ICategory, INewBudget } from "../../utils/interfaces/interfaces"
 import { categoryIcons } from "../../utils/icons/category-icons"
 import Input from "../UI/Input/Input"
 import { IconClose } from "../../utils/icons/icons"
 import { useUserContext } from "../../context/UserContext"
 
-
+interface CrateBudgetProps {
+    newBudget: INewBudget
+    setNewBudget: React.Dispatch<React.SetStateAction<INewBudget>>
+}
 
 const CreateBudget = ({ newBudget, setNewBudget } : CrateBudgetProps) => {
 
@@ -47,7 +50,6 @@ const CreateBudget = ({ newBudget, setNewBudget } : CrateBudgetProps) => {
         }
     
         setNewBudget({ ...newBudget, budgetCategories: updatedCategories })
-        console.log(newBudget)
     }
 
   return (

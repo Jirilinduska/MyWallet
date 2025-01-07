@@ -10,6 +10,10 @@ export const handleError = (err: any, userLangID: string) => {
         en: "Something went wrong",
     }
 
+    if (err.response.status === 401) {
+        return
+    }
+
     if (err?.response?.data?.errCode) {
 
         // Uživatel nenalezen
@@ -21,7 +25,6 @@ export const handleError = (err: any, userLangID: string) => {
         handleErrorByCode(err.response.data.errCode, userLangID)
     } else {
         handleNotification(NOTIF_ERROR, userLangID, defaultMessage.cs, defaultMessage.en)
-        console.error("Unhandled error:", err)
     }
 
 }

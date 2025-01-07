@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { IGetBudget, INewBudget } from "../utils/interfaces/interfaces"
 import { handleCreateBudget, handleDeleteBudget, handleGetBudget, handleUpdateBudget } from "../API/Budget"
-
+import { handleError } from "../Errors/handleError"
+import { useUserContext } from "./UserContext"
 
 interface BudgetContextProps {
     budgets: IGetBudget[]
@@ -16,8 +17,9 @@ export const BudgetContext = createContext<BudgetContextProps | undefined>(undef
 
 export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
-    const [budgets, setBudgets] = useState<IGetBudget[]>([])
+    const { userLangID } = useUserContext()
 
+    const [budgets, setBudgets] = useState<IGetBudget[]>([])
 
     // GET  - Get all budgets
     const refreshBudgets = async() => {
@@ -32,7 +34,7 @@ export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             })
             setBudgets(sortedBudgets)
         } catch (error) {
-            console.log(error)
+            handleError(error,userLangID)
         }
     }
 
@@ -41,7 +43,7 @@ export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         try {
             await handleCreateBudget(newBudget)
         } catch (error) {
-            console.log(error)
+            handleError(error,userLangID)
         }
     }
 
@@ -51,16 +53,16 @@ export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             await handleDeleteBudget(budgetID)
             setBudgets((prevBudgets) => prevBudgets.filter((budget) => budget._id !== budgetID))
         } catch (error) {
-            console.log(error)
+            handleError(error,userLangID)
         }
     }
 
-    // TODO - Post - Update budget
+    // POST -  Update budget
     const updateBudget = async(newBudget: IGetBudget) => {
         try {
             await handleUpdateBudget(newBudget)
         } catch (error) {
-            console.log(error)
+            handleError(error,userLangID)
         }
     }
 

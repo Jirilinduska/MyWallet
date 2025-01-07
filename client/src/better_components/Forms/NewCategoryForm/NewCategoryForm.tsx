@@ -72,7 +72,7 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({ categoryType, langID,
             deleteCategory(newCategory.id, userLangID, newCategory.name)
             toggleModal()
         } catch (error) {
-            handleNotification(NOTIF_ERROR, "", "Něco se pokazilo", "Something went wrong")
+            handleError(error, userLangID)
             toggleModal()
         }
     }
@@ -104,7 +104,6 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({ categoryType, langID,
                 toggleModal()
             }
         } catch (error) {
-            console.log(error)
             handleError(error, userLangID)
         }
     }

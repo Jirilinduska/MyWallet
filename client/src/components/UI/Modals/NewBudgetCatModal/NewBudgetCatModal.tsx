@@ -7,7 +7,7 @@ import { useCategoriesContext } from "../../../../context/CategoriesContext"
 import { categoryIcons } from "../../../../utils/icons/category-icons"
 import { Link } from "react-router-dom"
 import Button from "../../../../better_components/UI/Button/Button"
-import { COLOR_BLUE } from "../../../../config/globals"
+import { COLOR_BLUE, COLOR_RED } from "../../../../config/globals"
 
 interface NewBudgetCatModalProps {
     toggleWantNewCat: () => void
@@ -80,16 +80,16 @@ const NewBudgetCatModal = ({ toggleWantNewCat, budgetCategories, handleAddCatCli
                         )
                     })}
 
-                    {/* // TODO - Přidat tlačítko vytvořit novou kategorii :) */}
-
                 </div>
 
-                <Button
-                    color={COLOR_BLUE}
-                    loading={false}
-                    value={formatLang(userLangID, "Zavřít", "Close")}
-                    handleClick={toggleWantNewCat}
-                />
+                <div className="p-4">
+                    <Button
+                        color={COLOR_RED}
+                        loading={false}
+                        value={formatLang(userLangID, "Zavřít", "Close")}
+                        handleClick={toggleWantNewCat}
+                    />
+                </div>
 
             </div>
 

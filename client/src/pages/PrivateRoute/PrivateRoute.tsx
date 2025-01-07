@@ -1,9 +1,11 @@
 import { ReactNode } from "react"
 import { Navigate } from "react-router-dom"
-import { IPrivateRoute } from "../../utils/interfaces/interfaces"
 
+interface IPrivateRouteProps {
+    children: ReactNode
+}
 
-const PrivateRoute = ({ children }: IPrivateRoute) => {
+const PrivateRoute = ({ children }: IPrivateRouteProps) => {
 
     const token = localStorage.getItem("token")
 

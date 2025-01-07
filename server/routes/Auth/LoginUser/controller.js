@@ -14,12 +14,12 @@ const loginUser = async(req,res) => {
         const findUser = await User.findOne({ email })
 
         // Špatný email
-        if(!findUser) return res.status(401).json({ errCode: 1000 })
+        if(!findUser) return res.status(400).json({ errCode: 1000 })
 
         const isMatch = await bcrypt.compare(password, findUser.password)
 
         // Špatné heslo
-        if (!isMatch) return res.status(401).json({ errCode: 1001 })
+        if (!isMatch) return res.status(400).json({ errCode: 1001 })
 
         const token = generateToken(findUser._id, findUser.email)
 

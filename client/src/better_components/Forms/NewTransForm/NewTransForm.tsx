@@ -12,6 +12,7 @@ import { formatLang } from "../../../utils/functions/formatLang"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
 import { useOverviewData } from "../../../context/OverviewDataContext"
 import Button from "../../UI/Button/Button"
+import { handleError } from "../../../Errors/handleError"
 
 
 interface NewTransFormProps {
@@ -92,8 +93,7 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
             handleHide()
             
         } catch (error) {
-            console.log(error)
-            handleNotification(NOTIF_ERROR, userLangID, "Něco se pokazilo", "Something went wrong")
+            handleError(error, userLangID)
         } finally {
             setLoading(false)
         }

@@ -6,7 +6,7 @@ import { IconMail } from '../../../utils/icons/icons'
 import { CURR_CZECH, CURR_DOLLAR, CURR_EURO, LANG_CZECH, LANG_ENGLISH } from '../../../config/globals'
 import { formatLang } from '../../../utils/functions/formatLang'
 
-export interface IProgressBarFixed {
+interface IProgressBarFixedProps {
     data: {
         lang: string, 
         curr: string, 
@@ -14,7 +14,7 @@ export interface IProgressBarFixed {
     }
 }
 
-const ProgressBarFixed: React.FC<IProgressBarFixed> = ({ data }) => {
+const ProgressBarFixed: React.FC<IProgressBarFixedProps> = ({ data }) => {
 
   return (
     <div className="hidden fixed top-0 left-0 w-[100px] p-6 sm:flex flex-col items-center">

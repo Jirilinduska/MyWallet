@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { IOverviewData } from "../utils/interfaces/interfaces"
 import { handleGetOverview } from "../API/Overview"
+import { handleError } from "../Errors/handleError"
+import { useUserContext } from "./UserContext"
 
 interface OverviewDataProps {
     overviewData?: IOverviewData
@@ -16,6 +18,8 @@ interface OverviewDataProps {
 export const OverviewDataContext = createContext<OverviewDataProps | undefined>(undefined)
 
 export const OverviewDataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
+    const { userLangID } = useUserContext()
 
     const [overviewData, setOverviewData] = useState<IOverviewData | undefined>()
     const [year, setYear] = useState(new Date().getFullYear())
@@ -33,7 +37,7 @@ export const OverviewDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
             setOverviewData(response.data)
             setSavedThisYear(response.data.savedThisYear)
         } catch (error) {
-            console.log("refreshOverviewData() => : ", error)
+            handleError(error, userLangID)
         } finally {
             setLoading(false)
         }
