@@ -3,8 +3,8 @@ import { useCategoriesContext } from "../../../context/CategoriesContext"
 import { useOverviewData } from "../../../context/OverviewDataContext"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
-import LastTransaction from "../../../better_components/UI/LastTransaction/LastTransaction"
-import Loader from "../../../better_components/UI/Loader/Loader"
+import LastTransaction from "../LastTransaction/LastTransaction"
+import Loader from "../Loader/Loader"
 
 const ExpenseInfo = () => {
 

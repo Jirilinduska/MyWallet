@@ -16,8 +16,14 @@ const YearNavigator = () => {
         <p className="font-semibold">{year}</p>
 
         <IconNext 
-            onClick={handleNextYear}
-            className={`${ year > new Date().getFullYear() - 1 && "hidden" } icon`} 
+            onClick={ () => {
+              if(year > new Date().getFullYear() - 1) {
+                return
+              } else {
+                handleNextYear()
+              }
+            }}
+            className={`${ year > new Date().getFullYear() - 1 && "text-gray-300 cursor-default" } icon`} 
         />
 
     </div>

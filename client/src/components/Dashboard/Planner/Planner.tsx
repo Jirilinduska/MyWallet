@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { useUserContext } from "../../../context/UserContext"
-import SectionTitle from "../../../better_components/UI/SectionTitle/SectionTitle"
+import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
-import MonthYearPicker from "../../UI/DateStuff/MonthYearPicker/MonthYearPicker"
-import CreateBudget from "../../CreateBudget/CreateBudget"
+import MonthYearPicker from "../../UI/MonthYearPicker/MonthYearPicker"
+import CreateBudget from "../../UI/CreateBudget/CreateBudget"
 import { IconClose } from "../../../utils/icons/icons"
 import { INewBudget } from "../../../utils/interfaces/interfaces"
 import { getMonthName } from "../../../utils/functions/dateUtils"
@@ -11,13 +11,13 @@ import BudgetOverview from "../../UI/BudgetOverview/BudgetOverview"
 import { useBudgetContext } from "../../../context/BudgetsContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { COLOR_BLUE, NOTIF_ERROR, NOTIF_SUCCESS } from "../../../config/globals"
-import TopBar from "../../../better_components/Layout/TopBar/TopBar"
-import Button from "../../../better_components/UI/Button/Button"
+import TopBar from "../../Layout/TopBar/TopBar"
+import Button from "../../UI/Button/Button"
 
 
 const Planner = () => {
 
-    const { userLangID, userCurrency } = useUserContext()
+    const { userLangID } = useUserContext()
     const { budgets, refreshBudgets, createBudget } = useBudgetContext()
     const [stage, setStage] = useState(0)
 

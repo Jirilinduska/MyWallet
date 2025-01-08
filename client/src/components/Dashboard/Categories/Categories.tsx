@@ -3,10 +3,10 @@ import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION } from "../../../config/glo
 import { useCategoriesContext } from "../../../context/CategoriesContext"
 import GridCategories from "../../UI/GridCategories/GridCategories"
 import { formatLang } from "../../../utils/functions/formatLang"
-import TopBar from "../../../better_components/Layout/TopBar/TopBar"
-import NavigatorCategories from "../../../better_components/UI/NavigatorCategories/NavigatorCategories"
+import TopBar from "../../Layout/TopBar/TopBar"
+import NavigatorCategories from "../../UI/NavigatorCategories/NavigatorCategories"
 import { usePageTitle } from "../../../hooks/usePageTitle"
-import SectionTitle from "../../../better_components/UI/SectionTitle/SectionTitle"
+import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { hints } from "../../../utils/data/hints"
 
 const Categories = () => {

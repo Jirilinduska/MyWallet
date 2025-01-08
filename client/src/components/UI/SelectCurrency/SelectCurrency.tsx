@@ -3,7 +3,7 @@ import { useUserContext } from "../../../context/UserContext"
 import { IInputSelect } from "../../../utils/interfaces/interfaces"
 import { CURR_CZECH, CURR_DOLLAR, CURR_EURO, LANG_CZECH } from "../../../config/globals"
 import { formatLang } from "../../../utils/functions/formatLang"
-import HeadingSmall from "../../HeadingSmall/HeadingSmall"
+import HeadingSmall from "../HeadingSmall/HeadingSmall"
 
 const SelectCurrency: React.FC<IInputSelect> = ({ value, handleChange }) => {
 

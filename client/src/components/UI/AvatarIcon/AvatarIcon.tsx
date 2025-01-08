@@ -1,7 +1,7 @@
 import { ReactElement } from "react"
 import { ICategoryIcon } from "../../../utils/interfaces/interfaces"
 
-export interface IAvatarIcon {
+interface IAvatarIcon {
   icon: ReactElement
   iconData: ICategoryIcon
   handleClick: (id: number) => void

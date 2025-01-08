@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
-import Sidebar from "../../better_components/Layout/Sidebar/Sidebar"
-import TopBar from "../../better_components/Layout/TopBar/TopBar"
+import Sidebar from "../../components/Layout/Sidebar/Sidebar"
+import TopBar from "../../components/Layout/TopBar/TopBar"
 import { LANG_CZECH, LANG_ENGLISH } from "../../config/globals"
 import { useUserContext } from "../../context/UserContext"
 import { formatLang } from "../../utils/functions/formatLang"

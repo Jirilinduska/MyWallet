@@ -1,11 +1,11 @@
 import { useState } from "react"
-import { LANG_CZECH, USE_CASE_EDIT, USE_CASE_CREATE } from "../../../config/globals"
+import { USE_CASE_EDIT, USE_CASE_CREATE } from "../../../config/globals"
 import { categoryIcons } from "../../../utils/icons/category-icons"
 import { IconAdd } from "../../../utils/icons/icons"
 import { ICategory } from "../../../utils/interfaces/interfaces"
-import NewCategoryModal from "../Modals/NewCategoryModal/NewCategoryModal"
+import NewCategoryModal from "../../Modals/NewCategoryModal/NewCategoryModal"
 import { formatLang } from "../../../utils/functions/formatLang"
-import ItemCategory from "../../ItemCategory/ItemCategory"
+import ItemCategory from "../ItemCategory/ItemCategory"
 import { useUserContext } from "../../../context/UserContext"
 
 interface GridCategoriesProps {

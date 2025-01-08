@@ -57,6 +57,11 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
 
     const handleNextMonth = (pageID: string) => {
+
+        if(date.year > new Date().getFullYear() || (date.year === new Date().getFullYear() && date.month > new Date().getMonth()) ) {
+            return  
+        }
+
         setDate((prev) => {
             const newMonth = prev.month + 1
             const newDate = newMonth > 12

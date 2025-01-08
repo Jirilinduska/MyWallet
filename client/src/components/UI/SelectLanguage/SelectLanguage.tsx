@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useUserContext } from "../../../context/UserContext"
 import { IInputSelect } from "../../../utils/interfaces/interfaces"
 import { LANG_CZECH, LANG_ENGLISH } from "../../../config/globals"
-import HeadingSmall from "../../HeadingSmall/HeadingSmall"
+import HeadingSmall from "../HeadingSmall/HeadingSmall"
 import { formatLang } from "../../../utils/functions/formatLang"
 
 const SelectLanguage: React.FC<IInputSelect> = ({ value, handleChange }) => {
