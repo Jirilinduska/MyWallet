@@ -7,7 +7,7 @@ import { formatLang } from "../../../utils/functions/formatLang"
 import Button from "../../UI/Button/Button"
 import TopBar from "../../Layout/TopBar/TopBar"
 import NewGoalModal from "../../Modals/NewGoalModal/NewGoalModal"
-import { hints } from "../../../utils/data/hints"
+import { hints } from "../../../config/hints"
 import { usePageTitle } from "../../../hooks/usePageTitle"
 
 const Goals = () => {

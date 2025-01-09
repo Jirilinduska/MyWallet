@@ -9,6 +9,7 @@ import { useUserContext } from "../../../context/UserContext"
 import { getMonthName } from "../../../utils/functions/dateUtils"
 import { useUtilsContext } from "../../../context/UtilsContext"
 import { IconClose, IconMenu } from "../../../utils/icons/icons"
+import { useCompleteProfile } from "../../../hooks/useCompleteProfile"
 
 interface TopBarProps {
     showYearNavigator: boolean
@@ -22,6 +23,8 @@ const TopBar = ({ showYearNavigator, showMonthNavigator, pageID } : TopBarProps 
     const { date } = useTransactionsContext()
     const { userLangID } = useUserContext()
     const { showNav, toggleNav } = useUtilsContext()
+
+    useCompleteProfile()
 
   return (
     <div className="animate-fadeInDown py-4 px-4 mb-10 flex items-center gap-10 fixed top-0 left-0 lg:left-[250px] w-full lg:w-[calc(100%-250px)] bg-white z-10 shadow-lg">
@@ -63,8 +66,6 @@ const TopBar = ({ showYearNavigator, showMonthNavigator, pageID } : TopBarProps 
         <div onClick={toggleNav} className="lg:hidden cursor-pointer">
             { showNav ? <IconClose className="icon"/> : <IconMenu className="icon"/> }
         </div>
-        
-        {/* // TODO Tlačítko pro přepnutí tmavého/světlého režimu? */}
 
 </div>
   )

@@ -11,14 +11,15 @@ interface InfoItemProps {
     size: string
     formatToCurrency: boolean
     subtitle?: string
+    spentAmount: number | null
 }
 
-const InfoItem = ({ icon, amount, desc, plannedAmount, color, size, formatToCurrency, subtitle }: InfoItemProps) => {
+const InfoItem = ({ icon, amount, desc, plannedAmount, color, size, formatToCurrency, subtitle, spentAmount }: InfoItemProps) => {
 
     const { userCurrency } = useUserContext()
 
-    const percentage = plannedAmount ? Math.round((amount / plannedAmount) * 100) : null
-    const percentageBar = plannedAmount ? Math.min(Math.round((amount / plannedAmount) * 100), 100) : null
+    const percentage = spentAmount && plannedAmount ? Math.round((spentAmount / plannedAmount) * 100) : null
+    const percentageBar = spentAmount && plannedAmount ? Math.min(Math.round((spentAmount / plannedAmount) * 100), 100) : null
     
     const handleItemColor = (color: string): string => {
         switch (color) {
@@ -53,7 +54,7 @@ const InfoItem = ({ icon, amount, desc, plannedAmount, color, size, formatToCurr
 
                     <h3 className="font-semibold text-xs xs:text-base">{formatToCurrency ? formatCurrency(amount, userCurrency) : amount}</h3>
 
-                    <span className={`${percentage! > 75 ? "text-red-400" : "text-black"} font-semibold text-xs`}>{ plannedAmount ? `${percentage}%` : null }</span>
+                    <span className={`${percentage! > 75 ? "text-red-600" : "text-black"} font-semibold text-xs`}>{ plannedAmount ? `${percentage}%` : null }</span>
                 </div>
             </div>
         )

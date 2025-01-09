@@ -10,6 +10,8 @@ import HeadingSmall from "../HeadingSmall/HeadingSmall"
 import ChangePassword from "../../Forms/ChangePassword/ChangePassword"
 import { IconClose } from "../../../utils/icons/icons"
 import DeleteAccount from "../DeleteAccount/DeleteAccount"
+import { handleSendMeConfirmLink } from "../../../API/Auth"
+import { strict } from "assert"
 
 
 interface ProfileCartProps {
@@ -32,6 +34,16 @@ const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
     const toggleDeleteAcc  = () => setDeleteAcc(!deleteAcc)
     const toggleNewPass = () => setNewPass( prev => !prev)
 
+    const token = localStorage.getItem("token")
+
+    const handleSendMeLinkForEmail = async() => {
+        if(token) {
+            await handleSendMeConfirmLink(token)
+        } else {
+            return
+        }
+    }
+
   return (
     <div className="p-4 w-full lg:w-1/2">
 
@@ -52,7 +64,7 @@ const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
             </div>
 
             <div className="">
-                <span onClick={toggleAvatars} className="text-xs cursor-pointer">{formatLang(userLangID, "Změnit avatar", "Change avatar")}</span>
+                <span onClick={toggleAvatars} className="text-xs cursor-pointer underline hover:text-colorBlue">{formatLang(userLangID, "Změnit avatar", "Change avatar")}</span>
             </div>
         </div>
 
@@ -95,7 +107,7 @@ const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
             <div className={`${ userData.settings.emailConfirmed ? "text-green-500" : "text-red-500" } mb-1 text-xs flex items-center gap-1`}>
                 <p className="">{ userData.settings.emailConfirmed ? "Email confirmed" : "Please confirm your email - " }</p>
                 {/* // TODO  - přidat confirm email */}
-                { !userData.settings.emailConfirmed && <span className="cursor-pointer underline">send email</span> }
+                { !userData.settings.emailConfirmed && <span onClick={handleSendMeLinkForEmail} className="cursor-pointer underline">send email</span> }
             </div>
 
             <p className="">{userInfo.email}</p>

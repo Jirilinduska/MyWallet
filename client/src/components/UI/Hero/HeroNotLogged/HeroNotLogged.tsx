@@ -1,9 +1,9 @@
 import { useState } from "react"
-import { COLOR_BLUE, COLOR_GREEN } from "../../../config/globals"
-import { IconCard, IconChart, IconClose, IconWallet } from "../../../utils/icons/icons"
-import Button from "../../UI/Button/Button"
-import AuthForm from "../../Forms/AuthForm/AuthForm"
-import { usePageTitle } from "../../../hooks/usePageTitle"
+import { COLOR_BLUE, COLOR_GREEN } from "../../../../config/globals"
+import { IconCard, IconChart, IconClose, IconWallet } from "../../../../utils/icons/icons"
+import Button from "../../Button/Button"
+import AuthForm from "../../../Forms/AuthForm/AuthForm"
+import { usePageTitle } from "../../../../hooks/usePageTitle"
 
 
 // TODO - Přidat forgotten password!

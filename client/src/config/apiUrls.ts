@@ -8,6 +8,7 @@ export const URL_FORGOTTEN_PASSWORD = `${API_BASE_URL}/api/auth/forgotten-passwo
 export const URL_RESET_PASSWORD = `${API_BASE_URL}/api/auth/reset-password`
 export const URL_CHECK_RESET_TOKEN = `${API_BASE_URL}/api/auth/verify-reset-token`
 export const URL_DELETE_ACCOUNT = `${API_BASE_URL}/api/auth/delete-account`
+export const URL_SEND_CONFIRM_EMAIL_LINK = `${API_BASE_URL}/api/auth/send-confirm-email-link`
 
 // User
 export const URL_COMPLETE_PROFILE = `${API_BASE_URL}/api/user/complete-profile`
@@ -50,3 +51,7 @@ export const URL_GET_GOALS = `${API_BASE_URL}/api/goal/get-goals`
 export const URL_DELETE_GOAL = `${API_BASE_URL}/api/goal/delete-goal`
 export const URL_SET_GOAL_FINISHED = `${API_BASE_URL}/api/goal/set-finished`
 export const URL_EDIT_GOAL = `${API_BASE_URL}/api/goal/edit-goal`
+
+// CRON JOBS 
+// TODO - Dokončit - přidat cron jobs na render.com
+export const URL_MONTH_SUMMARY = `${API_BASE_URL}/api/cron-jobs/month-summary`

@@ -14,12 +14,13 @@ interface BudgetCatPreviewListProps {
     handlePriceChange: (id: string, price: string) => void
     setWantEdit: (id: string) => void
     handleUpdatePlan: () => void
+    isFinished: boolean
 }
 
 const BudgetCatPreviewList = ({ 
 
     budgetCategories, wantEdit, categoryWantDelete, userCurrency, toggleWantDeleteCat, 
-    setCategoryWantDelete , handlePriceChange, setWantEdit, handleUpdatePlan
+    setCategoryWantDelete , handlePriceChange, setWantEdit, handleUpdatePlan, isFinished
 
 } : BudgetCatPreviewListProps) => {
 
@@ -36,7 +37,7 @@ const BudgetCatPreviewList = ({
                     className={`
                         ${wantEdit === x.category._id ? "ring-2 ring-green-500" : ""}
                         ${categoryWantDelete === x.category._id && "ring-2 ring-red-500"}
-                        flex items-center justify-between gap-4 p-4 rounded-md cursor-pointer mb-2 bg-white shadow hover:shadow-lg hover:bg-gray-100`}
+                        flex items-center justify-between gap-4 p-4 rounded-md mb-2 bg-white shadow hover:shadow-lg hover:bg-gray-100`}
                 >
                 
                     <div className="flex items-center justify-between gap-4">
@@ -50,12 +51,14 @@ const BudgetCatPreviewList = ({
                             <>
                                 <span className="">{formatCurrency(x.price, userCurrency)}</span> 
 
-                                <IconEdit className="icon text-colorBlue" onClick={ () =>  setWantEdit(x.category._id) } />
+                                { !isFinished && <IconEdit className="icon text-colorBlue" onClick={ () =>  setWantEdit(x.category._id) } />}
 
-                                <IconDelete className="icon text-red-500" onClick={ () => { 
-                                    toggleWantDeleteCat()
-                                    setCategoryWantDelete(x.category._id)
-                                }}/>
+                                { !isFinished &&                                 
+                                    <IconDelete className="icon text-red-500" onClick={ () => { 
+                                        toggleWantDeleteCat()
+                                        setCategoryWantDelete(x.category._id)
+                                    }}/> 
+                                }
                             </>
                         )}
 

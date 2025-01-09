@@ -11,7 +11,7 @@ import TopBar from "../../Layout/TopBar/TopBar"
 import TransactionsContent from "../TransactionsContent/TransactionsContent"
 import { usePageTitle } from "../../../hooks/usePageTitle"
 import { getMonthName } from "../../../utils/functions/dateUtils"
-import { hints } from "../../../utils/data/hints"
+import { hints } from "../../../config/hints"
 
 const Expense = () => {
 

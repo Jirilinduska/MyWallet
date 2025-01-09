@@ -1,3 +1,5 @@
+import { useUserContext } from "../../../context/UserContext"
+import { formatLang } from "../../../utils/functions/formatLang"
 import { userAvatars } from "../../../utils/icons/avatars"
 import { IconClose } from "../../../utils/icons/icons"
 import { IUserDataUpdate } from "../../../utils/interfaces/interfaces"
@@ -11,10 +13,13 @@ interface IAvatarsProps {
 
 
 const Avatars: React.FC<IAvatarsProps> = ({ showAvatars, setIsEdited, setUserInfo, toggleAvatars }) => {
+
+    const { userLangID } = useUserContext()
+
   return (
     <div className={`${ showAvatars ? "right-0" : "-right-full" } fixed top-0 w-[250px] z-[60] bg-black h-screen flex flex-col items-center justify-center gap-4 transition-all shadow-xl duration-300 ease-in-out`}>
 
-        <h3 className="text-white mb-4">Select avatar</h3>
+        <h3 className="text-white mb-4">{formatLang(userLangID, "Vyberte avatara", "Select avatar")}</h3>
 
         <IconClose onClick={toggleAvatars} className="icon absolute top-3 right-3 text-4xl text-red-500"/>
         

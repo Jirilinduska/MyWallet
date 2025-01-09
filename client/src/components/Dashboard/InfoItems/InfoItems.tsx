@@ -1,4 +1,4 @@
-import { COLOR_BLUE, COLOR_GREEN, COLOR_WHITE, SIZE_ROW } from "../../../config/globals"
+import { COLOR_BLUE, COLOR_GREEN, COLOR_RED, COLOR_WHITE, SIZE_ROW } from "../../../config/globals"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { IconExpense, IconIncome, IconMoneyInHand } from "../../../utils/icons/icons"
@@ -18,16 +18,6 @@ const InfoItems = ({ budget, expense, income } : InfoItemsProps ) => {
     <div className="w-full mb-10 xl:mb-0 xl:w-1/3">
 
       <InfoItem
-        amount={expense}
-        desc={formatLang(userLangID, "Výdaje", "Expense")}
-        icon={<IconExpense />}
-        plannedAmount={budget}
-        color={COLOR_WHITE}
-        size={SIZE_ROW}
-        formatToCurrency={true}
-      />
-
-      <InfoItem
         amount={income}
         desc={formatLang(userLangID, "Příjmy", "Income")}
         icon={<IconIncome />}
@@ -35,7 +25,32 @@ const InfoItems = ({ budget, expense, income } : InfoItemsProps ) => {
         color={COLOR_GREEN}
         size={SIZE_ROW}
         formatToCurrency={true}
+        spentAmount={null}
       />
+
+      <InfoItem
+        amount={expense}
+        desc={formatLang(userLangID, "Výdaje", "Expense")}
+        icon={<IconExpense />}
+        plannedAmount={null}
+        color={COLOR_RED}
+        size={SIZE_ROW}
+        formatToCurrency={true}
+        spentAmount={null}
+      />
+
+      { budget !== 0 && 
+        <InfoItem
+          amount={budget || 0}
+          desc={formatLang(userLangID, "Rozpočet", "Budget")}
+          icon={<IconMoneyInHand />}
+          plannedAmount={budget}
+          color={COLOR_WHITE}
+          size={SIZE_ROW}
+          formatToCurrency={true}
+          spentAmount={expense}
+        />
+      }
 
       <InfoItem
         amount={income - expense}
@@ -45,6 +60,7 @@ const InfoItems = ({ budget, expense, income } : InfoItemsProps ) => {
         color={COLOR_BLUE}
         size={SIZE_ROW}
         formatToCurrency={true}
+        spentAmount={null}
       />
 
     </div>

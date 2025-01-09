@@ -1,24 +1,23 @@
 import { Link } from "react-router-dom"
-
-
-// TODO - Upravit UI
+import { useUserContext } from "../../context/UserContext"
+import { formatLang } from "../../utils/functions/formatLang"
 
 const EmailConfirmed = () => {
+
+  const { userLangID } = useUserContext()
+
   return (
-    <section className="h-screen flex items-center justify-center">
+    <section className="h-screen flex items-center justify-center flex-col">
 
-        <div className="flex flex-col items-center justify-center gap-10 rounded-lg shadow-xl w-[90%] h-[90%]">
-
-            {/* Icon */}
-            <div className="">
+            <div className="w-[200px] h-[200px] mb-10">
               <img src="/images/utils/email_confirmed.png" alt="email_confirmed" className="" />
             </div>
 
-            <p className="">Your email adress has been sucestufly confirmed.</p>
+            <p className="mb-10">
+              {formatLang(userLangID, "Vaše e-mailová adresa byla úspěšně potvrzena", "Your email adress has been sucestufly confirmed")}
+            </p>
 
-            <Link to="/" className="button-green">Back to homepage</Link>
-
-        </div>
+            <Link to="/" className="button-green">{formatLang(userLangID, "Domů", "Home")}</Link>
 
     </section>
   )

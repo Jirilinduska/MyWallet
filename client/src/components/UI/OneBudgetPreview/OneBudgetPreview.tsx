@@ -18,6 +18,8 @@ import Loader from "../Loader/Loader"
 import TopBar from "../../Layout/TopBar/TopBar"
 import BudgetChartItem from "../../Charts/BudgetChartItem/BudgetChartItem"
 import { handleError } from "../../../Errors/handleError"
+import SectionTitle from "../SectionTitle/SectionTitle"
+import { hints } from "../../../config/hints"
 
 const OneBudgetPreview = () => {
 
@@ -77,7 +79,8 @@ const OneBudgetPreview = () => {
           budgetCategories: [ ...thisBudget.budgetCategories, newCatData ],
           month: thisBudget.month,
           year: thisBudget.year,
-          totalPricePlanned: 0
+          totalPricePlanned: 0,
+          isFinished: thisBudget.isFinished
         }
 
         updateBudget(updateData)
@@ -137,7 +140,8 @@ const OneBudgetPreview = () => {
         budgetCategories: categoryWantDelete ? newArray : thisBudget?.budgetCategories,
         month: thisBudget?.month,
         year: thisBudget?.year,
-        totalPricePlanned: 0  
+        totalPricePlanned: 0,
+        isFinished: false
       }
 
       try {
@@ -179,7 +183,7 @@ const OneBudgetPreview = () => {
           />
         )}
 
-        { wantNewCategory && (
+        { wantNewCategory && !thisBudget.isFinished && (
           <NewBudgetCatModal
             toggleWantNewCat={toggleWantNewCat}
             budgetCategories={thisBudget.budgetCategories}
@@ -196,16 +200,35 @@ const OneBudgetPreview = () => {
           <IconDelete className="icon text-red-500 text-4xl" onClick={toggleWantDeletePlan}/>
         </div>
 
-        <h3 className="font-semibold mb-10">{`${getMonthName(thisBudget.year, thisBudget.month, userLangID)} (${thisBudget.year})`}</h3>
+        <SectionTitle 
+          value={`${getMonthName(thisBudget.year, thisBudget.month, userLangID)} (${thisBudget.year})`}
+          wantInfo={ thisBudget.isFinished ? true : false }
+          infoValue={formatLang(userLangID, hints.hintFinishedPlanCS, hints.hintFinishedPlanEN)} 
+        />
 
-        <div className="flex items-center gap-4 mb-10">
-          <p>{formatLang(userLangID, "Naplánováno", "Planned")}</p>
-          <p>{formatCurrency(thisBudget.totalPricePlanned, userCurrency)}</p>
+        { thisBudget.isFinished && 
+          <p className="text-red-400 font-semibold mb-6">{formatLang(userLangID, "Tento rozpočet je uzavřený", "This budget is finished")}</p> 
+        }
+
+        <div className="mb-10">
+
+          <div className="flex items-center gap-4 mb-2">
+            <p className="font-semibold">{formatLang(userLangID, "Naplánovaná útrata:", "Planned spending:")}</p>
+            <p>{formatCurrency(thisBudget.totalPricePlanned, userCurrency)}</p>
+          </div>
+
+          { thisBudget.isFinished && 
+            <div className="flex items-center gap-4 ">
+              <p className="font-semibold">{formatLang(userLangID, "Skutečná útrata:", "Actual spending:")}</p>
+              <p>{formatCurrency(thisBudget.totalPricePlanned, userCurrency)}</p>
+            </div> 
+          }
+
         </div>
 
         <div className="flex items-center justify-between mb-0">
           <h3 className="font-semibold mb-10">{formatLang(userLangID, "Podle kategorií", "By category")}</h3>
-          <IconAdd className="icon mb-10 text-4xl" onClick={toggleWantNewCat}/>
+          { !thisBudget.isFinished && <IconAdd className="icon mb-10 text-4xl" onClick={toggleWantNewCat}/> }
         </div>
 
         { thisBudget.budgetCategories.length === 0 
@@ -213,6 +236,7 @@ const OneBudgetPreview = () => {
           ? <p className="text-center">{formatLang(userLangID, "Tento plán nemá zatím žádné kategorie", "This budget has no categories yet")}</p>
           
           : <BudgetCatPreviewList
+              key={thisBudget._id}
               budgetCategories={thisBudget.budgetCategories}
               wantEdit={wantEdit}
               categoryWantDelete={categoryWantDelete}
@@ -222,6 +246,7 @@ const OneBudgetPreview = () => {
               handlePriceChange={handlePriceChange}
               setWantEdit={setWantEdit}
               handleUpdatePlan={handleUpdatePlan}
+              isFinished={thisBudget.isFinished}
             />
         }
 

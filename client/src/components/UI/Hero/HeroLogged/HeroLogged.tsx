@@ -1,10 +1,10 @@
-import { Link, Navigate } from "react-router-dom"
-import ExpenseInfo from "../../UI/ExpenseInfo/ExpenseInfo"
-import { useUserContext } from "../../../context/UserContext"
-import { usePageTitle } from "../../../hooks/usePageTitle"
-import Sidebar from "../../Layout/Sidebar/Sidebar"
-import { useCompleteProfile } from "../../../hooks/useCompleteProfile"
-import { formatLang } from "../../../utils/functions/formatLang"
+import { Link } from "react-router-dom"
+import ExpenseInfo from "../../ExpenseInfo/ExpenseInfo"
+import { useUserContext } from "../../../../context/UserContext"
+import { usePageTitle } from "../../../../hooks/usePageTitle"
+import Sidebar from "../../../Layout/Sidebar/Sidebar"
+import { useCompleteProfile } from "../../../../hooks/useCompleteProfile"
+import { formatLang } from "../../../../utils/functions/formatLang"
 
 
 const HeroLogged = () => {
@@ -15,7 +15,7 @@ const HeroLogged = () => {
   useCompleteProfile()
 
   return (
-    <div className="flex flex-col items-center justify-center gap-10 h-full w-full">
+    <div className="flex items-center justify-center gap-8 flex-col h-full w-full">
 
       {/* <Sidebar/> */}
 

@@ -16,7 +16,7 @@ const getBudget = async(req,res) => {
                 select: 'name iconID'
         })
 
-        if (!budgets || budgets.length === 0) return res.status(400).json({ message: "Budgets not found" })
+        if (!budgets) return res.status(400).json({ message: "Budgets not found" })
 
         const allTransactions = await Transaction.find({ createdBy: user._id })
 
@@ -50,6 +50,7 @@ const getBudget = async(req,res) => {
                 month: budget.month,
                 budgetCategories: arrangeBudgetCategories,
               totalPricePlanned, 
+              isFinished: budget.isFinished
             }
         })
 

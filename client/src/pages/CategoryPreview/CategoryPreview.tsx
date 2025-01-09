@@ -54,8 +54,30 @@ const CategoryPreview = () => {
         </p>
 
         <div className="w-full lg:w-1/2 mb-10">
-                <InfoItem formatToCurrency={false} amount={catInfo.transactionCount} color={COLOR_WHITE} desc={formatLang(userLangID, "Počet transakcí", "Number of transactions")} icon={null} plannedAmount={null} size={SIZE_ROW}/>
-                <InfoItem formatToCurrency={true} amount={catInfo.largestTransaction.amount} color={COLOR_BLUE} desc={formatLang(userLangID, "Největší transakce", "Largest transaction")} icon={<IconMoneyInHand/>} size={SIZE_ROW} subtitle={`${catInfo.largestTransaction.day}.${catInfo.largestTransaction.month}.${catInfo.largestTransaction.year}`} plannedAmount={null}/>
+                
+                <InfoItem 
+                    formatToCurrency={false} 
+                    amount={catInfo.transactionCount} 
+                    color={COLOR_WHITE} 
+                    desc={formatLang(userLangID, "Počet transakcí", "Number of transactions")} 
+                    icon={null} 
+                    plannedAmount={null} 
+                    size={SIZE_ROW}
+                    spentAmount={null}    
+                />
+                
+                <InfoItem 
+                    formatToCurrency={true} 
+                    amount={catInfo.largestTransaction.amount} 
+                    color={COLOR_BLUE} 
+                    desc={formatLang(userLangID, 
+                    "Největší transakce", "Largest transaction")} 
+                    icon={<IconMoneyInHand/>} 
+                    size={SIZE_ROW} 
+                    subtitle={`${catInfo.largestTransaction.day}.${catInfo.largestTransaction.month}.${catInfo.largestTransaction.year}`} 
+                    plannedAmount={null}
+                    spentAmount={null}
+                />
             </div>
 
         <div className="flex items-center justify-between flex-col gap-6 sm:flex-row-reverse mb-10">

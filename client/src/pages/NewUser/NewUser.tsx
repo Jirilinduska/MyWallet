@@ -1,4 +1,4 @@
-import { CURR_CZECH, CURR_DOLLAR, CURR_EURO, LANG_CZECH, LANG_ENGLISH } from "../../config/globals"
+import { CURR_CZECH, CURR_DOLLAR, CURR_EURO, LANG_CZECH, LANG_ENGLISH, NOTIF_ERROR } from "../../config/globals"
 import { useState } from "react"
 import { CzechFlag, USFlag } from "../../utils/icons/flags"
 import ProgressBar from "../../components/UI/CompleteProfile/ProgressBar/ProgressBar"
@@ -10,12 +10,10 @@ import { handleCompleteProfile } from "../../API/User"
 import { useUserContext } from "../../context/UserContext"
 import { Navigate } from "react-router-dom"
 import { formatLang } from "../../utils/functions/formatLang"
+import { handleNotification } from "../../utils/functions/notificationsUtils"
 
 
 // TODO - Rozdělit "stages" do samostatných komponent
-
-
-// TODO - Opravit, aby kdyýž není vyplněná current stage => zabránít odeslání na FE (inc stage)!!!
 
 const NewUser = () => {
 
@@ -27,8 +25,26 @@ const NewUser = () => {
     const handleChangeLang = (value: string) => setData( (prev) => ({ ...prev, lang: value }) )
     const handleChangeCurrency = (value: string) => setData( (prev) => ({ ...prev, curr: value }) )
     const handleChangeAvatar = (value: number) => setData( (prev) => ({...prev, avatarID: value}) )
-    const handleIncStage = () => setStage( (prev) => prev + 1)
     const handleDecStage = () => setStage( (prev) => prev - 1)
+    const handleIncStage = () => {
+
+        if(stage === 0 && data.lang === "") {
+            handleNotification(NOTIF_ERROR, data.lang || LANG_ENGLISH, "Prosím vyberte jazyk", "Please select language")
+            return
+        }
+
+        if(stage === 1 && data.curr === "") {
+            handleNotification(NOTIF_ERROR, data.lang || LANG_ENGLISH, "Prosím vyberte měnu", "Please select currency")
+            return
+        }
+
+        if(stage === 2 && data.avatarID === 0) {
+            handleNotification(NOTIF_ERROR, data.lang || LANG_ENGLISH, "Prosím vyberte avatar", "Please select avatar")
+            return
+        }
+
+        setStage( (prev) => prev + 1)
+    }
 
     if(userData) {
         if(userData.settings.profileCompleted) {

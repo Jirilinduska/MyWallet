@@ -9,6 +9,8 @@ import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { useAuthContext } from "../../../context/AuthContext"
 import { handleInputChange } from "../../../utils/functions/inputUtils"
 
+// TODO - Opravit + otestovat RESET FORGOTTEN PASSWORD
+
 interface ChangePasswordProps {
     toggleWindow: () => void
     useCase: string
@@ -125,7 +127,7 @@ const ChangePassword = ({ toggleWindow, useCase } : ChangePasswordProps ) => {
                         />
                     }
 
-                    { codeSent && <p className="">{formatLang(userLangID, "Email byl odeslán", "Email has been sent")}</p> }
+                    { codeSent && !loading && <p className="">{formatLang(userLangID, "Email byl odeslán", "Email has been sent")}</p> }
                 </>
             )}
 

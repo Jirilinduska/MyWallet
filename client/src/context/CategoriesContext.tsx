@@ -1,13 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { CategoryDetails, ICategory, ICategoryPreview, IGraphBreakdownData } from "../utils/interfaces/interfaces"
+import { ICategory, ICategoryPreview } from "../utils/interfaces/interfaces"
 import { handleDeleteCategory, handleGetCategories, handleGetCategoryInfo } from "../API/Categories"
-import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, NOTIF_ERROR, NOTIF_INFO} from "../config/globals"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, NOTIF_INFO} from "../config/globals"
 import { handleNotification } from "../utils/functions/notificationsUtils"
 import { handleError } from "../Errors/handleError"
 import { useUserContext } from "./UserContext"
-
-
-// TODO - Přida do všech contextů i ostatní funkce :)
 
 interface CategoriesContextProps {
     categoriesIncome: ICategory[]

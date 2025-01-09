@@ -11,8 +11,6 @@ const SectionTitle = ({ value, wantInfo, infoValue } : SectionTitleProps ) => {
 
   const [seeMore, setSeeMore] = useState(false)
 
-  // TODO - Opravit šířku!
-
   const toggleSeeMore = () => setSeeMore(!seeMore)
 
   return (

@@ -11,6 +11,7 @@ import TopBar from "../../Layout/TopBar/TopBar"
 import TransactionsContent from "../TransactionsContent/TransactionsContent"
 import { usePageTitle } from "../../../hooks/usePageTitle"
 import { getMonthName } from "../../../utils/functions/dateUtils"
+import { hints } from "../../../config/hints"
 
 const Income = () => {
 
@@ -50,7 +51,11 @@ const Income = () => {
         )}
 
         {/* Section title */}
-        <SectionTitle value={formatLang(userLangID, "Příjmy", "Income")} wantInfo={false} />
+        <SectionTitle 
+            value={formatLang(userLangID, "Příjmy", "Income")} 
+            wantInfo={true}
+            infoValue={formatLang(userLangID, hints.hintIncomeCS, hints.hintIncomeEN)} 
+        />
 
         <TransactionsContent
             transactions={transactionIncome}

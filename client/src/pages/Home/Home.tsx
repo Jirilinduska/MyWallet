@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import HeroLogged from "../../components/Hero/HeroLogged/HeroLogged"
-import HeroNotLogged from "../../components/Hero/HeroNotLogged/HeroNotLogged"
+import HeroLogged from "../../components/UI/Hero/HeroLogged/HeroLogged"
+import HeroNotLogged from "../../components/UI/Hero/HeroNotLogged/HeroNotLogged"
 
 const Home = () => {
 

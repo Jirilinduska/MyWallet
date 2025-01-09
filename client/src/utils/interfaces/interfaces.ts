@@ -23,6 +23,7 @@ export interface IGetBudget {
     year: number
     totalPricePlanned: number
     _id: string
+    isFinished: boolean
 }
 
 
@@ -32,6 +33,7 @@ export interface IBudget {
     month: number
     budgetCategories: IBudgetCategories[]
     totalPricePlanned: number
+    isFinished: boolean
 }
 
 export interface IBudgetCategories {

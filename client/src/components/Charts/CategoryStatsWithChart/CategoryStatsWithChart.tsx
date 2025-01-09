@@ -29,6 +29,7 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
           plannedAmount={null}
           size={SIZE_ROW}
           desc={formatLang(userLangID, catInfo.categoryType === CATEGORY_ID_INCOME ? "Celkové příjmy" : "Celkem utraceno", catInfo.categoryType === CATEGORY_ID_INCOME ? "Total income" : "Total spent")}
+          spentAmount={null}
         />
 
         <div className="flex flex-col items-center justify-between gap-2 sm:flex-row">
@@ -41,6 +42,7 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
             plannedAmount={null}
             size={SIZE_ROW}
             desc={new Date().getFullYear().toString()}
+            spentAmount={null}
           />
 
           <InfoItem
@@ -51,6 +53,7 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
             plannedAmount={null}
             size={SIZE_ROW}
             desc={ (new Date().getFullYear() - 1).toString()}
+            spentAmount={null}
           />
 
         </div>
@@ -65,6 +68,7 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
             plannedAmount={null}
             size={SIZE_ROW}
             desc={ (new Date().getFullYear() - 2).toString()}
+            spentAmount={null}
           />
           
           <InfoItem
@@ -75,7 +79,7 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
             plannedAmount={null}
             size={SIZE_ROW}
             desc={ (new Date().getFullYear() - 3).toString()}
-          
+            spentAmount={null}
           />
         </div>
 
@@ -87,6 +91,7 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
           plannedAmount={null}
           size={SIZE_ROW}
           desc={formatLang(userLangID, "Měsíční průměr", "Monthly average")}
+          spentAmount={null}
         />
       </div>
 

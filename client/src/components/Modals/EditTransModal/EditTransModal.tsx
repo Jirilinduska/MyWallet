@@ -64,7 +64,6 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
       }
     }
 
-    // TODO - Přidat ke kontextu
     const handleUpdateTrans = async() => {
       try {
         await handleUpdateTransaction(transData)

@@ -7,7 +7,7 @@ import TopBar from "../../Layout/TopBar/TopBar"
 import NavigatorCategories from "../../UI/NavigatorCategories/NavigatorCategories"
 import { usePageTitle } from "../../../hooks/usePageTitle"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
-import { hints } from "../../../utils/data/hints"
+import { hints } from "../../../config/hints"
 
 const Categories = () => {
 

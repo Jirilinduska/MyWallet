@@ -13,6 +13,7 @@ import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { COLOR_BLUE, NOTIF_ERROR, NOTIF_SUCCESS } from "../../../config/globals"
 import TopBar from "../../Layout/TopBar/TopBar"
 import Button from "../../UI/Button/Button"
+import { hints } from "../../../config/hints"
 
 
 const Planner = () => {
@@ -44,9 +45,9 @@ const Planner = () => {
       setStage( (prev) => prev - 1 )
     }
 
-    const handleNextButtonClick = () => {
+    const handleNextButtonClick = async() => {
       if(stage === 2) {
-        handleSubmit()
+        await handleSubmit()
       } else {
         incStage()
       }
@@ -77,27 +78,39 @@ const Planner = () => {
       })
     }
 
+    const finishedBudgets = budgets.filter(x => x.isFinished)
+    const ongoingBudgets  = budgets.filter(x => !x.isFinished)  
+
+    // TODO - Po uložení budgetu nového, NAČÍST VŠECHNY! (REFRESH)
+    // TODO -PODOBNE I U BUDGET CATEGORIES
+
   return (
     <div className="section-padding">
 
         <TopBar showYearNavigator={false} showMonthNavigator={false} />
 
-        <SectionTitle value={formatLang(userLangID, "Plánovač", "Planner")} wantInfo={false} />
+        <SectionTitle 
+          value={formatLang(userLangID, "Rozpočty", "Budgets")} 
+          wantInfo={true} 
+          infoValue={formatLang(userLangID, hints.hintPlannerCS, hints.hintPlannerEN)}
+        />
 
-        { budgets.length > 0 && stage === 0 && <BudgetOverview budgets={budgets} /> }
-        { budgets.length === 0 && stage === 0 && <p className="text-center">{formatLang(userLangID, "Žádné plány výdajů", "No budget plans")}</p> }
+        { budgets.length === 0 && stage === 0 && <p className="text-center mb-10">{formatLang(userLangID, "Žádné rozpočty", "No budgets")}</p> }
 
         {/* // Vytvořit nový plán */}
         { stage === 0 && (
-          <div className="w-[200px] mx-auto mt-20">
+          <div className="w-[200px] mx-auto mb-10">
             <Button
               color={COLOR_BLUE}
               loading={false}
-              value={formatLang(userLangID, "Vytvořit plán", "Create plan")} 
+              value={formatLang(userLangID, "Vytvořit rozpočet", "Create budget")} 
               handleClick={incStage}
             />
           </div>
         )}
+
+        { budgets.length > 0 && stage === 0 && <BudgetOverview budgets={ongoingBudgets} isFinished={false} /> }
+        { budgets.length > 0 && stage === 0 && <BudgetOverview budgets={finishedBudgets} isFinished={true} /> }
 
         { stage > 0 && (
             <div className="p-4 border-t-2 border-black">

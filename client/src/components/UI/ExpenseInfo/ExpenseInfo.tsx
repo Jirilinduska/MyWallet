@@ -17,7 +17,7 @@ const ExpenseInfo = () => {
 
         <h3 className="font-semibold text-base mb-2">{formatLang(userLangID, "Poslední transakce", "Last transactions")}</h3>
 
-        <div className="space-y-2 relative w-full xs:min-w-[300px] min-h-[50px]">
+        <div className="space-y-2 w-full xs:min-w-[300px] min-h-[50px]">
 
             { loading && <Loader wantFullSize={false}/> }
 

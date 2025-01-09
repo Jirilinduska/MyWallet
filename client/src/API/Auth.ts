@@ -1,5 +1,5 @@
 import { apiClient } from "../config/apiClient"
-import { URL_CHANGE_PASSWORD, URL_CHECK_RESET_TOKEN, URL_DELETE_ACCOUNT, URL_FORGOTTEN_PASSWORD, URL_LOGIN_USER, URL_REGISTER_USER, URL_RESET_PASSWORD } from "../config/apiUrls"
+import { URL_CHANGE_PASSWORD, URL_CHECK_RESET_TOKEN, URL_DELETE_ACCOUNT, URL_FORGOTTEN_PASSWORD, URL_LOGIN_USER, URL_REGISTER_USER, URL_RESET_PASSWORD, URL_SEND_CONFIRM_EMAIL_LINK } from "../config/apiUrls"
 
 
 // Login User
@@ -53,6 +53,13 @@ export const handleResetPassword = async(token: string, newPassword: string) => 
 export const handleDeleteAccount = async(password: string) => {
 
     const response = await apiClient.post(URL_DELETE_ACCOUNT, { password } )
+    return response
+}
+
+// Send email confirm link
+export const handleSendMeConfirmLink = async(token: string) => {
+
+    const response = await apiClient.post(URL_SEND_CONFIRM_EMAIL_LINK, { token })
     return response
 }
 
