@@ -7,7 +7,6 @@ const { verifyToken } = require('../../../libs/jwtUtils')
 const confirmEmail = async(req, res) => {
 
     const { token } = req.query
-    // const JWT_SECRET = process.env.JWT_SECRET
 
     try {
 
@@ -24,11 +23,11 @@ const confirmEmail = async(req, res) => {
 
         await user.save()
 
-        return res.redirect(`${process.env.FRONTEND_URL}/email-confirmed`)
+        return res.redirect(`${process.env.FRONTEND_URL}/email-confirmed?confirmed=true`)
 
     } catch (error) {
         console.error("confirmEmail() => : ", error)
-        // TODO return res.redirect(`${process.env.FRONTEND_URL}/error?message=Invalid or expired token`);
+        return res.redirect(`${process.env.FRONTEND_URL}/email-confirmed?confirmed=false`)
     }
 
 

@@ -22,6 +22,7 @@ const Profile = () => {
 
     const [isEdited, setIsEdited] = useState(false)
     const [showAvatars, setShowAvatars] = useState(false)
+    const [changeName, setChangeName] = useState(false)
     const [userInfo, setUserInfo] = useState<IUserDataUpdate>({
         userName: userData?.userName || "",
         email: userData?.email || "",
@@ -31,6 +32,7 @@ const Profile = () => {
     })
 
     const toggleAvatars = () => setShowAvatars( prev => !prev )
+    const toggleChangeName = () => setChangeName( prev => !prev )
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { value, name } = e.target
@@ -50,6 +52,7 @@ const Profile = () => {
 
         updateUserData(userInfo)
         handleNotification(NOTIF_SUCCESS, userInfo.language, "Uloženo", "Saved")
+        setChangeName(false)
         setIsEdited(false)
     }
 
@@ -58,7 +61,7 @@ const Profile = () => {
     }
 
   return (
-    <section className="section-padding">
+    <section className="section-padding min-h-full pb-10">
 
         <TopBar showMonthNavigator={false} showYearNavigator={false} />
 
@@ -77,6 +80,8 @@ const Profile = () => {
                 toggleAvatars={toggleAvatars}
                 userInfo={userInfo}
                 handleInputChange={handleInputChange}
+                changeName={changeName}
+                toggleChangeName={toggleChangeName}
             />
 
             <SettingsCard

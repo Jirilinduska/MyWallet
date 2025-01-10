@@ -1,9 +1,4 @@
-
-
-// const User = require("../../../models/User")
 const Budget = require("../../../models/Budget")
-
-// TODO - Přidat více funkcí.
 
 // Spouští se každý 1. den v měsíci v 00:01 h
 const monthSummary = async(req,res) => {
@@ -29,6 +24,7 @@ const monthSummary = async(req,res) => {
 
         // Aktualizujeme budgety na isFinished = true
         // TODO - Přidat notifikaci pro uživatele...
+        // TODO - Přidat více funkcí - případně export data....
         const updatedBudgets = await Budget.updateMany(
             {
                 _id: { $in: outdatedBudgets.map((budget) => budget._id) },

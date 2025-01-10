@@ -8,9 +8,10 @@ interface InfoItemsProps {
     expense: number
     income: number
     budget: number | null
+    showBudget: boolean
 }
 
-const InfoItems = ({ budget, expense, income } : InfoItemsProps ) => {
+const InfoItems = ({ budget, expense, income, showBudget } : InfoItemsProps ) => {
 
     const { userLangID } = useUserContext()
 
@@ -39,7 +40,7 @@ const InfoItems = ({ budget, expense, income } : InfoItemsProps ) => {
         spentAmount={null}
       />
 
-      { budget !== 0 && 
+      { showBudget && 
         <InfoItem
           amount={budget || 0}
           desc={formatLang(userLangID, "Rozpočet", "Budget")}

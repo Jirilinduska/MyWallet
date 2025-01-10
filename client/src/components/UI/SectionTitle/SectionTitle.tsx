@@ -14,7 +14,7 @@ const SectionTitle = ({ value, wantInfo, infoValue } : SectionTitleProps ) => {
   const toggleSeeMore = () => setSeeMore(!seeMore)
 
   return (
-    <div className="flex items-center gap-2 max-w-[100px] mb-10 relative">
+    <div className="flex items-center gap-2 max-w-[110px] mb-10 relative">
 
       <h3 className="font-semibold">
         {value}

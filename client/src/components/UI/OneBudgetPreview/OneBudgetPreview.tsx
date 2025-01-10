@@ -233,7 +233,9 @@ const OneBudgetPreview = () => {
 
         { thisBudget.budgetCategories.length === 0 
 
-          ? <p className="text-center">{formatLang(userLangID, "Tento plán nemá zatím žádné kategorie", "This budget has no categories yet")}</p>
+          ? <p className="text-center">
+              {formatLang(userLangID, "Tento plán nemá zatím žádné kategorie", "This budget has no categories yet")}
+            </p>
           
           : <BudgetCatPreviewList
               key={thisBudget._id}
@@ -250,7 +252,7 @@ const OneBudgetPreview = () => {
             />
         }
 
-        { thisBudget.budgetCategories.length && 
+        { thisBudget.budgetCategories.length > 0 && 
             <div className="my-20 xl:flex flex-wrap gap-y-20">
                 { thisBudget.budgetCategories.map( x => <BudgetChartItem oneCategory={x} /> ) }
             </div>

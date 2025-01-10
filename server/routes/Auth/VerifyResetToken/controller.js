@@ -5,7 +5,6 @@ const verifyResetToken = async(req,res) => {
     const { token } = req.params
 
     try {
-        
         const user = await User.findOne({
             "settings.resetPasswordToken": token,
             "settings.resetPasswordExpires": { $gt: Date.now() },

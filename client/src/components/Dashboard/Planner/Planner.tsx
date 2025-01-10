@@ -10,10 +10,11 @@ import { getMonthName } from "../../../utils/functions/dateUtils"
 import BudgetOverview from "../../UI/BudgetOverview/BudgetOverview"
 import { useBudgetContext } from "../../../context/BudgetsContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
-import { COLOR_BLUE, NOTIF_ERROR, NOTIF_SUCCESS } from "../../../config/globals"
+import { COLOR_BLUE, COLOR_GREEN, COLOR_RED, NOTIF_ERROR, NOTIF_SUCCESS } from "../../../config/globals"
 import TopBar from "../../Layout/TopBar/TopBar"
 import Button from "../../UI/Button/Button"
 import { hints } from "../../../config/hints"
+import { usePageTitle } from "../../../hooks/usePageTitle"
 
 
 const Planner = () => {
@@ -29,11 +30,13 @@ const Planner = () => {
       budgetCategories: []
     })
 
+    usePageTitle(formatLang(userLangID, "Rozpočty", "Budgets"))
+
     const incStage = () =>  {
       if(stage === 1) {
         const isAlreadyIn = budgets.some((x) => x.year === newBudget.year && x.month === newBudget.month)
         if(isAlreadyIn) {
-          handleNotification(NOTIF_ERROR, userLangID, "Plán pro tento měsíc je již vytvořený", "Budget for this year and month is already created")
+          handleNotification(NOTIF_ERROR, userLangID, "Rozpočet pro tento měsíc je již vytvořený", "Budget for this year and month is already created")
           return
         }
       }
@@ -58,7 +61,7 @@ const Planner = () => {
     // CreateBudget
     const handleSubmit = async() => {
       if(!newBudget.budgetCategories.length) {
-        handleNotification(NOTIF_ERROR, userLangID, "Prosím nastavte kategorie", "Please set categories")
+        handleNotification(NOTIF_ERROR, userLangID, "Prosím přidejte kategorie", "Please add categories")
         return
       }
 
@@ -68,7 +71,7 @@ const Planner = () => {
       handleNotification(
         NOTIF_SUCCESS, 
         userLangID, 
-        `Plán: ${getMonthName(newBudget.year, newBudget.month, userLangID)} (${newBudget.year}) úspěšně vytvořen`,
+        `Rozpočet: ${getMonthName(newBudget.year, newBudget.month, userLangID)} (${newBudget.year}) úspěšně vytvořen`,
         `Budget: ${getMonthName(newBudget.year, newBudget.month, userLangID)} (${newBudget.year}) successfully created`
       )
       setNewBudget({
@@ -80,10 +83,7 @@ const Planner = () => {
 
     const finishedBudgets = budgets.filter(x => x.isFinished)
     const ongoingBudgets  = budgets.filter(x => !x.isFinished)  
-
-    // TODO - Po uložení budgetu nového, NAČÍST VŠECHNY! (REFRESH)
-    // TODO -PODOBNE I U BUDGET CATEGORIES
-
+    
   return (
     <div className="section-padding">
 
@@ -117,7 +117,7 @@ const Planner = () => {
 
               { stage > 0 && (
                 <div className="flex items-center justify-between">
-                  <h3 className="font-semibold">{ formatLang(userLangID, "Vytvořit nový plán", "Create new plan") }</h3> 
+                  <h3 className="font-semibold text-xs">{ formatLang(userLangID, "Vytvořit nový plán", "Create new plan") }</h3> 
                   <IconClose onClick={ () => setStage(0) } className="icon text-red-500 text-3xl"/>
                 </div>
               )}
@@ -127,17 +127,17 @@ const Planner = () => {
               { stage === 2 && <CreateBudget newBudget={newBudget} setNewBudget={setNewBudget}/> }
 
               { stage > 0 && (
-                <div className="flex items-center justify-between w-[250px] gap-4 mx-auto my-10">
+                <div className="flex items-center flex-col justify-between w-full sm:w-[250px] gap-4 mx-auto my-10 sm:flex-row">
 
                   <Button
-                    color={COLOR_BLUE}
+                    color={ stage === 1 ? COLOR_RED : COLOR_BLUE }
                     loading={false}
                     value={`${stage === 1 ? `${formatLang(userLangID, "Zrušit", "Cancel")}` : `${formatLang(userLangID, "Předchozí", "Prev")}`}`} 
                     handleClick={decStage}
                   />
 
                   <Button
-                    color={COLOR_BLUE}
+                    color={ stage === 2 ? COLOR_GREEN : COLOR_BLUE }
                     loading={false}
                     value={`${stage === 2 ? `${formatLang(userLangID, "Uložit", "Save")}` : `${formatLang(userLangID, "Další", "Next")}`}`} 
                     handleClick={handleNextButtonClick}

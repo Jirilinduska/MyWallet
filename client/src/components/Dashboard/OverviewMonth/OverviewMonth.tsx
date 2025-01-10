@@ -23,13 +23,13 @@ const OverviewMonth = ({ budget, income, expense } : OverviewMonthProps ) => {
     const graphDataCS = {
         "Příjmy": income,
         "Výdaje": expense,
-        "Plán": budget
+        "Rozpočet": budget
     }
 
   return (
     <div className="mb-4 p-4 pb-10 border-b border-colorGray animate-fadeIn">
 
-        <h3 className="font-bold mb-6 pb-2">
+        <h3 className="font-bold mb-6 pb-2 text-xs sm:text-lg">
             {formatLang(userLangID, "Tento měsíc", "This month")}
         </h3>
 
@@ -39,6 +39,7 @@ const OverviewMonth = ({ budget, income, expense } : OverviewMonthProps ) => {
                 budget={budget}
                 expense={expense}
                 income={income}
+                showBudget={true}
             />
 
             <div className="w-full h-auto xl:h-[300px] xl:w-1/2 ">

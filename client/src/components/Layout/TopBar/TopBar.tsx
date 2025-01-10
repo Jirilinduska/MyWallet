@@ -47,6 +47,7 @@ const TopBar = ({ showYearNavigator, showMonthNavigator, pageID } : TopBarProps 
                     date={overviewData.lastExpense.createdAt}
                     amount={overviewData.lastExpense.amount}
                     type={CATEGORY_ID_TRANSACTION}
+                    fullWidth={false}
                 />
             )}
 
@@ -57,6 +58,7 @@ const TopBar = ({ showYearNavigator, showMonthNavigator, pageID } : TopBarProps 
                     date={overviewData.lastIncome.createdAt}
                     amount={overviewData.lastIncome.amount}
                     type={CATEGORY_ID_INCOME}
+                    fullWidth={false}
                 />
             )}
         </div>

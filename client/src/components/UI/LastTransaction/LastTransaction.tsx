@@ -12,9 +12,10 @@ interface LastTransactionProps {
     date: Date
     amount: number
     type: string
+    fullWidth: boolean
 }
 
-const LastTransaction = ({ iconID, name, date, amount, type } : LastTransactionProps ) => {
+const LastTransaction = ({ iconID, name, date, amount, type, fullWidth } : LastTransactionProps ) => {
 
     const { userCurrency, userLangID } = useUserContext()
 
@@ -22,14 +23,14 @@ const LastTransaction = ({ iconID, name, date, amount, type } : LastTransactionP
     const timestamp = dateObj.getTime()
 
 return (
-    <div className="p-2 bg-white border-b border-gray-200 shadow-sm text-xs w-full xs:w-[300px]">
+    <div className={` ${!fullWidth && "xs:w-[300px]" } p-2 bg-white border-b border-gray-200 shadow-sm text-xs w-full`}>
 
 
         <div className="flex items-center justify-between mb-1">
             <h6 className="text-gray-700 font-medium">
                 { type === CATEGORY_ID_TRANSACTION && formatLang(userLangID, "Poslední transakce", "Last transaction")}
                 { type === CATEGORY_ID_INCOME      && formatLang(userLangID, "Poslední příjem", "Last income")}
-                { type === TODAY_TRANSACTION       && formatLang(userLangID, "Dnešní transakce", "Today's transactions")}
+                { type === TODAY_TRANSACTION       && formatLang(userLangID, "Dnešní transakce", "Today's transaction")}
             </h6>
             <span className="text-gray-500 hidden xs:block">{formatDistanceToNow(timestamp, { addSuffix: true, locale: userLangID === LANG_CZECH ? cs : undefined })}</span>
         </div>

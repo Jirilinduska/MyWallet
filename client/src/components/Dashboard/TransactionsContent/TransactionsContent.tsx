@@ -77,7 +77,7 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
                 <Button 
                     color={COLOR_BLUE}
                     loading={false}
-                    value={formatLang(userLangID, pageID === PAGE_ID_TRANSACTIONS ? "Nová transakce" : "Nový příjem", pageID === PAGE_ID_TRANSACTIONS ? "New transaction" : "New income")}
+                    value={formatLang(userLangID, pageID === PAGE_ID_TRANSACTIONS ? "Nový výdaj" : "Nový příjem", pageID === PAGE_ID_TRANSACTIONS ? "New expense" : "New income")}
                     handleClick={toggleNewTransModal}
                 />
             </div>

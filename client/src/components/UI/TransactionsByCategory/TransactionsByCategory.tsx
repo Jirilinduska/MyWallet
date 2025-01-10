@@ -13,8 +13,7 @@ import { ITransaction } from "../../../utils/interfaces/interfaces"
 import { CATEGORY_ID_TRANSACTION, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
 import { usePageTitle } from "../../../hooks/usePageTitle"
 
-// TODO - Dokončit tabulku, modal atd...
-// TODO - při editu - aktualizovat tabulku!!!!!!
+// TODO - při editu - aktualizovat tabulku!
 
 const TransactionsByCategory = () => {
 
@@ -50,7 +49,6 @@ const TransactionsByCategory = () => {
     <div className="section-padding">
 
         {/* Modal - Edit transaction*/}
-        {/* // TODO - Vyřešeit problémy (chybí nadpis, setSelected(null)) */}
         { showModal && selectedTransaction && (
             <EditTransModal
                 toggleEditModal={handleModal}
@@ -63,13 +61,13 @@ const TransactionsByCategory = () => {
 
         <NavigatorCategories pageStage={2} catName={catInfo?.categoryName} catID={catInfo?.categoryID}/>
 
-        <SectionTitle 
-            value={formatLang(
+        <h3 className="font-semibold">
+            {formatLang(
                 userLangID, 
                 `Seznam všech transakcí pro kategorii: ${catInfo?.categoryName}`, 
-                `List of all transactions for the category: ${catInfo?.categoryName}`)}
-                wantInfo={false}
-            />
+                `List of all transactions for the category: ${catInfo?.categoryName}`
+            )}
+        </h3>
     
         { transactionsByCategory.length >= 1 && catInfo && 
             <TableTransactions 

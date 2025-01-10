@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react"
 import Button from "../Button/Button"
-import { CHANGE_PASSWORD, COLOR_BLUE, COLOR_RED, FORGOTTEN_PASSWORD } from "../../../config/globals"
+import { CHANGE_PASSWORD, COLOR_BLUE, COLOR_RED, FORGOTTEN_PASSWORD, NOTIF_INFO } from "../../../config/globals"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { userAvatars } from "../../../utils/icons/avatars"
@@ -11,25 +11,27 @@ import ChangePassword from "../../Forms/ChangePassword/ChangePassword"
 import { IconClose } from "../../../utils/icons/icons"
 import DeleteAccount from "../DeleteAccount/DeleteAccount"
 import { handleSendMeConfirmLink } from "../../../API/Auth"
-import { strict } from "assert"
+import { handleNotification } from "../../../utils/functions/notificationsUtils"
 
 
 interface ProfileCartProps {
     toggleAvatars: () => void
     userInfo: IUserDataUpdate
     handleInputChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+    changeName: boolean
+    toggleChangeName: () => void
 }
 
-const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCartProps ) => {
+const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange, changeName, toggleChangeName } : ProfileCartProps ) => {
 
     const { userData, userLangID } = useUserContext()
 
     const [changePass, setChangPass] = useState(false)
-    const [changeName, setChangeName] = useState(false)
+    // const [changeName, setChangeName] = useState(false)
     const [deleteAcc, setDeleteAcc] = useState(false)
     const [newPass, setNewPass] = useState(false)
 
-    const toggleChangeName = () => setChangeName( prev => !prev )
+    // const toggleChangeName = () => setChangeName( prev => !prev )
     const toggleChangePass = () => setChangPass( prev => !prev)
     const toggleDeleteAcc  = () => setDeleteAcc(!deleteAcc)
     const toggleNewPass = () => setNewPass( prev => !prev)
@@ -39,6 +41,7 @@ const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
     const handleSendMeLinkForEmail = async() => {
         if(token) {
             await handleSendMeConfirmLink(token)
+            handleNotification(NOTIF_INFO, userLangID, "Email odeslán", "Email has been sent")
         } else {
             return
         }
@@ -75,7 +78,6 @@ const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
 
             <div className="flex items-center justify-between">
 
-            {/* // TODO - Pokud uživatel mění pouze jméno, po submitu je potřeba changeName vrátit na false. */}
                 { changeName  
                     ?   <Input
                             inputName="userName"
@@ -106,7 +108,6 @@ const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
 
             <div className={`${ userData.settings.emailConfirmed ? "text-green-500" : "text-red-500" } mb-1 text-xs flex items-center gap-1`}>
                 <p className="">{ userData.settings.emailConfirmed ? "Email confirmed" : "Please confirm your email - " }</p>
-                {/* // TODO  - přidat confirm email */}
                 { !userData.settings.emailConfirmed && <span onClick={handleSendMeLinkForEmail} className="cursor-pointer underline">send email</span> }
             </div>
 
@@ -114,7 +115,7 @@ const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange } : ProfileCar
         </div>
 
         {/* Password + Delete acc*/}
-        <div className="flex items-center gap-12">
+        <div className="flex items-center gap-4 flex-col sm:flex-row">
 
             {/* Změnit heslo */}
             <Button 

@@ -12,9 +12,6 @@ import { Navigate } from "react-router-dom"
 import { formatLang } from "../../utils/functions/formatLang"
 import { handleNotification } from "../../utils/functions/notificationsUtils"
 
-
-// TODO - Rozdělit "stages" do samostatných komponent
-
 const NewUser = () => {
 
     const { userData } = useUserContext()
@@ -136,8 +133,6 @@ const NewUser = () => {
 
                 </div>
             )}
-            {/* // TODO - STAGE 3 - Confirm email? */}
-            {/* // TODO - Upravit UI - Tlačítko send email předělat :) */}
             { stage === 3 && (
                  <div className="flex items-center justify-center gap-10 h-[40%] w-[90%] mx-auto">
                     <p className="">Please check your email adress.</p>

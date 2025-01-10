@@ -14,7 +14,7 @@ interface CrateBudgetProps {
 const CreateBudget = ({ newBudget, setNewBudget } : CrateBudgetProps) => {
 
     const { categoriesTransactions, refreshCategories } = useCategoriesContext()
-    const { refreshUserData, userLangID, userCurrency } = useUserContext()
+    const { userCurrency } = useUserContext()
 
     const [categories, setCategories] = useState<ICategory[]>([])
 
@@ -22,10 +22,6 @@ const CreateBudget = ({ newBudget, setNewBudget } : CrateBudgetProps) => {
         if(!categoriesTransactions) refreshCategories()
         setCategories(categoriesTransactions)
     }, [categoriesTransactions])
-
-    useEffect(() => {
-        if(!userCurrency) refreshUserData()
-    }, [userCurrency])
 
     const isCategoryInArray = (categoryID: string): boolean => {
         return newBudget.budgetCategories.findIndex(category => category.categoryID === categoryID) !== -1
@@ -55,7 +51,7 @@ const CreateBudget = ({ newBudget, setNewBudget } : CrateBudgetProps) => {
   return (
     <div className="my-10 h-[50vh] overflow-y-auto">
 
-        <div className="p-2">
+        <div className="p-0 lg:p-2">
             {categories.length && categories.map((x) => {
 
                 const iconObject = categoryIcons.find( (icon) => icon.id === x.iconID)
@@ -64,10 +60,10 @@ const CreateBudget = ({ newBudget, setNewBudget } : CrateBudgetProps) => {
                 return (
                     <div
                         key={x._id}
-                        className={`${ isCategoryInArray(x._id) ? "ring-green-500 ring-2" : "ring-0" } flex items-center justify-between gap-4 p-4 rounded-md mb-2 bg-white shadow hover:shadow-lg hover:bg-gray-100`}
+                        className={`${ isCategoryInArray(x._id) ? "ring-green-500 ring-2" : "ring-0" } flex items-center justify-between gap-4 p-0 md:p-4 rounded-md mb-2 bg-white shadow hover:shadow-lg hover:bg-gray-100`}
                     >
-                        <div className="flex items-center justify-between gap-4">
-                            <span className="text-sm sm:text-xl lg:text-2xl text-colorBlue">{iconJSX}</span>
+                        <div className="flex items-center justify-between gap-4 p-1">
+                            <span className="text-sm sm:text-xl lg:text-2xl text-colorBlue hidden sm:block">{iconJSX}</span>
                             <p className="text-xs sm:text-base xl:text-lg font-medium">{x.name}</p>
                         </div>
 

@@ -13,11 +13,11 @@ const ExpenseInfo = () => {
     const { overviewData, loading } = useOverviewData()
 
   return (
-    <div className="shadow-lg rounded-lg w-full p-4">
+    <div className="shadow-lg rounded-lg w-[95%] sm:w-[400px] md:w-[500px] flex flex-col items-center p-4">
 
         <h3 className="font-semibold text-base mb-2">{formatLang(userLangID, "Poslední transakce", "Last transactions")}</h3>
 
-        <div className="space-y-2 w-full xs:min-w-[300px] min-h-[50px]">
+        <div className="space-y-2 w-full">
 
             { loading && <Loader wantFullSize={false}/> }
 
@@ -28,6 +28,7 @@ const ExpenseInfo = () => {
                 iconID={overviewData.lastExpenseCategory.iconID}
                 name={overviewData.lastExpenseCategory.name}
                 type={CATEGORY_ID_TRANSACTION}
+                fullWidth={true}
               />
             )}
 
@@ -38,6 +39,7 @@ const ExpenseInfo = () => {
                 iconID={overviewData.lastIncomeCategory.iconID}
                 name={overviewData.lastIncomeCategory.name}
                 type={CATEGORY_ID_INCOME}
+                fullWidth={true}
               />
             )}
 
@@ -45,10 +47,10 @@ const ExpenseInfo = () => {
 
         </div>
 
-        <div className="my-4">
-                <h3 className="font-semibold text-base mb-2">Dnešní transakce</h3>
+        <div className="my-10 w-full">
+                <h3 className="font-semibold text-base mb-2 text-center">{formatLang(userLangID, "Dnešní výdaje", "Today's expense")}</h3>
 
-                <div className="space-y-2">
+                <div className={`${ !overviewData?.todayExpense?.length || "h-[200px] overflow-y-auto" } space-y-2`}>
                     { overviewData?.todayExpense && overviewData.todayExpense.map( (x) => {
 
                         const category = categoriesTransactions.find( (cat) => cat._id ===  x.category)
@@ -61,7 +63,7 @@ const ExpenseInfo = () => {
                           iconID={category?.iconID || 0}
                           type={TODAY_TRANSACTION}
                           key={x._id}
-
+                          fullWidth={true}
                         />
                       )
                     })}

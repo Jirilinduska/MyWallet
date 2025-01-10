@@ -3,6 +3,7 @@ import { IGetBudget, INewBudget } from "../utils/interfaces/interfaces"
 import { handleCreateBudget, handleDeleteBudget, handleGetBudget, handleUpdateBudget } from "../API/Budget"
 import { handleError } from "../Errors/handleError"
 import { useUserContext } from "./UserContext"
+import { useOverviewData } from "./OverviewDataContext"
 
 interface BudgetContextProps {
     budgets: IGetBudget[]
@@ -17,7 +18,11 @@ export const BudgetContext = createContext<BudgetContextProps | undefined>(undef
 
 export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
+    const year = new Date().getFullYear()
+    const month = new Date().getMonth() + 1
+
     const { userLangID } = useUserContext()
+    const { refreshOverviewData } = useOverviewData()
 
     const [budgets, setBudgets] = useState<IGetBudget[]>([])
 
@@ -42,6 +47,8 @@ export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const createBudget = async(newBudget: INewBudget) => {
         try {
             await handleCreateBudget(newBudget)
+            await refreshBudgets()
+            refreshOverviewData(year, month)
         } catch (error) {
             handleError(error,userLangID)
         }
@@ -52,6 +59,7 @@ export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         try {
             await handleDeleteBudget(budgetID)
             setBudgets((prevBudgets) => prevBudgets.filter((budget) => budget._id !== budgetID))
+            refreshOverviewData(year, month)
         } catch (error) {
             handleError(error,userLangID)
         }
@@ -61,6 +69,8 @@ export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const updateBudget = async(newBudget: IGetBudget) => {
         try {
             await handleUpdateBudget(newBudget)
+            await refreshBudgets()
+            refreshOverviewData(year, month)
         } catch (error) {
             handleError(error,userLangID)
         }

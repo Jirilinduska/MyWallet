@@ -32,7 +32,7 @@ const MonthYearPicker = ({ userLangID, setNewBudget }: MonthYearPickerProps) => 
     return (
         <div className="w-full h-[50vh] p-2 overflow-y-auto flex flex-col justify-center items-center">
 
-            <h3 className="font-semibold mb-6">{formatLang(userLangID, "Vyberte měsíc", "Select month")}</h3>
+            <h3 className="font-semibold mb-6 text-sm lg:text-lg">{formatLang(userLangID, "Vyberte měsíc", "Select month")}</h3>
 
             <DatePicker
                 selected={startDate}

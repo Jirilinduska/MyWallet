@@ -19,21 +19,21 @@ root.render(
 
     <UserProvider>
       <AuthProvider>
-        <CategoriesProvider>
-          <BudgetProvider>
-            <TransactionsProvider>
-              <OverviewDataProvider>
+        <OverviewDataProvider>
+          <CategoriesProvider>
+            <BudgetProvider>
+              <TransactionsProvider>
                 <UtilsProvider>
                   <GoalsProvider>
 
-                    <App />
+                      <App />
                   
-                  </GoalsProvider>
-                </UtilsProvider>
-              </OverviewDataProvider>
-            </TransactionsProvider>
-          </BudgetProvider>
-        </CategoriesProvider>
+                    </GoalsProvider>
+                  </UtilsProvider>
+              </TransactionsProvider>
+            </BudgetProvider>
+          </CategoriesProvider>
+        </OverviewDataProvider>
       </AuthProvider>
     </UserProvider>
     

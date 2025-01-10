@@ -3,7 +3,6 @@ import { LANG_CZECH } from '../../../config/globals'
 import { formatLang } from '../../../utils/functions/formatLang'
 import InfoItems from '../InfoItems/InfoItems'
 import BarChart from '../../Charts/BarChart/BarChart'
-import SectionTitle from '../../UI/SectionTitle/SectionTitle'
 import { IcategoriesYearOverview } from '../../../utils/interfaces/interfaces'
 import BarChartCategories from '../../Charts/BarChartCategories/BarChartCategories'
 
@@ -35,7 +34,7 @@ const OverviewYear = ({ year, income, budget, expense, chartDataExpense, chartDa
   return (
     <div className="mb-10 p-4">
 
-        <h3 className="font-bold text-lg mb-10">
+        <h3 className="font-bold text-xs sm:text-lg mb-10">
             { year === new Date().getFullYear() ? formatLang(userLangID, `Tento rok (${year})`, `This year (${year})`) :`(${year})` }
         </h3>
 
@@ -45,6 +44,7 @@ const OverviewYear = ({ year, income, budget, expense, chartDataExpense, chartDa
                 budget={budget}
                 expense={expense}
                 income={income}
+                showBudget={false}
             />
 
             <div className="w-full h-auto xl:h-[300px] xl:w-1/2 ">
@@ -56,12 +56,12 @@ const OverviewYear = ({ year, income, budget, expense, chartDataExpense, chartDa
         <div className="flex flex-col justify-between gap-10 xl:flex-row">
 
             <div className="w-full h-auto xl:h-[300px] xl:w-1/2 ">
-                <SectionTitle value={formatLang(userLangID, `Výdaje podle kategorií (${year})`, `Expenses by category (${year})`)} wantInfo={false} />
+                <h3 className="font-semibold mb-10 text-xs sm:text-lg">{formatLang(userLangID, `Výdaje podle kategorií (${year})`, `Expenses by category (${year})`)}</h3>
                 <BarChartCategories chartData={chartDataExpense}/>
             </div>
 
             <div className="w-full h-auto xl:h-[300px] xl:w-1/2 ">
-                <SectionTitle value={formatLang(userLangID, `Příjmy podle kategorií (${year})`, `Income by category (${year})`)} wantInfo={false} />
+                <h3 className="font-semibold mb-10 text-xs sm:text-lg">{formatLang(userLangID, `Příjmy podle kategorií (${year})`, `Income by category (${year})`)}</h3>
                 <BarChartCategories chartData={chartDataIncome}/>
             </div>
 

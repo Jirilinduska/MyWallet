@@ -145,7 +145,7 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
             />
           </div>
 
-          <div className="py-10 flex items-center justify-between">
+          <div className="py-10 flex items-center justify-between px-4">
             
             { !wantDelete && (
               <>
