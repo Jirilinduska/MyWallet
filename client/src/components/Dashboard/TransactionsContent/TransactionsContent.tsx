@@ -56,7 +56,7 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
                     <button className={`${wantTable ? "font-semibold text-black" : "font-light text-gray-500"}`} onClick={ () => {
                         setWantStats(false)
                         setWantTable(true)
-                    }}>Všechny výdaje</button>
+                    }}>{formatLang(userLangID, "Transakce", "Transactions")}</button>
 
                     <div className={`${wantTable ? "bg-black" : "bg-colorGrayHover"} w-full h-[2px] mt-1`}></div>
 
@@ -66,7 +66,7 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
                     <button className={`${wantStats ? "font-semibold text-black" : "font-light text-gray-500"}`} onClick={ () => {
                         setWantStats(true)
                         setWantTable(false)
-                    }}>Graf kategorií</button>
+                    }}>{formatLang(userLangID, "Graf", "Chart")}</button>
 
                     <div className={`${wantStats ? "bg-black" : "bg-colorGrayHover"} w-full h-[2px] mt-1`}></div>
 
