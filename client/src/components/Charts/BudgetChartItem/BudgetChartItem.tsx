@@ -58,7 +58,11 @@ const BudgetChart: React.FC<Props> = ({ oneCategory }) => {
       },
       title: {
         display: true,
-        text: `Srovnání Plánované a Utracené částky pro kategorii ${oneCategory.category.name}`,
+        text: formatLang(
+          userLangID, 
+          `Srovnání plánované a utracené částky pro kategorii ${oneCategory.category.name}`, 
+          `Comparison of planned and spent amount for category ${oneCategory.category.name}`
+        ),
       },
     },
     scales: {
