@@ -52,6 +52,12 @@ export const URL_DELETE_GOAL = `${API_BASE_URL}/api/goal/delete-goal`
 export const URL_SET_GOAL_FINISHED = `${API_BASE_URL}/api/goal/set-finished`
 export const URL_EDIT_GOAL = `${API_BASE_URL}/api/goal/edit-goal`
 
+// NOTIFICATIONS
+export const URL_GET_NOTIFS = `${API_BASE_URL}/api/notifications`
+export const URL_DELETE_NOTIF = `${API_BASE_URL}/api/notifications/delete`
+export const URL_MARK_NOTIF_AS_READ = `${API_BASE_URL}/api/notifications/mark-as-read`
+export const URL_ARCHIVE_NOTIF = `${API_BASE_URL}/api/notifications/archive`
+
 // CRON JOBS 
 // TODO - Dokončit - přidat cron jobs na render.com
 export const URL_MONTH_SUMMARY = `${API_BASE_URL}/api/cron-jobs/month-summary`

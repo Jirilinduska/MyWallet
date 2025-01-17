@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react"
 import { IGoal } from "../utils/interfaces/interfaces"
 import { handleCreateGoal, handleDeleteGoal, handleEditGoal, handleGetGoals, handleSetGoalFinished } from "../API/Goals"
 import { handleNotification } from "../utils/functions/notificationsUtils"
-import { NOTIF_ERROR, NOTIF_SUCCESS } from "../config/globals"
+import { NOTIF_SUCCESS } from "../config/globals"
 import { useUserContext } from "./UserContext"
 import { handleError } from "../Errors/handleError"
 

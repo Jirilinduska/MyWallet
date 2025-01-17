@@ -6,7 +6,6 @@ import { categoryIcons } from "../../../utils/icons/category-icons"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
 
-// Registrace modulů Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 interface Props {
@@ -18,7 +17,6 @@ const BudgetChart: React.FC<Props> = ({ oneCategory }) => {
 
 
   const icon = categoryIcons.find(icon => String(icon.id) === String(oneCategory.category.iconID))?.iconJSX
-  // const price = formatCurrency(oneCategory.price, userCurrency)
 
   const labels = [oneCategory.category.name]
 
@@ -28,7 +26,7 @@ const BudgetChart: React.FC<Props> = ({ oneCategory }) => {
     {
       label: formatLang(userLangID, "Plánovaná částka", "Amount planned"),
       data: [oneCategory.price], // Hodnota pro 'price' musí být v poli
-      backgroundColor: "rgba(75, 192, 192, 0.5)", // Barva pruhů pro `price`
+      backgroundColor: "rgba(75, 192, 192, 0.5)", 
       borderColor: "rgba(75, 192, 192, 1)",
       borderWidth: 1,
     },
@@ -38,19 +36,19 @@ const BudgetChart: React.FC<Props> = ({ oneCategory }) => {
     datasets.push({
       label: formatLang(userLangID, "Utracená částka", "Amount spent"),
       data: [oneCategory.spent], // Hodnota pro 'spent' musí být v poli
-      backgroundColor: "rgba(255, 99, 132, 0.5)", // Barva pruhů pro `spent`
+      backgroundColor: "rgba(255, 99, 132, 0.5)", 
       borderColor: "rgba(255, 99, 132, 1)",
       borderWidth: 1,
     });
   }
 
   const data = {
-    labels, // Osa Y: názvy kategorií
-    datasets, // Používáme dynamicky sestavený dataset
+    labels,
+    datasets, 
   }
 
   const options = {
-    indexAxis: "y" as const, // Nastavení vodorovného grafu
+    indexAxis: "y" as const,
     responsive: true,
     plugins: {
       legend: {
@@ -67,7 +65,7 @@ const BudgetChart: React.FC<Props> = ({ oneCategory }) => {
     },
     scales: {
       x: {
-        beginAtZero: true, // Začněte od nuly na ose X
+        beginAtZero: true,
       },
     },
   }

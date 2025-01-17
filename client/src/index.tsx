@@ -10,6 +10,7 @@ import { OverviewDataProvider } from './context/OverviewDataContext'
 import { UtilsProvider } from './context/UtilsContext'
 import { GoalsProvider } from './context/GoalsContext'
 import { AuthProvider } from './context/AuthContext'
+import { NotifProvider } from './context/NotifContext'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,21 +20,23 @@ root.render(
 
     <UserProvider>
       <AuthProvider>
-        <OverviewDataProvider>
-          <CategoriesProvider>
-            <BudgetProvider>
-              <TransactionsProvider>
-                <UtilsProvider>
-                  <GoalsProvider>
+        <NotifProvider>
+          <OverviewDataProvider>
+            <CategoriesProvider>
+              <BudgetProvider>
+                <TransactionsProvider>
+                  <UtilsProvider>
+                    <GoalsProvider>
 
                       <App />
                   
                     </GoalsProvider>
                   </UtilsProvider>
-              </TransactionsProvider>
-            </BudgetProvider>
-          </CategoriesProvider>
-        </OverviewDataProvider>
+                </TransactionsProvider>
+              </BudgetProvider>
+            </CategoriesProvider>
+          </OverviewDataProvider>
+        </NotifProvider>
       </AuthProvider>
     </UserProvider>
     

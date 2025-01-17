@@ -1,8 +1,10 @@
 const bcrypt = require('bcryptjs')
 const User = require("../../../models/User")
+const Notification = require("../../../models/Notification")
 const { sendEmailAfterRegistration } = require('../../../modules/Emails/Emails')
 const { generateToken } = require('../../../libs/jwtUtils')
 const { createDefaultCategories } = require('../../../modules/Categories/Categories')
+const { notifAfterRegister } = require('../../../modules/Notifications/notifAfterRegister')
 
 const registerUser = async(req,res) => {
 
@@ -29,6 +31,7 @@ const registerUser = async(req,res) => {
 
         await sendEmailAfterRegistration(email, token)
         await createDefaultCategories(newUser._id)
+        await notifAfterRegister(newUser._id)
 
         return res.status(200).json({ token })
 

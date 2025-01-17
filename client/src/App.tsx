@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard/Dashboard'
 import Profile from './pages/Profile/Profile'
 import ResetPassword from './pages/ResetPassword/ResetPassword'
 import ErrorPage from './pages/ErrorPage/ErrorPage'
+import Notifications from './pages/Notifications/Notifications'
 
 const App = () => {
   return (
@@ -34,15 +35,9 @@ const App = () => {
             <Route path='/dashboard/:pageID/preview-category/:categoryID' element={ <PrivateRoute> <Dashboard/> </PrivateRoute> } />
             <Route path='/dashboard/:pageID/preview-category/:categoryID/:showTrans' element={ <PrivateRoute> <Dashboard/> </PrivateRoute> } />
 
+            <Route path='/profile' element={ <PrivateRoute> <Profile/> </PrivateRoute> } />
 
-            <Route 
-              path='/profile'
-              element={
-                <PrivateRoute>
-                    <Profile/>
-                </PrivateRoute>
-              }
-            />
+            <Route path='/notifications' element={ <PrivateRoute> <Notifications/> </PrivateRoute> } />
           
 
         </Routes>
