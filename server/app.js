@@ -38,8 +38,8 @@ loadRoutes(app, path.join(__dirname, 'routes'))
 
 // * cron jobs:
 
-// Každý den - 22:15
-cron.schedule('15 22 * * *', async () => { 
+// Každý den - 22:45
+cron.schedule('45 22 * * *', async () => { 
     try {
         await cronMonthSummary()
     } catch (error) {
