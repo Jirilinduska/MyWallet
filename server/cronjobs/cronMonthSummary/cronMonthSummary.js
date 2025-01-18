@@ -73,4 +73,4 @@ const cronMonthSummary = async() => {
 }
 
 
-module.exports = { cronMonthSummary }
+module.exports = cronMonthSummary

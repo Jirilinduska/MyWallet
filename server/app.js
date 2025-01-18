@@ -5,7 +5,7 @@ const connectDB = require("./db/connect")
 const { loadRoutes } = require("./libs/loadRoutes")
 const path = require("path")
 const cron = require("node-cron")
-const { cronMonthSummary } = require("./cronjobs/monthSummary/MonthSummary")
+const cronMonthSummary = require("./cronjobs/cronMonthSummary/cronMonthSummary")
 
 dotenv.config()
 
