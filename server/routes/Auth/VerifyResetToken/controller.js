@@ -10,10 +10,8 @@ const verifyResetToken = async(req,res) => {
             "settings.resetPasswordExpires": { $gt: Date.now() },
         })
 
-        // TODO - pokud je token už neplatný, přesmerovat opět a ukazat error!
-        if (!user) return res.status(400).json({ message: "Invalid or expired token" })
+        if (!user) return res.status(400).json({ errCode: 1012 })
 
-        // TODO - Přidat na frontEnd, ale pouze pokud chci resetovat heslo, jinak forbidden pristup!
         return res.redirect(`${process.env.FRONTEND_URL}/reset-password/${token}`)
 
     } catch (error) {

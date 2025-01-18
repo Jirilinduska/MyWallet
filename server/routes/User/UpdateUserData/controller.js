@@ -9,16 +9,12 @@ const updateUserData = async(req,res) => {
 
         const user = await User.findById(userID)
 
-        if(!user) return res.status(400).json({ errCode: 1010 })
-
         user.userName = userName
-        // user.email = email 
         user.utils.currency = currency
         user.utils.language = language
         user.utils.avatarID = avatarID
 
         await user.save() 
-    
         return res.status(200).json({ errCode: 5001 })
 
     } catch (error) {

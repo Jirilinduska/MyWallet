@@ -18,7 +18,7 @@ const getCategories = async(req,res) => {
 
     } catch (error) {
         console.log("getCategories() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 
 }

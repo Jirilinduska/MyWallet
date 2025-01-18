@@ -10,8 +10,6 @@ const newCategory = async(req,res) => {
 
         const user = await User.findById(userID)
 
-        if(!user) return res.status(400).json({ message: "User not found" })
-
         const categories = await Category.findOne({
             name: name,
             createdBy: user._id
@@ -26,11 +24,11 @@ const newCategory = async(req,res) => {
             createdBy: user._id
         })
 
-        return res.status(200).json({ message: "Category created" })
+        return res.status(200).json({ errCode: 5001 })
 
     } catch (error) {
         console.log("newCategory() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 }
 

@@ -1,10 +1,10 @@
-const Budget = require("../../../models/Budget")
-const User = require("../../../models/User")
-const Transaction = require("../../../models/Transaction")
-const { notifMonthSummary } = require("../../../modules/Notifications/notifMonthSummary")
+const Budget = require("../../models/Budget")
+const User = require("../../models/User")
+const Transaction = require("../../models/Transaction")
+const { notifMonthSummary } = require("../../modules/Notifications/notifMonthSummary")
 
 // Spouští se každý 1. den v měsíci v 00:01 h
-const monthSummary = async(req,res) => {
+const cronMonthSummary = async() => {
 
     try {
         
@@ -73,4 +73,4 @@ const monthSummary = async(req,res) => {
 }
 
 
-module.exports = { monthSummary }
+module.exports = { cronMonthSummary }

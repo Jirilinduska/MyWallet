@@ -16,8 +16,6 @@ const getBudget = async(req,res) => {
                 select: 'name iconID'
         })
 
-        if (!budgets) return res.status(400).json({ message: "Budgets not found" })
-
         const allTransactions = await Transaction.find({ createdBy: user._id })
 
         const arrangeBudgets = budgets.map((budget) => {

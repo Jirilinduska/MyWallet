@@ -9,17 +9,15 @@ const setFinishedGoal = async(req,res) => {
         
         const goal = await Goal.findById(id)
 
-        if(!goal) return res.status(400).json({ message: "Goal not found" })
-
         goal.isFinished = true
         goal.finishedAt = new Date().toISOString()
 
         await goal.save()
 
-        return res.status(200).json({ message: "Goal finished" })
+        return res.status(200).json({ errCode: 5001})
     } catch (error) {
         console.log("setFinishedGoal() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 }
 

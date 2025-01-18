@@ -56,8 +56,6 @@ const NotifMonthlySummary = ({ data } : NotifMonthlySummaryProps ) => {
             <h3 className="font-semibold">{formatCurrency(data.totalSpent || 0, userCurrency)}</h3>
         </div>
 
-        {/* // TODO - Přidat grafy: - NOVý graf nějaký!*/}
-
         <div className="w-full h-auto xl:h-[300px]">
             <BarChart graphData={userLangID === LANG_CZECH ? graphDataCS : graphDataEN} />
         </div>

@@ -8,7 +8,7 @@ const deleteNotification = async(req,res) => {
     try {
 
         await Notifications.findByIdAndDelete(id)
-        return res.status(200)
+        return res.status(200).json({ errCode: 5001 })
 
     } catch (error) {
         console.log("deleteNotification() => : ", error)

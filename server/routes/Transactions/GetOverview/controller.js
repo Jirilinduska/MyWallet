@@ -35,7 +35,7 @@ const getOverview = async(req,res) => {
             if(category) {
                 var lastExpenseCategory = category
             } else {
-                console.log("No category found for the last expense.")
+                // console.log("No category found for the last expense.")
             }
         }
 
@@ -49,7 +49,7 @@ const getOverview = async(req,res) => {
             if(category) {
                 var lastIncomeCategory = category
             } else {
-                console.log("No category found for the last income.")
+                // console.log("No category found for the last income.")
             }
         }
         
@@ -63,7 +63,7 @@ const getOverview = async(req,res) => {
             },
             {
               $group: {
-                _id: "$category", // category je stále String, nic neměníme
+                _id: "$category", 
                 totalAmount: { $sum: "$amount" }
               }
             },
@@ -72,8 +72,8 @@ const getOverview = async(req,res) => {
             },
             {
               $lookup: {
-                from: 'categories', // Název kolekce pro kategorie (ověřte, zda je správný)
-                let: { category_id: { $toObjectId: "$_id" } }, // Přetypování String na ObjectId
+                from: 'categories', // Název kolekce pro kategorie
+                let: { category_id: { $toObjectId: "$_id" } }, // Přetypování string na ObjectId
                 pipeline: [
                   {
                     $match: {
@@ -107,7 +107,7 @@ const getOverview = async(req,res) => {
             },
             {
               $group: {
-                _id: "$category", // category je stále String, nic neměníme
+                _id: "$category",
                 totalAmount: { $sum: "$amount" }
               }
             },
@@ -116,12 +116,12 @@ const getOverview = async(req,res) => {
             },
             {
               $lookup: {
-                from: 'categories', // Název kolekce pro kategorie (ověřte, zda je správný)
-                let: { category_id: { $toObjectId: "$_id" } }, // Přetypování String na ObjectId
+                from: 'categories', 
+                let: { category_id: { $toObjectId: "$_id" } }, 
                 pipeline: [
                   {
                     $match: {
-                      $expr: { $eq: ["$_id", "$$category_id"] } // Porovnání ObjectId
+                      $expr: { $eq: ["$_id", "$$category_id"] } 
                     }
                   }
                 ],
@@ -129,13 +129,13 @@ const getOverview = async(req,res) => {
               }
             },
             {
-              $unwind: "$categoryDetails" // Pokud existují víc než jedna kategorie, zajišťujeme, že to bude jeden objekt
+              $unwind: "$categoryDetails"
             },
             {
               $project: {
                 _id: 1,
                 totalAmount: 1,
-                categoryName: "$categoryDetails.name", // Výběr dat z kategorie
+                categoryName: "$categoryDetails.name",
                 categoryIconID: "$categoryDetails.iconID"
               }
             }
@@ -182,7 +182,7 @@ const getOverview = async(req,res) => {
 
     } catch (error) {
         console.log("getOverview() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 
 }

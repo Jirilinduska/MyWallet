@@ -15,9 +15,9 @@ const confirmEmail = async(req, res) => {
 
         const user = await User.findById(userID)
 
-        if (!user) return res.status(404).json({ message: "User not found" })
-
-        if (user.settings.emailConfirmed) return res.status(400).json({ message: "Email is already confirmed" });
+        if (user.settings.emailConfirmed) {
+            return res.redirect(`${process.env.FRONTEND_URL}/email-confirmed?confirmed=true`)
+        }
         
         user.settings.emailConfirmed = true
 

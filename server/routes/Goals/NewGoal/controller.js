@@ -10,15 +10,13 @@ const newGoal = async(req,res) => {
         
         const user = await User.findById(userID)
 
-        const newGoal = await Goal.create({ title, amount, year, isPriority, note, createdBy: user._id })
+        await Goal.create({ title, amount, year, isPriority, note, createdBy: user._id })
 
-        if(!newGoal) return res.status(400).json({ message: "Error during creating goal...." })
-
-        return res.status(200).json({ message: "Goal created" })
+        return res.status(200).json({ errCode: 5001 })
 
     } catch (error) {
         console.log("newGoal() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 }
 

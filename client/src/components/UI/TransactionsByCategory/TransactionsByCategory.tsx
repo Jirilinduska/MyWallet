@@ -4,7 +4,6 @@ import { useUserContext } from "../../../context/UserContext"
 import { useCategoriesContext } from "../../../context/CategoriesContext"
 import TopBar from "../../Layout/TopBar/TopBar"
 import NavigatorCategories from "../NavigatorCategories/NavigatorCategories"
-import SectionTitle from "../SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
 import TableTransactions from "../TableTransactions/TableTransactions"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
@@ -68,6 +67,8 @@ const TransactionsByCategory = () => {
                 `List of all transactions for the category: ${catInfo?.categoryName}`
             )}
         </h3>
+
+        { transactionsByCategory.length === 0 && <p className="text-center my-10">{ formatLang(userLangID, "Žádné transakce", "No transactions") }</p> }
     
         { transactionsByCategory.length >= 1 && catInfo && 
             <TableTransactions 

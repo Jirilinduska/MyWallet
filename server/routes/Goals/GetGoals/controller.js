@@ -10,17 +10,13 @@ const getGoals = async(req,res) => {
         
         const user = await User.findById(userID)
 
-        // if(!user) return res.status(400).json({ message: "User not found" })
-
         const listOfGoals = await Goal.find({ createdBy: user._id }).sort({ isPriority: -1, year: 1 })
-
-        // if(!listOfGoals) return res.status()
 
         return res.status(200).json(listOfGoals)
 
     } catch (error) {
         console.log("getGoals() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 }
 

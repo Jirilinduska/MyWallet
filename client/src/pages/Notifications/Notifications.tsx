@@ -32,11 +32,8 @@ const Notifications = () => {
       toggleDelete()
   }
 
-    // TODO - Delete modal window tady!
-    // TODO - Přidat možnost přidat notif do archivu - nemuze byt smazana!
-
     const openModal = (data: INotification) => {
-        markNotifAsRead(data._id) // TODO - Update UI!
+        markNotifAsRead(data._id)
         toggleDetails()
         setNotifModalData(data)
     }
@@ -44,7 +41,6 @@ const Notifications = () => {
   return (
     <div className="section-padding">
 
-        {/* // TODO */}
         { showDetails && notifModalData && <NofitDetails data={notifModalData} toggleDetails={toggleDetails} />}
 
 

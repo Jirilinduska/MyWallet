@@ -2,10 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { handleError } from "../Errors/handleError"
 import { useUserContext } from "./UserContext"
 import { handleArchiveNotification, handleDeleteNotification, handleGetNotifications, handleMarkNotifAsRead } from "../API/Notifs"
-import { handleMonthSummary } from "../API/CronJobs"
-import { handleNotification } from "../utils/functions/notificationsUtils"
-import { NOTIF_SUCCESS } from "../config/globals"
-
 
 interface NotifContextProps {
     notifications: INotification[]
@@ -46,17 +42,11 @@ export const NotifProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const refreshNotifications = async() => {
         try {
             const response = await handleGetNotifications()
-
-            // Sort pro x.isArchived = true nejdříve.
             const sortedNotifs = response.data.sort( (a: any, b: any) => {
                 return Number(b.isArchived) - Number(a.isArchived)
             })
 
             setNotifications(sortedNotifs)
-            // setNotifications(response.data)
-            // TODO 
-            // const cron = await handleMonthSummary()
-            // console.log(cron)
         } catch (error) {
             handleError(error, userLangID)
         }

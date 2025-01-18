@@ -66,18 +66,23 @@ const CategoryPreview = () => {
                     spentAmount={null}    
                 />
                 
-                <InfoItem 
-                    formatToCurrency={true} 
-                    amount={catInfo.largestTransaction.amount} 
-                    color={COLOR_BLUE} 
-                    desc={formatLang(userLangID, 
-                    "Největší transakce", "Largest transaction")} 
-                    icon={<IconMoneyInHand/>} 
-                    size={SIZE_ROW} 
-                    subtitle={`${catInfo.largestTransaction.day}.${catInfo.largestTransaction.month}.${catInfo.largestTransaction.year}`} 
-                    plannedAmount={null}
-                    spentAmount={null}
-                />
+                { catInfo.largestTransaction &&  
+                    catInfo.largestTransaction.day !== undefined && 
+                    catInfo.largestTransaction.month !== undefined && 
+                    catInfo.largestTransaction.year !== undefined &&
+                    (<InfoItem 
+                        formatToCurrency={true} 
+                        amount={catInfo.largestTransaction.amount} 
+                        color={COLOR_BLUE} 
+                        desc={formatLang(userLangID, 
+                        "Největší transakce", "Largest transaction")} 
+                        icon={<IconMoneyInHand/>} 
+                        size={SIZE_ROW} 
+                        subtitle={`${(catInfo.largestTransaction.day)}.${catInfo.largestTransaction.month}.${catInfo.largestTransaction.year}`} 
+                        plannedAmount={null}
+                        spentAmount={null}
+                    />)
+                }
             </div>
 
         <div className="flex items-center justify-between flex-col gap-6 sm:flex-row-reverse mb-10">

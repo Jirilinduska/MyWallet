@@ -10,9 +10,6 @@ const forgottenPassword = async(req,res) => {
         
         const user = await User.findOne({ email })
 
-        if(!user) return res.status(404).json({ message: "User not found" })
-
-
         const token = crypto.randomBytes(32).toString("hex")
 
         user.settings.resetPasswordToken = token
@@ -22,11 +19,11 @@ const forgottenPassword = async(req,res) => {
 
         await sendEmailForgottenPassword(email, token)
 
-        return res.status(200).json({ message: "Password reset email sent" })
+        return res.status(200).json({ errCode: 5001 })
 
     } catch (error) {
         console.log("forgottenPassword() => : ", error)
-        return res.status(500).json({ message: "Server error" })
+        return res.status(500).json({ errCode: 5000 })
     }
 
 }

@@ -21,7 +21,7 @@ const archiveNotification = async(req,res) => {
 
         await notif.save()
 
-        return res.status(200).json({ message: "Succed" })
+        return res.status(200).json({ errCode: 5001 })
 
     } catch (error) {
         console.log("archiveNotification() => : ", error)

@@ -12,8 +12,7 @@ const resetPassword = async(req,res) => {
             "settings.resetPasswordExpires": { $gt: Date.now() },
         })
 
-        // TODO 
-        if (!user) return res.status(400).json({ message: "Invalid or expired token" })
+        if (!user) return res.status(400).json({ errCode: 1012 })
 
         const hashPassword = await bcrypt.hash(newPassword, 10)
         user.password = hashPassword
@@ -23,11 +22,11 @@ const resetPassword = async(req,res) => {
 
         await user.save()
 
-        return res.status(200).json({ message: "Password has been reset" })
+        return res.status(200).json({ errCode: 5001 })
           
     } catch (error) {
         console.log("resetPassword() => : ", error)
-        return res.status(500).json({ message: "Server error" })
+        return res.status(500).json({ errCode: 5000 })
     }
 }
 

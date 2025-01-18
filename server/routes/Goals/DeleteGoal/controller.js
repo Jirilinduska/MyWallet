@@ -7,14 +7,13 @@ const deleteGoal = async(req,res) => {
     
     try {
         
-        const goal = await Goal.findByIdAndDelete(id)
+        await Goal.findByIdAndDelete(id)
 
-        if(!goal) return res.status(400).json({ message: "Goal not found" })
-
-        return res.status(200).json({ message: "Goal deleted" })
+        return res.status(200).json({ errCode: 5001 })
+        
     } catch (error) {
         console.log("deleteGoal() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 }
 

@@ -74,6 +74,11 @@ export const ErrorCodes: { [key: number]: { cs: string; en: string } } = {
         en: "Password must be at least 8 characters long"
     },
 
+    1012: {
+        cs: "Neplatný nebo vypršelý token",
+        en: "Invalid or expired token"
+    },
+
     // * KATEGORIE
 
     2000: {

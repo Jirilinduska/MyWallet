@@ -9,8 +9,6 @@ const changePassword = async(req,res) => {
     try {
         const user = await User.findById(userID)
 
-        if(!user) return res.status(400).json({ errCode: 1010 })
-
         if(!currentPassword) return res.status(400).json({ errCode: 1003 })
 
         if(!newPassword) return res.status(400).json({ errCode: 1004 })

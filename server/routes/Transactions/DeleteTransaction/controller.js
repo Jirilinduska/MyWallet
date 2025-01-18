@@ -13,7 +13,7 @@ const deleteTransaction = async(req,res) => {
 
     } catch (error) {
         console.log("deleteTransaction() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 
 }

@@ -69,7 +69,7 @@ const getTransaction = async(req,res) => {
 
     } catch (error) {
         console.log("newTransaction() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 
 }

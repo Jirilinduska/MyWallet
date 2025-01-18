@@ -20,7 +20,7 @@ const deleteCategory = async(req,res) => {
 
         await Category.findByIdAndDelete(id)
 
-        return res.status(200).json({ message: "Category deleted." })
+        return res.status(200).json({ errCode: 5001 })
 
     } catch (error) {
         console.log("deleteCategory() => : ", error)

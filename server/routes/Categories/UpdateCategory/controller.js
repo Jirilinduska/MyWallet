@@ -13,11 +13,11 @@ const updateCategory = async(req,res) => {
             { new: true }
         )
     
-        return res.status(200).json({ message: "Category updated." })
+        return res.status(200).json({ errCode: 5001 })
 
     } catch (error) {
         console.log("updateCategory() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 
 }

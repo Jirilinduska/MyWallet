@@ -15,6 +15,7 @@ const getNotifications = async(req,res) => {
         }).sort({ createdAt: -1 })
 
         if(!notifs) return res.status(200).json([])
+        
         return res.status(200).json(notifs)
 
     } catch (error) {

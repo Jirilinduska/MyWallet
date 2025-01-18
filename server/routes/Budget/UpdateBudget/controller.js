@@ -8,18 +8,8 @@ const updateBudget = async(req,res) => {
 
     try {
         const user = await User.findById(userID)
-
-        if (!user) {
-            console.log("User not found")
-            return res.status(404).json({ message: "User not found." })
-        }
         
-
         const findBudget = await Budget.findById(_id)
-        if (!findBudget) {
-            console.log("Budget not found")
-            return res.status(404).json({ message: "Budget not found." })
-        }
 
         const formattedCategories = budgetCategories.map(item => {
             return {
@@ -35,11 +25,11 @@ const updateBudget = async(req,res) => {
 
         await findBudget.save()
 
-        return res.status(200).json({ message: "Budget updated." })
+        return res.status(200).json({ errCode: 5001 })
 
     } catch (error) {
         console.log("updateBudget() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 
 }

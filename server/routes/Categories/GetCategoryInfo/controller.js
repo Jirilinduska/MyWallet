@@ -11,8 +11,6 @@ const getCategoryInfo = async(req,res) => {
         
         const user = await User.findById(userID)
 
-        if(!user) return res.status(400).json({ errCode: 1010 })
-
         const category = await Category.findById(id)
 
         if(!category) return res.status(400).json({ errCode: 2003 })

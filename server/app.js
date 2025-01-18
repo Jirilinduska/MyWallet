@@ -4,6 +4,8 @@ const dotenv = require("dotenv")
 const connectDB = require("./db/connect")
 const { loadRoutes } = require("./libs/loadRoutes")
 const path = require("path")
+const cron = require("node-cron")
+const { cronMonthSummary } = require("./cronjobs/monthSummary/MonthSummary")
 
 dotenv.config()
 
@@ -33,6 +35,17 @@ app.use(cors({
 }))
 
 loadRoutes(app, path.join(__dirname, 'routes'))
+
+// * cron jobs:
+
+// Každý den - 22:15
+cron.schedule('15 22 * * *', async () => { 
+    try {
+        await cronMonthSummary()
+    } catch (error) {
+        console.log("Cron-job error: " + error)
+    }
+})
 
 const startServer = async () => {
     try {

@@ -10,8 +10,6 @@ const editGoal = async(req,res) => {
     try {
         const findGoal = await Goal.findById(id)
 
-        if(!findGoal) return res.status(400).json({ message: "Goal not found" })
-
         findGoal.title      = goal.title
         findGoal.amount     = goal.amount
         findGoal.year       = goal.year
@@ -21,11 +19,11 @@ const editGoal = async(req,res) => {
 
         await findGoal.save()
 
-        return res.status(200).json({ message: "Goal updated" })
+        return res.status(200).json({ errCode: 5001 })
 
     } catch (error) {
         console.log("editGoal() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 }
 

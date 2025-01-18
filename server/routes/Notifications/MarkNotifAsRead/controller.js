@@ -9,16 +9,11 @@ const markAsRead = async(req,res) => {
 
         const findNotif = await Notifications.findById(id)
 
-        // if (!findNotif) {
-        //     return res.status(404).json({ errCode: 4040, message: "Notification not found" })
-        // }
-
         findNotif.isRead = true
 
         await findNotif.save()
 
-        return res.status(200).json({ success: true, message: "Notification marked as read" })
-
+        return res.status(200).json({ errCode: 5001 })
 
     } catch (error) {
         console.log("markAsRead() => : ", error)

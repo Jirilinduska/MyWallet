@@ -17,11 +17,11 @@ const newBudget = async(req,res) => {
             createdBy: user._id
         })
 
-        return res.status(200).json({ message: "Budget created." })
+        return res.status(200).json({ errCode: 5001 })
 
     } catch (error) {
         console.log("newBudget() => : ", error)
-        return res.status(500).json({ message: "Server error." })
+        return res.status(500).json({ errCode: 5000 })
     }
 
 }
