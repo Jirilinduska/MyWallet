@@ -26,6 +26,11 @@ const UserChema = new mongoose.Schema({
         avatarID: { type: Number, default: 6 }
     },
 
+    lastMonthSummary: {
+        type: Date,
+        default: null,
+    },
+
     settings: {
 
         profileCompleted: { type: Boolean, default: false },

@@ -59,5 +59,4 @@ export const URL_MARK_NOTIF_AS_READ = `${API_BASE_URL}/api/notifications/mark-as
 export const URL_ARCHIVE_NOTIF = `${API_BASE_URL}/api/notifications/archive`
 
 // CRON JOBS 
-// TODO - Dokončit - přidat cron jobs na render.com
 export const URL_MONTH_SUMMARY = `${API_BASE_URL}/api/cron-jobs/month-summary`
