@@ -54,7 +54,7 @@ const InfoItem = ({ icon, amount, desc, plannedAmount, color, size, formatToCurr
 
                     <h3 className="font-semibold text-xs xs:text-base">{formatToCurrency ? formatCurrency(amount, userCurrency) : amount}</h3>
 
-                    <span className={`${percentage! > 75 ? "text-red-600" : "text-black"} font-semibold text-xs`}>{ plannedAmount ? `${percentage}%` : null }</span>
+                    <span className={`${percentage! > 100 ? "text-red-600" : percentage! > 75 ? "text-orange-600" : "text-black"} font-semibold text-xs`}>{ plannedAmount ? `${percentage}%` : null }</span>
                 </div>
             </div>
         )
