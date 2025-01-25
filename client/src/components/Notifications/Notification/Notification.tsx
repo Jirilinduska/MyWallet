@@ -31,7 +31,7 @@ const Notification = ({ data, openModal, activeSettingsId, toggleSettings, openD
     >
 
         { !data.isRead && !data.isArchived && <IconNotification className="absolute top-1/2 left-2 -translate-y-1/2 text-2xl text-red-500"/> }
-        { data.isArchived && <IconStar className="absolute top-1/2 left-2 -translate-y-1/2 text-2xl text-yellow-500"/> }
+        { data.isArchived && <IconStar className="absolute top-1/2 left-1 -translate-y-1/2 text-2xl text-yellow-500"/> }
 
         <div className="hidden sm:block flex-1 p-2 text-left pl-10">
             <span className="font-semibold">My Wallet App</span>
@@ -55,17 +55,18 @@ const Notification = ({ data, openModal, activeSettingsId, toggleSettings, openD
             {isActive && (
                 <div className="absolute top-full right-0 w-32 bg-white z-10 p-2 shadow-md rounded-md">
                     
-                    <button 
-                        className="flex items-center gap-2 w-full text-left py-2 hover:bg-gray-100 !text-black"
-                        onClick={ (e) => {
-                            e.preventDefault()
-                            e.stopPropagation()
-                            openDeleteNotif(data._id)
-                        }}
-                    >
-                        <IconDelete className="text-red-500" />
-                        {formatLang(userLangID, "Smazat", "Delete")}
-                    </button>
+                    { !data.isArchived && <button 
+                            className="flex items-center gap-2 w-full text-left py-2 hover:bg-gray-100 !text-black"
+                            onClick={ (e) => {
+                                e.preventDefault()
+                                e.stopPropagation()
+                                openDeleteNotif(data._id)
+                            }}
+                        >
+                            <IconDelete className="text-red-500" />
+                            {formatLang(userLangID, "Smazat", "Delete")}
+                        </button>
+                    }
         
                     <button 
                         className="flex items-center gap-2 w-full text-left py-2 hover:bg-gray-100 !text-black"

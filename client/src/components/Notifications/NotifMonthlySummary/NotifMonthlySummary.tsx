@@ -60,6 +60,9 @@ const NotifMonthlySummary = ({ data } : NotifMonthlySummaryProps ) => {
             <BarChart graphData={userLangID === LANG_CZECH ? graphDataCS : graphDataEN} />
         </div>
 
+
+        {/* // TODO - Dodplnit data podle kategorií! */}
+
     </div>
   )
 }

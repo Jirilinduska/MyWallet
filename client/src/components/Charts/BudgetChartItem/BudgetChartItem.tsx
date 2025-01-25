@@ -5,6 +5,7 @@ import { IGetBudgetCategories } from "../../../utils/interfaces/interfaces"
 import { categoryIcons } from "../../../utils/icons/category-icons"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
+import { formatCurrency } from "../../../utils/functions/formatNumber"
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -13,7 +14,9 @@ interface Props {
 }
 
 const BudgetChart: React.FC<Props> = ({ oneCategory }) => {
-  const { userLangID } = useUserContext()
+
+  const { userLangID, userCurrency } = useUserContext()
+  const percentage = oneCategory.price > 0 ? (oneCategory.spent / oneCategory.price) * 100 : 0
 
 
   const icon = categoryIcons.find(icon => String(icon.id) === String(oneCategory.category.iconID))?.iconJSX
@@ -71,11 +74,25 @@ const BudgetChart: React.FC<Props> = ({ oneCategory }) => {
   }
 
   return (
-    <div className="w-full xl:w-1/2 my-10 xl:m-0 h-[300px]">
+    <div className="w-full xl:w-1/2 my-10 xl:m-0">
 
-        <div className="flex items-center gap-2 text-lg">
+        <div className={`${percentage > 100 ? "text-red-500" : percentage > 85 ? "text-orange-500" : "text-green-500"} flex items-center gap-2 text-lg mb-4 font-semibold`}>
           {icon}
           <h3 className="font-semibold">{oneCategory.category.name}</h3>
+          {/* <span className={`${percentage > 100 ? "text-red-500" : percentage > 85 ? "text-orange-500" : "text-green-500"} font-semibold`}>({percentage.toFixed()}%)</span> */}
+          <span>({percentage.toFixed()}%)</span>
+        </div>
+
+        <div className="flex items-center gap-1 text-sm mb-1">
+          <h4>{formatLang(userLangID, "Plánovaná částka:", "Amount planned:")}</h4>
+          <span className="font-semibold">{formatCurrency(oneCategory.price, userCurrency)}</span>
+        </div>
+
+        <div className="flex items-center gap-1 text-sm mb-1">
+          <h4>{formatLang(userLangID, "Utracená částka", "Amount spent")}</h4>
+          <p className="font-semibold flex items-center gap-2">
+            <span className="">{formatCurrency(oneCategory.spent, userCurrency)}</span>
+          </p>
         </div>
 
         <Bar data={data} options={options} />
