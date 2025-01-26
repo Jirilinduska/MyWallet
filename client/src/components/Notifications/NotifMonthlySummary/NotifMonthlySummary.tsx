@@ -5,6 +5,7 @@ import { getMonthName } from "../../../utils/functions/dateUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { formatCurrency } from "../../../utils/functions/formatNumber"
 import BarChart from "../../Charts/BarChart/BarChart"
+import NotifCategoriesSummary from "../NotifCategoriesSummary/NotifCategoriesSummary"
 
 
 interface NotifMonthlySummaryProps {
@@ -56,12 +57,23 @@ const NotifMonthlySummary = ({ data } : NotifMonthlySummaryProps ) => {
             <h3 className="font-semibold">{formatCurrency(data.totalSpent || 0, userCurrency)}</h3>
         </div>
 
-        <div className="w-full h-auto xl:h-[300px]">
+        <div className="w-full h-auto xl:h-[300px] mb-10">
             <BarChart graphData={userLangID === LANG_CZECH ? graphDataCS : graphDataEN} />
         </div>
 
+        { data.categorySummary && data.categorySummary.length > 0 && 
+            <NotifCategoriesSummary 
+                summary={data.categorySummary}
+                isPlanned={true}
+            /> 
+        }
 
-        {/* // TODO - Dodplnit data podle kategorií! */}
+        { data.unplannedCategories && data.unplannedCategories.length > 0 && 
+            <NotifCategoriesSummary 
+                summary={data.unplannedCategories}
+                isPlanned={false}
+            /> 
+        }
 
     </div>
   )

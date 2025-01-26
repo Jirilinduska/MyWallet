@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { handleError } from "../Errors/handleError"
 import { useUserContext } from "./UserContext"
 import { handleArchiveNotification, handleDeleteNotification, handleGetNotifications, handleMarkNotifAsRead } from "../API/Notifs"
+import { ICategorySummary } from "../utils/interfaces/interfaces"
 
 interface NotifContextProps {
     notifications: INotification[]
@@ -27,6 +28,8 @@ export interface INotification {
     year?: number
     month?: number
     isArchived: boolean
+    categorySummary: ICategorySummary[]
+    unplannedCategories: ICategorySummary[]
 }
 
 export const NotifContext = createContext<NotifContextProps | undefined>(undefined)

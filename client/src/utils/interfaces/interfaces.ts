@@ -173,6 +173,12 @@ export interface IUserDataUpdate {
     avatarID: number
 }
 
+export interface ICategorySummary {
+    categoryID: string
+    planned: number
+    spent: number
+}
+
 // * =========== Props ===========
 
 export interface IInputSelect{

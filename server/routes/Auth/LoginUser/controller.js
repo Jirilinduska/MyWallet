@@ -53,9 +53,22 @@ const loginUser = async (req, res) => {
             }
 
             findUser.lastMonthSummary = new Date(currentYear, currentMonth, 1)
-
             await findUser.save()
         }
+
+        const formattedDate = now.toLocaleString("cs-CZ", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          }).replace(",", "")
+
+        
+        findUser.lastOnline = formattedDate
+
+        await findUser.save()
 
         return res.status(200).json({ token })
     } catch (error) {

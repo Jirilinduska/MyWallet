@@ -74,6 +74,28 @@ const NotificationSchema = new mongoose.Schema({
   month: {
     type: Number,
     required: false
+  }, 
+
+  categorySummary: {
+    type: [
+        {
+            categoryID: { type: mongoose.Schema.Types.ObjectId, ref: "Category" }, 
+            planned: { type: Number, default: 0 }, 
+            spent: { type: Number, default: 0 }
+        }
+    ],
+    default: undefined,
+  },
+
+  unplannedCategories: {
+    type: [
+        {
+            categoryID: { type: mongoose.Schema.Types.ObjectId, ref: "Category" }, 
+            planned: { type: Number, default: 0 }, 
+            spent: { type: Number, default: 0 }
+        }
+    ],
+    default: undefined,
   }
 
 });

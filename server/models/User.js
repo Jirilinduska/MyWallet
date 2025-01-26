@@ -31,6 +31,11 @@ const UserChema = new mongoose.Schema({
         default: null,
     },
 
+    lastOnline: {
+        type: String,
+        default: null
+    }, 
+
     settings: {
 
         profileCompleted: { type: Boolean, default: false },

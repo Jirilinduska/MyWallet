@@ -28,7 +28,7 @@ const NofitDetails = ({ data, toggleDetails } : NofitDetailsProps ) => {
             
             <IconClose onClick={toggleDetails} className="absolute top-3 right-3 text-4xl text-red-500 cursor-pointer"/>
 
-            <div className="p-4 border-2 h-[90%] w-[90%] mx-auto rounded-xl">
+            <div className="p-4 border-2 h-[90%] w-[90%] mx-auto rounded-xl overflow-y-auto">
 
                 <div className="my-6 flex items-center justify-between flex-col-reverse gap-4 md:flex-row">
                     <h3 className="font-semibold text-sm sm:text-base">{formatLang(userLangID, data.titleCS, data.titleEN)}</h3>
@@ -39,7 +39,7 @@ const NofitDetails = ({ data, toggleDetails } : NofitDetailsProps ) => {
 
                 { data.type === TYPE_MONTHLY_SUMMARY && <NotifMonthlySummary data={data} /> }
 
-                <div className="absolute bottom-14 left-1/2 -translate-x-1/2 w-1/3 flex items-center gap-2">
+                <div className="w-full xs:w-1/2 mx-auto my-10">
                     
                     <Button
                         color={COLOR_BLUE}
