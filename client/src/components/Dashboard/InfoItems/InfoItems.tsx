@@ -54,7 +54,7 @@ const InfoItems = ({ budget, expense, income, showBudget } : InfoItemsProps ) =>
       }
 
       <InfoItem
-        amount={income - expense}
+        amount={ income > expense ? income - expense : 0 }
         desc={formatLang(userLangID, "Ušetřeno", "Saved")}
         icon={<IconMoneyInHand />}
         plannedAmount={null}
