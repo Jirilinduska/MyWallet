@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import HeroLogged from "../../components/UI/Hero/HeroLogged/HeroLogged"
-import HeroNotLogged from "../../components/UI/Hero/HeroNotLogged/HeroNotLogged"
+import { Box } from "@mui/material"
+import HeroNotLoggedMUI from "../../components/UI/Hero/HeroNotLogged/HeroNotLoggedMUI"
 
 const Home = () => {
 
@@ -12,9 +13,12 @@ const Home = () => {
     }, [] )
 
   return (
-    <section className="h-screen mx-auto flex items-center justify-center flex-col">
-      {isLoggedIn ? <HeroLogged /> : <HeroNotLogged />}
-    </section>
+    <Box
+      height="100vh"
+      bgcolor="background.primary"
+    >
+      {isLoggedIn ? <HeroLogged /> : <HeroNotLoggedMUI/>}
+    </Box>
   )
 }
 

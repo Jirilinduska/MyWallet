@@ -11,23 +11,35 @@ const monthSummary = async (userID, year, month) => {
             year -= 1
         }
 
-        const outdatedBudgets = await Budget.find({
-            $or: [
-                { year: { $lt: year } },
-                { year: year, month: { $lt: month } },
-            ],
-            isFinished: false,
+        // const outdatedBudgets = await Budget.find({
+        //     $or: [
+        //         { year: { $lt: year } },
+        //         { year: year, month: { $lt: month } },
+        //     ],
+        //     isFinished: false,
+        // })
+
+        // if (outdatedBudgets.length === 0) {
+        //     // SKIP
+        //     // console.log("Žádné staré budgety k označení.")
+        // } else {
+        //     // Aktualizujeme budgety na isFinished = true
+        //     await Budget.updateMany(
+        //         { _id: { $in: outdatedBudgets.map((budget) => budget._id) } },
+        //         { $set: { isFinished: true } }
+        //     )
+        // }
+
+        // find budget and set it to isFinished = true
+        const budget = await Budget.findOne({ 
+            createdBy: userID,
+            month,
+            year,
         })
 
-        if (outdatedBudgets.length === 0) {
-            // SKIP
-            // console.log("Žádné staré budgety k označení.")
-        } else {
-            // Aktualizujeme budgety na isFinished = true
-            await Budget.updateMany(
-                { _id: { $in: outdatedBudgets.map((budget) => budget._id) } },
-                { $set: { isFinished: true } }
-            )
+        if(budget) {
+            budget.isFinished = true    
+            await budget.save()
         }
 
         const allTransactions = await Transaction.find({

@@ -1,9 +1,6 @@
 import { useState } from "react"
-import Input from "../../UI/Input/Input"
-import { COLOR_GREEN } from "../../../config/globals"
-import Button from "../../UI/Button/Button"
 import { useAuthContext } from "../../../context/AuthContext"
-import { handleInputChange } from "../../../utils/functions/inputUtils"
+import { Button, TextField, Typography, Box } from "@mui/material";
 
 interface AuthFormProps {
     isLogin: boolean
@@ -13,7 +10,6 @@ interface AuthFormProps {
 const AuthForm = ({ isLogin, toggleIsLogin } : AuthFormProps ) => {
 
     const { loading, loginUser, registerUser } = useAuthContext()
-
     const [formData, setFormData] = useState({ userName: "", email: "", password: "" })
 
     const handleSubmit = async(e: React.FormEvent) => {
@@ -26,70 +22,91 @@ const AuthForm = ({ isLogin, toggleIsLogin } : AuthFormProps ) => {
     }
 
   return (
-    <form 
-        onSubmit={handleSubmit} 
-        className="w-full p-6 h-full flex flex-col justify-center lg:block lg:h-auto"
+<Box
+  sx={{
+    width: { xs: "100%", sm: "75%", md: "50%" }, 
+    padding: "24px",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    margin: "0 auto",
+  }}
+>
+<form onSubmit={handleSubmit}>
+  <Typography variant="h5" align="center" gutterBottom mb={4} fontWeight={600}>
+    {isLogin ? "Login now" : "Register now"}
+  </Typography>
+
+  {!isLogin && (
+    <Box marginBottom={2}>
+      <TextField
+        fullWidth
+        variant="outlined"
+        label="Username*"
+        name="userName"
+        type="text"
+        size="small"
+        onChange={(e) => setFormData((prev) => ({...prev, userName: e.target.value}))}
+        value={formData.userName}
+      />
+    </Box>
+  )}
+
+  <Box marginBottom={2}>
+    <TextField
+      fullWidth
+      autoFocus={isLogin}
+      variant="outlined"
+      label="Email address*"
+      name="email"
+      type="email"
+      size="small"
+      onChange={(e) => setFormData((prev) => ({...prev, email: e.target.value}))}
+      value={formData.email}
+    />
+  </Box>
+
+  <Box marginBottom={2}>
+    <TextField
+      fullWidth
+      variant="outlined"
+      label="Password*"
+      name="password"
+      type="password"
+      size="small"
+      onChange={(e) => setFormData((prev) => ({...prev, password: e.target.value}))}
+      value={formData.password}
+    />
+  </Box>
+
+  <Button
+    variant="contained"
+    color="success"
+    type="submit"
+    fullWidth
+    loading={loading}
+  >
+    {isLogin ? "Login" : "Register"}
+  </Button>
+
+  <Box display="flex" justifyContent="center" alignItems="center" marginTop={2}>
+    <Typography variant="body2" color="textSecondary">
+      {isLogin ? "Not a member yet?" : "Already a member?"}
+    </Typography>
+
+    <Typography
+      variant="body2"
+      color="primary"
+      style={{ cursor: "pointer", textDecoration: "underline", marginLeft: 8 }}
+      onClick={toggleIsLogin}
+      fontWeight={600}
     >
-
-        <h3 className="font-bold text-white mb-10 text-xl">
-            { isLogin ? "Login now" : "Register now" }
-        </h3>
-
-
-        { !isLogin && (
-            <div className="mb-4">
-                <Input
-                    inputName="userName"
-                    inputType="text"
-                    labelFor="userName"
-                    labelValue="Username*"
-                    onChange={ (e) => handleInputChange(e, setFormData) }
-                    placeholder="Your username"
-                    value={formData.userName}
-                />
-            </div>
-        )}
-
-        <div className="mb-4">
-            <Input 
-                inputName="email"
-                inputType="email"
-                labelFor="email"
-                labelValue="Email adress*"
-                onChange={ (e) => handleInputChange(e, setFormData) }
-                placeholder="Your email adress"
-                value={formData.email}
-            />
-        </div>
-
-        <Input
-            inputName="password"
-            inputType="password"
-            labelFor="password"
-            labelValue="Password*"
-            onChange={ (e) => handleInputChange(e, setFormData) }
-            placeholder="Password"
-            value={formData.password}
-            isPassword={true}
-        />
-
-        <Button 
-            color={COLOR_GREEN} 
-            loading={loading} 
-            value={ isLogin ? "Login" : "Register" }
-            buttonType="submit"
-        />
-
-        <div className="hidden text-white text-sm lg:text-base items-center gap-4 my-10 lg:flex">
-
-            <p className="">{ isLogin ? "Not a member yet?" : "Already a member?" }</p>
-
-            <span className="underline cursor-pointer hover:text-colorGreen" onClick={toggleIsLogin}>
-                { isLogin ? "Register now" : "Login now" }
-            </span>
-        </div>
-
-    </form>
+      {isLogin ? "Register now" : "Login now"}
+    </Typography>
+  </Box>
+</form>
+</Box>
   )
 }
 

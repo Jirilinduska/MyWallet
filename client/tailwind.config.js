@@ -12,7 +12,9 @@ module.exports = {
         colorBlue: "#1d4ed8",
         colorBlueHover: "#1e40af",
         colorGreen: "#10b981",
-        colorGreenHover: "#0ea573"
+        colorGreenHover: "#0ea573",
+
+        colorMain: "#5A4BAD"
       },
 
       fontFamily: {
