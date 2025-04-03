@@ -14,8 +14,9 @@ const Home = () => {
 
   return (
     <Box
-      height="100vh"
+      // height="100vh"
       bgcolor="background.primary"
+      minHeight="100vh"
     >
       {isLoggedIn ? <HeroLoggedMUI /> : <HeroNotLoggedMUI/>}
     </Box>

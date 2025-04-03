@@ -2,11 +2,11 @@ import { useUserContext } from "../../../context/UserContext"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { useOverviewData } from "../../../context/OverviewDataContext"
-import OverviewMonth from "../OverviewMonth/OverviewMonth"
 import OverviewYear from "../OverviewYear/OverviewYear"
 import TopBar from "../../Layout/TopBar/TopBar"
 import Loader from "../../UI/Loader/Loader"
 import { usePageTitle } from "../../../hooks/usePageTitle"
+import OverviewMonthMUI from "../OverviewMonth/OverviewMonthMUI"
 
 const Overview = () => {
 
@@ -26,7 +26,7 @@ const Overview = () => {
 
         {/* Měsíční přehled */}
         { month === (new Date().getMonth() + 1) && year === new Date().getFullYear() && overviewData && 
-            <OverviewMonth 
+            <OverviewMonthMUI 
                 income={overviewData.monthTotalIncome}
                 expense={overviewData.monthTotalExpense}
                 budget={overviewData.monthBudget}

@@ -14,7 +14,7 @@ const HeroLoggedMUI = () => {
   useCompleteProfile()
 
   return (
-    <div className="flex items-center justify-center gap-8 flex-col h-full w-full animate-fadeIn">
+    <div className="flex items-center justify-center gap-8 flex-col min-h-screen w-full animate-fadeIn">
 
       {userData && 
         <Typography variant="h3" mb={4} fontWeight={600}>

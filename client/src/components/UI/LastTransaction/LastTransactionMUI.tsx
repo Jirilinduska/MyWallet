@@ -25,7 +25,7 @@ const LastTransactionMUI = ({ iconID, name, date, amount, type, fullWidth }: Las
 
   return (
     <ListItem
-        sx={{ border: "1px solid", borderRadius: "15%", mb: 1, borderColor: "primary.dark" }}
+        sx={{ border: "1px solid", mb: 1, borderColor: "primary.dark" }}
     >
 
       <ListItemText
