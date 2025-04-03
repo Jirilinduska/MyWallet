@@ -4,6 +4,7 @@ import { useOverviewData } from "../../../context/OverviewDataContext"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
 import LastTransaction from "../LastTransaction/LastTransaction"
+import LastTransactionMUI from "../LastTransaction/LastTransactionMUI"
 import Loader from "../Loader/Loader"
 
 const ExpenseInfo = () => {
@@ -13,16 +14,17 @@ const ExpenseInfo = () => {
     const { overviewData, loading } = useOverviewData()
 
   return (
-    <div className="shadow-lg rounded-lg w-[95%] sm:w-[400px] md:w-[500px] flex flex-col items-center p-4">
+    <div className="shadow-lg rounded-lg w-[95%] h-[80%] sm:w-[400px] md:w-[500px] flex flex-col items-center p-4">
 
-        <h3 className="font-semibold text-base mb-2">{formatLang(userLangID, "Poslední transakce", "Last transactions")}</h3>
+        {/* <h3 className="font-semibold text-base mb-2">{formatLang(userLangID, "Poslední transakce", "Last transactions")}</h3> */}
 
         <div className="space-y-2 w-full">
 
             { loading && <Loader wantFullSize={false}/> }
 
+
             { overviewData?.lastExpense && (
-              <LastTransaction
+              <LastTransactionMUI
                 amount={overviewData.lastExpense.amount}
                 date={overviewData.lastExpense.createdAt}
                 iconID={overviewData.lastExpenseCategory.iconID}
@@ -33,7 +35,7 @@ const ExpenseInfo = () => {
             )}
 
             { overviewData?.lastIncome && (
-              <LastTransaction
+              <LastTransactionMUI
                 amount={overviewData.lastIncome.amount}
                 date={overviewData.lastIncome.createdAt}
                 iconID={overviewData.lastIncomeCategory.iconID}
@@ -50,13 +52,13 @@ const ExpenseInfo = () => {
         <div className="my-10 w-full">
                 <h3 className="font-semibold text-base mb-2 text-center">{formatLang(userLangID, "Dnešní výdaje", "Today's expense")}</h3>
 
-                <div className={`${ !overviewData?.todayExpense?.length || "h-[200px] overflow-y-auto" } space-y-2`}>
+                <div className={`${ !overviewData?.todayExpense?.length || "h-[250px] overflow-y-auto" } space-y-2`}>
                     { overviewData?.todayExpense && overviewData.todayExpense.map( (x) => {
 
                         const category = categoriesTransactions.find( (cat) => cat._id ===  x.category)
 
                       return (
-                        <LastTransaction
+                        <LastTransactionMUI
                           amount={x.amount}
                           date={x.createdAt}
                           name={category?.name || formatLang(userLangID, "Neznámá kategorie", "Unknown category")}

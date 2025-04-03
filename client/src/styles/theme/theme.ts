@@ -34,17 +34,17 @@ export const themeUtils = () => {
         fontSize: "1rem",
       },
     },
-    components: {
-      MuiButton: {
-        styleOverrides: {
-          root: {
-            backgroundColor: "#5A4BAD", // Tmavší fialová pro tlačítka
-            "&:hover": {
-              backgroundColor: "#3D3081", // Tmavší fialová pro hover
-            },
-          },
-        },
-      },
-    },
+    // components: {
+    //   MuiButton: {
+    //     styleOverrides: {
+    //       root: {
+    //         backgroundColor: "#5A4BAD", // Tmavší fialová pro tlačítka
+    //         "&:hover": {
+    //           backgroundColor: "#3D3081", // Tmavší fialová pro hover
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
   });
 };

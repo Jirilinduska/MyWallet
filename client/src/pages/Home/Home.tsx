@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import HeroLogged from "../../components/UI/Hero/HeroLogged/HeroLogged"
+import HeroLoggedMUI from "../../components/UI/Hero/HeroLogged/HeroLoggedMUI"
 import { Box } from "@mui/material"
 import HeroNotLoggedMUI from "../../components/UI/Hero/HeroNotLogged/HeroNotLoggedMUI"
 
@@ -17,7 +17,7 @@ const Home = () => {
       height="100vh"
       bgcolor="background.primary"
     >
-      {isLoggedIn ? <HeroLogged /> : <HeroNotLoggedMUI/>}
+      {isLoggedIn ? <HeroLoggedMUI /> : <HeroNotLoggedMUI/>}
     </Box>
   )
 }

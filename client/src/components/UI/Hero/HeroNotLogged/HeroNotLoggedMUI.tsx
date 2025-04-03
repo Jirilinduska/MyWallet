@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material"
 import { IconCard, IconChart, IconWallet } from "../../../../utils/icons/icons"
-import AuthForm from "../../../Forms/AuthForm/AuthForm"
+import AuthFormMUI from "../../../Forms/AuthForm/AuthFormMUI"
 import { useState } from "react"
 import { usePageTitle } from "../../../../hooks/usePageTitle"
 
@@ -37,7 +37,7 @@ const HeroNotLoggedMUI = () => {
         </Box>
         
         <Box width={{ xs: "100%", lg: "50%" }} display="flex" alignItems="center" justifyContent="center">
-            <AuthForm  
+            <AuthFormMUI  
                 isLogin={isLogin}
                 toggleIsLogin={toggleIsLogin}
             />
