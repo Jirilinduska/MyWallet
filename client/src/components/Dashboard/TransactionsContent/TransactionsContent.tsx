@@ -8,7 +8,10 @@ import TableTransactions from "../../UI/TableTransactions/TableTransactions"
 import { COLOR_BLUE, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
 import { formatCurrency } from "../../../utils/functions/formatNumber"
 import BarChartCategories from "../../Charts/BarChartCategories/BarChartCategories"
-import Button from "../../UI/Button/Button"
+import { Box, Button } from "@mui/material"
+import { BarChart } from "@mui/x-charts"
+import TableTransactionsMUI from "../../UI/TableTransactions/TableTransactionsMUI"
+// import Button from "../../UI/Button/Button"
 
 interface TransactionsContentProps {
     transactions: ITransaction[]
@@ -27,6 +30,14 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
     const [wantTable, setWantTable] = useState(true)
     const [wantStats, setWantStats] = useState(false)
 
+    const dataSetExpense = graphDataExp.map(item => ({
+        label: item.categoryName, value: item.totalAmount
+    }))
+
+    const dataSetIncome = graphDataInc.map(item => ({
+        label: item.categoryName, value: item.totalAmount
+    }))
+
     // Pokud nejsou žádné transakce pro daný měsíc.
     if(transactions.length === 0) {
         return (
@@ -39,7 +50,12 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
                     )}
                 </p>
 
-                <button className="button-blue" onClick={toggleNewTransModal}>{formatLang(userLangID, "Přidat transakci", "Add transaction")}</button>
+                <Button
+                    variant="contained"
+                    onClick={toggleNewTransModal}
+                >
+                    {formatLang(userLangID, "Přidat transakci", "Add transaction")}
+                </Button>
             </div>
         )
     }
@@ -75,11 +91,11 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
 
             <div className="w-1/2 sm:w-[200px]">
                 <Button 
-                    color={COLOR_BLUE}
-                    loading={false}
-                    value={formatLang(userLangID, pageID === PAGE_ID_TRANSACTIONS ? "Nový výdaj" : "Nový příjem", pageID === PAGE_ID_TRANSACTIONS ? "New expense" : "New income")}
-                    handleClick={toggleNewTransModal}
-                />
+                    variant="contained"
+                    onClick={toggleNewTransModal}
+                >
+                    {formatLang(userLangID, pageID === PAGE_ID_TRANSACTIONS ? "Nový výdaj" : "Nový příjem", pageID === PAGE_ID_TRANSACTIONS ? "New expense" : "New income")}
+                </Button>
             </div>
 
 
@@ -93,18 +109,31 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
 
 
         { wantTable && (
-            <TableTransactions 
+            <TableTransactionsMUI
                 data={transactions} 
                 transType={pageID}
                 setSelectedTransaction={setSelectedTransaction}
                 toggleEditModal={toggleEditModal}
             />
+        //     <TableTransactions
+        //     data={transactions} 
+        //     transType={pageID}
+        //     setSelectedTransaction={setSelectedTransaction}
+        //     toggleEditModal={toggleEditModal}
+        // />
         )}
 
         { wantStats && (
-            <div className="w-full lg:w-1/2">
-                <BarChartCategories chartData={ pageID === PAGE_ID_TRANSACTIONS ? graphDataExp : graphDataInc }/>
-            </div>
+            <Box>
+                <BarChart
+                    dataset={pageID === PAGE_ID_TRANSACTIONS ? dataSetExpense : dataSetIncome}
+                    yAxis={[{ scaleType: 'band', dataKey: 'label' }]} 
+                    series={[{ dataKey: 'value', color: '#5A4BAD' }]}
+                    layout="horizontal"
+                    height={400} 
+                    grid={{ vertical: true }}
+                />
+            </Box>
         )}
 
     </div>

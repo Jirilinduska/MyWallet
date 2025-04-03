@@ -31,9 +31,6 @@ const OverviewYearMUI = ({ year, income, expense, chartDataExpense, chartDataInc
         label: item.categoryName, value: item.totalAmount
     }))
 
-
-    console.log(chartDataExpense)
-
   return (
     <div className="mb-4 pb-10 border-b border-colorGray animate-fadeIn">
         
