@@ -24,7 +24,6 @@ const BarChart = ({ graphData } : BarChartProps ) => {
 
   const labels = Object.keys(graphData)
   const dataValues = Object.values(graphData)
-
   const allValuesAreZero = dataValues.every((value) => value === 0)
 
   const options = {

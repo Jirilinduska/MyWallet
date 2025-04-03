@@ -2,17 +2,19 @@ import { useUserContext } from "../../../context/UserContext"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { useOverviewData } from "../../../context/OverviewDataContext"
-import OverviewYear from "../OverviewYear/OverviewYear"
 import TopBar from "../../Layout/TopBar/TopBar"
 import Loader from "../../UI/Loader/Loader"
 import { usePageTitle } from "../../../hooks/usePageTitle"
 import OverviewMonthMUI from "../OverviewMonth/OverviewMonthMUI"
+import OverviewYearMUI from "../OverviewYear/OverviewYearMUI"
 
 const Overview = () => {
 
     const { userLangID } = useUserContext()
     const { overviewData, month, year } = useOverviewData()
-
+  
+    const isThisMonth = (new Date().getMonth() + 1) === month && year === new Date().getFullYear()
+  
     usePageTitle(formatLang(userLangID, `Přehled (${year})`, `Overview (${year})`))
 
     if(!overviewData) return <Loader wantFullSize={true}/>
@@ -25,7 +27,7 @@ const Overview = () => {
         <SectionTitle value={formatLang(userLangID, "Přehled", "Overview")} wantInfo={false} />
 
         {/* Měsíční přehled */}
-        { month === (new Date().getMonth() + 1) && year === new Date().getFullYear() && overviewData && 
+        { isThisMonth && overviewData && 
             <OverviewMonthMUI 
                 income={overviewData.monthTotalIncome}
                 expense={overviewData.monthTotalExpense}
@@ -35,16 +37,15 @@ const Overview = () => {
 
         {/* Roční přehled */}
         <div className="mb-10 p-4 animate-fadeIn">
-            { overviewData && (
-                <OverviewYear
+            {
+                <OverviewYearMUI
                     year={year}
-                    budget={null}
                     expense={overviewData.yearTotalExpense}
                     income={overviewData.yearTotalIncome}
                     chartDataExpense={overviewData.categoriesYearExpense}
                     chartDataIncome={overviewData.categoriesYearIncome}
                 />
-            )}
+            }
         </div>
     </div>
   )

@@ -70,9 +70,10 @@ const OverviewMonthMUI = ({ budget, income, expense } : OverviewMonthProps ) => 
                 
                 <BarChart
                     dataset={dataSet}
-                    xAxis={[{ scaleType: 'band', dataKey: 'label' }]} 
+                    yAxis={[{ scaleType: 'band', dataKey: 'label' }]} 
                     series={[{ dataKey: 'value', color: '#5A4BAD' }]}
-                    layout="vertical"
+                    layout="horizontal"
+                    grid={{ vertical: true }}
                     height={300} 
                 />
             </Box>
