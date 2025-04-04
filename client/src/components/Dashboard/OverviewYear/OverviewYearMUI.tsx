@@ -46,6 +46,7 @@ const OverviewYearMUI = ({ year, income, expense, chartDataExpense, chartDataInc
                     amount={income}
                     color="success"
                     icon={<IconIncome />}
+                    formatToCurrency={true}
                 />
 
                 <InfoItemMUI 
@@ -53,6 +54,7 @@ const OverviewYearMUI = ({ year, income, expense, chartDataExpense, chartDataInc
                     amount={expense}
                     color="error"
                     icon={<IconExpense />}
+                    formatToCurrency={true}
                 />
 
                 <InfoItemMUI 
@@ -60,6 +62,7 @@ const OverviewYearMUI = ({ year, income, expense, chartDataExpense, chartDataInc
                     amount={income > expense ? income - expense : 0}
                     color="info"
                     icon={<IconMoneyInHand />}
+                    formatToCurrency={true}
                 />
 
             </Box>

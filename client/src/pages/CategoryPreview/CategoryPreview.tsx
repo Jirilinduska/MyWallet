@@ -1,18 +1,18 @@
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { useCategoriesContext } from "../../context/CategoriesContext"
 import { useUserContext } from "../../context/UserContext"
 import { useEffect } from "react"
-import { IconMoneyInHand } from "../../utils/icons/icons"
 import { categoryIcons } from "../../utils/icons/category-icons"
 import { formatLang } from "../../utils/functions/formatLang"
-import { CATEGORY_ID_INCOME,  COLOR_BLUE, COLOR_WHITE, SIZE_ROW } from "../../config/globals"
-import InfoItem from "../../components/UI/InfoItem/InfoItem"
+import { CATEGORY_ID_INCOME} from "../../config/globals"
 import CategoryStatsWithChart from "../../components/Charts/CategoryStatsWithChart/CategoryStatsWithChart"
 import TopBar from "../../components/Layout/TopBar/TopBar"
 import NavigatorCategories from "../../components/UI/NavigatorCategories/NavigatorCategories"
 import { usePageTitle } from "../../hooks/usePageTitle"
 import Loader from "../../components/UI/Loader/Loader"
 import ErrorPage from "../ErrorPage/ErrorPage"
+import InfoItemMUI from "../../components/UI/InfoItem/InfoItemMUI"
+import { Button } from "@mui/material"
 
 const CategoryPreview = () => {
 
@@ -54,36 +54,13 @@ const CategoryPreview = () => {
         </p>
 
         <div className="w-full lg:w-1/2 mb-10">
-                
-                <InfoItem 
-                    formatToCurrency={false} 
-                    amount={catInfo.transactionCount} 
-                    color={COLOR_WHITE} 
-                    desc={formatLang(userLangID, "Počet transakcí", "Number of transactions")} 
-                    icon={null} 
-                    plannedAmount={null} 
-                    size={SIZE_ROW}
-                    spentAmount={null}    
+                <InfoItemMUI
+                    amount={catInfo.transactionCount}
+                    color="info"
+                    title={formatLang(userLangID, "Počet transakcí", "Number of transactions")}
+                    formatToCurrency={false}
                 />
-                
-                { catInfo.largestTransaction &&  
-                    catInfo.largestTransaction.day !== undefined && 
-                    catInfo.largestTransaction.month !== undefined && 
-                    catInfo.largestTransaction.year !== undefined &&
-                    (<InfoItem 
-                        formatToCurrency={true} 
-                        amount={catInfo.largestTransaction.amount} 
-                        color={COLOR_BLUE} 
-                        desc={formatLang(userLangID, 
-                        "Největší transakce", "Largest transaction")} 
-                        icon={<IconMoneyInHand/>} 
-                        size={SIZE_ROW} 
-                        subtitle={`${(catInfo.largestTransaction.day)}.${catInfo.largestTransaction.month}.${catInfo.largestTransaction.year}`} 
-                        plannedAmount={null}
-                        spentAmount={null}
-                    />)
-                }
-            </div>
+        </div>
 
         <div className="flex items-center justify-between flex-col gap-6 sm:flex-row-reverse mb-10">
             
@@ -96,12 +73,12 @@ const CategoryPreview = () => {
                 `}
             </h3>
 
-            <Link 
-                className="button-blue order-1 text-xs sm:text-sm" 
-                to={`/dashboard/categories/preview-category/${catInfo.categoryID}/transactions`}
+            <Button
+                href={`/dashboard/categories/preview-category/${catInfo.categoryID}/transactions`}
+                variant="contained"
             >
                 {formatLang(userLangID, "Zobrazit transakce", "Show transactions")}
-            </Link>
+            </Button>
 
         </div>
 

@@ -38,6 +38,7 @@ const OverviewMonthMUI = ({ budget, income, expense } : OverviewMonthProps ) => 
                         amount={income}
                         color="success"
                         icon={<IconIncome />}
+                        formatToCurrency={true}
                     />
 
                     <InfoItemMUI 
@@ -45,6 +46,7 @@ const OverviewMonthMUI = ({ budget, income, expense } : OverviewMonthProps ) => 
                         amount={expense}
                         color="error"
                         icon={<IconExpense />}
+                        formatToCurrency={true}
                     />
                 </>
 
@@ -54,6 +56,7 @@ const OverviewMonthMUI = ({ budget, income, expense } : OverviewMonthProps ) => 
                         amount={budget || 0}
                         color="primary"
                         icon={<IconMoneyInHand />}
+                        formatToCurrency={true}
                     />
 
                     <InfoItemMUI 
@@ -61,6 +64,7 @@ const OverviewMonthMUI = ({ budget, income, expense } : OverviewMonthProps ) => 
                         amount={income > expense ? income - expense : 0}
                         color="info"
                         icon={<IconMoneyInHand />}
+                        formatToCurrency={true}
                     />
                 </>
 

@@ -1,11 +1,9 @@
-
-import { COLOR_BLUE, SIZE_ROW } from "../../../config/globals"
 import { useUserContext } from "../../../context/UserContext"
 import { IGetBudget } from "../../../utils/interfaces/interfaces"
-import InfoItem from "../InfoItem/InfoItem"
 import { Link } from "react-router-dom"
 import { getMonthName } from "../../../utils/functions/dateUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
+import InfoItemMUI from "../InfoItem/InfoItemMUI"
 
 export interface BudgetOverviewProps {
     budgets: IGetBudget[]
@@ -38,19 +36,13 @@ const BudgetOverview = ({ budgets, isFinished } : BudgetOverviewProps ) => {
                 <Link 
                   key={x._id}
                   to={`/dashboard/planner/preview-budget/${x._id}`}
-                  className="block w-full"
+                  className="block w-full mb-4"
                 >
-                  
-                  <InfoItem
+                  <InfoItemMUI
                     amount={x.totalPricePlanned}
-                    color={COLOR_BLUE}
-                    desc={`${monthName} (${x.year})`}
-                    icon={null}
-                    plannedAmount={null}
-                    size={SIZE_ROW}
-                    key={x._id}
+                    color="primary"
+                    title={`${monthName} (${x.year})`}
                     formatToCurrency={true}
-                    spentAmount={null}
                   />
                 </Link>
               )

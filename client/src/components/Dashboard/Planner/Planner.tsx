@@ -10,11 +10,11 @@ import { getMonthName } from "../../../utils/functions/dateUtils"
 import BudgetOverview from "../../UI/BudgetOverview/BudgetOverview"
 import { useBudgetContext } from "../../../context/BudgetsContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
-import { COLOR_BLUE, COLOR_GREEN, COLOR_RED, NOTIF_ERROR, NOTIF_SUCCESS } from "../../../config/globals"
+import { NOTIF_ERROR, NOTIF_SUCCESS } from "../../../config/globals"
 import TopBar from "../../Layout/TopBar/TopBar"
-import Button from "../../UI/Button/Button"
 import { hints } from "../../../config/hints"
 import { usePageTitle } from "../../../hooks/usePageTitle"
+import { Button } from "@mui/material"
 
 
 const Planner = () => {
@@ -101,11 +101,12 @@ const Planner = () => {
         { stage === 0 && (
           <div className="w-[200px] mx-auto mb-10">
             <Button
-              color={COLOR_BLUE}
-              loading={false}
-              value={formatLang(userLangID, "Vytvořit rozpočet", "Create budget")} 
-              handleClick={incStage}
-            />
+              onClick={incStage}
+              variant="contained"
+              size="medium"
+            >
+              {formatLang(userLangID, "Vytvořit rozpočet", "Create budget")} 
+            </Button>
           </div>
         )}
 
@@ -130,18 +131,20 @@ const Planner = () => {
                 <div className="flex items-center flex-col justify-between w-full sm:w-[250px] gap-4 mx-auto my-10 sm:flex-row">
 
                   <Button
-                    color={ stage === 1 ? COLOR_RED : COLOR_BLUE }
-                    loading={false}
-                    value={`${stage === 1 ? `${formatLang(userLangID, "Zrušit", "Cancel")}` : `${formatLang(userLangID, "Předchozí", "Prev")}`}`} 
-                    handleClick={decStage}
-                  />
+                    onClick={decStage}
+                    color={stage === 1 ? "error" : "primary"}
+                    variant="contained"
+                  >
+                    {`${stage === 1 ? `${formatLang(userLangID, "Zrušit", "Cancel")}` : `${formatLang(userLangID, "Předchozí", "Prev")}`}`} 
+                  </Button>
 
                   <Button
-                    color={ stage === 2 ? COLOR_GREEN : COLOR_BLUE }
-                    loading={false}
-                    value={`${stage === 2 ? `${formatLang(userLangID, "Uložit", "Save")}` : `${formatLang(userLangID, "Další", "Next")}`}`} 
-                    handleClick={handleNextButtonClick}
-                  />
+                    onClick={handleNextButtonClick}
+                    color={stage === 2 ? "success" : "primary"}
+                    variant="contained"
+                  >
+                    {`${stage === 2 ? `${formatLang(userLangID, "Uložit", "Save")}` : `${formatLang(userLangID, "Další", "Next")}`}`} 
+                  </Button>
 
                 </div>
               )}

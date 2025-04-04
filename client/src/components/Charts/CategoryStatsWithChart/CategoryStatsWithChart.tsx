@@ -1,10 +1,11 @@
-import InfoItem from "../../UI/InfoItem/InfoItem"
-import { CATEGORY_ID_INCOME, COLOR_BLUE, COLOR_GREEN, COLOR_RED, SIZE_ROW } from "../../../config/globals"
+import { CATEGORY_ID_INCOME } from "../../../config/globals"
 import { ICategoryPreview } from "../../../utils/interfaces/interfaces"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { useUserContext } from "../../../context/UserContext"
-import BarChart from "../BarChart/BarChart"
 import { IconChart2 } from "../../../utils/icons/icons"
+import InfoItemMUI from "../../UI/InfoItem/InfoItemMUI"
+import { Box } from "@mui/material"
+import { BarChart } from "@mui/x-charts"
 
 interface CategoryStatsWithChartProps {
     catInfo: ICategoryPreview
@@ -16,88 +17,88 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
 
     const getAmountForYear = (year: number) => catInfo.yearlySummary[year] || 0
 
+    const dataSet = Object.entries(catInfo.yearlySummary)
+      .map(([year, value]) => ({
+        label: year,
+        value: value  
+      }))
+      .sort((a, b) => parseInt(b.label) - parseInt(a.label))
+
   return (
     <div className="flex flex-col justify-between mb-6 h-[400px] xl:flex-row gap-6">
 
       <div className="w-full xl:w-1/2">
-
-        <InfoItem
-          formatToCurrency={true}
-          amount={catInfo.totalAmount}
-          color={COLOR_RED}
-          icon={null}
-          plannedAmount={null}
-          size={SIZE_ROW}
-          desc={formatLang(userLangID, catInfo.categoryType === CATEGORY_ID_INCOME ? "Celkové příjmy" : "Celkem utraceno", catInfo.categoryType === CATEGORY_ID_INCOME ? "Total income" : "Total spent")}
-          spentAmount={null}
-        />
-
-        <div className="flex flex-col items-center justify-between gap-2 sm:flex-row">
-
-          <InfoItem
+        <Box mb={4}>
+          <InfoItemMUI
             formatToCurrency={true}
-            amount={getAmountForYear(new Date().getFullYear())}
-            color={COLOR_GREEN}
-            icon={null}
-            plannedAmount={null}
-            size={SIZE_ROW}
-            desc={new Date().getFullYear().toString()}
-            spentAmount={null}
+            amount={catInfo.totalAmount}
+            color={catInfo.categoryType === CATEGORY_ID_INCOME ? "success" : "error"}
+            title={formatLang(userLangID, catInfo.categoryType === CATEGORY_ID_INCOME ? "Celkové příjmy" : "Celkem utraceno", catInfo.categoryType === CATEGORY_ID_INCOME ? "Total income" : "Total spent")}
           />
+        </Box>
 
-          <InfoItem
-            formatToCurrency={true}
-            amount={getAmountForYear(new Date().getFullYear() - 1)}
-            color={COLOR_GREEN}
-            icon={null}
-            plannedAmount={null}
-            size={SIZE_ROW}
-            desc={ (new Date().getFullYear() - 1).toString()}
-            spentAmount={null}
-          />
+        <div className="flex flex-col items-center justify-between gap-2 sm:flex-row mb-4">
+
+          <Box width={{ xs: "100%", md: "50%" }}>
+            <InfoItemMUI
+              amount={getAmountForYear(new Date().getFullYear())}
+              formatToCurrency={true}
+              color="primary"
+              title={new Date().getFullYear().toString()}
+            />
+          </Box>
+
+          <Box width={{ xs: "100%", md: "50%" }}>
+            <InfoItemMUI
+              amount={getAmountForYear(new Date().getFullYear() - 1)}
+              formatToCurrency={true}
+              color="primary"
+              title={(new Date().getFullYear() - 1).toString()}
+            />
+          </Box>
 
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-2 sm:flex-row">
-          
-          <InfoItem
-            formatToCurrency={true}
-            amount={getAmountForYear(new Date().getFullYear() - 2)}
-            color={COLOR_GREEN}
-            icon={null}
-            plannedAmount={null}
-            size={SIZE_ROW}
-            desc={ (new Date().getFullYear() - 2).toString()}
-            spentAmount={null}
-          />
-          
-          <InfoItem
-            formatToCurrency={true}
-            amount={getAmountForYear(new Date().getFullYear() - 3)}
-            color={COLOR_GREEN}
-            icon={null}
-            plannedAmount={null}
-            size={SIZE_ROW}
-            desc={ (new Date().getFullYear() - 3).toString()}
-            spentAmount={null}
-          />
+        <div className="flex flex-col items-center justify-between gap-2 sm:flex-row mb-4">
+
+          <Box width={{ xs: "100%", md: "50%" }}>
+            <InfoItemMUI
+              amount={getAmountForYear(new Date().getFullYear() - 2)}
+              formatToCurrency={true}
+              color="primary"
+              title={(new Date().getFullYear() - 2).toString()}
+            />
+          </Box>
+
+          <Box width={{ xs: "100%", md: "50%" }}>
+            <InfoItemMUI
+              amount={getAmountForYear(new Date().getFullYear() - 3)}
+              formatToCurrency={true}
+              color="primary"
+              title={(new Date().getFullYear() - 3).toString()}
+            />
+          </Box>
         </div>
 
-        <InfoItem
+        <InfoItemMUI
           formatToCurrency={true}
           amount={catInfo.averageAmount}
-          color={COLOR_BLUE}
           icon={<IconChart2/>}
-          plannedAmount={null}
-          size={SIZE_ROW}
-          desc={formatLang(userLangID, "Měsíční průměr", "Monthly average")}
-          spentAmount={null}
+          color="info"
+          title={formatLang(userLangID, "Měsíční průměr", "Monthly average")}
         />
       </div>
 
-      <div className="w-full xl:w-1/2 h-full">
-        <BarChart graphData={catInfo.yearlySummary}/>
-      </div>
+      <Box sx={{ width: '100%', height: 'auto', maxWidth: 500 }}>      
+          <BarChart
+            dataset={dataSet}
+            yAxis={[{ scaleType: 'band', dataKey: 'label' }]} 
+            series={[{ dataKey: 'value', color: '#5A4BAD' }]}
+            layout="horizontal"
+            grid={{ vertical: true }}
+            height={300} 
+          />
+        </Box>
     </div>
   )
 }

@@ -8,9 +8,10 @@ interface InfoItemMUIProps {
     amount: number
     color: "error" | "info" | "success" | "primary"
     icon?: React.ReactElement
+    formatToCurrency: boolean
 }
 
-const InfoItemMUI = ({ title, amount, color, icon } : InfoItemMUIProps ) => {
+const InfoItemMUI = ({ title, amount, color, icon, formatToCurrency } : InfoItemMUIProps ) => {
 
     const { userCurrency } = useUserContext()
 
@@ -22,7 +23,7 @@ const InfoItemMUI = ({ title, amount, color, icon } : InfoItemMUIProps ) => {
         {icon && <Box mb={2} fontSize={20}>{icon}</Box>}
         
         <Typography variant="h5" component="h6" fontWeight={600} mb={2} color={color}>
-          {formatCurrency(amount, userCurrency)}
+          {formatToCurrency ? formatCurrency(amount, userCurrency) : amount}
         </Typography>
 
         <Typography color="text.primary">
