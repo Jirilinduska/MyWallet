@@ -1,5 +1,4 @@
 import { ChangeEvent, useEffect, useState } from "react"
-import Input from "../../UI/Input/Input"
 import "react-datepicker/dist/react-datepicker.css"
 import { handleNewTransaction } from "../../../API/Transactions"
 import DatePickerElement from "../../UI/DatePicker/DatePickerElement"
@@ -10,8 +9,8 @@ import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
 import { useOverviewData } from "../../../context/OverviewDataContext"
-import Button from "../../UI/Button/Button"
 import { handleError } from "../../../Errors/handleError"
+import { Button, TextField } from "@mui/material"
 
 
 interface NewTransFormProps {
@@ -45,6 +44,10 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target
         setTransData( (prev) => ({...prev, [name]: value}) )
+    }
+
+    const handleChangeCategory = (value: string) => {
+        setTransData((prev) => ({...prev, categoryID: value}))
     }
 
     const handleSetDate = (newDate: Date | null) => {
@@ -100,36 +103,34 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
     }
 
   return (
-    <form onSubmit={handleSubmit} className="px-4 pb-6 pt-6 md:px-5 md:pb:20">
+    <form onSubmit={handleSubmit} className="px-4 pt-6 md:px-5 md:pb:20">
 
-        <div className="mb-4">
-            <Input
-                inputType="text"
-                labelFor="transTitle"
-                labelValue={`${formatLang(userLangID, "Popis", "Description")}`}
-                placeholder="Food"
-                inputName="title"
-                value={transData.title}
-                onChange={handleChange}
-            />
-        </div>
+        <TextField
+            value={transData.title}
+            onChange={(e) => setTransData((prev) => ({...prev, title: e.target.value}))}
+            label={`${formatLang(userLangID, "Popis", "Description")}`}
+            name="title"
+            fullWidth
+            placeholder="Food"
+            type="text"
+            sx={{ mb: 4 }}
+            focused={true}
+        />
 
         <div className="flex items-center justify-between gap-4">
 
             <div className="w-1/2">
-                <Input
-                    inputType="number"
-                    labelFor="price"
-                    labelValue={`${formatLang(userLangID, "Cena*", "Price*")}`}
-                    placeholder={`2000 ${userCurrency}`}
-                    inputName="amount"
+                <TextField
                     value={transData.amount}
-                    onChange={handleChange}
+                    onChange={(e) => setTransData(prev => ({...prev, amount: e.target.value}))}
+                    placeholder={`2000 ${userCurrency}`}
+                    label={`${formatLang(userLangID, "Cena*", "Price*")}`}
+                    name="amount"
                 />
             </div>
 
             <SelectCategory
-                handleChange={handleChange}
+                handleChangeCategory={handleChangeCategory}
                 value={transData.categoryID}
                 categoryType={`${pageID === PAGE_ID_TRANSACTIONS ? CATEGORY_ID_TRANSACTION : CATEGORY_ID_INCOME}`}
             />
@@ -141,9 +142,28 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
           handleSetDate={handleSetDate}  
         />
 
-        <div className="flex items-center justify-between">
-            <Button color={COLOR_GREEN} loading={loading} value={formatLang(userLangID, "Uložit", "Save")} buttonType="submit" />
-            <Button color={COLOR_RED}   loading={loading} value={formatLang(userLangID, "Zavřít", "Close")} buttonType="button" handleClick={handleHide} />
+        <div className="flex items-center justify-between gap-2 mt-4">
+
+            <Button
+                loading={loading}
+                color="success"
+                type="submit"
+                variant="contained"
+                sx={{ width: "50%" }}
+            >
+                {formatLang(userLangID, "Uložit", "Save")}
+            </Button>
+
+            <Button
+                loading={loading}
+                color="error"
+                onClick={handleHide}
+                variant="contained"
+                sx={{ width: "50%" }}
+            >
+                {formatLang(userLangID, "Zavřít", "Close")}
+            </Button>
+
         </div>
 
 

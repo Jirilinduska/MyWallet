@@ -183,7 +183,8 @@ export interface ICategorySummary {
 
 export interface IInputSelect{
     value: string
-    handleChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+    handleChange?: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+    handleChangeCategory?: (value: string) => void
 }
 
 export interface IInputSelectCategory extends IInputSelect {

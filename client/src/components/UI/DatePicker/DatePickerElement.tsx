@@ -1,5 +1,7 @@
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
+import { formatLang } from "../../../utils/functions/formatLang"
+import { useUserContext } from "../../../context/UserContext"
 
 
 export interface IDatePicker {
@@ -13,6 +15,8 @@ export interface IDatePicker {
 
 const DatePickerElement: React.FC<IDatePicker> = ({ dateValues, handleSetDate }) => {
 
+    const { userLangID } = useUserContext()
+
     const today = new Date()
     today.setHours(0, 0, 0, 0)    
 
@@ -21,9 +25,9 @@ const DatePickerElement: React.FC<IDatePicker> = ({ dateValues, handleSetDate })
 
         <label
             htmlFor="calendar"
-            className="block text-sm mb-2 font-medium text-gray-900 dark:text-white"
+            className="block text-sm mb-2 font-medium text-gray-900"
         >
-            Date
+            {formatLang(userLangID, "Datum", "Date")}
         </label>
 
         <DatePicker
@@ -31,12 +35,12 @@ const DatePickerElement: React.FC<IDatePicker> = ({ dateValues, handleSetDate })
             onChange={(date: Date | null) => { handleSetDate(date) }}
             dateFormat="dd-MM-yyyy"
             maxDate={today}
-            className="w-full p-2 border rounded-lg shadow-md focus:outline-none focus:ring focus:ring-blue-500"
+            className="w-full p-2 border rounded-lg shadow-md focus:outline-none focus:ring focus:ring-colorMain"
             calendarClassName="rounded-lg shadow-lg bg-white border border-gray-200"
         />
 
         { dateValues.day && (
-            <p className="text-sm mt-2">Selected Date:{" "}
+            <p className="text-sm mt-2">{formatLang(userLangID, "Zvolené datum", "Selected Date")}:{" "}
                 <span className="font-semibold">
                     {dateValues.day}.{dateValues.month}.{dateValues.year}
                 </span>

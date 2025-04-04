@@ -2,7 +2,6 @@ import { useOverviewData } from "../../../context/OverviewDataContext"
 import YearNavigator from "../../UI/YearNavigator/YearNavigator"
 import LastTransaction from "../../UI/LastTransaction/LastTransaction"
 import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION } from "../../../config/globals"
-import SpeedDial from "../../UI/SpeedDial/SpeedDial"
 import MonthNavigator from "../../UI/MonthNavigator/MonthNavigator"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
 import { useUserContext } from "../../../context/UserContext"
@@ -10,6 +9,7 @@ import { getMonthName } from "../../../utils/functions/dateUtils"
 import { useUtilsContext } from "../../../context/UtilsContext"
 import { IconClose, IconMenu } from "../../../utils/icons/icons"
 import { useCompleteProfile } from "../../../hooks/useCompleteProfile"
+import CreateNewBtn from "../../CreateNewBtn/CreateNewBtn"
 
 interface TopBarProps {
     showYearNavigator: boolean
@@ -63,7 +63,7 @@ const TopBar = ({ showYearNavigator, showMonthNavigator, pageID } : TopBarProps 
             )}
         </div>
 
-        <SpeedDial/>
+        <CreateNewBtn/>
 
         <div onClick={toggleNav} className="lg:hidden cursor-pointer">
             { showNav ? <IconClose className="icon"/> : <IconMenu className="icon"/> }

@@ -115,12 +115,6 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
                 setSelectedTransaction={setSelectedTransaction}
                 toggleEditModal={toggleEditModal}
             />
-        //     <TableTransactions
-        //     data={transactions} 
-        //     transType={pageID}
-        //     setSelectedTransaction={setSelectedTransaction}
-        //     toggleEditModal={toggleEditModal}
-        // />
         )}
 
         { wantStats && (

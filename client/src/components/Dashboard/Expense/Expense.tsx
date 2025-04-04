@@ -1,5 +1,4 @@
 import { useState } from "react"
-import NewTransModal from "../../Modals/NewTransModal/NewTransModal"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
@@ -12,6 +11,7 @@ import TransactionsContent from "../TransactionsContent/TransactionsContent"
 import { usePageTitle } from "../../../hooks/usePageTitle"
 import { getMonthName } from "../../../utils/functions/dateUtils"
 import { hints } from "../../../config/hints"
+import NewTransModalMUI from "../../Modals/NewTransModal/NewTransModalMUI"
 
 const Expense = () => {
 
@@ -41,12 +41,12 @@ const Expense = () => {
             /> 
         )}
 
-        { showNewTrans && (
-            <NewTransModal
-                handleHide={handleHideNewTransModal} 
-                pageID={PAGE_ID_TRANSACTIONS}
-            />
-        )}
+        <NewTransModalMUI
+            handleHide={handleHideNewTransModal}
+            pageID={PAGE_ID_TRANSACTIONS}
+            isOpen={showNewTrans}
+        />
+        
 
         <SectionTitle 
             value={formatLang(userLangID, "Výdaje", "Expense")} 

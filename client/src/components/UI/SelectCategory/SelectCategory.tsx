@@ -1,10 +1,20 @@
-import { useEffect } from "react"
+import { ChangeEvent, useEffect } from "react"
 import { useCategoriesContext } from "../../../context/CategoriesContext"
 import { ICategory, IInputSelectCategory } from "../../../utils/interfaces/interfaces"
 import { useUserContext } from "../../../context/UserContext"
 import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, LANG_CZECH } from "../../../config/globals"
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material"
+import { formatLang } from "../../../utils/functions/formatLang"
 
-const SelectCategory: React.FC<IInputSelectCategory> = ({ value, handleChange, categoryType }) => {
+
+interface SelectCategoryProps {
+    value: string,
+    categoryType: string
+    handleChange?: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+    handleChangeCategory?: (value: string) => void
+}
+
+const SelectCategory: React.FC<SelectCategoryProps> = ({ value, handleChange, categoryType, handleChangeCategory }) => {
 
     const { categoriesIncome, categoriesTransactions, refreshCategories } = useCategoriesContext()
     const { refreshUserData, userLangID } = useUserContext()
@@ -17,42 +27,27 @@ const SelectCategory: React.FC<IInputSelectCategory> = ({ value, handleChange, c
         if(!userLangID) refreshUserData()
     }, [])
 
+
+
   return (
-    <div className="w-1/2">
-                
-        <label htmlFor="category" className="block text-sm mb-2 font-medium dark:text-white">
-            { userLangID === LANG_CZECH ? "Kategorie*" : "Category*" }
-        </label>
+    <FormControl sx={{ width: "50%" }}>
 
-        <select
+        <InputLabel id="categoryID">{formatLang(userLangID, "Kategorie*", "Category*" )}</InputLabel>
+        <Select
+            labelId="categoryID"
             id="categoryID"
-            name="categoryID"
             value={value}
-            onChange={handleChange}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            onChange={(e) => handleChangeCategory?.(e.target.value)}
         >
-        
-        <option value="" disabled>Select category</option>
-
             { categoryType === CATEGORY_ID_TRANSACTION && categoriesTransactions.map( (cat: ICategory) => (
-                <>
-                    <option key={cat._id} value={cat._id}>
-                        {cat.name}
-                    </option>
-                </>
+                <MenuItem key={cat._id} value={cat._id}>{cat.name}</MenuItem>
             ))}
 
             { categoryType === CATEGORY_ID_INCOME && categoriesIncome.map( (cat: ICategory) => (
-                <>
-                    <option key={cat._id} value={cat._id}>
-                        {cat.name}
-                    </option>
-                </>
+                <MenuItem key={cat._id} value={cat._id}>{cat.name}</MenuItem>
             ))}
-
-        </select>
-
-    </div>
+        </Select>
+    </FormControl>
   )
 }
 

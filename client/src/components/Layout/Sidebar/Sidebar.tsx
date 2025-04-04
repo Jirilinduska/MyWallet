@@ -36,7 +36,7 @@ const Sidebar = () => {
                         onClick={hideNav}
                         className={
                             `${ pageID === x.titleEN.toLowerCase() ? "bg-white text-black" : "bg-black text-white"  } 
-                            flex items-center gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out hover:bg-colorGrayHover hover:text-black`
+                            flex items-center gap-4 cursor-pointer p-2 rounded-[4px] mb-4 transition-all duration-300 ease-in-out hover:bg-colorGrayHover hover:text-black`
                         }
                         key={x.id}
                     >
@@ -52,7 +52,7 @@ const Sidebar = () => {
                 <Link 
                     to="/" 
                     onClick={hideNav} 
-                    className={`${ location.pathname === "/" ? "bg-white text-black" : "bg-black text-white"} flex items-center gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out hover:bg-colorGrayHover hover:text-black`}
+                    className={`${ location.pathname === "/" ? "bg-white text-black" : "bg-black text-white"} flex items-center gap-4 cursor-pointer p-2 rounded-[4px] mb-4 transition-all duration-300 ease-in-out hover:bg-colorGrayHover hover:text-black`}
                 >
                     <IconHome/>
                     <span className="text-sm xs:text-base">{formatLang(userLangID, "Domů", "Home")}</span>
@@ -62,7 +62,7 @@ const Sidebar = () => {
                 <Link 
                     to="/profile" 
                     onClick={hideNav} 
-                    className={`${ location.pathname === "/profile" ? "bg-white text-black" : "bg-black text-white"} flex items-center gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out hover:bg-colorGrayHover hover:text-black`}
+                    className={`${ location.pathname === "/profile" ? "bg-white text-black" : "bg-black text-white"} flex items-center gap-4 cursor-pointer p-2 rounded-[4px] mb-4 transition-all duration-300 ease-in-out hover:bg-colorGrayHover hover:text-black`}
                 >
                     <IconUser/>
                     <span className="text-sm xs:text-base">{formatLang(userLangID, "Profil", "Profile")}</span>
@@ -72,14 +72,14 @@ const Sidebar = () => {
                 <Link 
                     to="/notifications" 
                     onClick={hideNav} 
-                    className={`${ location.pathname === "/notifications" ? "bg-white text-black" : "bg-black text-white"} flex relative items-center gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out hover:bg-colorGrayHover hover:text-black`}
+                    className={`${ location.pathname === "/notifications" ? "bg-white text-black" : "bg-black text-white"} flex relative items-center gap-4 cursor-pointer p-2 rounded-[4px] mb-4 transition-all duration-300 ease-in-out hover:bg-colorGrayHover hover:text-black`}
                 >
                     <IconNotification className={`${numberOfUnread > 0 ? "text-red-500 animate__animated animate__bounce animate__infinite" : ""}`}/>
                     <span className="text-sm xs:text-base">{formatLang(userLangID, "Notifikace", "Notifications")}</span>
                 </Link>
 
                 {/* Logout */}
-                <button onClick={handleLogoutUser} className="flex items-center w-full gap-4 cursor-pointer p-2 rounded-full mb-4 transition-all duration-300 ease-in-out text-white hover:bg-colorGrayHover hover:text-black">
+                <button onClick={handleLogoutUser} className="flex items-center w-full gap-4 cursor-pointer p-2 rounded-[4px] mb-4 transition-all duration-300 ease-in-out text-white hover:bg-colorGrayHover hover:text-black">
                     <IconLogout/>
                     <span className="text-sm xs:text-base">{formatLang(userLangID, "Odhlásit se", "Logout")}</span>
                 </button>
