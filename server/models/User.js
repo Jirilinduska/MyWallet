@@ -31,6 +31,14 @@ const UserChema = new mongoose.Schema({
         default: null,
     },
 
+    lastMonthSummaryNotif: {
+        month: Number,
+        year: Number
+
+    },
+
+
+
     lastOnline: {
         type: String,
         default: null
@@ -43,6 +51,11 @@ const UserChema = new mongoose.Schema({
         resetPasswordToken: { type: String, default: null },
         resetPasswordExpires: { type: Date, default: null },
         canBeDeleted: { type: Boolean, default: true },
+    },
+
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
 })
 

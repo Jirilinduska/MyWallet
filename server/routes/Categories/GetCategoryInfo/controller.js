@@ -1,83 +1,72 @@
 const Category = require("../../../models/Category")
 const Transaction = require("../../../models/Transaction")
-const User = require("../../../models/User")
+const YearlySummary = require("../../../models/YearlySummary")
+const { CreateYearlySummary } = require("../../../modules/CreateYearlySummary/CreateYearlySummary")
 
 const getCategoryInfo = async(req,res) => {
 
     const { id } = req.params
     const userID = req.user.userID
 
+    const currentYear = new Date().getFullYear()
+
     try {
-        
-        const user = await User.findById(userID)
-
         const category = await Category.findById(id)
-
         if(!category) return res.status(400).json({ errCode: 2003 })
 
-        const allTransactions = await Transaction.find({ category: category._id })
+        const isIncome = category.categoryType === "income"
 
-        // Sestavení dat pro response
-        const totalAmount = allTransactions.reduce((sum, transaction) => sum + transaction.amount, 0)
-        const transactionCount = allTransactions.length
-        const averageAmount = totalAmount / transactionCount || 0
+        // Částka tento rok
+        const thisYearTransactions = await Transaction.find({ category: category._id, year: currentYear })
+        const thisYearTotalAmount = thisYearTransactions.reduce((sum, transaction) => sum + transaction.amount, 0);
 
-        const largestTransaction = allTransactions.reduce((max, transaction) => {
-            return transaction.amount > max.amount ? transaction : max
-        }, { amount: 0 })
 
-        const monthlySummary = allTransactions.reduce((summary, transaction) => {
-            const key = `${transaction.year}-${transaction.month}`
-            summary[key] = (summary[key] || 0) + transaction.amount
-            return summary
-        }, {})
+        const yearlyTotals = {}
+        const summaries = await YearlySummary.find({ createdBy: userID })
 
-        // Počet transackí za měsic :)
-        const monthlyCounts = allTransactions.reduce((counts, transaction) => {
-            const key = `${transaction.year}-${transaction.month}`
-            counts[key] = (counts[key] || 0) + 1
-            return counts
-        }, {})
+        let oldestYear = currentYear
 
-        const yearlySummary = allTransactions.reduce((summary, transaction) => {
-            const key = transaction.year
-            summary[key] = (summary[key] || 0) + transaction.amount
-            return summary
-        }, {})
-        
-
-        const largestTransactionsByMonth = []
-
-        allTransactions.forEach(transaction => {
-            const key = `${transaction.year}-${transaction.month}`
-            const existingTransaction = largestTransactionsByMonth.find(item => item.key === key)
-
-            if (!existingTransaction || transaction.amount > existingTransaction.transaction.amount) {
-
-            if (existingTransaction) {
-                existingTransaction.transaction = transaction;
-            } else {
-                largestTransactionsByMonth.push({
-                    key,
-                    transaction
-                })
-            }}
+        summaries.forEach(summary => {
+            const list = isIncome ? summary.incomeByCategory : summary.expenseByCategory;
+            const found = list.find(cat => cat.categoryID.toString() === category._id.toString());
+            if (found && summary.year < oldestYear) {
+              oldestYear = summary.year;
+            }
         })
 
-        
+        if (oldestYear === currentYear) {
+            oldestYear = currentYear
+        }
+
+        for (let year = oldestYear; year <= currentYear; year++) {
+            let summary = summaries.find(s => s.year === year)
+      
+            if (!summary) {
+              await CreateYearlySummary(userID, year)
+              summary = await YearlySummary.findOne({ year, createdBy: userID })
+            }
+      
+            let total = 0
+      
+            if (summary) {
+              const list = isIncome ? summary.incomeByCategory : summary.expenseByCategory
+              const catInfo = list.find(cat => cat.categoryID.toString() === category._id.toString())
+              total = catInfo ? catInfo.total : 0;
+            }
+      
+            yearlyTotals[year] = total
+        }
+
+        yearlyTotals[currentYear] = thisYearTotalAmount
+        const totalAmount = Object.values(yearlyTotals).reduce((sum, val) => sum + val, 0)
+
         const result = {
             categoryID: category._id,
             categoryName: category.name,
             iconID: category.iconID,
             categoryType: category.categoryType,
-            totalAmount,
-            transactionCount,
-            averageAmount,
-            monthlySummary,
-            monthlyCounts,
-            largestTransaction,
-            largestTransactionsByMonth,
-            yearlySummary
+            yearlyTotals,
+            totalAmount
         }
 
         return res.status(200).json(result)

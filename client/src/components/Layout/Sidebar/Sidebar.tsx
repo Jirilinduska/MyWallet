@@ -1,6 +1,6 @@
 import { Link, useLocation, useParams } from "react-router-dom"
 import { sidebarData } from "../../../utils/data/sidebar-dara"
-import { IconHome, IconLogout, IconNotification, IconUser } from "../../../utils/icons/icons"
+import { IconAdmin, IconHome, IconLogout, IconNotification, IconUser } from "../../../utils/icons/icons"
 import { useUserContext } from "../../../context/UserContext"
 import { handleLogoutUser } from "../../../API/Auth"
 import { useUtilsContext } from "../../../context/UtilsContext"
@@ -10,7 +10,7 @@ import { useNotifContext } from "../../../context/NotifContext"
 const Sidebar = () => {
 
     const { pageID } = useParams()
-    const { userLangID } = useUserContext()
+    const { userLangID, isAdmin } = useUserContext()
     const { showNav, hideNav } = useUtilsContext()
     const { findUnreadNotifs } = useNotifContext()
     const location = useLocation()
@@ -72,11 +72,23 @@ const Sidebar = () => {
                 <Link 
                     to="/notifications" 
                     onClick={hideNav} 
-                    className={`${ location.pathname === "/notifications" ? "bg-white text-black" : "bg-black text-white"} flex relative items-center gap-4 cursor-pointer p-2 rounded-[4px] mb-4 transition-all duration-300 ease-in-out hover:bg-colorGrayHover hover:text-black`}
+                    className={`${ location.pathname.includes("notifications") ? "bg-white text-black" : "bg-black text-white"} flex relative items-center gap-4 cursor-pointer p-2 rounded-[4px] mb-4 transition-all duration-300 ease-in-out hover:bg-colorGrayHover hover:text-black`}
                 >
                     <IconNotification className={`${numberOfUnread > 0 ? "text-red-500 animate__animated animate__bounce animate__infinite" : ""}`}/>
                     <span className="text-sm xs:text-base">{formatLang(userLangID, "Notifikace", "Notifications")}</span>
                 </Link>
+
+                {/* Admin */}
+                {isAdmin && 
+                    <Link 
+                        to="/admin" 
+                        onClick={hideNav} 
+                        className={`${ location.pathname.includes("/admin") ? "bg-white text-black" : "bg-black text-white"} flex relative items-center gap-4 cursor-pointer p-2 rounded-[4px] mb-4 transition-all duration-300 ease-in-out hover:bg-colorGrayHover hover:text-black`}
+                    >
+                        <IconAdmin />
+                        <span className="text-sm xs:text-base">Admin</span>
+                    </Link>
+                }
 
                 {/* Logout */}
                 <button onClick={handleLogoutUser} className="flex items-center w-full gap-4 cursor-pointer p-2 rounded-[4px] mb-4 transition-all duration-300 ease-in-out text-white hover:bg-colorGrayHover hover:text-black">

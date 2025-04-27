@@ -1,6 +1,7 @@
 import { apiClient } from "../config/apiClient"
-import { URL_DELETE_TRANSACTION, URL_GET_TRANSACTION, URL_GET_TRANSACTIONS_BY_CAT, URL_NEW_TRANSACTION, URL_UPDATE_TRANSACTION } from "../config/apiUrls"
+import { URL_DELETE_TRANSACTION, URL_GET_LAST_TRANSACTIONS, URL_GET_PREV_MONTH_TRANSACTIONS, URL_GET_TRANSACTION, URL_GET_TRANSACTIONS_BY_CAT, URL_NEW_TRANSACTION, URL_UPDATE_TRANSACTION } from "../config/apiUrls"
 import { CATEGORY_ID_TRANSACTION } from "../config/globals"
+import { IMonthlySummary } from "../utils/interfaces/interfaces"
 
 
 // Add new transaction
@@ -34,4 +35,20 @@ export const handleGetTransactionsByCategory = async(catID: string) => {
 
     const response = await apiClient.get(`${URL_GET_TRANSACTIONS_BY_CAT}/${catID}`)
     return response
+}
+
+
+interface IApiResponse {
+    data: IMonthlySummary
+}
+
+export const handleGetPrevMonth = async(month: number, year: number) => {
+
+    const response: IApiResponse = await apiClient.get(`${URL_GET_PREV_MONTH_TRANSACTIONS}/${month}/${year}`)
+    return response.data
+}
+
+export const handleGetLastTransactions = async() => {
+    const response = await apiClient.get(URL_GET_LAST_TRANSACTIONS)
+    return response.data
 }

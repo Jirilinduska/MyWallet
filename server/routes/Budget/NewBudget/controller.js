@@ -10,14 +10,14 @@ const newBudget = async(req,res) => {
 
         const user = await User.findById(userID)
 
-        await Budget.create({
+        const newBudget = await Budget.create({
             budgetCategories,
             month,
             year,
             createdBy: user._id
         })
 
-        return res.status(200).json({ errCode: 5001 })
+        return res.status(200).json({ errCode: 5001, newBudget })
 
     } catch (error) {
         console.log("newBudget() => : ", error)

@@ -9,9 +9,10 @@ interface OverviewMonthProps {
     income: number
     expense: number
     budget: number
+    loading?: boolean
 }
 
-const OverviewMonthMUI = ({ budget, income, expense } : OverviewMonthProps ) => {
+const OverviewMonthMUI = ({ budget, income, expense, loading } : OverviewMonthProps ) => {
 
     const { userLangID } = useUserContext()
 
@@ -39,6 +40,8 @@ const OverviewMonthMUI = ({ budget, income, expense } : OverviewMonthProps ) => 
                         color="success"
                         icon={<IconIncome />}
                         formatToCurrency={true}
+                        isExpense={false}
+                        loading={loading}
                     />
 
                     <InfoItemMUI 
@@ -47,6 +50,8 @@ const OverviewMonthMUI = ({ budget, income, expense } : OverviewMonthProps ) => 
                         color="error"
                         icon={<IconExpense />}
                         formatToCurrency={true}
+                        isExpense={true}
+                        loading={loading}
                     />
                 </>
 
@@ -57,6 +62,8 @@ const OverviewMonthMUI = ({ budget, income, expense } : OverviewMonthProps ) => 
                         color="primary"
                         icon={<IconMoneyInHand />}
                         formatToCurrency={true}
+                        isExpense={false}
+                        loading={loading}
                     />
 
                     <InfoItemMUI 
@@ -65,6 +72,8 @@ const OverviewMonthMUI = ({ budget, income, expense } : OverviewMonthProps ) => 
                         color="info"
                         icon={<IconMoneyInHand />}
                         formatToCurrency={true}
+                        isExpense={false}
+                        loading={loading}
                     />
                 </>
 
@@ -77,8 +86,9 @@ const OverviewMonthMUI = ({ budget, income, expense } : OverviewMonthProps ) => 
                     yAxis={[{ scaleType: 'band', dataKey: 'label' }]} 
                     series={[{ dataKey: 'value', color: '#5A4BAD' }]}
                     layout="horizontal"
-                    grid={{ vertical: true }}
+                    grid={{ vertical: true, horizontal: true }}
                     height={300} 
+                    sx={{ width: "95% !important", overflow: "visible !important" }}
                 />
             </Box>
 

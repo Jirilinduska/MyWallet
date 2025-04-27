@@ -3,7 +3,7 @@ const User = require("../../../models/User")
 
 const updateBudget = async(req,res) => {
 
-    const { _id, budgetCategories, month, year, totalPricePlanned } = req.body
+    const { _id, budgetCategories, month, year } = req.body
     const userID = req.user.userID
 
     try {

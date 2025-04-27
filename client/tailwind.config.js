@@ -15,7 +15,8 @@ module.exports = {
         colorGreenHover: "#0ea573",
 
         colorMain: "#5A4BAD",
-        colorBgModal: "#4B5563"
+        colorBgModal: "#4B5563",
+        colorErr: ""
       },
 
       fontFamily: {

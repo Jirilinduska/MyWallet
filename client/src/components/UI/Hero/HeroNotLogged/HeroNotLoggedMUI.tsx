@@ -13,7 +13,7 @@ const HeroNotLoggedMUI = () => {
 
 
   return (
-    <Box display="flex" justifyContent="space-between" alignItems="center" height="100%" flexDirection={{ xs: "column", md: "row" }}>
+    <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" height="100%" flexDirection={{ xs: "column", md: "row" }}>
         
         <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" height="100%" width={{ xs: "100%", md: "50%" }}>
 

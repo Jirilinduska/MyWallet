@@ -29,9 +29,8 @@ const BudgetOverview = ({ budgets, isFinished } : BudgetOverviewProps ) => {
         <div className="w-full lg:w-1/2">
 
             { budgets.map( x => {
-
               const monthName = getMonthName(x.year, x.month, userLangID)
-
+              const totalPricePlanned = x.budgetCategories.reduce((a,b) => a + b.price, 0)
               return (
                 <Link 
                   key={x._id}
@@ -39,10 +38,11 @@ const BudgetOverview = ({ budgets, isFinished } : BudgetOverviewProps ) => {
                   className="block w-full mb-4"
                 >
                   <InfoItemMUI
-                    amount={x.totalPricePlanned}
+                    amount={totalPricePlanned}
                     color="primary"
                     title={`${monthName} (${x.year})`}
                     formatToCurrency={true}
+                    isExpense={false}
                   />
                 </Link>
               )

@@ -12,6 +12,7 @@ import ProfileCard from "../../components/UI/ProfileCard/ProfileCard"
 import SettingsCard from "../../components/UI/SettingsCard/SettingsCard"
 import { useCompleteProfile } from "../../hooks/useCompleteProfile"
 import { usePageTitle } from "../../hooks/usePageTitle"
+import { Box, Button } from "@mui/material"
 
 const Profile = () => {
 
@@ -63,7 +64,7 @@ const Profile = () => {
   return (
     <section className="section-padding min-h-full pb-10">
 
-        <TopBar showMonthNavigator={false} showYearNavigator={false} />
+        <TopBar />
 
         <Sidebar />
 
@@ -92,13 +93,17 @@ const Profile = () => {
         </div>
 
         {/* Submit */}
-        <button 
-            className={`${ isEdited ? "button-green" : "button-green bg-colorGrayHover hover:bg-colorGrayHover"} w-[220px] mx-auto block mt-10`}
-            disabled={!isEdited}
-            onClick={handleSubmit}
-        >
-            {formatLang(userLangID, "Uložit změny", "Save changes")}
-        </button>
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+            <Button
+                color="success"
+                variant="contained"
+                onClick={handleSubmit}
+                disabled={!isEdited}
+                sx={{ width: 200 }}
+            >
+                {formatLang(userLangID, "Uložit změny", "Save changes")}
+            </Button>
+        </Box>
 
     </section>
   )

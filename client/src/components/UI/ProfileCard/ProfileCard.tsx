@@ -1,6 +1,5 @@
 import { ChangeEvent, useState } from "react"
-import Button from "../Button/Button"
-import { CHANGE_PASSWORD, COLOR_BLUE, COLOR_RED, FORGOTTEN_PASSWORD, NOTIF_INFO } from "../../../config/globals"
+import { CHANGE_PASSWORD, FORGOTTEN_PASSWORD, NOTIF_INFO } from "../../../config/globals"
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { userAvatars } from "../../../utils/icons/avatars"
@@ -12,6 +11,7 @@ import { IconClose } from "../../../utils/icons/icons"
 import DeleteAccount from "../DeleteAccount/DeleteAccount"
 import { handleSendMeConfirmLink } from "../../../API/Auth"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
+import { Button } from "@mui/material"
 
 
 interface ProfileCartProps {
@@ -118,31 +118,32 @@ const ProfileCard = ({ toggleAvatars, userInfo, handleInputChange, changeName, t
         <div className="flex items-center gap-4 flex-col sm:flex-row">
 
             {/* Změnit heslo */}
-            <Button 
-                color={COLOR_BLUE} 
-                loading={false}
-                value={formatLang(userLangID, "Změnit heslo", "Change password")}
-                buttonType="button"
-                handleClick={toggleChangePass}
-            />
+            <Button
+                onClick={toggleChangePass}
+                color="primary"
+                variant="contained"
+            >
+                {formatLang(userLangID, "Změnit heslo", "Change password")}
+            </Button>
+                
 
             {/* Zapomenuté heslo */}
-            <Button 
-                color={COLOR_BLUE} 
-                loading={false}
-                value={formatLang(userLangID, "Zapomenuté heslo", "Forgotten password")}
-                buttonType="button"
-                handleClick={toggleNewPass}
-            />
+            <Button
+                color="primary"
+                onClick={toggleNewPass}
+                variant="contained"
+            >
+                {formatLang(userLangID, "Zapomenuté heslo", "Forgotten password")}
+            </Button>
 
             {/* Zrušit účet */}
-            <Button 
-                color={COLOR_RED} 
-                loading={false}
-                value={formatLang(userLangID, "Odstranit účet", "Delete account ")}
-                buttonType="button"
-                handleClick={toggleDeleteAcc}
-            />
+            <Button
+                onClick={toggleDeleteAcc}
+                color="error"
+                variant="outlined"
+            >
+                {formatLang(userLangID, "Odstranit účet", "Delete account ")}
+            </Button>
 
         </div>
 

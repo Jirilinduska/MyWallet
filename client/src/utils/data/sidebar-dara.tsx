@@ -1,6 +1,4 @@
-import { IconCard, IconCategory, IconDashboard, IconMoney, IconMoneyInHand, IconPiggyBank } from "../icons/icons"
-
-
+import { IconCard, IconCategory, IconDashboard, IconMoney, IconMoneyInHand } from "../icons/icons"
 
 export const sidebarData = [
 
@@ -9,6 +7,5 @@ export const sidebarData = [
     { id: 3, titleEN: "Expense", titleCS: "Výdaje", icon: <IconCard/>, path: "/dashboard/expense" },
     { id: 4, titleEN: "Income", titleCS: "Příjmy", icon: <IconMoney/>, path: "/dashboard/income" },
     { id: 5, titleEN: "Categories", titleCS: "Kategorie", icon: <IconCategory/>, path: "/dashboard/categories" },
-    { id: 6, titleEN: "Goals", titleCS: "Cíle", icon: <IconPiggyBank/>, path: "/dashboard/goals" },
 
 ]

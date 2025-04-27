@@ -1,69 +1,61 @@
-import { useState } from "react"
 import Sidebar from "../../components/Layout/Sidebar/Sidebar"
 import TopBar from "../../components/Layout/TopBar/TopBar"
-import NotificationsTable from "../../components/Notifications/NotificationsTable/NotificationsTable"
 import SectionTitle from "../../components/UI/SectionTitle/SectionTitle"
 import { useUserContext } from "../../context/UserContext"
 import { formatLang } from "../../utils/functions/formatLang"
-import NofitDetails from "../../components/Notifications/NofitDetails/NofitDetails"
-import { INotification, useNotifContext } from "../../context/NotifContext"
-import AreYouSureModal from "../../components/Modals/AreYouSureModal/AreYouSureModal"
+import { useNotifContext } from "../../context/NotifContext"
+import NotificationCard from "../../components/Notifications/NotificationCard/NotificationCard"
+import { usePageTitle } from "../../hooks/usePageTitle"
+import { useLocation, useNavigate } from "react-router-dom"
+import { Box, Tab, Tabs, Typography } from "@mui/material"
 
 const Notifications = () => {
 
     const { userLangID } = useUserContext()
-    const { markNotifAsRead, deleteNotification } = useNotifContext()
+    const { notifications } = useNotifContext()
+    const navigate = useNavigate()
+    const location = useLocation()
+    
+    const isArchivedView = location.pathname.includes("/archived")
+    const currentTab = location.pathname.includes("/archived") ? 1 : 0
 
-    const [showDetails, setShowDetails] = useState(false)
-    const [wantDelete, setWantDelete] = useState(false)
-    const [notifModalData, setNotifModalData] = useState<INotification | null>(null)
-    const [wantDeleteID, setWantDeleteID] = useState("")
+    const filteredNotifications = notifications.filter(x => 
+      isArchivedView ? x.isArchived : !x.isArchived
+    )
 
-    const toggleDetails = () => setShowDetails(!showDetails)
-    const toggleDelete  = () => setWantDelete(!wantDelete)
-
-    const openDeleteNotif = (id: string) => {
-      setWantDeleteID(id)
-      toggleDelete()
+    const handleChange = (_: React.SyntheticEvent, newValue: number) => {
+      if (newValue === 0) navigate("/notifications")
+      if (newValue === 1) navigate("/notifications/archived")
     }
 
-    const handleDeleteNotif = () => {
-      deleteNotification(wantDeleteID)
-      toggleDelete()
-  }
-
-    const openModal = (data: INotification) => {
-        markNotifAsRead(data._id)
-        toggleDetails()
-        setNotifModalData(data)
-    }
+    usePageTitle(formatLang(userLangID, "Notifikace", "Notifications"))
     
   return (
     <div className="section-padding">
 
-        { showDetails && notifModalData && <NofitDetails data={notifModalData} toggleDetails={toggleDetails} />}
-
-
-        { wantDelete && 
-            <AreYouSureModal 
-                buttonNoValue={formatLang(userLangID, "Zrušit", "Cancel")} 
-                buttonYesValue={formatLang(userLangID, "Smazat", "Delete")} 
-                handleNo={toggleDelete} 
-                handleYes={handleDeleteNotif} 
-                titleValue={formatLang(userLangID, "Smazat tuto notifikaci?", "Delete this notification?")}
-            /> 
-        }
-
         <Sidebar/>
 
-        <TopBar showMonthNavigator={false} showYearNavigator={false}/>
+        <TopBar />
 
         <SectionTitle value={formatLang(userLangID, "Notifikace", "Notifications")} wantInfo={false} />
 
-        <NotificationsTable
-            openModal={openModal}
-            openDeleteNotif={openDeleteNotif}
-        />
+        <Box mb={3}>
+          <Tabs
+            value={currentTab}
+            onChange={handleChange}
+            aria-label="Notifications Tabs"
+            textColor="primary"
+            indicatorColor="primary"
+          >
+            <Tab label={formatLang(userLangID, "Aktivní", "Active")} />
+            <Tab label={formatLang(userLangID, "Archivované", "Archived")} />
+          </Tabs>
+      </Box>
+
+        {filteredNotifications.length === 0
+          ? <Typography>{formatLang(userLangID, `Žádné ${isArchivedView ? "archivované" : "nové"} notifikace `, `No ${isArchivedView ? "archived" : "new"} notifications`)}</Typography>
+          : filteredNotifications.map(x => <NotificationCard key={x._id} notif={x}/>)
+        }
 
     </div>
   )

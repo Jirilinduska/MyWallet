@@ -66,6 +66,11 @@ const NotificationSchema = new mongoose.Schema({
     required: false
   },
 
+  totalIncome: {
+    type: Number,
+    required: false
+  },
+
   year: {
     type: Number,
     required: false
@@ -76,27 +81,7 @@ const NotificationSchema = new mongoose.Schema({
     required: false
   }, 
 
-  categorySummary: {
-    type: [
-        {
-            categoryID: { type: mongoose.Schema.Types.ObjectId, ref: "Category" }, 
-            planned: { type: Number, default: 0 }, 
-            spent: { type: Number, default: 0 }
-        }
-    ],
-    default: undefined,
-  },
 
-  unplannedCategories: {
-    type: [
-        {
-            categoryID: { type: mongoose.Schema.Types.ObjectId, ref: "Category" }, 
-            planned: { type: Number, default: 0 }, 
-            spent: { type: Number, default: 0 }
-        }
-    ],
-    default: undefined,
-  }
 
 });
 

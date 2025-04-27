@@ -16,7 +16,8 @@ const getUserData = async(req,res) => {
             userName: user.userName,
             email: user.email,
             utils: user.utils,
-            settings: user.settings
+            settings: user.settings,
+            isAdmin: user.isAdmin
         }
 
         return res.status(200).json(userData)

@@ -1,28 +1,30 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useUserContext } from "../../../context/UserContext"
 import SectionTitle from "../../UI/SectionTitle/SectionTitle"
 import { formatLang } from "../../../utils/functions/formatLang"
 import MonthYearPicker from "../../UI/MonthYearPicker/MonthYearPicker"
 import CreateBudget from "../../UI/CreateBudget/CreateBudget"
 import { IconClose } from "../../../utils/icons/icons"
-import { INewBudget } from "../../../utils/interfaces/interfaces"
+import { IGetBudget, INewBudget } from "../../../utils/interfaces/interfaces"
 import { getMonthName } from "../../../utils/functions/dateUtils"
 import BudgetOverview from "../../UI/BudgetOverview/BudgetOverview"
-import { useBudgetContext } from "../../../context/BudgetsContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { NOTIF_ERROR, NOTIF_SUCCESS } from "../../../config/globals"
 import TopBar from "../../Layout/TopBar/TopBar"
 import { hints } from "../../../config/hints"
 import { usePageTitle } from "../../../hooks/usePageTitle"
 import { Button } from "@mui/material"
+import { handleCreateBudget, handleGetAllBudgets } from "../../../API/Budget"
+import Loader from "../../UI/Loader/Loader"
+import { handleError } from "../../../Errors/handleError"
 
 
 const Planner = () => {
 
     const { userLangID } = useUserContext()
-    const { budgets, refreshBudgets, createBudget } = useBudgetContext()
     const [stage, setStage] = useState(0)
 
+    const [budgets, setBudgets] = useState<IGetBudget[] | null>(null)
 
     const [newBudget, setNewBudget] = useState<INewBudget>({
       month: new Date().getMonth() + 1,
@@ -33,6 +35,7 @@ const Planner = () => {
     usePageTitle(formatLang(userLangID, "Rozpočty", "Budgets"))
 
     const incStage = () =>  {
+      if(!budgets) return
       if(stage === 1) {
         const isAlreadyIn = budgets.some((x) => x.year === newBudget.year && x.month === newBudget.month)
         if(isAlreadyIn) {
@@ -50,44 +53,56 @@ const Planner = () => {
 
     const handleNextButtonClick = async() => {
       if(stage === 2) {
-        await handleSubmit()
+        await createNewBudget()
       } else {
         incStage()
       }
     }
 
-    const monthName = getMonthName(newBudget.year, newBudget.month, userLangID)
-
-    // CreateBudget
-    const handleSubmit = async() => {
+    const createNewBudget = async() => {
       if(!newBudget.budgetCategories.length) {
         handleNotification(NOTIF_ERROR, userLangID, "Prosím přidejte kategorie", "Please add categories")
         return
       }
 
-      createBudget(newBudget)
-      refreshBudgets()
-      setStage(0)
-      handleNotification(
-        NOTIF_SUCCESS, 
-        userLangID, 
-        `Rozpočet: ${getMonthName(newBudget.year, newBudget.month, userLangID)} (${newBudget.year}) úspěšně vytvořen`,
-        `Budget: ${getMonthName(newBudget.year, newBudget.month, userLangID)} (${newBudget.year}) successfully created`
-      )
-      setNewBudget({
-        month: new Date().getMonth() + 1,
-        year: new Date().getFullYear(),
-        budgetCategories: []
-      })
+      try {
+        const result = await handleCreateBudget(newBudget)
+        setBudgets(prev => [...(prev ?? []), result.data.newBudget])
+        setStage(0)
+        handleNotification(
+          NOTIF_SUCCESS, 
+          userLangID, 
+          `Rozpočet: ${getMonthName(newBudget.year, newBudget.month, userLangID)} (${newBudget.year}) úspěšně vytvořen`,
+          `Budget: ${getMonthName(newBudget.year, newBudget.month, userLangID)} (${newBudget.year}) successfully created`
+        )
+        setNewBudget({
+          month: new Date().getMonth() + 1,
+          year: new Date().getFullYear(),
+          budgetCategories: []
+        })
+
+      } catch (error) {
+          handleError(error,userLangID)
+      }
     }
 
-    const finishedBudgets = budgets.filter(x => x.isFinished)
-    const ongoingBudgets  = budgets.filter(x => !x.isFinished)  
+    const monthName = getMonthName(newBudget.year, newBudget.month, userLangID)
+
+    useEffect(() => {
+      const fetchData = async() => {
+        const result = await handleGetAllBudgets()
+        setBudgets(result.data)
+      }
+      fetchData()
+    }, [])
+
+ 
+    if(!budgets) return <Loader wantFullSize={true}/>
     
   return (
     <div className="section-padding">
 
-        <TopBar showYearNavigator={false} showMonthNavigator={false} />
+        <TopBar/>
 
         <SectionTitle 
           value={formatLang(userLangID, "Rozpočty", "Budgets")} 
@@ -110,8 +125,8 @@ const Planner = () => {
           </div>
         )}
 
-        { budgets.length > 0 && stage === 0 && <BudgetOverview budgets={ongoingBudgets} isFinished={false} /> }
-        { budgets.length > 0 && stage === 0 && <BudgetOverview budgets={finishedBudgets} isFinished={true} /> }
+        { budgets.length > 0 && stage === 0 && <BudgetOverview budgets={budgets.filter(x => !x.isFinished)} isFinished={false} /> }
+        { budgets.length > 0 && stage === 0 && <BudgetOverview budgets={ budgets.filter(x => x.isFinished)} isFinished={true} /> }
 
         { stage > 0 && (
             <div className="p-4 border-t-2 border-black">

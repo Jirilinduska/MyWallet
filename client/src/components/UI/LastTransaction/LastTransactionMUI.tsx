@@ -13,10 +13,9 @@ interface LastTransactionProps {
   date: Date;
   amount: number;
   type: string;
-  fullWidth: boolean;
 }
 
-const LastTransactionMUI = ({ iconID, name, date, amount, type, fullWidth }: LastTransactionProps) => {
+const LastTransactionMUI = ({ iconID, name, date, amount, type }: LastTransactionProps) => {
 
     const { userCurrency, userLangID } = useUserContext()
 
@@ -25,7 +24,7 @@ const LastTransactionMUI = ({ iconID, name, date, amount, type, fullWidth }: Las
 
   return (
     <ListItem
-        sx={{ border: "1px solid", mb: 1, borderColor: "primary.dark" }}
+        sx={{ borderBottom: "1px solid", mb: 1, borderColor: "primary.dark" }}
     >
 
       <ListItemText
@@ -46,7 +45,6 @@ const LastTransactionMUI = ({ iconID, name, date, amount, type, fullWidth }: Las
         }
       />
       <Box display="flex" flexDirection="column" alignItems="flex-end">
-
         <Typography variant="body2" color="textSecondary" fontSize={12}>
             {formatDistanceToNow(timestamp, { addSuffix: true, locale: userLangID === LANG_CZECH ? cs : undefined })}
         </Typography>

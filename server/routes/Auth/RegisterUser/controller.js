@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs')
 const User = require("../../../models/User")
+const Settings = require("../../../models/Settings")
 const { sendEmailAfterRegistration } = require('../../../modules/Emails/Emails')
 const { generateToken } = require('../../../libs/jwtUtils')
 const { createDefaultCategories } = require('../../../modules/Categories/Categories')
@@ -8,6 +9,15 @@ const { notifAfterRegister } = require('../../../modules/Notifications/notifAfte
 const registerUser = async(req,res) => {
 
     const { userName, email, password } = req.body
+
+    const now = new Date()
+    let lastMonth = now.getMonth()
+    let year = now.getFullYear()
+
+    if (lastMonth === 0) {
+        lastMonth = 12
+        year = year - 1
+    }
 
     try {
 
@@ -20,9 +30,20 @@ const registerUser = async(req,res) => {
 
         if(isAlreadyIn) return res.status(400).json({ errCode: 1009 })
 
+        const appSettings = await Settings.findOne()
+        if(appSettings.allowRegistration === false) {
+            return res.status(400).json({ errCode: 1014 })
+        }
+
         const hashPassword = await bcrypt.hash(password, 10)
 
-        const newUser = await User.create({ userName, email, password: hashPassword })
+        const newUser = await User.create({ 
+            userName, 
+            email, 
+            password: hashPassword, 
+            lastMonthSummaryNotif: { month: lastMonth, year },
+            isAdmin: false
+        })
 
         await newUser.save()
 

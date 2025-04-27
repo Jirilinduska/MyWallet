@@ -1,8 +1,7 @@
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material"
+import { Button, Paper } from "@mui/material"
 import { ITransaction } from "../../../utils/interfaces/interfaces";
 import { useUserContext } from "../../../context/UserContext"
 import { formatLang } from "../../../utils/functions/formatLang"
-import { useState } from "react"
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
 import { useCategoriesContext } from "../../../context/CategoriesContext"
 import { PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
@@ -15,21 +14,13 @@ interface TableTransactionsProps {
   toggleEditModal: () => void;
 }
 
-interface Column {
-    id: 'date' | 'title' | 'category' | 'amount' | "edit"
-    label: string;
-    minWidth?: number;
-    align?: 'right';
-    format?: (value: number) => string;
-}
-
 const TableTransactionsMUI = ({ data, transType, setSelectedTransaction, toggleEditModal } : TableTransactionsProps) => {
 
     const { userLangID } = useUserContext()
 
     const columns: GridColDef[] = [
         { field: 'date', headerName: formatLang(userLangID, "Datum", "Date"), flex: 1, disableColumnMenu: true, headerClassName: "super-app-theme--header"},
-        { field: 'title', headerName: formatLang(userLangID, "Název", "Title"), flex: 1, disableColumnMenu: true, sortable: false, headerClassName: "super-app-theme--header" },
+        { field: 'title', headerName: formatLang(userLangID, "Název", "Title"), flex: 1, disableColumnMenu: true, sortable: false, headerClassName: "super-app-theme--header", },
         { field: 'categoryName', headerName: formatLang(userLangID, "Kategorie", "Category"), flex: 1, disableColumnMenu: true, headerClassName: "super-app-theme--header"  },
         { field: 'amount', headerName: formatLang(userLangID, "Částka", "Amount"), flex: 1, disableColumnMenu: true, headerClassName: "super-app-theme--header"  },
         { 
@@ -44,7 +35,6 @@ const TableTransactionsMUI = ({ data, transType, setSelectedTransaction, toggleE
                 variant="text" 
                 fullWidth
                 onClick={() => {
-                    console.log(params)
                   setSelectedTransaction(params.row)
                   toggleEditModal()
                 }}
@@ -55,23 +45,21 @@ const TableTransactionsMUI = ({ data, transType, setSelectedTransaction, toggleE
           }
     ]
 
-      console.log(data)
-
       const { categoriesIncome, categoriesTransactions } = useCategoriesContext()
 
       const rows = data.map(oneTrans => {
         const categoryID = oneTrans.category
-        let categoryName = "Neznámá kategorie"
+        let categoryName = ""
     
         if (transType === PAGE_ID_INCOME) {
-            categoryName = categoriesIncome.find(cat => cat._id === categoryID)?.name || "Neznámá kategorie"
+            categoryName = categoriesIncome.find(cat => cat._id === categoryID)?.name || formatLang(userLangID, "Neznámá kategorie", "Unknown category")
         } else if (transType === PAGE_ID_TRANSACTIONS) {
-            categoryName = categoriesTransactions.find(cat => cat._id === categoryID)?.name || "Neznámá kategorie"
+            categoryName = categoriesTransactions.find(cat => cat._id === categoryID)?.name || formatLang(userLangID, "Neznámá kategorie", "Unknown category")
         }
     
         return {
             id: oneTrans._id,
-            date: `${oneTrans.day}.${oneTrans.month}.${oneTrans.year}`,
+            date: `${oneTrans.day}.${oneTrans.month}`,
             title: oneTrans.title,
             categoryName: categoryName,
             amount: oneTrans.amount,
@@ -84,7 +72,7 @@ const TableTransactionsMUI = ({ data, transType, setSelectedTransaction, toggleE
     })
 
   return (
-<Paper sx={{ height: "auto", width: '100%', bgcolor: "#fff" }}>
+<Paper sx={{ height: "auto", width: '100%', bgcolor: "#fff", mb: 14 }}>
     <DataGrid
         rows={rows}
         columns={columns}

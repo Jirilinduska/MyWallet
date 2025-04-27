@@ -3,6 +3,7 @@ import { useUserContext } from "../../../context/UserContext";
 import { PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
 import { formatLang } from "../../../utils/functions/formatLang"
 import NewTransForm from "../../Forms/NewTransForm/NewTransForm"
+import { useState } from "react"
 
 interface NewTransModalProps {
   handleHide: () => void;

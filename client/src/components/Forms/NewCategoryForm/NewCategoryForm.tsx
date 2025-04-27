@@ -1,5 +1,4 @@
 import { ChangeEvent, useEffect, useState } from "react"
-import Input from "../../UI/Input/Input"
 import SelectCategoryType from "../../UI/SelectCategoryType/SelectCategoryType"
 import { COLOR_RED, NOTIF_ERROR, NOTIF_SUCCESS, USE_CASE_CREATE, USE_CASE_EDIT } from "../../../config/globals"
 import { categoryIcons } from "../../../utils/icons/category-icons"
@@ -11,7 +10,8 @@ import { useUserContext } from "../../../context/UserContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { handleError } from "../../../Errors/handleError"
-import Button from "../../UI/Button/Button"
+// import Button from "../../UI/Button/Button"
+import { Button, TextField, Typography } from "@mui/material"
 
 export interface NewCategoryFormProps {
     categoryType: string
@@ -114,14 +114,12 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({ categoryType, langID,
         className="p-6 relative"
     >
 
-        <Input
-            inputName="name"
-            inputType="text"
-            labelFor="name"
-            labelValue={formatLang(langID, "Název kategorie*", "Category name*")}
-            onChange={handleInputChange}
-            placeholder="Food"
+        <TextField
             value={newCategory.name}
+            onChange={(e) => setNewCategory(prev => ({...prev, name: e.target.value}))}
+            label={formatLang(langID, "Název kategorie*", "Category name*")}
+            fullWidth
+            size="small"
         />
 
         <SelectCategoryType
@@ -130,7 +128,7 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({ categoryType, langID,
         />
 
         {/* Select icon for categoryType */}
-        <h3 className="block text-sm mb-4 font-medium text-white">{formatLang(langID, "Vyberte ikonku*", "Select icon*")}</h3>
+        <Typography fontSize={14}>{formatLang(langID, "Vyberte ikonku*", "Select icon*")}</Typography>
 
         <div className="flex flex-wrap items-center justify-center gap-4 mb-10 overflow-y-auto h-[150px] py-4">
             { categoryIcons && categoryIcons.map( (x) => {
@@ -144,27 +142,26 @@ const NewCategoryForm: React.FC<NewCategoryFormProps> = ({ categoryType, langID,
             })}
         </div>
 
-        <input 
-            type="submit" 
+        <Button
+            type="submit"
             disabled={ useCase === USE_CASE_EDIT && !isEdited ? true : false}
-            className={`${ 
-                useCase === USE_CASE_EDIT && isEdited 
-                    ? "button-green" 
-                    : useCase === USE_CASE_CREATE 
-                        ? "button-green" 
-                        : "bg-colorGrayHover hover:bg-colorGrayHover button-green" 
-            } w-full mt-6`}            
-            value={formatLang(langID, "Uložit", "Save")} 
-        />
+            variant="contained"
+            color="success"
+            fullWidth
+            sx={{ mb: 2 }}
+        >
+            {formatLang(langID, "Uložit", "Save")} 
+        </Button>
 
         { useCase === USE_CASE_EDIT && (
-            <Button 
-                color={COLOR_RED} 
-                loading={false} 
-                value={formatLang(langID, "Smazat kategorii", "Delete category")} 
-                handleClick={handleDelete} 
-                buttonType="button"
-            />
+            <Button
+                color="error"
+                variant="contained"
+                onClick={handleDelete}
+                fullWidth
+            >
+                {formatLang(langID, "Smazat kategorii", "Delete category")} 
+            </Button>
         )}
 
     </form>

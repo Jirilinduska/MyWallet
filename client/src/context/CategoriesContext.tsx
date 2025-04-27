@@ -11,7 +11,6 @@ interface CategoriesContextProps {
     categoriesTransactions: ICategory[]
     refreshCategories: () => void
     deleteCategory: (catID: string, userLangID: string, catName: string) => void
-    getCategoryInfo: (catID: string, userLangID: string) => void
     catInfo: ICategoryPreview | null
     loading: boolean
 }
@@ -53,25 +52,12 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         }
     }
 
-    // GET 
-    const getCategoryInfo = async(catID: string, userLangID: string) => {
-        setLoading(true)
-        try {
-            const response = await handleGetCategoryInfo(catID)
-            setCatInfo(response.data)
-        } catch (error) {
-            handleError(error, userLangID)
-        } finally {
-            setLoading(false)
-        }
-    }
-
     useEffect(() => {
         fetchData()
     }, [] )
 
     return (
-        <CategoriesContext.Provider value={{ categoriesIncome, categoriesTransactions, refreshCategories: fetchData, deleteCategory, getCategoryInfo, catInfo, loading }}>
+        <CategoriesContext.Provider value={{ categoriesIncome, categoriesTransactions, refreshCategories: fetchData, deleteCategory, catInfo, loading }}>
           {children}
         </CategoriesContext.Provider>
     )

@@ -23,7 +23,7 @@ const ErrorPage = ({ valueCS, valueEN } : ErrorPageProps ) => {
 
         { token && (
             <>
-                <TopBar showMonthNavigator={false} showYearNavigator={false} />
+                <TopBar />
                 <Sidebar/>
             </>
         )}

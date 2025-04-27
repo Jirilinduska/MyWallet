@@ -12,8 +12,8 @@ const AvatarIcon = ({ icon, handleClick, iconData, selectedIcon } : IAvatarIcon 
   return (
     <div 
       onClick={ () => handleClick(iconData.id) } 
-      className={`${ selectedIcon === iconData.id ? "ring-colorGreen" : "ring-gray-500" } w-10 h-10 p-1 rounded-full ring-2  flex items-center justify-center text-white text-2xl cursor-pointer
-      hover:bg-colorGrayHover hover:text-black transition-all duration-100 ease-in-out`}
+      className={`${ selectedIcon === iconData.id ? "ring-colorGreen" : "ring-black" } w-10 h-10 p-1 rounded-full ring-2  flex items-center justify-center text-black text-2xl cursor-pointer
+      hover:bg-colorGreen hover:text-white transition-all duration-100 ease-in-out`}
     >
         { icon }
     </div>

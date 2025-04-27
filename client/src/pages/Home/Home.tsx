@@ -14,8 +14,12 @@ const Home = () => {
 
   return (
     <Box
-      // height="100vh"
-      bgcolor="background.primary"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      flexDirection="column"
+      height="100%"
+      width="100%"
       minHeight="100vh"
     >
       {isLoggedIn ? <HeroLoggedMUI /> : <HeroNotLoggedMUI/>}

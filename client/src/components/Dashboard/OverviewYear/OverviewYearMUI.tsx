@@ -4,7 +4,8 @@ import { formatLang } from "../../../utils/functions/formatLang"
 import { useUserContext } from "../../../context/UserContext"
 import InfoItemMUI from "../../UI/InfoItem/InfoItemMUI"
 import { IconExpense, IconIncome, IconMoneyInHand } from "../../../utils/icons/icons"
-import { BarChart, Gauge, PieChart, gaugeClasses } from "@mui/x-charts"
+import { BarChart } from "@mui/x-charts"
+import { useCategoriesContext } from "../../../context/CategoriesContext"
 
 interface OverviewYearProps {
     year: number
@@ -12,24 +13,34 @@ interface OverviewYearProps {
     expense: number
     chartDataExpense: IcategoriesYearOverview[]
     chartDataIncome: IcategoriesYearOverview[]
+    loading?: boolean
 }
 
-const OverviewYearMUI = ({ year, income, expense, chartDataExpense, chartDataIncome } : OverviewYearProps ) => {
+const OverviewYearMUI = ({ year, income, expense, chartDataExpense, chartDataIncome, loading } : OverviewYearProps ) => {
 
     const { userLangID, userCurrency } = useUserContext()
+    const { categoriesIncome, categoriesTransactions } = useCategoriesContext()
 
     const dataSet = [
         { label: formatLang(userLangID, "Příjmy", "Income"), value: income },
         { label: formatLang(userLangID, "Výdaje", "Expense"), value: expense }
     ]
 
-    const dataSetExpense = chartDataExpense.map(item => ({
-        label: item.categoryName, value: item.totalAmount
-    }))
+    const dataSetExpense = chartDataExpense.map(item => {
+        const categoryName = categoriesTransactions.find(x => x._id === item.categoryID)?.name || "Neznámá kategorie"
+        return {
+            label: categoryName,
+            value: item.total
+        }
+    })
 
-    const dataSetIncome = chartDataIncome.map(item => ({
-        label: item.categoryName, value: item.totalAmount
-    }))
+    const dataSetIncome = chartDataIncome.map(item => {
+        const categoryName = categoriesIncome.find(x => x._id === item.categoryID)?.name || "Neznámá kategorie"
+        return {
+            label: categoryName,
+            value: item.total
+        }
+    })
 
   return (
     <div className="mb-4 pb-10 border-b border-colorGray animate-fadeIn">
@@ -47,6 +58,8 @@ const OverviewYearMUI = ({ year, income, expense, chartDataExpense, chartDataInc
                     color="success"
                     icon={<IconIncome />}
                     formatToCurrency={true}
+                    isExpense={false}
+                    loading={loading}
                 />
 
                 <InfoItemMUI 
@@ -55,6 +68,8 @@ const OverviewYearMUI = ({ year, income, expense, chartDataExpense, chartDataInc
                     color="error"
                     icon={<IconExpense />}
                     formatToCurrency={true}
+                    isExpense={true}
+                    loading={loading}
                 />
 
                 <InfoItemMUI 
@@ -63,6 +78,8 @@ const OverviewYearMUI = ({ year, income, expense, chartDataExpense, chartDataInc
                     color="info"
                     icon={<IconMoneyInHand />}
                     formatToCurrency={true}
+                    isExpense={false}
+                    loading={loading}
                 />
 
             </Box>
@@ -74,6 +91,8 @@ const OverviewYearMUI = ({ year, income, expense, chartDataExpense, chartDataInc
                     series={[{ dataKey: 'value', color: '#5A4BAD' }]}
                     layout="horizontal"
                     height={200} 
+                    sx={{ width: "95% !important", overflow: "visible !important" }}
+                    grid={{ vertical: true, horizontal: true }}
                 />
             </Box>
 
@@ -84,8 +103,9 @@ const OverviewYearMUI = ({ year, income, expense, chartDataExpense, chartDataInc
                     yAxis={[{ scaleType: 'band', dataKey: 'label' }]} 
                     series={[{ dataKey: 'value', color: '#5A4BAD' }]}
                     layout="horizontal"
-                    grid={{ vertical: true }}
-                    height={400} 
+                    grid={{ vertical: true, horizontal: true }}
+                    height={500} 
+                    sx={{ width: "95% !important", overflow: "visible !important" }}
                 />
             </Box>
 
@@ -97,7 +117,8 @@ const OverviewYearMUI = ({ year, income, expense, chartDataExpense, chartDataInc
                     series={[{ dataKey: 'value', color: '#5A4BAD' }]}
                     layout="horizontal"
                     height={400} 
-                    grid={{ vertical: true }}
+                    grid={{ vertical: true, horizontal: true }}
+                    sx={{ width: "95% !important", overflow: "visible !important" }}
                 />
             </Box>
             

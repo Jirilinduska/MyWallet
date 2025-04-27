@@ -1,4 +1,5 @@
 import { ChangeEvent, ReactElement } from "react"
+import { BudgetCategories2 } from "../../components/UI/OneBudgetPreview/OneBudgetPreview"
 
 
 // * =========== Datové struktury ===========
@@ -7,21 +8,21 @@ export interface CategoryDetails {
     categoryIcon: JSX.Element | null
   }
 
-export interface IGetBudgetCategories {
-    category: {
-        _id: string
-        name: string
-        iconID: number
+  export interface IGetBudgetCategories {
+    categoryID: {
+      iconID: number,
+      name: string,
+      _id: string
     }
     price: number
     spent: number
-}
+    _id: string
+  }
 
 export interface IGetBudget {
-    budgetCategories: IGetBudgetCategories[]
+    budgetCategories: BudgetCategories2[]
     month: number
     year: number
-    totalPricePlanned: number
     _id: string
     isFinished: boolean
 }
@@ -53,11 +54,27 @@ export interface INewBudgetCategories {
     price: string
 }
 
+export interface ITodayData {
+    todayExpense: ITransaction[]
+    lastIncome: ITransaction
+    lastExpense: ITransaction
+    lastExpenseCategory: ICategory
+    lastIncomeCategory: ICategory
+  }
+
 export interface IcategoriesYearOverview {
     _id: string,
-    totalAmount: number,
-    categoryName: string,
-    categoryIconID: number
+    total: number,
+    categoryID: string,
+    // categoryIconID: number
+}
+
+export interface IOverviewMonths {
+    month: number,
+    year: number,
+    expense: number,
+    income: number,
+    saved: number
 }
 
 export interface IOverviewData {
@@ -68,13 +85,9 @@ export interface IOverviewData {
     monthTotalIncome: number
     savedThisMonth: number
     monthBudget: number
-    todayExpense: ITransaction[] | null
-    lastExpense: ITransaction
-    lastExpenseCategory: ICategory
-    lastIncome: ITransaction
-    lastIncomeCategory: ICategory
     categoriesYearExpense: IcategoriesYearOverview[]
     categoriesYearIncome: IcategoriesYearOverview[]
+    overviewMonths: IOverviewMonths[]
 }
 
 export interface ICategoryPreview {
@@ -82,14 +95,8 @@ export interface ICategoryPreview {
     categoryName: string
     iconID: number,
     categoryType: string
-    totalAmount: number // Total za celou dobu
-    transactionCount: number // Count za celou dobu
-    averageAmount: number // Prumerna castka za celou dobu
-    monthlySummary: { [key: string]: number }
-    monthlyCounts: { [key: string]: number }
-    largestTransaction: ITransaction, // Největší transakce za celou dobu :)
-    largestTransactionsByMonth: ITransaction[]
-    yearlySummary: { [key: string]: number }
+    yearlyTotals: {[key: string]: number}
+    totalAmount: number
 }
 
 export interface IGoal {
@@ -152,6 +159,7 @@ export interface IUser {
     email: string
     utils: IUserUtils
     settings: IUserSettings
+    isAdmin: boolean
 }
 
 interface IUserUtils {
@@ -178,6 +186,63 @@ export interface ICategorySummary {
     planned: number
     spent: number
 }
+
+interface MaxTransaction {
+    amount: number;
+    createdAt: Date;
+    title: string;
+  }
+  
+  export interface CategorySummary {
+    categoryID: string; 
+    total: number;
+    count: number;
+    maxTransaction: MaxTransaction | null;
+    planned: number;
+  }
+  
+  export interface IMonthlySummary {
+    _id: string;
+    createdBy: string;
+    expenseByCategory: CategorySummary[];
+    incomeByCategory: CategorySummary[];
+    month: number;
+    totalExpense: number;
+    totalIncome: number;
+    year: number;
+  }
+
+export interface IAdminData {
+    usersCount: number
+    allUsersData: IAdminDataUsers[]
+    appSettings: {  
+        allowRegistration: boolean
+        isMaintenance: boolean
+    }
+    dbData: {
+        collections: number,
+        objects: number,
+        storage: string,
+        storageUsedMB: number,
+        MAX_STORAGE_MB: number,
+        usagePercent: number,
+    }
+}
+
+export interface IAdminDataUsers {
+    settings: {
+        profileCompleted: boolean
+        emailConfirmed: boolean
+        canBeDeleted: boolean
+    }
+    _id: string
+    userName: string
+    email: string
+    lastOnline: string
+    isAdmin: boolean
+}
+  
+
 
 // * =========== Props ===========
 

@@ -1,42 +1,45 @@
-import { ChangeEvent, useEffect } from "react"
-import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, LANG_CZECH } from "../../../config/globals"
+import { useEffect, ChangeEvent } from "react"
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material"
 import { useUserContext } from "../../../context/UserContext"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, LANG_CZECH } from "../../../config/globals"
 
 export interface ISelectCatType {
-    value: string,
-    onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+  value: string
+  onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
 }
 
 const SelectCategoryType: React.FC<ISelectCatType> = ({ onChange, value }) => {
+  const { refreshUserData, userLangID } = useUserContext()
 
-    const { refreshUserData, userLangID } = useUserContext()
-
-    useEffect(() => {
-        if(!userLangID) refreshUserData()
-    }, [])
+  useEffect(() => {
+    if (!userLangID) refreshUserData()
+  }, [])
 
   return (
-    <div className="my-4">
+    <FormControl fullWidth sx={{ my: 2 }} size="small">
+      <InputLabel id="category-type-label">
+        {userLangID === LANG_CZECH ? "Kategorie pro*" : "Category for*"}
+      </InputLabel>
 
-        <label htmlFor="categoryType" className="block text-sm mb-2 font-medium dark:text-white">
-            { userLangID === LANG_CZECH ? "Kategorie pro*" : "Category for*" }
-        </label>
-
-        <select
-            id="categoryType"
-            name="categoryType"
-            value={value}
-            onChange={onChange}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-        >
-        
-        <option value="" disabled>Select category</option>
-
-            <option value={CATEGORY_ID_INCOME} className="">{ userLangID === LANG_CZECH ? "Příjmy" : "Income" }</option>
-            <option value={CATEGORY_ID_TRANSACTION} className="">{ userLangID === LANG_CZECH ? "Výdaje" : "Expense" }</option>
-
-        </select>
-    </div>
+      <Select
+        labelId="category-type-label"
+        id="categoryType"
+        name="categoryType"
+        value={value}
+        onChange={onChange as unknown as (event: SelectChangeEvent<string>) => void}
+        label={userLangID === LANG_CZECH ? "Kategorie pro*" : "Category for*"}
+      >
+        <MenuItem value="" disabled>
+          {userLangID === LANG_CZECH ? "Vyber kategorii" : "Select category"}
+        </MenuItem>
+        <MenuItem value={CATEGORY_ID_INCOME}>
+          {userLangID === LANG_CZECH ? "Příjmy" : "Income"}
+        </MenuItem>
+        <MenuItem value={CATEGORY_ID_TRANSACTION}>
+          {userLangID === LANG_CZECH ? "Výdaje" : "Expense"}
+        </MenuItem>
+      </Select>
+    </FormControl>
   )
 }
 

@@ -1,15 +1,15 @@
 import { IoMdEye, IoIosEyeOff, IoMdAddCircle, IoIosLaptop, IoLogoGameControllerB, IoMdSettings, IoMdArrowBack, IoIosNotifications } from "react-icons/io"
 import { IoMail, IoCard, IoHome, IoClose, IoCheckmarkSharp, IoChevronDown, IoCloseCircle } from "react-icons/io5"
-import { MdDashboard, MdCategory, MdDeleteForever, MdOutlineSmokingRooms, MdAttachMoney } from "react-icons/md";
+import { MdDashboard, MdCategory, MdDeleteForever, MdOutlineSmokingRooms, MdAttachMoney, MdOutlineSort, MdAdminPanelSettings, MdMarkEmailRead } from "react-icons/md";
 import { GiMoneyStack, GiTakeMyMoney, GiPill,  } from "react-icons/gi";
 import { RiMenu3Line } from "react-icons/ri";
-import { FaUserTie, FaSort, FaCar , FaMoneyBillWave, FaPiggyBank, FaTshirt, FaShieldAlt, FaHiking, FaWallet, FaCheckCircle, FaStar } from "react-icons/fa";
+import { FaUserTie, FaSort, FaCar , FaMoneyBillWave, FaPiggyBank, FaTshirt, FaShieldAlt, FaHiking, FaWallet, FaCheckCircle, FaStar, FaFileArchive, FaRegFileArchive, FaChevronDown } from "react-icons/fa";
 import { FaPowerOff, FaRegLightbulb, FaChartLine, FaRegCalendarMinus, FaRegCalendarPlus, FaCircleInfo, FaCircleExclamation } from "react-icons/fa6";
-import { GrFormPrevious, GrFormNext } from "react-icons/gr";
+import { GrFormPrevious, GrFormNext, GrStorage } from "react-icons/gr";
 import { CiPizza, CiEdit } from "react-icons/ci";
 import { BiSolidDrink } from "react-icons/bi";
 import { AiFillDashboard, AiFillFormatPainter, AiFillGift } from "react-icons/ai";
-import { BsArrowThroughHeart, BsCupHot, BsCurrencyBitcoin, BsExclamationTriangle, BsFillBasket2Fill } from "react-icons/bs";
+import { BsArrowThroughHeart, BsCupHot, BsCurrencyBitcoin, BsExclamationTriangle, BsFillBasket2Fill, BsPersonCheck } from "react-icons/bs";
 import { TfiCut } from "react-icons/tfi";
 import { HiDotsVertical } from "react-icons/hi";
 import { BsFillBarChartLineFill } from 'react-icons/bs'
@@ -72,5 +72,13 @@ export {
     IoCloseCircle as IconCloseCircle,
     IoIosNotifications as IconNotification,
     FaStar as IconStar,
-    FaCircleExclamation as IconExclMark
+    FaCircleExclamation as IconExclMark,
+    MdOutlineSort as IconSort2,
+    MdAdminPanelSettings as IconAdmin,
+    MdMarkEmailRead as IconEmailRead,
+    BsPersonCheck as IconProfileComplete,
+    GrStorage as IconDB,
+    FaFileArchive as IconArchived,
+    FaRegFileArchive as IconArchive,
+    FaChevronDown as IconArrowDown
 }

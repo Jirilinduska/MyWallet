@@ -5,17 +5,14 @@ import Input from "../../UI/Input/Input"
 import DatePickerElement from "../../UI/DatePicker/DatePickerElement"
 import SelectCategory from "../../UI/SelectCategory/SelectCategory"
 import { handleUpdateTransaction } from "../../../API/Transactions"
-import { handleErrMsg } from "../../../utils/functions/handleErrMsg"
-import { handleSuccMsg } from "../../../utils/functions/handleSuccMsg"
 import { useUserContext } from "../../../context/UserContext"
-import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, COLOR_BLUE, COLOR_RED, LANG_CZECH, NOTIF_ERROR, NOTIF_SUCCESS, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, COLOR_BLUE, COLOR_RED, LANG_CZECH, NOTIF_SUCCESS, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
-import { useParams } from "react-router-dom"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
-import { useOverviewData } from "../../../context/OverviewDataContext"
 import Button from "../../UI/Button/Button"
 import { handleError } from "../../../Errors/handleError"
+import { useRefetchContext } from "../../../context/RefetchContext"
 
 
 interface EditTransModalProsp {
@@ -27,8 +24,8 @@ interface EditTransModalProsp {
 const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transaction, pageID }) => {
 
     const { userLangID } = useUserContext()
-    const { fetchExpenseData, fetchIncomeData, date, deleteTransaction } = useTransactionsContext()
-    const { refreshOverviewData, year, month } = useOverviewData()
+    const { deleteTransaction } = useTransactionsContext()
+    const { triggerOverviewDataRefetch } = useRefetchContext()
 
     const [isEdited, setIsEdited] = useState(false)
     const [wantDelete, setWantDelete] = useState(false)
@@ -67,25 +64,12 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
     const handleUpdateTrans = async() => {
       try {
         await handleUpdateTransaction(transData)
-        if(pageID === PAGE_ID_INCOME) {
-          fetchIncomeData(date.month, date.year)
-        }
-        if(pageID === PAGE_ID_TRANSACTIONS) {
-          fetchExpenseData(date.month, date.year)
-        }
-        refreshOverviewData(year, month)
+        triggerOverviewDataRefetch()
         handleNotification(NOTIF_SUCCESS, userLangID, "Úspěšně aktualizováno", "Updated successfully")
       } catch (error) {
         handleError(error, userLangID)
       }
     }
-
-
-    useEffect(() => {
-      fetchIncomeData(date.month, date.year)
-      fetchExpenseData(date.month, date.year)
-    }, [] )
-
 
   return (
     <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-black bg-opacity-60">
@@ -173,7 +157,7 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
             { wantDelete && (
               <div className="mx-auto">
 
-                <h3 className="font-semibold mb-6 text-white">{formatLang(userLangID, "Opravdu chcete odstranit tuto transakci?", "Do you really want to delete this transaction?")}</h3>
+                <h3 className="font-semibold mb-6 !text-black">{formatLang(userLangID, "Opravdu chcete odstranit tuto transakci?", "Do you really want to delete this transaction?")}</h3>
 
                 <div className="flex items-center justify-between">
 
@@ -183,7 +167,7 @@ const EditTransModal: React.FC<EditTransModalProsp> = ({ toggleEditModal, transa
                     value={formatLang(userLangID, "Ano", "Yes")} 
                     handleClick={ () => { pageID &&
                       deleteTransaction(transaction._id, userLangID, pageID)
-                      refreshOverviewData(year, month)
+                      triggerOverviewDataRefetch()
                       toggleEditModal()
                       setWantDelete(false)
                     }}

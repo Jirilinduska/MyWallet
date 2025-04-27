@@ -2,7 +2,6 @@ const User = require("../../../models/User")
 const Notification = require("../../../models/Notification")
 const Category = require("../../../models/Category")
 const Budget = require("../../../models/Budget")
-const Goal = require("../../../models/Goal")
 const Transaction = require("../../../models/Transaction")
 const bcrypt = require('bcryptjs')
 
@@ -27,7 +26,6 @@ const deleteAccount = async(req,res) => {
         await Notification.deleteMany({ userID: user._id })
         await Budget.deleteMany({ createdBy: user._id })
         await Category.deleteMany({ createdBy: user._id })
-        await Goal.deleteMany({ createdBy: user._id })
         await Transaction.deleteMany({ createdBy: user._id })
 
         await user.deleteOne()

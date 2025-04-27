@@ -10,6 +10,7 @@ interface UserContextProps {
     userCurrency: string
     refreshUserData: () => void
     updateUserData: (userData: IUserDataUpdate) => void
+    isAdmin: boolean
 }
 
 
@@ -20,6 +21,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [userData, setUserData] = useState<IUser | null>(null)
     const [userLangID, setUserLangID] = useState("")
     const [userCurrency, setUserCurrency] = useState("")
+    const [isAdmin, setIsAdmin] = useState(false)
 
     // GET - get user data
     const fetchData = async() => {
@@ -28,6 +30,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setUserData(response.data)
             setUserLangID(response.data?.utils?.language)
             setUserCurrency(response.data?.utils?.currency)
+            setIsAdmin(response.data?.isAdmin)
         } catch (error) {
             handleError(error, userLangID)
         }
@@ -48,7 +51,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, [] )
 
     return (
-        <UserContext.Provider value={{ userData: userData as IUser, userLangID, userCurrency, refreshUserData: fetchData, updateUserData }}>
+        <UserContext.Provider value={{ userData: userData as IUser, userLangID, userCurrency, isAdmin, refreshUserData: fetchData, updateUserData }}>
             {children}
         </UserContext.Provider>
     )

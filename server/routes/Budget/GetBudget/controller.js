@@ -20,9 +20,7 @@ const getBudget = async(req,res) => {
 
         const arrangeBudgets = budgets.map((budget) => {
 
-            const totalPricePlanned = budget.budgetCategories.reduce((total, oneCat) => {
-              return total + oneCat.price
-            }, 0)
+          const totalPricePlanned = budget.budgetCategories.reduce((total, oneCat) => total + oneCat.price, 0)
 
             const arrangeBudgetCategories = budget.budgetCategories.map((oneCat) => {
                 // Spočítáme částku utracenou pro danou kategorii v daném měsíci a roce

@@ -79,6 +79,16 @@ export const ErrorCodes: { [key: number]: { cs: string; en: string } } = {
         en: "Invalid or expired token"
     },
 
+    1013: {
+        cs: "Nemáte oprávnění na tuhle akci",
+        en: "You can't do that"
+    },
+
+    1014: {
+        cs: "Nové registrace nejsou teď možné",
+        en: "New registrations are not possible right now"
+    },
+
     // * KATEGORIE
 
     2000: {

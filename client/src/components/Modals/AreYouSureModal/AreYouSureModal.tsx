@@ -1,42 +1,58 @@
-import { IconClose } from '../../../utils/icons/icons'
-import { COLOR_BLUE, COLOR_RED } from '../../../config/globals'
-import Button from '../../UI/Button/Button'
-
-
-interface AreYouSureModalProps {
+import {
+    Dialog,
+    DialogTitle,
+    DialogActions,
+    Button,
+    IconButton,
+    DialogContent
+  } from "@mui/material"
+  import CloseIcon from "@mui/icons-material/Close"
+  
+  interface AreYouSureModalProps {
     handleYes: () => void
     handleNo: () => void
     titleValue: string
     buttonYesValue: string
     buttonNoValue: string
-}
-
-const AreYouSureModal = ({ handleNo, handleYes, titleValue, buttonNoValue, buttonYesValue } : AreYouSureModalProps) => {
-
-  return (
-    <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-black bg-opacity-60">
-
-        <div className="relative p-4 w-full max-w-md max-h-full">
-
-            <div className="relative rounded-lg shadow bg-gray-700">
-
-
-                <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
-                    <h3 className="text-lg font-semibold text-white">{titleValue}</h3>
-                    <IconClose onClick={handleNo} className="icon"/>
-                </div>
-
-                <div className="flex items-center justify-center h-[100px] p-4">
-                    <Button value={buttonYesValue} color={COLOR_RED} loading={false} handleClick={handleYes} />
-                    <Button value={buttonNoValue} color={COLOR_BLUE} loading={false} handleClick={handleNo}/>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-  )
-}
-
-export default AreYouSureModal
+  }
+  
+  const AreYouSureModal = ({
+    handleNo,
+    handleYes,
+    titleValue,
+    buttonNoValue,
+    buttonYesValue
+  }: AreYouSureModalProps) => {
+    return (
+      <Dialog
+        open
+        onClose={handleNo}
+        maxWidth="xs"
+        fullWidth
+        PaperProps={{
+          sx: { bgcolor: "background.paper", borderRadius: 2 }
+        }}
+      >
+        <DialogTitle sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          {titleValue}
+          <IconButton onClick={handleNo}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+  
+        <DialogContent sx={{ py: 4 }} />
+  
+        <DialogActions sx={{ justifyContent: "center", gap: 2, pb: 3 }}>
+          <Button variant="contained" color="error" onClick={handleYes}>
+            {buttonYesValue}
+          </Button>
+          <Button variant="outlined" color="primary" onClick={handleNo}>
+            {buttonNoValue}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    )
+  }
+  
+  export default AreYouSureModal
+  

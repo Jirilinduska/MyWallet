@@ -20,7 +20,7 @@ const Categories = () => {
   return (
     <div className="section-padding">
 
-        <TopBar showYearNavigator={false} showMonthNavigator={false} />
+        <TopBar />
 
         <SectionTitle 
           value={formatLang(userLangID, "Kategorie", "Categories")} 

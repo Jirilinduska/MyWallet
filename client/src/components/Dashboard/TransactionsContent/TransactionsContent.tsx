@@ -1,17 +1,14 @@
 import { useState } from "react"
-import { useTransactionsContext } from "../../../context/TransactionsContext"
 import { useUserContext } from "../../../context/UserContext"
 import { getMonthName } from "../../../utils/functions/dateUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
-import { ITransaction } from "../../../utils/interfaces/interfaces"
-import TableTransactions from "../../UI/TableTransactions/TableTransactions"
-import { COLOR_BLUE, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
+import { ITransaction, IcategoriesYearOverview } from "../../../utils/interfaces/interfaces"
+import { PAGE_ID_TRANSACTIONS } from "../../../config/globals"
 import { formatCurrency } from "../../../utils/functions/formatNumber"
-import BarChartCategories from "../../Charts/BarChartCategories/BarChartCategories"
 import { Box, Button } from "@mui/material"
-import { BarChart } from "@mui/x-charts"
 import TableTransactionsMUI from "../../UI/TableTransactions/TableTransactionsMUI"
-// import Button from "../../UI/Button/Button"
+import { useCategoriesContext } from "../../../context/CategoriesContext"
+import { BarChart } from "@mui/x-charts"
 
 interface TransactionsContentProps {
     transactions: ITransaction[]
@@ -19,24 +16,34 @@ interface TransactionsContentProps {
     pageID: string
     setSelectedTransaction: (transaction: ITransaction) => void
     toggleEditModal: () => void
+    totalPrice: number
+    year: number
+    month: number
+    graphData: IcategoriesYearOverview[]
 }
 
 
-const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSelectedTransaction, toggleEditModal } : TransactionsContentProps ) => {
+const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSelectedTransaction, toggleEditModal, totalPrice, year, month, graphData } : TransactionsContentProps ) => {
 
-    const { date, totalPriceExp, totalPriceInc, graphDataExp, graphDataInc } = useTransactionsContext()
     const { userLangID, userCurrency } = useUserContext()
+    const { categoriesIncome, categoriesTransactions } = useCategoriesContext()
 
     const [wantTable, setWantTable] = useState(true)
     const [wantStats, setWantStats] = useState(false)
 
-    const dataSetExpense = graphDataExp.map(item => ({
-        label: item.categoryName, value: item.totalAmount
-    }))
+    const dataSet = graphData.map(item => {
 
-    const dataSetIncome = graphDataInc.map(item => ({
-        label: item.categoryName, value: item.totalAmount
-    }))
+        let categoryName
+        if(pageID === PAGE_ID_TRANSACTIONS) {
+            categoryName = categoriesTransactions.find(x => x._id === item.categoryID)?.name || formatLang(userLangID, "Neznámá kategorie", "Unknown category")
+        } else {
+            categoryName = categoriesIncome.find(x => x._id === item.categoryID)?.name || formatLang(userLangID, "Neznámá kategorie", "Unknown category")
+        }
+        return {
+            label: categoryName,
+            value: item.total
+        };
+    })
 
     // Pokud nejsou žádné transakce pro daný měsíc.
     if(transactions.length === 0) {
@@ -45,8 +52,8 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
 
                 <p className="h-full">
                     {formatLang(userLangID, 
-                        `Žádné transakce pro ${getMonthName(date.year, date.month, userLangID)} ${date.year}`,
-                        `No transactions for ${getMonthName(date.year, date.month, userLangID)} ${date.year}`,
+                        `Žádné transakce pro ${getMonthName(year, month, userLangID)} ${year}`,
+                        `No transactions for ${getMonthName(year, month, userLangID)} ${year}`,
                     )}
                 </p>
 
@@ -104,7 +111,7 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
         {/* // Total price */}
         <div className="flex items-center gap-2 font-semibold my-6">
             <span className="">{formatLang(userLangID, "Celkem: ", "Total: ")}</span>
-            <span className="">{pageID === PAGE_ID_TRANSACTIONS ? formatCurrency(totalPriceExp, userCurrency) : formatCurrency(totalPriceInc, userCurrency)}</span>
+            <span>{formatCurrency(totalPrice, userCurrency)}</span>
         </div>
 
 
@@ -120,12 +127,13 @@ const TransactionsContent = ({ transactions, toggleNewTransModal, pageID, setSel
         { wantStats && (
             <Box>
                 <BarChart
-                    dataset={pageID === PAGE_ID_TRANSACTIONS ? dataSetExpense : dataSetIncome}
+                    dataset={dataSet}
                     yAxis={[{ scaleType: 'band', dataKey: 'label' }]} 
                     series={[{ dataKey: 'value', color: '#5A4BAD' }]}
                     layout="horizontal"
-                    height={400} 
-                    grid={{ vertical: true }}
+                    height={500} 
+                    grid={{ vertical: true, horizontal: true }}
+                    sx={{ width: "95% !important", overflow: "visible !important" }}
                 />
             </Box>
         )}

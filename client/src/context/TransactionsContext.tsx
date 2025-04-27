@@ -118,10 +118,6 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({ 
         }
     }, [date])
 
-    // POST - CREATE NEW 
-    const createTransaction = useCallback(async() => {
-
-    }, [])
     
     // GET TRANS BY CATEGORY
     const getTransactionByCat = useCallback(async(catID: string) => {

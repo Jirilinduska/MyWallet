@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom"
-import { useCategoriesContext } from "../../context/CategoriesContext"
 import { useUserContext } from "../../context/UserContext"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { categoryIcons } from "../../utils/icons/category-icons"
 import { formatLang } from "../../utils/functions/formatLang"
 import { CATEGORY_ID_INCOME} from "../../config/globals"
@@ -11,31 +10,44 @@ import NavigatorCategories from "../../components/UI/NavigatorCategories/Navigat
 import { usePageTitle } from "../../hooks/usePageTitle"
 import Loader from "../../components/UI/Loader/Loader"
 import ErrorPage from "../ErrorPage/ErrorPage"
-import InfoItemMUI from "../../components/UI/InfoItem/InfoItemMUI"
-import { Button } from "@mui/material"
+import { ICategoryPreview } from "../../utils/interfaces/interfaces"
+import { handleGetCategoryInfo } from "../../API/Categories"
+import { handleError } from "../../Errors/handleError"
 
 const CategoryPreview = () => {
 
     const { categoryID } = useParams()
 
-    const { getCategoryInfo, catInfo, loading } = useCategoriesContext()
     const { userLangID } = useUserContext()
+    const [catInfo, setCatInfo] = useState<ICategoryPreview | null>(null)
+    const [loading, setLoading] = useState(false)
 
     usePageTitle(`${catInfo?.categoryName}`)
 
     useEffect(() => {
-        if (categoryID) getCategoryInfo(categoryID, userLangID);
-    }, [] )
+        const fetchData = async() => {
+            if(!categoryID) return
+            setLoading(true)
+            try {
+                const response = await handleGetCategoryInfo(categoryID)
+                setCatInfo(response.data)
+            } catch (error) {
+                handleError(error, userLangID)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchData()
+    }, [categoryID])
 
     if(loading) return <Loader wantFullSize={true} />
-
-    if(!catInfo) return <ErrorPage valueCS="Kategorie" valueEN="category" />
+    if(!catInfo) return <ErrorPage valueCS="Kategorie" valueEN="Category" />
 
 
   return (
     <div className="section-padding animate-fadeIn pb-40">
 
-        <TopBar showMonthNavigator={false} showYearNavigator={false}/>
+        <TopBar />
 
         <NavigatorCategories pageStage={1} catName={catInfo.categoryName}/>
 
@@ -52,19 +64,8 @@ const CategoryPreview = () => {
                 catInfo.categoryType === CATEGORY_ID_INCOME ? "Income category" : "Expense category",
             )}
         </p>
-
-        <div className="w-full lg:w-1/2 mb-10">
-                <InfoItemMUI
-                    amount={catInfo.transactionCount}
-                    color="info"
-                    title={formatLang(userLangID, "Počet transakcí", "Number of transactions")}
-                    formatToCurrency={false}
-                />
-        </div>
-
-        <div className="flex items-center justify-between flex-col gap-6 sm:flex-row-reverse mb-10">
             
-            <h3 className="font-semibold mb-2 order-2 text-sm sm:text-base">
+            <h3 className="font-semibold mb-4 order-2 text-sm sm:text-base">
                 {`${formatLang(
                         userLangID, 
                         catInfo.categoryType === CATEGORY_ID_INCOME ? "Příjmy pro tuto kategorii" : "Výdaje pro tuto kategorii", 
@@ -72,15 +73,6 @@ const CategoryPreview = () => {
                     )}:
                 `}
             </h3>
-
-            <Button
-                href={`/dashboard/categories/preview-category/${catInfo.categoryID}/transactions`}
-                variant="contained"
-            >
-                {formatLang(userLangID, "Zobrazit transakce", "Show transactions")}
-            </Button>
-
-        </div>
 
         <CategoryStatsWithChart catInfo={catInfo}/>
 

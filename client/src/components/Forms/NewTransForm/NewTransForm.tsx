@@ -1,16 +1,16 @@
-import { ChangeEvent, useEffect, useState } from "react"
+import { useState } from "react"
 import "react-datepicker/dist/react-datepicker.css"
 import { handleNewTransaction } from "../../../API/Transactions"
 import DatePickerElement from "../../UI/DatePicker/DatePickerElement"
 import SelectCategory from "../../UI/SelectCategory/SelectCategory"
-import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, COLOR_GREEN, COLOR_RED, NOTIF_ERROR, NOTIF_SUCCESS, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
+import { CATEGORY_ID_INCOME, CATEGORY_ID_TRANSACTION, NOTIF_ERROR, NOTIF_SUCCESS, PAGE_ID_INCOME, PAGE_ID_TRANSACTIONS } from "../../../config/globals"
 import { useUserContext } from "../../../context/UserContext"
 import { handleNotification } from "../../../utils/functions/notificationsUtils"
 import { formatLang } from "../../../utils/functions/formatLang"
 import { useTransactionsContext } from "../../../context/TransactionsContext"
-import { useOverviewData } from "../../../context/OverviewDataContext"
 import { handleError } from "../../../Errors/handleError"
-import { Button, TextField } from "@mui/material"
+import { Button, TextField, Typography } from "@mui/material"
+import { useRefetchContext } from "../../../context/RefetchContext"
 
 
 interface NewTransFormProps {
@@ -22,10 +22,12 @@ interface NewTransFormProps {
 const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
 
     const { userCurrency, userLangID } = useUserContext()
-    const { fetchExpenseData, fetchIncomeData, date } = useTransactionsContext()
-    const { refreshOverviewData, year, month } = useOverviewData()
-
+    const { triggerOverviewDataRefetch } = useRefetchContext()
     const [loading, setLoading] = useState(false)
+
+    const now = new Date()
+    const thisMonth = now.getMonth() + 1
+
     const [transData, setTransData] = useState({ 
         title: "", 
         amount: "", 
@@ -36,15 +38,6 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
         transCategory: pageID === PAGE_ID_TRANSACTIONS ? CATEGORY_ID_TRANSACTION : 
                        pageID === PAGE_ID_INCOME ? CATEGORY_ID_INCOME : null
     })
-
-    useEffect(() => {
-        handleSetDate(new Date(date.year, date.month - 1))
-    }, [date] )
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = e.target
-        setTransData( (prev) => ({...prev, [name]: value}) )
-    }
 
     const handleChangeCategory = (value: string) => {
         setTransData((prev) => ({...prev, categoryID: value}))
@@ -60,8 +53,7 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
                 day: newDate.getDate().toString().padStart(2, "0")
             }))
         }
-    }
-    
+    }    
 
     // Add new transaction
     const handleSubmit = async(e: React.FormEvent) => {
@@ -83,15 +75,12 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
             await handleNewTransaction(transData)
 
             if (pageID === PAGE_ID_TRANSACTIONS) {
-                fetchExpenseData(date.month, date.year)
                 handleNotification(NOTIF_SUCCESS, userLangID, "Transakce přidána", "Transaction added")
             } else if (pageID === PAGE_ID_INCOME) {
-                fetchIncomeData(date.month, date.year)
                 handleNotification(NOTIF_SUCCESS, userLangID, "Příjem přidán", "Income added")
             }
 
-            // Tohle je potřeba, aby se aktualizovala data v TopBaru!
-            refreshOverviewData(year, month)
+            triggerOverviewDataRefetch()
             handleHide()
             
         } catch (error) {
@@ -141,6 +130,16 @@ const NewTransForm: React.FC<NewTransFormProps> = ({ handleHide, pageID }) => {
           dateValues={{ day: transData.day, month: transData.month, year: transData.year }}
           handleSetDate={handleSetDate}  
         />
+
+        {Number(transData.month) !== thisMonth && (
+            <Typography color="info" fontWeight={600} fontSize={12}>
+                {formatLang(
+                    userLangID,
+                    "Pozor! Přidáváte transakci do jiného měsíce než je aktuální. Transakce v minulých měsících již nelze upravovat ani mazat.",
+                    "Warning: You are adding a transaction to a different month than the current one. Transactions in past months can no longer be edited or deleted."
+                )}
+            </Typography>
+        )}
 
         <div className="flex items-center justify-between gap-2 mt-4">
 

@@ -24,6 +24,8 @@ export const URL_GET_TRANSACTION = `${API_BASE_URL}/api/transaction/get-transact
 export const URL_DELETE_TRANSACTION = `${API_BASE_URL}/api/transaction/delete`
 export const URL_UPDATE_TRANSACTION = `${API_BASE_URL}/api/transaction/update`
 export const URL_GET_TRANSACTIONS_BY_CAT = `${API_BASE_URL}/api/transaction/get-transactions-by-category`
+export const URL_GET_PREV_MONTH_TRANSACTIONS = `${API_BASE_URL}/api/transaction/get-transactions-prevmonths`
+export const URL_GET_LAST_TRANSACTIONS = `${API_BASE_URL}/api/transaction/get-today-transactions`
 
 // Income
 export const URL_GET_INCOME = `${API_BASE_URL}/api/income/get-income`
@@ -44,6 +46,11 @@ export const URL_NEW_BUDGET = `${API_BASE_URL}/api/budget/new-budget`
 export const URL_GET_BUDGET = `${API_BASE_URL}/api/budget/get-budget`
 export const URL_DELETE_BUDGET = `${API_BASE_URL}/api/budget/delete-budget`
 export const URL_UPDATE_BUDGET = `${API_BASE_URL}/api/budget/update-budget`
+export const URL_GET_ALL_BUDGETS = `${API_BASE_URL}/api/budget`
+export const URL_GET_BUDGET_BY_ID = `${API_BASE_URL}/api/budget`
+export const URL_DELETE_CAT_FROM_BUDGET = `${API_BASE_URL}/api/budget/delete-category`
+export const URL_EDIT_CAT_AMOUNT = `${API_BASE_URL}/api/budget/edit-category`
+export const URL_ADD_CAT_TO_BUDGET = `${API_BASE_URL}/api/budget/add-category`
 
 // Goal
 export const URL_NEW_GOAL = `${API_BASE_URL}/api/goal/new-goal`
@@ -60,3 +67,9 @@ export const URL_ARCHIVE_NOTIF = `${API_BASE_URL}/api/notifications/archive`
 
 // CRON JOBS 
 export const URL_MONTH_SUMMARY = `${API_BASE_URL}/api/cron-jobs/month-summary`
+
+// ADMIN
+export const URL_GET_ADMIN_DATA = `${API_BASE_URL}/api/admin`
+export const URL_DELETE_USER_BY_ADMIN = `${API_BASE_URL}/api/admin/delete-user`
+export const URL_UPDATE_APP_SETTINGS = `${API_BASE_URL}/api/admin/settings`
+export const URL_GET_MAINENANCE_STATUS = `${API_BASE_URL}/api/admin/settings/maintenance`

@@ -15,9 +15,9 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
 
     const { userLangID } = useUserContext()
 
-    const getAmountForYear = (year: number) => catInfo.yearlySummary[year] || 0
+    const getAmountForYear = (year: number) => catInfo.yearlyTotals[year] || 0
 
-    const dataSet = Object.entries(catInfo.yearlySummary)
+    const dataSet = Object.entries(catInfo.yearlyTotals)
       .map(([year, value]) => ({
         label: year,
         value: value  
@@ -34,6 +34,7 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
             amount={catInfo.totalAmount}
             color={catInfo.categoryType === CATEGORY_ID_INCOME ? "success" : "error"}
             title={formatLang(userLangID, catInfo.categoryType === CATEGORY_ID_INCOME ? "Celkové příjmy" : "Celkem utraceno", catInfo.categoryType === CATEGORY_ID_INCOME ? "Total income" : "Total spent")}
+            isExpense={catInfo.categoryType !== CATEGORY_ID_INCOME}
           />
         </Box>
 
@@ -43,8 +44,9 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
             <InfoItemMUI
               amount={getAmountForYear(new Date().getFullYear())}
               formatToCurrency={true}
-              color="primary"
+              color={catInfo.categoryType === CATEGORY_ID_INCOME ? "success" : "error"}
               title={new Date().getFullYear().toString()}
+              isExpense={catInfo.categoryType !== CATEGORY_ID_INCOME}
             />
           </Box>
 
@@ -52,8 +54,9 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
             <InfoItemMUI
               amount={getAmountForYear(new Date().getFullYear() - 1)}
               formatToCurrency={true}
-              color="primary"
+              color={catInfo.categoryType === CATEGORY_ID_INCOME ? "success" : "error"}
               title={(new Date().getFullYear() - 1).toString()}
+              isExpense={catInfo.categoryType !== CATEGORY_ID_INCOME}
             />
           </Box>
 
@@ -65,8 +68,9 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
             <InfoItemMUI
               amount={getAmountForYear(new Date().getFullYear() - 2)}
               formatToCurrency={true}
-              color="primary"
+              color={catInfo.categoryType === CATEGORY_ID_INCOME ? "success" : "error"}
               title={(new Date().getFullYear() - 2).toString()}
+              isExpense={catInfo.categoryType !== CATEGORY_ID_INCOME}
             />
           </Box>
 
@@ -74,19 +78,12 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
             <InfoItemMUI
               amount={getAmountForYear(new Date().getFullYear() - 3)}
               formatToCurrency={true}
-              color="primary"
+              color={catInfo.categoryType === CATEGORY_ID_INCOME ? "success" : "error"}
               title={(new Date().getFullYear() - 3).toString()}
+              isExpense={catInfo.categoryType !== CATEGORY_ID_INCOME}
             />
           </Box>
         </div>
-
-        <InfoItemMUI
-          formatToCurrency={true}
-          amount={catInfo.averageAmount}
-          icon={<IconChart2/>}
-          color="info"
-          title={formatLang(userLangID, "Měsíční průměr", "Monthly average")}
-        />
       </div>
 
       <Box sx={{ width: '100%', height: 'auto', maxWidth: 500 }}>      
@@ -96,7 +93,7 @@ const CategoryStatsWithChart = ({ catInfo } : CategoryStatsWithChartProps ) => {
             series={[{ dataKey: 'value', color: '#5A4BAD' }]}
             layout="horizontal"
             grid={{ vertical: true }}
-            height={300} 
+            height={dataSet.length <= 3 ? 250 : 400} 
           />
         </Box>
     </div>
