@@ -4,7 +4,7 @@ import { IAdminData } from '../../../utils/interfaces/interfaces'
 import InfoItemMUI from '../../UI/InfoItem/InfoItemMUI'
 import { useUserContext } from '../../../context/UserContext'
 import { formatLang } from '../../../utils/functions/formatLang'
-import { IconCard, IconDB, IconUser } from '../../../utils/icons/icons'
+import { IconDB, IconUser } from '../../../utils/icons/icons'
 import { useEffect, useState } from 'react'
 import { handleUpdateAppSettings } from '../../../API/Settings'
 
@@ -21,8 +21,7 @@ const AdminDashboard = () => {
 
     const handleSubmitSettings = async() => {
         await handleUpdateAppSettings(appSettings)
-        setIsEdited(false)
-        
+        setIsEdited(false) 
     }
 
     useEffect(() => {
@@ -43,7 +42,7 @@ const AdminDashboard = () => {
             Admin dashboard
         </Typography>
 
-        <Box display="flex" alignItems="center" gap={2} mb={6}>
+        <Box display="flex" alignItems="center" justifyContent="start" flexWrap="wrap" gap={2} mb={6}>
             
             <InfoItemMUI
                 amount={data.usersCount}
@@ -91,7 +90,7 @@ const AdminDashboard = () => {
             </Typography>
 
             <Button
-                variant='outlined'
+                variant='contained'
                 disabled={!isEdited}
                 color='success'
                 size='small'
@@ -105,7 +104,7 @@ const AdminDashboard = () => {
         <Box>
             <Box display="flex" alignItems="center" gap={2} mb={2}>  
                 <Typography>{formatLang(userLangID, "Nové registrace", "New registrations")}:</Typography>
-                <Typography>{appSettings.allowRegistration ? "ON" : "OFF"}</Typography>
+                <Typography fontWeight={600} color={appSettings.allowRegistration ? "success" : "error"}>{appSettings.allowRegistration ? "ON" : "OFF"}</Typography>
                 <Button
                     variant='outlined'
                     size='small'
@@ -120,7 +119,7 @@ const AdminDashboard = () => {
 
             <Box display="flex" alignItems="center" gap={2}>  
                 <Typography>{formatLang(userLangID, "Údržbový režim", "Maintenance mode")}:</Typography>
-                <Typography>{appSettings.isMaintenance ? "ON" : "OFF"}</Typography>
+                <Typography fontWeight={600} color={appSettings.isMaintenance ? "success" : "error"}>{appSettings.isMaintenance ? "ON" : "OFF"}</Typography>
                 <Button
                     variant='outlined'
                     size='small'

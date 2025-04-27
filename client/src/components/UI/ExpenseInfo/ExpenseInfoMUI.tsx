@@ -59,13 +59,13 @@ const ExpenseInfoMUI = () => {
             )}
 
             {!data.lastExpense && (
-              <p className="text-gray-500 text-center text-sm font-semibold">
+              <div className="text-gray-500 text-center text-sm font-semibold">
                 {formatLang(
                   userLangID,
                   "Zatím žádné transakce",
                   "No transactions yet"
                 )}
-              </p>
+              </div>
             )}
           </Box>
 
@@ -90,7 +90,7 @@ const ExpenseInfoMUI = () => {
                       )
                     })}
 
-                    { !data.todayExpense.length && <p className="text-gray-500 text-center text-sm font-semibold">{formatLang(userLangID, "Dnes žádné transakce", "No transactions today")}</p>}
+                    { !data.todayExpense.length && <div className="text-gray-500 text-center text-sm font-semibold">{formatLang(userLangID, "Dnes žádné transakce", "No transactions today")}</div>}
                 </div>
           </Box>
         </>

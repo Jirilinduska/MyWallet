@@ -47,10 +47,7 @@ const createMonthlySummary = async (userID, month, year) => {
             budgetLastMonth.isFinished = true
             await budgetLastMonth.save()
         }
-
-        // TODO: Vymazání transakcí pro daný měsíc
-        // await Transaction.deleteMany({ year: adjustedYear, month, createdBy: user._id });
-
+        
         return true
     } catch (error) {
         console.log("createMonthlySummary() => Error: ", error)
