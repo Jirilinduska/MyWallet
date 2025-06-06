@@ -1,9 +1,9 @@
 import { IoMdEye, IoIosEyeOff, IoMdAddCircle, IoIosLaptop, IoLogoGameControllerB, IoMdSettings, IoMdArrowBack, IoIosNotifications } from "react-icons/io"
 import { IoMail, IoCard, IoHome, IoClose, IoCheckmarkSharp, IoChevronDown, IoCloseCircle } from "react-icons/io5"
-import { MdDashboard, MdCategory, MdDeleteForever, MdOutlineSmokingRooms, MdAttachMoney, MdOutlineSort, MdAdminPanelSettings, MdMarkEmailRead } from "react-icons/md";
-import { GiMoneyStack, GiTakeMyMoney, GiPill,  } from "react-icons/gi";
+import { MdDashboard, MdCategory, MdDeleteForever, MdOutlineSmokingRooms, MdAttachMoney, MdOutlineSort, MdAdminPanelSettings, MdMarkEmailRead, MdFitnessCenter } from "react-icons/md";
+import { GiMoneyStack, GiTakeMyMoney, GiPill, GiWeightLiftingUp } from "react-icons/gi";
 import { RiMenu3Line } from "react-icons/ri";
-import { FaUserTie, FaSort, FaCar , FaMoneyBillWave, FaPiggyBank, FaTshirt, FaShieldAlt, FaHiking, FaWallet, FaCheckCircle, FaStar, FaFileArchive, FaRegFileArchive, FaChevronDown } from "react-icons/fa";
+import { FaUserTie, FaSort, FaCar , FaMoneyBillWave, FaPiggyBank, FaTshirt, FaShieldAlt, FaBook, FaHiking, FaWallet, FaCheckCircle, FaStar, FaFileArchive, FaRegFileArchive, FaChevronDown, FaShoppingCart, FaTools, FaPaw } from "react-icons/fa";
 import { FaPowerOff, FaRegLightbulb, FaChartLine, FaRegCalendarMinus, FaRegCalendarPlus, FaCircleInfo, FaCircleExclamation } from "react-icons/fa6";
 import { GrFormPrevious, GrFormNext, GrStorage } from "react-icons/gr";
 import { CiPizza, CiEdit } from "react-icons/ci";
@@ -80,5 +80,11 @@ export {
     GrStorage as IconDB,
     FaFileArchive as IconArchived,
     FaRegFileArchive as IconArchive,
-    FaChevronDown as IconArrowDown
+    FaChevronDown as IconArrowDown,
+    MdFitnessCenter as IconFitness,
+    FaShoppingCart as IconCart,
+    FaTools as IconTools,
+    FaPaw as IconPaw,
+    FaBook as IconBook,
+    GiWeightLiftingUp as IconWeight
 }
