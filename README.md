@@ -2,9 +2,7 @@
 
 MyWallet is a full‑stack web application for managing personal finances.
 
-This app utilizes the openweathermap API to provide current meteorological information and multi-day forecasts.
-
-I aimed for a modern and simple design to ensure clarity and easy navigation..
+Users can track their income and expenses, manage budgets, and quickly view their transaction history.
 
 ### Technologies used
 
